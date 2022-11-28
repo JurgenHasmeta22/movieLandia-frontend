@@ -1,49 +1,45 @@
-// import { addBackToTop } from "vanilla-back-to-top";
 import {
   Routes,
   Route,
   Navigate,
 } from "react-router-dom";
 import "./App.css";
-import { useStore } from "./store/zustand/store";
-import Home from "./pages/home";
-import Movie from "./pages/movie";
-import Login from "./pages/login";
-import Profile from "./pages/profile";
-import Register from "./pages/register";
-import GenreCategories from "./pages/genre/genreCategories";
-import Genre from "./pages/genre";
-import Error404 from "./pages/error";
 import { useEffect } from "react";
+import { useStore } from "../main/store/zustand/store";
+import Error404 from "../modules/base/pages/error";
+import Genre from "../modules/base/pages/genre";
+import GenreCategories from "../modules/base/pages/genre/genreCategories";
+import Home from "../modules/base/pages/home";
+import Login from "../modules/base/pages/login";
+import Movie from "../modules/base/pages/movie";
+import Profile from "../modules/base/pages/profile";
+import Register from "../modules/base/pages/register";
+import axios from "axios";
+import IUser from "../main/store/zustand/types/IUser";
 
 function App() {
   const { setUser } = useStore();
 
-  function validateUser() {
+  async function validateUser() {
     if (localStorage.token) {
-      fetch("http://localhost:4000/validate", {
+      let config = {
         headers: {
           Authorization: localStorage.token,
-        },
-      })
-        .then((resp) => resp.json())
-        .then((data) => {
-          if (data.error) {
-            console.log("Validation failed.");
-          } else {
-            setUser(data);
-          }
-        });
+        }
+      }
+      const response: IUser = await axios.get("http://localhost:4000/validate", config).then(x=>x.data);
+      if (response) {
+        setUser(response)
+      }
     }
   }
 
   useEffect(() => {
     validateUser();
-  })
+  }, [])
 
   return (
     <>
-      {/* {addBackToTop()} */}
       <Routes>
         <Route index element={<Navigate replace to="/movies" />} />
         <Route

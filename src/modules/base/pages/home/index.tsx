@@ -4,13 +4,13 @@ import ReactLoading from "react-loading";
 import ReactPaginate from "react-paginate";
 import { useNavigate, useParams } from "react-router";
 import { Link } from "react-router-dom";
-import Footer from "../../components/footer";
-import Header from "../../components/header";
-import moviesController from "../../controllers/moviesController";
-import { useStore } from "../../store/zustand/store";
-import IMovie from "../../store/zustand/types/IMovie";
-import IMoviesCount from "../../store/zustand/types/IMoviesCount";
-import IMoviesResponse from "../../store/zustand/types/IMoviesResponse";
+import Footer from "../../../../main/components/footer";
+import Header from "../../../../main/components/header";
+import moviesController from "../../../../main/controllers/moviesController";
+import { useStore } from "../../../../main/store/zustand/store";
+import IMovie from "../../../../main/store/zustand/types/IMovie";
+import IMoviesCount from "../../../../main/store/zustand/types/IMoviesCount";
+import IMoviesResponse from "../../../../main/store/zustand/types/IMoviesResponse";
 import "./style.css";
 
 export default function Home() {
