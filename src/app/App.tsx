@@ -22,7 +22,7 @@ function App() {
 
   async function validateUser() {
     if (localStorage.token) {
-      let config = {
+      const config = {
         headers: {
           Authorization: localStorage.token,
         }

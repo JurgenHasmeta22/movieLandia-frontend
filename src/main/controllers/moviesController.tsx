@@ -5,22 +5,22 @@ import IMoviesResponse from '../store/zustand/types/IMoviesResponse';
 
 const moviesController = {
   getMovieCount: async(): Promise<any> => {
-    const moviesCount: IMoviesCount = await (await axios.get("http://localhost:4000/movie-count")).data;
+    const moviesCount: IMoviesCount = await axios.get("http://localhost:4000/movie-count").then(x=>x.data);
     return moviesCount;
   },
 
   getLatestMovies: async(): Promise<any> => {
-    const latestMovies: IMovie[] = await (await axios.get("http://localhost:4000/latest")).data;
+    const latestMovies: IMovie[] = await axios.get("http://localhost:4000/latest").then(x=>x.data);
     return latestMovies;
   },
 
   getMoviesDefault: async(): Promise<any> => {
-    const moviesResponse: IMoviesResponse = await (await axios.get("http://localhost:4000/movies/page/1")).data;
+    const moviesResponse: IMoviesResponse = await axios.get("http://localhost:4000/movies/page/1").then(x=>x.data);
     return moviesResponse.rows;
   },
 
   getMoviesPagination: async(page: string): Promise<any> => {
-    const moviesResponse: IMoviesResponse = await (await axios.get(`http://localhost:4000/movies/page/${page}`)).data;
+    const moviesResponse: IMoviesResponse = await axios.get(`http://localhost:4000/movies/page/${page}`).then(x=>x.data);
     return moviesResponse.rows;
   },
 
@@ -29,7 +29,7 @@ const moviesController = {
       title: query,
       page: page
     }
-    const responseSearch = await (await axios.post("http://localhost:4000/search", payload)).data;
+    const responseSearch = await axios.post("http://localhost:4000/search", payload).then(x=>x.data);
     return responseSearch;
   },
 
@@ -38,17 +38,17 @@ const moviesController = {
       title: query,
       page: 1
     }
-    const responseSearch = await (await axios.post("http://localhost:4000/search", payload)).data;
+    const responseSearch = await axios.post("http://localhost:4000/search", payload).then(x=>x.data);
     return responseSearch;
   },
 
   getMoviesSortingWithPagination: async(sort: string, page: string): Promise<any> => {
-    const moviesResponse: IMoviesResponse = await (await axios.get(`http://localhost:4000/movies/page/${page}?sortBy=${sort}&ascOrDesc=desc`)).data;
+    const moviesResponse: IMoviesResponse = await axios.get(`http://localhost:4000/movies/page/${page}?sortBy=${sort}&ascOrDesc=desc`).then(x=>x.data);
     return moviesResponse;
   },
 
   getMoviesSortingNoPagination: async(sort: string): Promise<any> => {
-    const moviesResponse: IMoviesResponse = await (await axios.get(`http://localhost:4000/movies/page/1?sortBy=${sort}&ascOrDesc=desc`)).data;
+    const moviesResponse: IMoviesResponse = await axios.get(`http://localhost:4000/movies/page/1?sortBy=${sort}&ascOrDesc=desc`).then(x=>x.data);
     return moviesResponse;
   }
 }
