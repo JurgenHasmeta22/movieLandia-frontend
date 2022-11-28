@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
-import Footer from "../../../components/footer";
-import Header from "../../../components/header";
-import { useStore } from "../../../store/zustand/store";
-import IGenre from "../../../store/zustand/types/IGenre";
+import Footer from "../../../../../main/components/footer";
+import Header from "../../../../../main/components/header";
+import { useStore } from "../../../../../main/store/zustand/store";
+import IGenre from "../../../../../main/store/zustand/types/IGenre";
 import "./style.css";
 
 export default function GenreCategories() {

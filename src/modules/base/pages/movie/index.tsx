@@ -1,13 +1,13 @@
 import { useNavigate, useParams } from "react-router-dom";
 import ReactLoading from "react-loading";
-import { useStore } from "../../store/zustand/store";
 import { useEffect } from "react";
 import "./style.css";
-import IMovie from "../../store/zustand/types/IMovie";
-import IUser from "../../store/zustand/types/IUser";
-import Header from "../../components/header";
-import Footer from "../../components/footer";
 import axios from "axios";
+import { useStore } from "../../../../main/store/zustand/store";
+import Footer from "../../../../main/components/footer";
+import Header from "../../../../main/components/header";
+import IMovie from "../../../../main/store/zustand/types/IMovie";
+import IUser from "../../../../main/store/zustand/types/IUser";
 
 export default function Movie() {
   const params = useParams();

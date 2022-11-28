@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import ReactLoading from "react-loading";
 import ReactPaginate from "react-paginate";
 import { useNavigate, useParams } from "react-router";
-import FooterCommon from "../../components/footer";
-import Header from "../../components/header/index";
-import { useStore } from "../../store/zustand/store";
+import Footer from "../../../../main/components/footer";
+import Header from "../../../../main/components/header";
+import { useStore } from "../../../../main/store/zustand/store";
 import "./style.css";
 
 export default function Genre() {
@@ -122,7 +122,7 @@ export default function Genre() {
             activeClassName={"paginationActive"}
           />
         </div>
-        <FooterCommon />
+        <Footer />
       </div>
     </>
   );

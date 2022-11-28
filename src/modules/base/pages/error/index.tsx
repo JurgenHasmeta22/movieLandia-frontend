@@ -1,5 +1,5 @@
-import Footer from "../../components/footer";
-import Header from "../../components/header";
+import Footer from "../../../../main/components/footer";
+import Header from "../../../../main/components/header";
 import "./style.css";
 
 export default function Error404() {

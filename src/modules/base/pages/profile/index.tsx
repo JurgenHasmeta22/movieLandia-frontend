@@ -1,8 +1,8 @@
 import ReactLoading from "react-loading";
 import { useNavigate, useParams } from "react-router-dom";
-import Footer from "../../components/footer";
-import Header from "../../components/header";
-import { useStore } from "../../store/zustand/store";
+import Footer from "../../../../main/components/footer";
+import Header from "../../../../main/components/header";
+import { useStore } from "../../../../main/store/zustand/store";
 import "./style.css";
 
 export default function Profile() {
