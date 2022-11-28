@@ -10,10 +10,13 @@ import "./style.css";
 export default function Genre() {
   const params = useParams();
   const navigate = useNavigate();
-  const { movies, setMovies } = useStore();
   const [pageNumber, setPageNumber] = useState<number>(0);
   const [itemsPerPage, setItemsPerPage] = useState<number>(20);
   const [moviesCountGenre, setMoviesCountGenres] = useState<number>(0);
+  const { 
+    movies, 
+    setMovies 
+  } = useStore();
 
   const pageCount = Math.ceil(moviesCountGenre / itemsPerPage);
   function handleChangingPageNumber(selected: any) {

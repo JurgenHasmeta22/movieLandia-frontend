@@ -11,7 +11,6 @@ import { useStore } from "../../../../main/store/zustand/store";
 import IMovie from "../../../../main/store/zustand/types/IMovie";
 import IMoviesCount from "../../../../main/store/zustand/types/IMoviesCount";
 import IMoviesSearchResponse from "../../../../main/store/zustand/types/IMovieSearchResponse";
-import IMoviesResponse from "../../../../main/store/zustand/types/IMoviesResponse";
 import "./style.css";
 
 export default function Home() {
@@ -19,9 +18,14 @@ export default function Home() {
   const params = useParams();
   const [moviesCount, setMoviesCount] = useState<IMoviesCount>();
   const [moviesCountSearch, setMoviesCountSearch] = useState<number>();
-  const {movies, setMovies, latestMovies, setLatestMovies} = useStore();
   const [pageNumber, setPageNumber] = useState<number>(0);
   const [itemsPerPage, setItemsPerPage] = useState<number>(20);
+  const {
+    movies, 
+    setMovies, 
+    latestMovies,
+    setLatestMovies
+  } = useStore();
 
   const images = [
     { source: "http://localhost:4000/images/rsz_fistful_of_vengeance.png" },
@@ -144,11 +148,13 @@ export default function Home() {
     <>
       <div className="home-wrapper-menus">
         <Header />
-        {(!params.query) && movies ? (
-          <div className="home-ribbon-1">
-            <Carousel views={images} />
-          </div>
-        ) : null}
+        {
+          (!params.query) && movies ? (
+            <div className="home-ribbon-1">
+              <Carousel views={images} />
+            </div>
+          ) : null
+        }
         <div className="home-ribbon-2">
           {params.query ? (
             <span className="movie-count-span">

@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import ReactLoading from "react-loading";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "./style.css";
 import axios from "axios";
 import { useStore } from "../../../../main/store/zustand/store";
@@ -12,14 +12,13 @@ import IUser from "../../../../main/store/zustand/types/IUser";
 export default function Movie() {
   const params = useParams();
   const navigate = useNavigate();
+  const [movieItem, setMovieItem] = useState<IMovie | null>(null);
 
   const {
-    movieItem,
-    setMovieItem,
     latestMovies,
     setLatestMovies,
     setUser,
-    user,
+    user
   } = useStore();
 
   async function addToFavorites() {
@@ -43,7 +42,7 @@ export default function Movie() {
   useEffect(() => {
     getLatestMovies();
   }, []);
-
+  
   useEffect(() => {
     getMovieItem()
   }, [params.title]);
