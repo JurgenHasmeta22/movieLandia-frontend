@@ -3,6 +3,8 @@ import { Link, useNavigate, NavLink } from "react-router-dom";
 import { useStore } from "../../store/zustand/store";
 import "react-dropdown/style.css";
 import "./style.css";
+import axios from "axios";
+import IGenre from "../../store/zustand/types/IGenre";
 
 export default function Header() {
   const navigate = useNavigate();
@@ -18,24 +20,24 @@ export default function Header() {
     );
   }
 
-  function handleLogOut(e: any) {
-    e.preventDefault();
+  function handleLogout() {
     localStorage.removeItem("token");
     setUser(null);
     navigate("/login");
   }
 
   function redirectToProfile(user: any) {
-    navigate(`../profile`);
+    navigate(`/profile`);
   }
 
-  function getGenres(): void {
-    fetch(`http://localhost:4000/genres`)
-      .then((resp) => resp.json())
-      .then((genres) => setGenres(genres));
+  async function getGenres(): Promise<void> {
+    const response: IGenre[] = await axios.get("http://localhost:4000/genres").then(x => x.data);
+    setGenres(response);
   }
 
-  useEffect(getGenres, []);
+  useEffect(() => {
+    getGenres();
+  }, []);
 
   return (
     <>
@@ -45,7 +47,7 @@ export default function Header() {
           <ul className="list-nav">
             <div className="div-inside-li">
               <img src="/assets/logos/ico_filma_blu.png" alt="" />
-              <NavLink to="../movies" className="special-uppercase">
+              <NavLink to="/movies" className="special-uppercase">
                 Movies
               </NavLink>
             </div>
@@ -57,7 +59,7 @@ export default function Header() {
                     className="special-uppercase"
                     onClick={function (e) {
                       e.stopPropagation();
-                      navigate("../genres");
+                      navigate("/genres");
                     }}
                   >
                     Genres
@@ -71,7 +73,7 @@ export default function Header() {
                         key={genre.id}
                         onClick={function (e: any) {
                           e.stopPropagation();
-                          navigate(`../genres/${genre.name}`);
+                          navigate(`/genres/${genre.name}`);
                         }}
                       >
                         {genre.name}
@@ -83,7 +85,7 @@ export default function Header() {
             </div>
             <div className="div-inside-li">
               <img src="/assets/logos/netflix-red.png" alt="" />
-              <NavLink to="../genres/NETFLIX" className="special-uppercase">
+              <NavLink to="/genres/NETFLIX" className="special-uppercase">
                 Netflix
               </NavLink>
             </div>
@@ -94,10 +96,10 @@ export default function Header() {
             className="button-search"
             onSubmit={function (e) {
               e.preventDefault();
-              //@ts-ignore
+              // @ts-ignore
               setSearchTerm(e.target.value);
-              //@ts-ignore
-              navigate(`../movies/search/${e.target.searchMovie.value}`);
+              // @ts-ignore
+              navigate(`/movies/search/${e.target.searchMovie.value}`);
             }}
           >
             <input
@@ -105,14 +107,14 @@ export default function Header() {
               name="searchMovie"
               placeholder="Search for movies..."
               aria-label="Search through site content"
-              onChange={function (e) {
-                navigate(`../movies/search/${e.target.value}`);
+              onChange={function (e: React.ChangeEvent<HTMLInputElement>) {
+                navigate(`/movies/search/${e.target.value}`);
                 if (e.target.value.length > 0) {
                   setSearchTerm(e.target.value);
-                  navigate(`../movies/search/${e.target.value}`);
+                  navigate(`/movies/search/${e.target.value}`);
                 } else {
                   setSearchTerm(e.target.value);
-                  navigate(`../movies/search/`);
+                  navigate(`/movies/search/`);
                 }
               }}
             />
@@ -120,11 +122,11 @@ export default function Header() {
               <i className="fa fa-search"></i>
             </button>
           </form>
-          {user === null ? (
+          {!user ? (
             <button
               className="button-login-header"
               onClick={function () {
-                navigate("../login");
+                navigate("/login");
               }}
             >
               <i className="material-icons special-icon">account_circle</i>
@@ -144,8 +146,9 @@ export default function Header() {
               <div className="dropdown-content">
                 <button
                   className="log-out"
-                  onClick={function (e) {
-                    handleLogOut(e);
+                  onClick={function (e: any) {
+                    e.stopPropagation();
+                    handleLogout();
                   }}
                 >
                   <span>Log Out</span>
