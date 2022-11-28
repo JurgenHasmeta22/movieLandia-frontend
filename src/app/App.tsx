@@ -41,102 +41,72 @@ function App() {
   return (
     <>
       <Routes>
-        <Route index element={<Navigate replace to="/movies" />} />
+        <Route 
+          index element={<Navigate replace to="/movies" />} 
+        />
         <Route
           path="*"
-          element={
-            <Error404 />
-          }
+          element={<Error404 />}
         />
         <Route
           path="/movies"
-          element={
-            <Home />
-          }
+          element={<Home />}
         />
         <Route
           path="/movies/page/:page"
-          element={
-            <Home />
-          }
+          element={<Home />}
         />
         <Route
           path="/movies/:title"
-          element={
-            <Movie />
-          }
+          element={<Movie />}
         />
         <Route
           path="/movies/search/:query"
-          element={
-            <Home />
-          }
+          element={<Home />}
         />
         <Route
           path="/movies/search/"
-          element={
-            <Home />
-          }
+          element={<Home />}
         />
         <Route
           path="/movies/search/:query/page/:page"
-          element={
-            <Home />
-          }
+          element={<Home />}
         />
         <Route
           path="/movies/sortBy/:sort"
-          element={
-            <Home />
-          }
+          element={<Home />}
         />
         <Route
           path="/movies/sortBy/:sort/page/:page"
-          element={
-            <Home />
-          }
+          element={<Home />}
         />
         <Route
           path="/profile"
-          element={
-            <Profile />
-          }
+          element={<Profile />}
         />
         <Route
           path="/profile/:tab"
-          element={
-            <Profile />
-          }
+          element={<Profile />}
         />
         <Route
           path="/login"
-          element={
-            <Login />
-          }
+          element={<Login />}
         />
         <Route
           path="/register"
-          element={
-            <Register />
-          }
+          element={<Register />}
         />
         <Route
           path="/genres"
-          element={
-            <GenreCategories />
-          }
+          element={<GenreCategories />}
         />
         <Route
           path="/genres/:name"
-          element={
-            <Genre />
-          }
+          element={<Genre />}
         />
         <Route
           path="/genres/:name/page/:page"
-          element={
-            <Genre />
-          }
+          element={<Genre />}
         />
       </Routes>
     </>
