@@ -26,17 +26,17 @@ export default function Movie() {
     const payload = {
       movieId: movieItem?.id
     }
-    const response: IUser = await (await axios.post("http://localhost:4000/favorites", payload)).data;
+    const response: IUser = await axios.post("http://localhost:4000/favorites", payload).then(x=>x.data);
     setUser(response); 
   }
 
   async function getLatestMovies(): Promise<void> {
-    const response: IMovie[] = await (await axios.get("http://localhost:4000/latest")).data;
+    const response: IMovie[] = await axios.get("http://localhost:4000/latest").then(x=>x.data);
     setLatestMovies(response);
   }
 
   async function getMovieItem(): Promise<void> {
-    const response: IMovie = await (await axios.get(`http://localhost:4000/movie/${params.title}`)).data;
+    const response: IMovie = await axios.get(`http://localhost:4000/movie/${params.title}`).then(x=>x.data);
     setMovieItem(response);
   }
 
@@ -75,7 +75,7 @@ export default function Movie() {
             </div>
             <div className="video-square">
               <iframe
-                src={movieItem?.videoSrc}
+                src={movieItem.videoSrc}
                 name="movieFrame"
                 scrolling="no"
                 frameBorder={0}
@@ -88,16 +88,16 @@ export default function Movie() {
               <div className="movie-specifications">
                 <ul className="trailer">
                   <li>Trailer: </li>
-                  <a href={movieItem?.trailerSrc} className="trailer-link">
+                  <a href={movieItem.trailerSrc} className="trailer-link">
                     Youtube trailer
                   </a>
                 </ul>
                 <ul className="length">
-                  <li>Duration: {movieItem?.duration}</li>
-                  <li>Year: {movieItem?.releaseYear}</li>
+                  <li>Duration: {movieItem.duration}</li>
+                  <li>Year: {movieItem.releaseYear}</li>
                   <li>
                     Imdb Rating:{" "}
-                    {movieItem?.ratingImdb === 0
+                    {movieItem.ratingImdb === 0
                       ? "N/A"
                       : movieItem?.ratingImdb}
                   </li>
@@ -118,7 +118,7 @@ export default function Movie() {
             </div>
           </div>
           <div className="movie-fabula">
-            <p id="fabula">{movieItem?.description}</p>
+            <p id="fabula">{movieItem.description}</p>
           </div>
           <div className="last movies">
             <div className="posted-lastest">
@@ -145,7 +145,7 @@ export default function Movie() {
           </div>
         </div>
         <div className="right-section">
-          <ul>
+          {/* <ul>
             <li>
               <img src="https://i.imgur.com/5wdcyDG.gif" alt="ddf" />
             </li>
@@ -155,7 +155,7 @@ export default function Movie() {
             <li>
               <img src="https://i.imgur.com/Wl3zKCb.jpg" alt="eee" />
             </li>
-          </ul>
+          </ul> */}
         </div>
       </section>
       <Footer />

@@ -37,7 +37,6 @@ export default function Home() {
   ];
 
   let pageCount;
-
   if (params.query) {
     pageCount = Math.ceil(moviesCountSearch! / itemsPerPage);
   } else {
@@ -49,10 +48,10 @@ export default function Home() {
   }
 
   const changePage = ({ selected }: any) => {
-    if (params.sort === undefined && params.query === undefined) {
+    if (!params.sort && !params.query) {
       handleChangingPageNumber(selected);
       navigate(`../movies/page/${selected + 1}`);
-    } else if (params.sort && params.query === undefined) {
+    } else if (params.sort && !params.query) {
       handleChangingPageNumber(selected);
       navigate(`../movies/sortBy/${params.sort}/page/${selected + 1}`);
     } else {
@@ -61,7 +60,7 @@ export default function Home() {
     }
   };
 
-  async function getMovieCount(): Promise<void> {
+  async function getMoviesCount(): Promise<void> {
     const moviesCount: IMoviesCount = await moviesController.getMovieCount();
     setMoviesCount(moviesCount);
   }
@@ -122,7 +121,7 @@ export default function Home() {
   }
 
   useEffect(() => {
-    getMovieCount(),
+    getMoviesCount(),
     getLatestMovies()
   }, []);
 
@@ -138,7 +137,7 @@ export default function Home() {
         />
       </div>
     );
-  } else if (movies.length === 0) {
+  } else if (movies?.length === 0) {
     return (
       <div className="home-wrapper-menus">
         <Header />
@@ -156,8 +155,7 @@ export default function Home() {
     <>
       <div className="home-wrapper-menus">
         <Header />
-        {( params.query === undefined || params.query.length === 0 ) &&
-        movies ? (
+        {(!params.query) && movies ? (
           <div className="home-ribbon-1">
             <Carousel views={images} />
           </div>
@@ -172,7 +170,7 @@ export default function Home() {
               Total movies: {moviesCount?.count}{" "}
             </span>
           )}
-          {params.query === undefined || params.query.length === 0 ? (
+          {!params.query ? (
             <>
               <h3>Sort By: </h3>
               <ul className="list-sort">
@@ -184,7 +182,7 @@ export default function Home() {
           ) : null}
           {movies.length !== 0 ? (
             <div className="image-ribbon-2-wrapper">
-              {movies?.map((movie: any) => (
+              {movies.map((movie: any) => (
                 <div
                   className="movie-item"
                   key={movie.id}
@@ -240,8 +238,7 @@ export default function Home() {
             activeClassName={"paginationActive"}
           />
         </div>
-        {(params.query === undefined || params.query.length === 0) &&
-        movies?.length !== 0 ? (
+        {(!params.query) && movies.length !== 0 ? (
           <div className="home-ribbon-3">
             <ul className="list-latest">
               <li className="special-last">LATEST MOVIES</li>
