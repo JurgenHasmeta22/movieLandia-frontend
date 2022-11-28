@@ -1,17 +1,34 @@
+import axios from "axios";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Footer from "../../../../main/components/footer";
 import Header from "../../../../main/components/header";
 import { useStore } from "../../../../main/store/zustand/store";
+import IRegister from "../../../../main/store/zustand/types/IRegister";
+import IResponseLogin from "../../../../main/store/zustand/types/IResponseLogin";
 import "./style.css";
 
 export default function Register() {
   const {
-    handleEmailRegister,
-    handleFormSubmitRegister,
-    handlePasswordChangeRegister,
-    handleUserNameRegister,
     user,
+    setUser
   } = useStore();
+
+  const [username, setUsername] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+
+  async function onSubmit() {
+    const payload: IRegister = {
+      username,
+      email,
+      password
+    };
+
+    const response: IResponseLogin = await axios.post("http://localhost:4000/sign-up", payload).then(x => x.data);
+    localStorage.setItem("token", response.token);
+    setUser(response.user);
+  }
 
   const navigate = useNavigate();
 
@@ -35,7 +52,8 @@ export default function Register() {
           <form
             id="signup-form"
             onSubmit={function (e) {
-              handleFormSubmitRegister(e);
+              e.preventDefault();
+              onSubmit();
             }}
           >
             <h1>MovieLandia24</h1>
@@ -45,7 +63,7 @@ export default function Register() {
                 placeholder="Enter your username"
                 required
                 onChange={function (e) {
-                  handleUserNameRegister(e);
+                  setUsername(e.target.value);
                 }}
               />
             </label>
@@ -55,7 +73,7 @@ export default function Register() {
                 id="email"
                 placeholder="Enter your email"
                 onChange={function (e) {
-                  handleEmailRegister(e);
+                  setEmail(e.target.value);
                 }}
               />
             </label>
@@ -67,7 +85,7 @@ export default function Register() {
                 placeholder="Enter your password"
                 required
                 onChange={function (e) {
-                  handlePasswordChangeRegister(e);
+                  setPassword(e.target.value);
                 }}
               />
             </label>

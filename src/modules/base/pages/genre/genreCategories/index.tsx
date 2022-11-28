@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
 import Footer from "../../../../../main/components/footer";
@@ -7,16 +8,22 @@ import IGenre from "../../../../../main/store/zustand/types/IGenre";
 import "./style.css";
 
 export default function GenreCategories() {
-  const { genres, setGenres } = useStore();
+  const { 
+    genres, 
+    setGenres 
+  } = useStore();
+  
   const navigate = useNavigate();
 
-  function getGenres(): void {
-    fetch(`http://localhost:4000/genres`)
-      .then((resp) => resp.json())
-      .then((genres: IGenre[]) => setGenres(genres));
+  async function getGenres(): Promise<void> {
+    const response: IGenre[] = await axios.get("http://localhost:4000/genres").then(x => x.data);
+    setGenres(response);
   }
-  if (genres[0]?.name === undefined) {
-    useEffect(getGenres, []);
+
+  if (!genres) {
+    useEffect(() => {
+      getGenres()
+    }, []);
   }
 
   return (
@@ -24,7 +31,7 @@ export default function GenreCategories() {
       <Header />
       <h2>Choose your favorite genre</h2>
       <div className="genre-categories-wrapper">
-        {genres?.map((genre: any) => (
+        {genres.map((genre: any) => (
           <div
             className="genre-category"
             key={genre.id}
