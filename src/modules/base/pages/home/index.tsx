@@ -10,6 +10,7 @@ import moviesController from "../../../../main/controllers/moviesController";
 import { useStore } from "../../../../main/store/zustand/store";
 import IMovie from "../../../../main/store/zustand/types/IMovie";
 import IMoviesCount from "../../../../main/store/zustand/types/IMoviesCount";
+import IMoviesSearchResponse from "../../../../main/store/zustand/types/IMovieSearchResponse";
 import IMoviesResponse from "../../../../main/store/zustand/types/IMoviesResponse";
 import "./style.css";
 
@@ -50,13 +51,13 @@ export default function Home() {
   const changePage = ({ selected }: any) => {
     if (!params.sort && !params.query) {
       handleChangingPageNumber(selected);
-      navigate(`../movies/page/${selected + 1}`);
+      navigate(`/movies/page/${selected + 1}`);
     } else if (params.sort && !params.query) {
       handleChangingPageNumber(selected);
-      navigate(`../movies/sortBy/${params.sort}/page/${selected + 1}`);
+      navigate(`/movies/sortBy/${params.sort}/page/${selected + 1}`);
     } else {
       handleChangingPageNumber(selected);
-      navigate(`../movies/search/${params.query}/page/${selected + 1}`);
+      navigate(`/movies/search/${params.query}/page/${selected + 1}`);
     }
   };
 
@@ -78,12 +79,12 @@ export default function Home() {
       const movies: IMovie[] = await moviesController.getMoviesPagination(params.page);
       setMovies(movies);
     } else if (!params.page && params.query && !params.sort) {
-        const responseSearch: IMoviesResponse = await moviesController.getMoviesSearchNoPagination(params.query);
-        setMovies(responseSearch.rows);
+        const responseSearch: IMoviesSearchResponse = await moviesController.getMoviesSearchNoPagination(params.query);
+        setMovies(responseSearch.movies);
         setMoviesCountSearch(responseSearch.count);
     } else if (params.page && params.query && !params.sort) {
-        const responseSearch: IMoviesResponse = await moviesController.getMoviesSearchWithPagination(params.query, params.page);
-        setMovies(responseSearch.rows);
+        const responseSearch: IMoviesSearchResponse = await moviesController.getMoviesSearchWithPagination(params.query, params.page);
+        setMovies(responseSearch.movies);
         setMoviesCountSearch(responseSearch.count);
     } else if (!params.page && !params.query && params.sort) {
       const movies: IMovie[] = await moviesController.getMoviesSortingNoPagination(params.sort);
@@ -135,18 +136,6 @@ export default function Home() {
           width={100}
           className="loading"
         />
-      </div>
-    );
-  } else if (movies?.length === 0) {
-    return (
-      <div className="home-wrapper-menus">
-        <Header />
-        <div className="home-ribbon-2">
-          <div className="no-search">
-            <span>No Search Result or the array is getting populated.</span>
-          </div>
-        </div>
-        <Footer />
       </div>
     );
   }
