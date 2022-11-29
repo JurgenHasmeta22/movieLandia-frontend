@@ -8,6 +8,8 @@ import Container from "../../../../main/components/container";
 import Footer from "../../../../main/components/footer";
 import Header from "../../../../main/components/header";
 import Label from "../../../../main/components/label";
+import List from "../../../../main/components/list";
+import ListItem from "../../../../main/components/list/listItem";
 import Picture from "../../../../main/components/picture";
 import moviesController from "../../../../main/controllers/moviesController";
 import { useStore } from "../../../../main/store/zustand/store";
@@ -153,11 +155,11 @@ export default function Home() {
           {!params.query && (
             <>
               <h3>Sort By: </h3>
-              <ul className="list-sort">
+              <List classname="list-sort">
                 <Link to="/movies/sortBy/views">Most viewed (Desc)</Link>
                 <Link to="/movies/sortBy/ratingImdb">Imdb rating (Desc)</Link>
                 <Link to="/movies/sortBy/title">Title (Desc)</Link>
-              </ul>
+              </List>
             </>
           )}
           {movies.length !== 0 ? (
@@ -194,9 +196,7 @@ export default function Home() {
                     ))}
                   </Container>
                   <Label classname="imdb-span">
-                    {movie.ratingImdb !== 0
-                      ? `Imdb: ${movie.ratingImdb}`
-                      : "Imdb: N/A"}
+                    {movie.ratingImdb !== 0 ? `Imdb: ${movie.ratingImdb}` : "Imdb: N/A"}
                   </Label>
                 </Card>
               ))}
@@ -220,9 +220,9 @@ export default function Home() {
         </Container>
         {!params.query && movies.length !== 0 && (
           <Container classname="home-ribbon-3">
-            <ul className="list-latest">
-              <li className="special-last">LATEST MOVIES</li>
-            </ul>
+            <List classname="list-latest">
+              <ListItem classname="special-last">LATEST MOVIES</ListItem>
+            </List>
             <Container classname="image-ribbon-3-wrapper">
               {latestMovies?.map((latestMovie: any) => (
                 <Card
