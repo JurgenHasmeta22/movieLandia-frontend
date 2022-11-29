@@ -4,7 +4,7 @@ import Card from "../../../../../main/components/card";
 import Container from "../../../../../main/components/container";
 import Footer from "../../../../../main/components/footer";
 import Header from "../../../../../main/components/header";
-import Heading from "../../../../../main/components/Heading";
+import Heading from "../../../../../main/components/heading";
 import Label from "../../../../../main/components/label";
 import moviesController from "../../../../../main/controllers/moviesController";
 import { useStore } from "../../../../../main/store/zustand/store";

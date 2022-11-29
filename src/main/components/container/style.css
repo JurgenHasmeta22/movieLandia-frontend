@@ -1,3 +1,7 @@
-.default {
-  
+.image-ribbon-1-genre-wrapper {
+  display: grid;
+  grid-template-columns: repeat(4, 0.25fr);
+  grid-gap: 5px;
+  place-items: center;
+  height: auto;
 }

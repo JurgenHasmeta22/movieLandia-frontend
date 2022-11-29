@@ -69,7 +69,7 @@ export default function Genre() {
         <Header />
         <Container classname="genre-ribbon-1">
           <Label classname="movie-count-span">
-            Total movies in this genre: {moviesCountGenre}{" "}
+            Total movies in this genre: {moviesCountGenre}
           </Label>
           <Container classname="image-ribbon-1-genre-wrapper">
             {movies?.map((movie: any) => (
@@ -87,7 +87,7 @@ export default function Genre() {
                   window.scrollTo(0, 0);
                 }}
               >
-                <Picture src={movie?.photoSrc} />
+                <Picture src={movie?.photoSrc} classname={'genre-cateogory-image'} />
                 <Label classname="movie-title">{movie?.title}</Label>
                 <Container classname="genres-holder-span">
                   {movie?.genres.map((genre: any) => (
@@ -104,9 +104,7 @@ export default function Genre() {
                   ))}
                 </Container>
                 <Label classname="imdb-span">
-                  {movie?.ratingImdb !== 0
-                    ? "Imdb: " + movie?.ratingImdb
-                    : "Imdb: " + "N/A"}
+                  {movie?.ratingImdb !== 0 ? `Imdb: ${movie?.ratingImdb}` : "Imdb: N/A"}
                 </Label>
               </Card>
             ))}
