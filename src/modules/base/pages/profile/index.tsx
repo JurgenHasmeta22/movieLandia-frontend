@@ -15,6 +15,45 @@ export default function Profile() {
   const { user } = useStore();
   const params = useParams();
 
+  function conditionalRenderingTabs(): JSX.Element | undefined {
+    if (params.tab === "favoriteMovies") {
+      return (
+        <>
+          <h3 className="special-video-you">Bookmarked movies</h3>
+          <Container classname="container-videos">
+            <List classname="favorite-movies">
+              {user?.favMovies!.map((movie: any) => (
+                <ListItem
+                  classname="movie-fav"
+                  key={movie.id}
+                  onClick={function () {
+                    navigate(
+                      `/movies/${movie.title
+                        .split("")
+                        .map((char: any) => (char === " " ? "-" : char))
+                        .join("")}`
+                    );
+                    window.scroll(0, 0);
+                  }}
+                >
+                  <Picture src={movie.photoSrc} />
+                  <Label>Movie title: {movie.title}</Label>
+                  <Label>Release year: {movie.releaseYear}</Label>
+                </ListItem>
+              ))}
+            </List>
+          </Container>
+        </>
+      );
+    } else if (params.tab === "aboutUs") {
+      return (
+        <Container classname="container-about">
+          <Label>This is my account</Label>
+        </Container>
+      )
+    }
+  }
+
   if (!user) {
     return (
       <Container classname="loading-wrapper">
@@ -58,38 +97,7 @@ export default function Profile() {
               About Channel
             </ListItem>
           </List>
-          {params.tab === "favoriteMovies" ? (
-            <>
-              <h3 className="special-video-you">Bookmarked movies</h3>
-              <Container classname="container-videos">
-                <List classname="favorite-movies">
-                  {user?.favMovies!.map((movie: any) => (
-                    <ListItem
-                      classname="movie-fav"
-                      key={movie.id}
-                      onClick={function () {
-                        navigate(
-                          `/movies/${movie.title
-                            .split("")
-                            .map((char: any) => (char === " " ? "-" : char))
-                            .join("")}`
-                        );
-                        window.scroll(0, 0);
-                      }}
-                    >
-                      <Picture src={movie.photoSrc} />
-                      <Label>Movie title: {movie.title}</Label>
-                      <Label>Release year: {movie.releaseYear}</Label>
-                    </ListItem>
-                  ))}
-                </List>
-              </Container>
-            </>
-          ) : params.tab === "aboutUs" ? (
-            <Container classname="container-about">
-              <Label>This is my account</Label>
-            </Container>
-          ) : null}
+          {conditionalRenderingTabs()}
         </Container>
       </section>
       <Footer />

@@ -72,7 +72,7 @@ export default function Genre() {
             Total movies in this genre: {moviesCountGenre}
           </Label>
           <Container classname="image-ribbon-1-genre-wrapper">
-            {movies?.map((movie: any) => (
+            {movies.map((movie: any) => (
               <Card
                 classname="movie-item-genre"
                 key={movie.id}
@@ -87,10 +87,10 @@ export default function Genre() {
                   window.scrollTo(0, 0);
                 }}
               >
-                <Picture src={movie?.photoSrc} classname={'genre-cateogory-image'} />
-                <Label classname="movie-title">{movie?.title}</Label>
+                <Picture src={movie.photoSrc} classname={'genre-cateogory-image'} />
+                <Label classname="movie-title">{movie.title}</Label>
                 <Container classname="genres-holder-span">
-                  {movie?.genres.map((genre: any) => (
+                  {movie.genres.map((genre: any) => (
                     <Label
                       key={genre.genre.name}
                       onClick={function (e) {
@@ -104,7 +104,7 @@ export default function Genre() {
                   ))}
                 </Container>
                 <Label classname="imdb-span">
-                  {movie?.ratingImdb !== 0 ? `Imdb: ${movie?.ratingImdb}` : "Imdb: N/A"}
+                  {movie.ratingImdb !== 0 ? `Imdb: ${movie.ratingImdb}` : "Imdb: N/A"}
                 </Label>
               </Card>
             ))}
