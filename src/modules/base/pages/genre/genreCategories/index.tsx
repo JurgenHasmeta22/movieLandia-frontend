@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
 import Card from "../../../../../main/components/card";
+import Container from "../../../../../main/components/container";
 import Footer from "../../../../../main/components/footer";
 import Header from "../../../../../main/components/header";
 import Label from "../../../../../main/components/label";
@@ -29,10 +30,10 @@ export default function GenreCategories() {
   }
 
   return (
-    <div className="genre-categories-menus">
+    <Container classname="genre-categories-menus">
       <Header />
       <h2>Choose your favorite genre</h2>
-      <div className="genre-categories-wrapper">
+      <Container classname="genre-categories-wrapper">
         {genres.map((genre: any) => (
           <Card
             classname="genre-category"
@@ -42,11 +43,11 @@ export default function GenreCategories() {
               window.scrollTo(0, 0);
             }}
           >
-            <span>{genre.name}</span>
+            <Label>{genre.name}</Label>
           </Card>
         ))}
-      </div>
+      </Container>
       <Footer />
-    </div>
+    </Container>
   );
 }

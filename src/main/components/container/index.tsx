@@ -1,21 +1,23 @@
 import "./style.css";
 
-interface ILabelProps {
+interface IContainerProps {
   classname?: string,
+  id?: string,
   onClick?: (e: any) => void;
   children?: any;
 }
 
-export default function Label(props: ILabelProps) {
+export default function Container(props: IContainerProps) {
   const {
     classname,
+    id,
     onClick,
     children
   } = props;
 
   return (
-    <span className={classname} onClick={onClick}>
+    <div className={classname} onClick={onClick} id={id}>
       {children}
-    </span>
+    </div>
   );
 }

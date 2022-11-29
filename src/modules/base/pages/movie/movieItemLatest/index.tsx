@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router";
+import Picture from "../../../../../main/components/picture";
 import IMovie from "../../../../../main/store/zustand/types/IMovie";
 
 interface IMovieItemLatestProps {
@@ -24,7 +25,7 @@ export default function movieItemLatest(props: IMovieItemLatestProps) {
         window.scrollTo(0, 0);
       }}
     >
-      <img src={latestMovie.photoSrc} />
+      <Picture src={latestMovie.photoSrc} />
     </li>
   )
 }

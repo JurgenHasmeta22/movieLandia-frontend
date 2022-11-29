@@ -1,8 +1,10 @@
 import ReactLoading from "react-loading";
 import { useNavigate, useParams } from "react-router-dom";
+import Container from "../../../../main/components/container";
 import Footer from "../../../../main/components/footer";
 import Header from "../../../../main/components/header";
 import Label from "../../../../main/components/label";
+import Picture from "../../../../main/components/picture";
 import { useStore } from "../../../../main/store/zustand/store";
 import "./style.css";
 
@@ -13,7 +15,7 @@ export default function Profile() {
 
   if (!user) {
     return (
-      <div className="loading-wrapper">
+      <Container classname="loading-wrapper">
         <ReactLoading
           type={"spin"}
           color={"#000"}
@@ -21,7 +23,7 @@ export default function Profile() {
           width={100}
           className="loading"
         />
-      </div>
+      </Container>
     );
   }
 
@@ -29,13 +31,13 @@ export default function Profile() {
     <main>
       <Header />
       <section className="container-profile-menus">
-        <div className="container-profile-nav">
-          <div className="profile-info">
-            <img src="/assets/avatars/blankavatar.jpg" />
-            <span className="userName-span">{user.userName}</span>
-          </div>
-        </div>
-        <div className="container-tabs">
+        <Container classname="container-profile-nav">
+          <Container classname="profile-info">
+            <Picture src="/assets/avatars/blankavatar.jpg" />
+            <Label classname="userName-span">{user.userName}</Label>
+          </Container>
+        </Container>
+        <Container classname="container-tabs">
           <ul className="list-tabs">
             <li
               className={params.tab === "favoriteMovies" ? "clicked" : "videos-tab"}
@@ -57,7 +59,7 @@ export default function Profile() {
           {params.tab === "favoriteMovies" ? (
             <>
               <h3 className="special-video-you">Bookmarked movies</h3>
-              <div className="container-videos">
+              <Container classname="container-videos">
                 <ul className="favorite-movies">
                   {user?.favMovies!.map((movie: any) => (
                     <li
@@ -73,20 +75,20 @@ export default function Profile() {
                         window.scroll(0, 0);
                       }}
                     >
-                      <img src={movie.photoSrc} />
-                      <span>Movie title: {movie.title}</span>
-                      <span>Release year: {movie.releaseYear}</span>
+                      <Picture src={movie.photoSrc} />
+                      <Label>Movie title: {movie.title}</Label>
+                      <Label>Release year: {movie.releaseYear}</Label>
                     </li>
                   ))}
                 </ul>
-              </div>
+              </Container>
             </>
           ) : params.tab === "aboutUs" ? (
-            <div className="container-about">
-              <span>This is my account</span>
-            </div>
+            <Container classname="container-about">
+              <Label>This is my account</Label>
+            </Container>
           ) : null}
-        </div>
+        </Container>
       </section>
       <Footer />
     </main>

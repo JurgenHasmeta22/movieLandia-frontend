@@ -1,3 +1,4 @@
+import Container from "../../../../main/components/container";
 import Footer from "../../../../main/components/footer";
 import Header from "../../../../main/components/header";
 import Label from "../../../../main/components/label";
@@ -7,9 +8,9 @@ export default function Error404() {
   return (
     <>
       <Header />
-      <div className="error-wrapper">
-        <span>ERROR 404</span>
-      </div>
+      <Container classname="error-wrapper">
+        <Label>ERROR 404</Label>
+      </Container>
       <Footer />
     </>
   );

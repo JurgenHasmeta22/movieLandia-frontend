@@ -9,6 +9,8 @@ import IMovie from "../../../../main/store/zustand/types/IMovie";
 import IUser from "../../../../main/store/zustand/types/IUser";
 import moviesController from "../../../../main/controllers/moviesController";
 import MovieItemLatest from "./movieItemLatest";
+import Paragraph from "../../../../main/components/text";
+import Container from "../../../../main/components/container";
 
 export default function Movie() {
   const params = useParams();
@@ -46,7 +48,7 @@ export default function Movie() {
 
   if (!movie) {
     return (
-      <div className="loading-wrapper">
+      <Container classname="loading-wrapper">
         <ReactLoading
           type={"spin"}
           color={"#000"}
@@ -54,7 +56,7 @@ export default function Movie() {
           width={100}
           className="loading"
         />
-      </div>
+      </Container>
     );
   }
 
@@ -62,14 +64,14 @@ export default function Movie() {
     <>
       <Header />
       <section className="movie-item-wrapper">
-        <div className="left-section">
-          <div className="video-and-servers">
-            <div className="servers">
+        <Container classname="left-section">
+          <Container classname="video-and-servers">
+            <Container classname="servers">
               <ul className="server-list">
                 <li>Movie Server</li>
               </ul>
-            </div>
-            <div className="video-square">
+            </Container>
+            <Container classname="video-square">
               <iframe
                 src={movie.videoSrc}
                 name="movieFrame"
@@ -79,9 +81,9 @@ export default function Movie() {
                 width="850px"
                 allowFullScreen
               ></iframe>
-            </div>
-            <div className="movie-details">
-              <div className="movie-specifications">
+            </Container>
+            <Container classname="movie-details">
+              <Container classname="movie-specifications">
                 <ul className="trailer">
                   <li>Trailer: </li>
                   <a href={movie.trailerSrc} className="trailer-link">
@@ -110,16 +112,16 @@ export default function Movie() {
                     Add to favorites
                   </button>
                 ) : null}
-              </div>
-            </div>
-          </div>
-          <div className="movie-fabula">
-            <p id="fabula">{movie.description}</p>
-          </div>
-          <div className="last movies">
-            <div className="posted-lastest">
+              </Container>
+            </Container>
+          </Container>
+          <Container classname="movie-fabula">
+            <Paragraph id="fabula">{movie.description}</Paragraph>
+          </Container>
+          <Container classname="last movies">
+            <Container classname="posted-lastest">
               <h2>Latest Movies</h2>
-            </div>
+            </Container>
             <ul className="last-movies-list">
               {latestMovies.slice(14, 19).map((latestMovie: any) => (
                 <MovieItemLatest 
@@ -127,10 +129,10 @@ export default function Movie() {
                 />
               ))}
             </ul>
-          </div>
-        </div>
-        <div className="right-section">
-        </div>
+          </Container>
+        </Container>
+        <Container classname="right-section">
+        </Container>
       </section>
       <Footer />
     </>
