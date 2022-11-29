@@ -98,9 +98,7 @@ export default function Movie() {
                   <ListItem>Year: {movie.releaseYear}</ListItem>
                   <ListItem>
                     Imdb Rating:{" "}
-                    {movie.ratingImdb === 0
-                      ? "N/A"
-                      : movie.ratingImdb}
+                    {movie.ratingImdb === 0 ? "N/A" : movie.ratingImdb}
                   </ListItem>
                 </List>
                 {user?.userName ? (
