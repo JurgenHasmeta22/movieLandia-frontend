@@ -11,7 +11,7 @@ import moviesController from "../../../../main/controllers/moviesController";
 import MovieItemLatest from "./movieItemLatest";
 import Paragraph from "../../../../main/components/text";
 import Container from "../../../../main/components/container";
-import Heading from "../../../../main/components/Heading";
+import Heading from "../../../../main/components/heading";
 import ListItem from "../../../../main/components/list/listItem";
 import List from "../../../../main/components/list";
 
