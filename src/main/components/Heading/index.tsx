@@ -1,28 +1,29 @@
-import Container from "../container";
 import "./style.css";
 
-interface ICardProps {
+interface IHeadingProps {
   classname?: string,
   key?: number,
   onClick?: (e: any) => void;
   children?: any;
+  type?: string;
 }
 
-export default function Card(props: ICardProps) {
+export default function Heading(props: IHeadingProps) {
   const {
     classname,
     key,
     onClick,
+    type,
     children
   } = props;
 
   return (
-    <Container
-      classname={classname}
+    <h2
+      className={classname}
       key={key}
       onClick={onClick}
     >
       {children}
-    </Container>
+    </h2>
   );
 }

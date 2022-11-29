@@ -11,6 +11,9 @@ import moviesController from "../../../../main/controllers/moviesController";
 import MovieItemLatest from "./movieItemLatest";
 import Paragraph from "../../../../main/components/text";
 import Container from "../../../../main/components/container";
+import Heading from "../../../../main/components/Heading";
+import ListItem from "../../../../main/components/list/listItem";
+import List from "../../../../main/components/list";
 
 export default function Movie() {
   const params = useParams();
@@ -67,9 +70,9 @@ export default function Movie() {
         <Container classname="left-section">
           <Container classname="video-and-servers">
             <Container classname="servers">
-              <ul className="server-list">
-                <li>Movie Server</li>
-              </ul>
+              <List classname="server-list">
+                <ListItem>Movie Server</ListItem>
+              </List>
             </Container>
             <Container classname="video-square">
               <iframe
@@ -84,22 +87,22 @@ export default function Movie() {
             </Container>
             <Container classname="movie-details">
               <Container classname="movie-specifications">
-                <ul className="trailer">
-                  <li>Trailer: </li>
+                <List classname="trailer">
+                  <ListItem>Trailer: </ListItem>
                   <a href={movie.trailerSrc} className="trailer-link">
                     Youtube trailer
                   </a>
-                </ul>
-                <ul className="length">
-                  <li>Duration: {movie.duration}</li>
-                  <li>Year: {movie.releaseYear}</li>
-                  <li>
+                </List>
+                <List classname="length">
+                  <ListItem>Duration: {movie.duration}</ListItem>
+                  <ListItem>Year: {movie.releaseYear}</ListItem>
+                  <ListItem>
                     Imdb Rating:{" "}
                     {movie.ratingImdb === 0
                       ? "N/A"
                       : movie.ratingImdb}
-                  </li>
-                </ul>
+                  </ListItem>
+                </List>
                 {user?.userName ? (
                   <button
                     className="button-favorite-add"
@@ -120,15 +123,15 @@ export default function Movie() {
           </Container>
           <Container classname="last movies">
             <Container classname="posted-lastest">
-              <h2>Latest Movies</h2>
+              <Heading>Latest Movies</Heading>
             </Container>
-            <ul className="last-movies-list">
+            <List classname="last-movies-list">
               {latestMovies.slice(14, 19).map((latestMovie: any) => (
                 <MovieItemLatest 
                   latestMovie={latestMovie}
                 />
               ))}
-            </ul>
+            </List>
           </Container>
         </Container>
         <Container classname="right-section">

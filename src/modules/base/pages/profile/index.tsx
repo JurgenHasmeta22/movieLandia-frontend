@@ -4,6 +4,8 @@ import Container from "../../../../main/components/container";
 import Footer from "../../../../main/components/footer";
 import Header from "../../../../main/components/header";
 import Label from "../../../../main/components/label";
+import List from "../../../../main/components/list";
+import ListItem from "../../../../main/components/list/listItem";
 import Picture from "../../../../main/components/picture";
 import { useStore } from "../../../../main/store/zustand/store";
 import "./style.css";
@@ -38,32 +40,32 @@ export default function Profile() {
           </Container>
         </Container>
         <Container classname="container-tabs">
-          <ul className="list-tabs">
-            <li
-              className={params.tab === "favoriteMovies" ? "clicked" : "videos-tab"}
+          <List classname="list-tabs">
+            <ListItem
+              classname={params.tab === "favoriteMovies" ? "clicked" : "videos-tab"}
               onClick={() => {
                 navigate("/profile/favoriteMovies");
               }}
             >
               Favorite Movies
-            </li>
-            <li
-              className={params.tab === "aboutUs" ? "clicked" : "about-tab"}
+            </ListItem>
+            <ListItem
+              classname={params.tab === "aboutUs" ? "clicked" : "about-tab"}
               onClick={() => {
                 navigate("/profile/aboutUs");
               }}
             >
               About Channel
-            </li>
-          </ul>
+            </ListItem>
+          </List>
           {params.tab === "favoriteMovies" ? (
             <>
               <h3 className="special-video-you">Bookmarked movies</h3>
               <Container classname="container-videos">
-                <ul className="favorite-movies">
+                <List classname="favorite-movies">
                   {user?.favMovies!.map((movie: any) => (
-                    <li
-                      className="movie-fav"
+                    <ListItem
+                      classname="movie-fav"
                       key={movie.id}
                       onClick={function () {
                         navigate(
@@ -78,9 +80,9 @@ export default function Profile() {
                       <Picture src={movie.photoSrc} />
                       <Label>Movie title: {movie.title}</Label>
                       <Label>Release year: {movie.releaseYear}</Label>
-                    </li>
+                    </ListItem>
                   ))}
-                </ul>
+                </List>
               </Container>
             </>
           ) : params.tab === "aboutUs" ? (

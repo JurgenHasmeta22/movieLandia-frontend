@@ -8,6 +8,8 @@ import IGenre from "../../store/zustand/types/IGenre";
 import Picture from "../picture";
 import Label from "../label";
 import Container from "../container";
+import ListItem from "../list/listItem";
+import List from "../list";
 
 export default function Header() {
   const navigate = useNavigate();
@@ -47,7 +49,7 @@ export default function Header() {
       <header className="header">
         <Container classname="header-group-1">
           <Link to="/movies">MovieLand24</Link>
-          <ul className="list-nav">
+          <List classname="list-nav">
             <Container classname="div-inside-li">
               <Picture src="/assets/logos/ico_filma_blu.png" alt="" />
               <NavLink to="/movies" className="special-uppercase">
@@ -58,21 +60,21 @@ export default function Header() {
               <Container classname="dropdown">
                 <Container classname="genre-drop">
                   <Picture src="/assets/logos/list_blu.png" alt="" />
-                  <li
-                    className="special-uppercase"
+                  <ListItem
+                    classname="special-uppercase"
                     onClick={function (e) {
                       e.stopPropagation();
                       navigate("/genres");
                     }}
                   >
                     Genres
-                  </li>
+                  </ListItem>
                 </Container>
                 <Container classname="dropdown-content">
-                  <ul>
+                  <List>
                     {genres.map((genre: any) => (
-                      <li
-                        className="special-list-drop"
+                      <ListItem
+                        classname="special-list-drop"
                         key={genre.id}
                         onClick={function (e: any) {
                           e.stopPropagation();
@@ -80,9 +82,9 @@ export default function Header() {
                         }}
                       >
                         {genre.name}
-                      </li>
+                      </ListItem>
                     ))}
-                  </ul>
+                  </List>
                 </Container>
               </Container>
             </Container>
@@ -92,7 +94,7 @@ export default function Header() {
                 Netflix
               </NavLink>
             </Container>
-          </ul>
+          </List>
         </Container>
         <Container classname="header-group-2">
           <form
@@ -137,15 +139,15 @@ export default function Header() {
             </button>
           ) : (
             <Container classname="dropdown">
-              <li
-                className="dropbtn"
+              <ListItem
+                classname="dropbtn"
                 onClick={function () {
                   redirectToProfile(user);
                 }}
               >
                 <Picture src={`/assets/avatars/blankavatar.jpg`} />
                 {user.userName}
-              </li>
+              </ListItem>
               <Container classname="dropdown-content">
                 <button
                   className="log-out"
