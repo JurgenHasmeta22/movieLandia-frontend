@@ -123,6 +123,149 @@ export default function Home() {
     getLatestMovies()
   }, []);
 
+  function conditionalRenderingMovieCount(): JSX.Element | undefined {
+    if (params.query) {
+      return (
+        <Label classname="movie-count-span">
+          Total movies: {moviesCountSearch}
+        </Label>
+      )
+    } else {
+      return (
+        <Label classname="movie-count-span">
+          Total movies: {moviesCount?.count}
+        </Label>
+      )
+    }
+  }
+
+  function conditionalRenderingCarousel(): JSX.Element | undefined {
+    if (!params.query) {
+      return (
+        <HomeCarousel />
+      )
+    }
+  }
+
+  function conditionalRenderingSorting(): JSX.Element | undefined {
+    if (!params.query) {
+      return (
+        <>
+          <h3>Sort By: </h3>
+          <List classname="list-sort">
+            <Link to="/movies/sortBy/views">Most viewed (Desc)</Link>
+            <Link to="/movies/sortBy/ratingImdb">Imdb rating (Desc)</Link>
+            <Link to="/movies/sortBy/title">Title (Desc)</Link>
+          </List>
+        </>
+      )
+    }
+  }
+
+  function conditionalRenderingMovies(): JSX.Element | undefined {
+    if (movies.length !== 0) {
+      return (
+        <Container classname="image-ribbon-2-wrapper">
+          {movies.map((movie: any) => (
+            <Card
+              classname="movie-item"
+              key={movie.id}
+              onClick={function (e) {
+                e.stopPropagation();
+                navigate(
+                  `/movies/${movie.title
+                    .split("")
+                    .map((char: any) => (char === " " ? "-" : char))
+                    .join("")}`
+                );
+                window.scrollTo(0, 0);
+              }}
+            >
+              <Picture src={movie.photoSrc} />
+              <Label classname="movie-title">{movie.title}</Label>
+              <Container classname="genres-holder-span">
+                {movie.genres.map((genre: any) => (
+                  <Label
+                    key={genre.genre.name}
+                    onClick={function (e) {
+                      e.stopPropagation();
+                      navigate(`/genres/${genre.genre.name}`);
+                      window.scrollTo(0, 0);
+                    }}
+                  >
+                    {genre.genre.name}
+                  </Label>
+                ))}
+              </Container>
+              <Label classname="imdb-span">
+                {movie.ratingImdb !== 0
+                  ? `Imdb: ${movie.ratingImdb}`
+                  : "Imdb: N/A"}
+              </Label>
+            </Card>
+          ))}
+        </Container>
+      );
+    } else {
+      return (
+        <Container classname="no-search">
+          <Label>No Search Result, no movie found with that criteria.</Label>
+        </Container>
+      )
+    }
+  }
+
+  function conditionalRenderingLatestMovies(): JSX.Element | undefined {
+    if (!params.query) {
+      return (
+        <Container classname="home-ribbon-3">
+          <List classname="list-latest">
+            <ListItem classname="special-last">LATEST MOVIES</ListItem>
+          </List>
+          <Container classname="image-ribbon-3-wrapper">
+            {latestMovies?.map((latestMovie: any) => (
+              <Card
+                classname="movie-item-latest"
+                key={latestMovie.id}
+                onClick={function (e) {
+                  e.stopPropagation();
+                  navigate(
+                    `/movies/${latestMovie.title
+                      .split("")
+                      .map((char: any) => (char === " " ? "-" : char))
+                      .join("")}`
+                  );
+                  window.scrollTo(0, 0);
+                }}
+              >
+                <Picture src={latestMovie.photoSrc} />
+                <Label classname="movie-title">{latestMovie.title}</Label>
+                <Container classname="genres-holder-span">
+                  {latestMovie.genres.map((genre: any) => (
+                    <Label
+                      key={genre.genre.name}
+                      onClick={function (e) {
+                        e.stopPropagation();
+                        navigate(`/genres/${genre.genre.name}`);
+                        window.scrollTo(0, 0);
+                      }}
+                    >
+                      {genre.genre.name}
+                    </Label>
+                  ))}
+                </Container>
+                <Label classname="imdb-span">
+                  {latestMovie.ratingImdb !== 0 &&
+                    `Imdb: ${latestMovie.ratingImdb}`}
+                </Label>
+              </Card>
+            ))}
+          </Container>
+        </Container>
+      );
+    }
+  }
+  
   if (!movies) {
     return (
       <Container classname="loading-wrapper">
@@ -141,71 +284,11 @@ export default function Home() {
     <>
       <Container classname="home-wrapper-menus">
         <Header />
-        {!params.query && movies && (<HomeCarousel />)}
+        {conditionalRenderingCarousel()}
         <Container classname="home-ribbon-2">
-          {params.query ? (
-            <Label classname="movie-count-span">
-              Total movies: {moviesCountSearch}{" "}
-            </Label>
-          ) : (
-            <Label classname="movie-count-span">
-              Total movies: {moviesCount?.count}{" "}
-            </Label>
-          )}
-          {!params.query && (
-            <>
-              <h3>Sort By: </h3>
-              <List classname="list-sort">
-                <Link to="/movies/sortBy/views">Most viewed (Desc)</Link>
-                <Link to="/movies/sortBy/ratingImdb">Imdb rating (Desc)</Link>
-                <Link to="/movies/sortBy/title">Title (Desc)</Link>
-              </List>
-            </>
-          )}
-          {movies.length !== 0 ? (
-            <Container classname="image-ribbon-2-wrapper">
-              {movies.map((movie: any) => (
-                <Card
-                  classname="movie-item"
-                  key={movie.id}
-                  onClick={function (e) {
-                    e.stopPropagation();
-                    navigate(
-                      `/movies/${movie.title
-                        .split("")
-                        .map((char: any) => (char === " " ? "-" : char))
-                        .join("")}`
-                    );
-                    window.scrollTo(0, 0);
-                  }}
-                >
-                  <Picture src={movie.photoSrc} />
-                  <Label classname="movie-title">{movie.title}</Label>
-                  <Container classname="genres-holder-span">
-                    {movie.genres.map((genre: any) => (
-                      <Label
-                        key={genre.genre.name}
-                        onClick={function (e) {
-                          e.stopPropagation();
-                          navigate(`/genres/${genre.genre.name}`);
-                          window.scrollTo(0, 0);
-                        }}
-                      >
-                        {genre.genre.name}
-                      </Label>
-                    ))}
-                  </Container>
-                  <Label classname="imdb-span">
-                    {movie.ratingImdb !== 0 ? `Imdb: ${movie.ratingImdb}` : "Imdb: N/A"}
-                  </Label>
-                </Card>
-              ))}
-            </Container>
-          ) : (
-            <Container classname="no-search">
-              <Label>No Search Result, no movie found with that criteria.</Label>
-            </Container>
-          )}
+          {conditionalRenderingMovieCount()}
+          {conditionalRenderingSorting()}
+          {conditionalRenderingMovies()}
           <ReactPaginate
             previousLabel={"< Previous"}
             nextLabel={"Next >"}
@@ -218,51 +301,7 @@ export default function Home() {
             activeClassName={"paginationActive"}
           />
         </Container>
-        {!params.query && movies.length !== 0 && (
-          <Container classname="home-ribbon-3">
-            <List classname="list-latest">
-              <ListItem classname="special-last">LATEST MOVIES</ListItem>
-            </List>
-            <Container classname="image-ribbon-3-wrapper">
-              {latestMovies?.map((latestMovie: any) => (
-                <Card
-                  classname="movie-item-latest"
-                  key={latestMovie.id}
-                  onClick={function (e) {
-                    e.stopPropagation();
-                    navigate(
-                      `/movies/${latestMovie.title
-                        .split("")
-                        .map((char: any) => (char === " " ? "-" : char))
-                        .join("")}`
-                    );
-                    window.scrollTo(0, 0);
-                  }}
-                >
-                  <Picture src={latestMovie.photoSrc} />
-                  <Label classname="movie-title">{latestMovie.title}</Label>
-                  <Container classname="genres-holder-span">
-                    {latestMovie.genres.map((genre: any) => (
-                      <Label
-                        key={genre.genre.name}
-                        onClick={function (e) {
-                          e.stopPropagation();
-                          navigate(`/genres/${genre.genre.name}`);
-                          window.scrollTo(0, 0);
-                        }}
-                      >
-                        {genre.genre.name}
-                      </Label>
-                    ))}
-                  </Container>
-                  <Label classname="imdb-span">
-                    {latestMovie.ratingImdb !== 0 && `Imdb: ${latestMovie.ratingImdb}`}
-                  </Label>
-                </Card>
-              ))}
-            </Container>
-          </Container>
-        )}
+        {conditionalRenderingLatestMovies()}
         <Footer />
       </Container>
     </>

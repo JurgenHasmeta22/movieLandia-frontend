@@ -83,7 +83,8 @@ export default function Movie() {
                 height="550px"
                 width="850px"
                 allowFullScreen
-              ></iframe>
+              >
+              </iframe>
             </Container>
             <Container classname="movie-details">
               <Container classname="movie-specifications">
@@ -97,11 +98,11 @@ export default function Movie() {
                   <ListItem>Duration: {movie.duration}</ListItem>
                   <ListItem>Year: {movie.releaseYear}</ListItem>
                   <ListItem>
-                    Imdb Rating:{" "}
+                    Imdb Rating:
                     {movie.ratingImdb === 0 ? "N/A" : movie.ratingImdb}
                   </ListItem>
                 </List>
-                {user?.userName ? (
+                {user?.userName && (
                   <button
                     className="button-favorite-add"
                     onClick={function () {
@@ -112,7 +113,7 @@ export default function Movie() {
                   >
                     Add to favorites
                   </button>
-                ) : null}
+                )}
               </Container>
             </Container>
           </Container>
