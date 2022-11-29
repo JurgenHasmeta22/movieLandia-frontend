@@ -66,9 +66,9 @@ export default function Genre() {
       <div className="genre-wrapper-menus">
         <Header />
         <div className="genre-ribbon-1">
-          <Label classname="movie-count-span">
+          <span className="movie-count-span">
             Total movies in this genre: {moviesCountGenre}{" "}
-          </Label>
+          </span>
           <div className="image-ribbon-1-genre-wrapper">
             {movies?.map((movie: any) => (
               <Card
@@ -86,10 +86,10 @@ export default function Genre() {
                 }}
               >
                 <img src={movie?.photoSrc} />
-                <Label classname="movie-title">{movie?.title}</Label>
+                <span className="movie-title">{movie?.title}</span>
                 <div className="genres-holder-span">
                   {movie?.genres.map((genre: any) => (
-                    <Label
+                    <span
                       key={genre.genre.name}
                       onClick={function (e) {
                         e.stopPropagation();
@@ -98,14 +98,14 @@ export default function Genre() {
                       }}
                     >
                       {genre.genre.name}
-                    </Label>
+                    </span>
                   ))}
                 </div>
-                <Label classname="imdb-span">
+                <span className="imdb-span">
                   {movie?.ratingImdb !== 0
                     ? "Imdb: " + movie?.ratingImdb
                     : "Imdb: " + "N/A"}
-                </Label>
+                </span>
               </Card>
             ))}
           </div>

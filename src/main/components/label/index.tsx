@@ -14,8 +14,8 @@ export default function Label(props: ILabelProps) {
   } = props;
 
   return (
-    <Label classname={classname} onClick={onClick}>
+    <span className={classname ? classname : "default"} onClick={onClick ? onClick : () => {}}>
       {children}
-    </Label>
+    </span>
   );
 }

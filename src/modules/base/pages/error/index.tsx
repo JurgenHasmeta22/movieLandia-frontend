@@ -8,7 +8,7 @@ export default function Error404() {
     <>
       <Header />
       <div className="error-wrapper">
-        <Label>ERROR 404</Label>
+        <span>ERROR 404</span>
       </div>
       <Footer />
     </>

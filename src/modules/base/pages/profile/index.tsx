@@ -32,7 +32,7 @@ export default function Profile() {
         <div className="container-profile-nav">
           <div className="profile-info">
             <img src="/assets/avatars/blankavatar.jpg" />
-            <Label classname="userName-span">{user.userName}</Label>
+            <span className="userName-span">{user.userName}</span>
           </div>
         </div>
         <div className="container-tabs">
@@ -74,8 +74,8 @@ export default function Profile() {
                       }}
                     >
                       <img src={movie.photoSrc} />
-                      <Label>Movie title: {movie.title}</Label>
-                      <Label>Release year: {movie.releaseYear}</Label>
+                      <span>Movie title: {movie.title}</span>
+                      <span>Release year: {movie.releaseYear}</span>
                     </li>
                   ))}
                 </ul>
@@ -83,7 +83,7 @@ export default function Profile() {
             </>
           ) : params.tab === "aboutUs" ? (
             <div className="container-about">
-              <Label>This is my account</Label>
+              <span>This is my account</span>
             </div>
           ) : null}
         </div>
