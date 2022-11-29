@@ -72,7 +72,7 @@ const moviesController = {
     return responseGenre;
   },
 
-  getGenreMoviesWithPagination: async(name: string, page: string): Promise<any> => {
+  getGenreMoviesWithPagination: async(name: string | undefined, page: string | undefined): Promise<any> => {
     const responseGenre: IGenreResponse = await axios.get(`http://localhost:4000/genres/${name}?page=${page}`).then(x => x.data);
     return responseGenre;
   }

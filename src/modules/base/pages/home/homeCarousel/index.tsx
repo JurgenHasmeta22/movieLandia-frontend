@@ -1,5 +1,6 @@
 import Carousel from "@palustris/react-images";
 import "./style.css";
+
 // interface IHomeCarouselLatestProps {
 //   images: any
 // }
