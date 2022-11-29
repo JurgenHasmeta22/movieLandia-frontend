@@ -14,6 +14,7 @@ import Container from "../../../../main/components/container";
 import Heading from "../../../../main/components/heading";
 import ListItem from "../../../../main/components/list/listItem";
 import List from "../../../../main/components/list";
+import Button from "../../../../main/components/button";
 
 export default function Movie() {
   const params = useParams();
@@ -103,8 +104,8 @@ export default function Movie() {
                   </ListItem>
                 </List>
                 {user?.userName && (
-                  <button
-                    className="button-favorite-add"
+                  <Button
+                    classname="button-favorite-add"
                     onClick={function () {
                       addToFavorites();
                       navigate("/profile");
@@ -112,7 +113,7 @@ export default function Movie() {
                     }}
                   >
                     Add to favorites
-                  </button>
+                  </Button>
                 )}
               </Container>
             </Container>

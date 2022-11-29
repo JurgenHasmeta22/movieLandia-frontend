@@ -10,6 +10,8 @@ import Label from "../label";
 import Container from "../container";
 import ListItem from "../list/listItem";
 import List from "../list";
+import Button from "../button";
+import Input from "../input";
 
 export default function Header() {
   const navigate = useNavigate();
@@ -107,11 +109,11 @@ export default function Header() {
               navigate(`/movies/search/${e.target.searchMovie.value}`);
             }}
           >
-            <input
+            <Input
               type="search"
               name="searchMovie"
               placeholder="Search for movies..."
-              aria-label="Search through site content"
+              ariaLabel="Search through site content"
               onChange={function (e: React.ChangeEvent<HTMLInputElement>) {
                 navigate(`/movies/search/${e.target.value}`);
                 if (e.target.value.length > 0) {
@@ -123,20 +125,20 @@ export default function Header() {
                 }
               }}
             />
-            <button type="submit">
+            <Button type="submit">
               <i className="fa fa-search"></i>
-            </button>
+            </Button>
           </form>
           {!user ? (
-            <button
-              className="button-login-header"
+            <Button
+              classname="button-login-header"
               onClick={function () {
                 navigate("/login");
               }}
             >
               <i className="material-icons special-icon">account_circle</i>
               Sign In
-            </button>
+            </Button>
           ) : (
             <Container classname="dropdown">
               <ListItem
@@ -149,15 +151,15 @@ export default function Header() {
                 {user.userName}
               </ListItem>
               <Container classname="dropdown-content">
-                <button
-                  className="log-out"
+                <Button
+                  classname="log-out"
                   onClick={function (e: any) {
                     e.stopPropagation();
                     handleLogout();
                   }}
                 >
                   <Label>Log Out</Label>
-                </button>
+                </Button>
               </Container>
             </Container>
           )}

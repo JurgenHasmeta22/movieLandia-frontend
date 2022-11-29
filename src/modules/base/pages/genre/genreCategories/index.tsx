@@ -38,7 +38,7 @@ export default function GenreCategories() {
         {genres.map((genre: any) => (
           <Card
             classname="genre-category"
-            key={genre.id}
+            keyV={genre.id}
             onClick={function () {
               navigate(`/genres/${genre.name}`);
               window.scrollTo(0, 0);

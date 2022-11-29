@@ -170,6 +170,7 @@ export default function Home() {
             <Card
               classname="movie-item"
               key={movie.id}
+              myKey={movie.id}
               onClick={function (e) {
                 e.stopPropagation();
                 navigate(
@@ -198,9 +199,7 @@ export default function Home() {
                 ))}
               </Container>
               <Label classname="imdb-span">
-                {movie.ratingImdb !== 0
-                  ? `Imdb: ${movie.ratingImdb}`
-                  : "Imdb: N/A"}
+                {movie.ratingImdb !== 0 ? `Imdb: ${movie.ratingImdb}`: "Imdb: N/A"}
               </Label>
             </Card>
           ))}

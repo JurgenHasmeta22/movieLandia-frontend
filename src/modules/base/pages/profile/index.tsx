@@ -25,7 +25,8 @@ export default function Profile() {
               {user?.favMovies!.map((movie: any) => (
                 <ListItem
                   classname="movie-fav"
-                  key={movie.id}
+                  // key={movie.id}
+                  myKey={movie.id}
                   onClick={function () {
                     navigate(
                       `/movies/${movie.title
