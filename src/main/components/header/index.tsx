@@ -151,7 +151,7 @@ export default function Header() {
                     handleLogout();
                   }}
                 >
-                  <Label>Log Out</Label>
+                  <span>Log Out</span>
                 </button>
               </div>
             </div>

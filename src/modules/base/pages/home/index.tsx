@@ -140,13 +140,13 @@ export default function Home() {
         {!params.query && movies && (<HomeCarousel />)}
         <div className="home-ribbon-2">
           {params.query ? (
-            <Label classname="movie-count-span">
+            <span className="movie-count-span">
               Total movies: {moviesCountSearch}{" "}
-            </Label>
+            </span>
           ) : (
-            <Label classname="movie-count-span">
+            <span className="movie-count-span">
               Total movies: {moviesCount?.count}{" "}
-            </Label>
+            </span>
           )}
           {!params.query && (
             <>
@@ -176,10 +176,10 @@ export default function Home() {
                   }}
                 >
                   <img src={movie.photoSrc} />
-                  <Label classname="movie-title">{movie.title}</Label>
+                  <span className="movie-title">{movie.title}</span>
                   <div className="genres-holder-span">
                     {movie.genres.map((genre: any) => (
-                      <Label
+                      <span
                         key={genre.genre.name}
                         onClick={function (e) {
                           e.stopPropagation();
@@ -188,20 +188,20 @@ export default function Home() {
                         }}
                       >
                         {genre.genre.name}
-                      </Label>
+                      </span>
                     ))}
                   </div>
-                  <Label classname="imdb-span">
+                  <span className="imdb-span">
                     {movie.ratingImdb !== 0
                       ? `Imdb: ${movie.ratingImdb}`
                       : "Imdb: N/A"}
-                  </Label>
+                  </span>
                 </Card>
               ))}
             </div>
           ) : (
             <div className="no-search">
-              <Label>No Search Result, no movie found with that criteria.</Label>
+              <span>No Search Result, no movie found with that criteria.</span>
             </div>
           )}
           <ReactPaginate
@@ -238,10 +238,10 @@ export default function Home() {
                   }}
                 >
                   <img src={latestMovie.photoSrc} />
-                  <Label classname="movie-title">{latestMovie.title}</Label>
+                  <span className="movie-title">{latestMovie.title}</span>
                   <div className="genres-holder-span">
                     {latestMovie.genres.map((genre: any) => (
-                      <Label
+                      <span
                         key={genre.genre.name}
                         onClick={function (e) {
                           e.stopPropagation();
@@ -250,12 +250,12 @@ export default function Home() {
                         }}
                       >
                         {genre.genre.name}
-                      </Label>
+                      </span>
                     ))}
                   </div>
-                  <Label classname="imdb-span">
+                  <span className="imdb-span">
                     {latestMovie.ratingImdb !== 0 && `Imdb: ${latestMovie.ratingImdb}`}
-                  </Label>
+                  </span>
                 </Card>
               ))}
             </div>

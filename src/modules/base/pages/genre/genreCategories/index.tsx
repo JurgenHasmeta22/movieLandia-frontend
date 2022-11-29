@@ -42,7 +42,7 @@ export default function GenreCategories() {
               window.scrollTo(0, 0);
             }}
           >
-            <Label>{genre.name}</Label>
+            <span>{genre.name}</span>
           </Card>
         ))}
       </div>

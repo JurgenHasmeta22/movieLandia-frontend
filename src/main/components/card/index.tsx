@@ -1,8 +1,8 @@
 import "./style.css";
 
 interface ICardProps {
-  classname: string,
-  key: number,
+  classname?: string,
+  key?: number,
   onClick?: (e: any) => void;
   children?: any;
 }
@@ -17,9 +17,9 @@ export default function Card(props: ICardProps) {
 
   return (
     <div
-      className={classname}
+      className={classname ? classname : "default"}
       key={key}
-      onClick={onClick}
+      onClick={onClick ? onClick : () => {}}
     >
       {children}
     </div>
