@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import Container from "../../../../main/components/container";
 import Footer from "../../../../main/components/footer";
 import Header from "../../../../main/components/header";
+import Picture from "../../../../main/components/picture";
 import authenticationController from "../../../../main/controllers/authenticationController";
 import { useStore } from "../../../../main/store/zustand/store";
 import IResponseLogin from "../../../../main/store/zustand/types/IResponseLogin";
@@ -29,16 +31,16 @@ export default function Login() {
   return (
     <>
       <Header />
-      <div className="login-page-wrapper">
-        <div className="left-main-wrapper">
-          <img
-            className="special-image-1"
+      <Container classname="login-page-wrapper">
+        <Container classname="left-main-wrapper">
+          <Picture
+            classname="special-image-1"
             id="login-page-img"
             src="/assets/images/netflix.png"
             alt=""
           />
-        </div>
-        <div className="right-main-wrapper">
+        </Container>
+        <Container classname="right-main-wrapper">
           <form
             id="login-form"
             onSubmit={function (e) {
@@ -79,8 +81,8 @@ export default function Login() {
               </Link>
             </label>
           </form>
-        </div>
-      </div>
+        </Container>
+      </Container>
       <Footer />
     </>
   );

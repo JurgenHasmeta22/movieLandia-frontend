@@ -1,3 +1,4 @@
+import Container from "../container";
 import "./style.css";
 
 interface ICardProps {
@@ -16,12 +17,12 @@ export default function Card(props: ICardProps) {
   } = props;
 
   return (
-    <div
-      className={classname ? classname : "default"}
+    <Container
+      classname={classname ? classname : "default"}
       key={key}
       onClick={onClick ? onClick : () => {}}
     >
       {children}
-    </div>
+    </Container>
   );
 }

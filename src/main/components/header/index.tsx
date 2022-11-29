@@ -5,6 +5,9 @@ import "react-dropdown/style.css";
 import "./style.css";
 import axios from "axios";
 import IGenre from "../../store/zustand/types/IGenre";
+import Picture from "../picture";
+import Label from "../label";
+import Container from "../container";
 
 export default function Header() {
   const navigate = useNavigate();
@@ -42,19 +45,19 @@ export default function Header() {
   return (
     <>
       <header className="header">
-        <div className="header-group-1">
+        <Container classname="header-group-1">
           <Link to="/movies">MovieLand24</Link>
           <ul className="list-nav">
-            <div className="div-inside-li">
-              <img src="/assets/logos/ico_filma_blu.png" alt="" />
+            <Container classname="div-inside-li">
+              <Picture src="/assets/logos/ico_filma_blu.png" alt="" />
               <NavLink to="/movies" className="special-uppercase">
                 Movies
               </NavLink>
-            </div>
-            <div className="div-inside-li-special">
-              <div className="dropdown">
-                <div className="genre-drop">
-                  <img src="/assets/logos/list_blu.png" alt="" />
+            </Container>
+            <Container classname="div-inside-li-special">
+              <Container classname="dropdown">
+                <Container classname="genre-drop">
+                  <Picture src="/assets/logos/list_blu.png" alt="" />
                   <li
                     className="special-uppercase"
                     onClick={function (e) {
@@ -64,8 +67,8 @@ export default function Header() {
                   >
                     Genres
                   </li>
-                </div>
-                <div className="dropdown-content">
+                </Container>
+                <Container classname="dropdown-content">
                   <ul>
                     {genres.map((genre: any) => (
                       <li
@@ -80,18 +83,18 @@ export default function Header() {
                       </li>
                     ))}
                   </ul>
-                </div>
-              </div>
-            </div>
-            <div className="div-inside-li">
-              <img src="/assets/logos/netflix-red.png" alt="" />
+                </Container>
+              </Container>
+            </Container>
+            <Container classname="div-inside-li">
+              <Picture src="/assets/logos/netflix-red.png" alt="" />
               <NavLink to="/genres/NETFLIX" className="special-uppercase">
                 Netflix
               </NavLink>
-            </div>
+            </Container>
           </ul>
-        </div>
-        <div className="header-group-2">
+        </Container>
+        <Container classname="header-group-2">
           <form
             className="button-search"
             onSubmit={function (e) {
@@ -133,17 +136,17 @@ export default function Header() {
               Sign In
             </button>
           ) : (
-            <div className="dropdown">
+            <Container classname="dropdown">
               <li
                 className="dropbtn"
                 onClick={function () {
                   redirectToProfile(user);
                 }}
               >
-                <img src={`/assets/avatars/blankavatar.jpg`} />
+                <Picture src={`/assets/avatars/blankavatar.jpg`} />
                 {user.userName}
               </li>
-              <div className="dropdown-content">
+              <Container classname="dropdown-content">
                 <button
                   className="log-out"
                   onClick={function (e: any) {
@@ -151,12 +154,12 @@ export default function Header() {
                     handleLogout();
                   }}
                 >
-                  <span>Log Out</span>
+                  <Label>Log Out</Label>
                 </button>
-              </div>
-            </div>
+              </Container>
+            </Container>
           )}
-        </div>
+        </Container>
       </header>
     </>
   );

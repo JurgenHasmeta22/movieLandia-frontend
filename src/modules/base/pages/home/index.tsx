@@ -4,9 +4,11 @@ import ReactPaginate from "react-paginate";
 import { useNavigate, useParams } from "react-router";
 import { Link } from "react-router-dom";
 import Card from "../../../../main/components/card";
+import Container from "../../../../main/components/container";
 import Footer from "../../../../main/components/footer";
 import Header from "../../../../main/components/header";
 import Label from "../../../../main/components/label";
+import Picture from "../../../../main/components/picture";
 import moviesController from "../../../../main/controllers/moviesController";
 import { useStore } from "../../../../main/store/zustand/store";
 import IMovie from "../../../../main/store/zustand/types/IMovie";
@@ -121,7 +123,7 @@ export default function Home() {
 
   if (!movies) {
     return (
-      <div className="loading-wrapper">
+      <Container classname="loading-wrapper">
         <ReactLoading
           type={"spin"}
           color={"#000"}
@@ -129,24 +131,24 @@ export default function Home() {
           width={100}
           className="loading"
         />
-      </div>
+      </Container>
     );
   }
 
   return (
     <>
-      <div className="home-wrapper-menus">
+      <Container classname="home-wrapper-menus">
         <Header />
         {!params.query && movies && (<HomeCarousel />)}
-        <div className="home-ribbon-2">
+        <Container classname="home-ribbon-2">
           {params.query ? (
-            <span className="movie-count-span">
+            <Label classname="movie-count-span">
               Total movies: {moviesCountSearch}{" "}
-            </span>
+            </Label>
           ) : (
-            <span className="movie-count-span">
+            <Label classname="movie-count-span">
               Total movies: {moviesCount?.count}{" "}
-            </span>
+            </Label>
           )}
           {!params.query && (
             <>
@@ -159,7 +161,7 @@ export default function Home() {
             </>
           )}
           {movies.length !== 0 ? (
-            <div className="image-ribbon-2-wrapper">
+            <Container classname="image-ribbon-2-wrapper">
               {movies.map((movie: any) => (
                 <Card
                   classname="movie-item"
@@ -175,11 +177,11 @@ export default function Home() {
                     window.scrollTo(0, 0);
                   }}
                 >
-                  <img src={movie.photoSrc} />
-                  <span className="movie-title">{movie.title}</span>
-                  <div className="genres-holder-span">
+                  <Picture src={movie.photoSrc} />
+                  <Label classname="movie-title">{movie.title}</Label>
+                  <Container classname="genres-holder-span">
                     {movie.genres.map((genre: any) => (
-                      <span
+                      <Label
                         key={genre.genre.name}
                         onClick={function (e) {
                           e.stopPropagation();
@@ -188,21 +190,21 @@ export default function Home() {
                         }}
                       >
                         {genre.genre.name}
-                      </span>
+                      </Label>
                     ))}
-                  </div>
-                  <span className="imdb-span">
+                  </Container>
+                  <Label classname="imdb-span">
                     {movie.ratingImdb !== 0
                       ? `Imdb: ${movie.ratingImdb}`
                       : "Imdb: N/A"}
-                  </span>
+                  </Label>
                 </Card>
               ))}
-            </div>
+            </Container>
           ) : (
-            <div className="no-search">
-              <span>No Search Result, no movie found with that criteria.</span>
-            </div>
+            <Container classname="no-search">
+              <Label>No Search Result, no movie found with that criteria.</Label>
+            </Container>
           )}
           <ReactPaginate
             previousLabel={"< Previous"}
@@ -215,13 +217,13 @@ export default function Home() {
             disabledClassName={"paginationDisabled"}
             activeClassName={"paginationActive"}
           />
-        </div>
+        </Container>
         {!params.query && movies.length !== 0 && (
-          <div className="home-ribbon-3">
+          <Container classname="home-ribbon-3">
             <ul className="list-latest">
               <li className="special-last">LATEST MOVIES</li>
             </ul>
-            <div className="image-ribbon-3-wrapper">
+            <Container classname="image-ribbon-3-wrapper">
               {latestMovies?.map((latestMovie: any) => (
                 <Card
                   classname="movie-item-latest"
@@ -237,11 +239,11 @@ export default function Home() {
                     window.scrollTo(0, 0);
                   }}
                 >
-                  <img src={latestMovie.photoSrc} />
-                  <span className="movie-title">{latestMovie.title}</span>
-                  <div className="genres-holder-span">
+                  <Picture src={latestMovie.photoSrc} />
+                  <Label classname="movie-title">{latestMovie.title}</Label>
+                  <Container classname="genres-holder-span">
                     {latestMovie.genres.map((genre: any) => (
-                      <span
+                      <Label
                         key={genre.genre.name}
                         onClick={function (e) {
                           e.stopPropagation();
@@ -250,19 +252,19 @@ export default function Home() {
                         }}
                       >
                         {genre.genre.name}
-                      </span>
+                      </Label>
                     ))}
-                  </div>
-                  <span className="imdb-span">
+                  </Container>
+                  <Label classname="imdb-span">
                     {latestMovie.ratingImdb !== 0 && `Imdb: ${latestMovie.ratingImdb}`}
-                  </span>
+                  </Label>
                 </Card>
               ))}
-            </div>
-          </div>
+            </Container>
+          </Container>
         )}
         <Footer />
-      </div>
+      </Container>
     </>
   );
 }
