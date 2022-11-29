@@ -2,18 +2,18 @@ import { useNavigate, useParams } from "react-router-dom";
 import ReactLoading from "react-loading";
 import { useEffect, useState } from "react";
 import "./style.css";
-import axios from "axios";
 import { useStore } from "../../../../main/store/zustand/store";
 import Footer from "../../../../main/components/footer";
 import Header from "../../../../main/components/header";
 import IMovie from "../../../../main/store/zustand/types/IMovie";
 import IUser from "../../../../main/store/zustand/types/IUser";
+import moviesController from "../../../../main/controllers/moviesController";
+import MovieItemLatest from "./movieItemLatest";
 
 export default function Movie() {
   const params = useParams();
   const navigate = useNavigate();
-  const [movieItem, setMovieItem] = useState<IMovie | null>(null);
-
+  const [movie, setMovie] = useState<IMovie | null>(null);
   const {
     latestMovies,
     setLatestMovies,
@@ -21,22 +21,19 @@ export default function Movie() {
     user
   } = useStore();
 
-  async function addToFavorites() {
-    const payload = {
-      movieId: movieItem?.id
-    }
-    const response: IUser = await axios.post("http://localhost:4000/favorites", payload).then(x=>x.data);
-    setUser(response); 
-  }
-
   async function getLatestMovies(): Promise<void> {
-    const response: IMovie[] = await axios.get("http://localhost:4000/latest").then(x=>x.data);
+    const response: IMovie[] = await moviesController.getLatestMovies();
     setLatestMovies(response);
   }
 
-  async function getMovieItem(): Promise<void> {
-    const response: IMovie = await axios.get(`http://localhost:4000/movie/${params.title}`).then(x=>x.data);
-    setMovieItem(response);
+  async function getMovie(): Promise<void> {
+    const response: IMovie = await moviesController.getMovie(params.title);
+    setMovie(response);
+  }
+
+  async function addToFavorites() {
+    const response: IUser = await moviesController.addToFavorites(movie?.id);
+    setUser(response); 
   }
 
   useEffect(() => {
@@ -44,10 +41,10 @@ export default function Movie() {
   }, []);
   
   useEffect(() => {
-    getMovieItem()
+    getMovie()
   }, [params.title]);
 
-  if (!movieItem) {
+  if (!movie) {
     return (
       <div className="loading-wrapper">
         <ReactLoading
@@ -74,7 +71,7 @@ export default function Movie() {
             </div>
             <div className="video-square">
               <iframe
-                src={movieItem.videoSrc}
+                src={movie.videoSrc}
                 name="movieFrame"
                 scrolling="no"
                 frameBorder={0}
@@ -87,18 +84,18 @@ export default function Movie() {
               <div className="movie-specifications">
                 <ul className="trailer">
                   <li>Trailer: </li>
-                  <a href={movieItem.trailerSrc} className="trailer-link">
+                  <a href={movie.trailerSrc} className="trailer-link">
                     Youtube trailer
                   </a>
                 </ul>
                 <ul className="length">
-                  <li>Duration: {movieItem.duration}</li>
-                  <li>Year: {movieItem.releaseYear}</li>
+                  <li>Duration: {movie.duration}</li>
+                  <li>Year: {movie.releaseYear}</li>
                   <li>
                     Imdb Rating:{" "}
-                    {movieItem.ratingImdb === 0
+                    {movie.ratingImdb === 0
                       ? "N/A"
-                      : movieItem?.ratingImdb}
+                      : movie.ratingImdb}
                   </li>
                 </ul>
                 {user?.userName ? (
@@ -117,7 +114,7 @@ export default function Movie() {
             </div>
           </div>
           <div className="movie-fabula">
-            <p id="fabula">{movieItem.description}</p>
+            <p id="fabula">{movie.description}</p>
           </div>
           <div className="last movies">
             <div className="posted-lastest">
@@ -125,36 +122,14 @@ export default function Movie() {
             </div>
             <ul className="last-movies-list">
               {latestMovies.slice(14, 19).map((latestMovie: any) => (
-                <li
-                  key={latestMovie.id}
-                  onClick={function () {
-                    navigate(
-                      `/movies/${latestMovie.title
-                        .split("")
-                        .map((char: any) => (char === " " ? "-" : char))
-                        .join("")}`
-                    );
-                    window.scrollTo(0, 0);
-                  }}
-                >
-                  <img src={latestMovie.photoSrc} />
-                </li>
+                <MovieItemLatest 
+                  latestMovie={latestMovie}
+                />
               ))}
             </ul>
           </div>
         </div>
         <div className="right-section">
-          {/* <ul>
-            <li>
-              <img src="https://i.imgur.com/5wdcyDG.gif" alt="ddf" />
-            </li>
-            <li>
-              <img src="https://www.filma24.so/genti300x300.gif" alt="ggg" />
-            </li>
-            <li>
-              <img src="https://i.imgur.com/Wl3zKCb.jpg" alt="eee" />
-            </li>
-          </ul> */}
         </div>
       </section>
       <Footer />

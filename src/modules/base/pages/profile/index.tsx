@@ -37,9 +37,7 @@ export default function Profile() {
         <div className="container-tabs">
           <ul className="list-tabs">
             <li
-              className={
-                params.tab === "favoriteMovies" ? "clicked" : "videos-tab"
-              }
+              className={params.tab === "favoriteMovies" ? "clicked" : "videos-tab"}
               onClick={() => {
                 navigate("/profile/favoriteMovies");
               }}

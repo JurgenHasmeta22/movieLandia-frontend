@@ -1,4 +1,3 @@
-import Carousel from "@palustris/react-images";
 import { useEffect, useState } from "react";
 import ReactLoading from "react-loading";
 import ReactPaginate from "react-paginate";
@@ -11,6 +10,7 @@ import { useStore } from "../../../../main/store/zustand/store";
 import IMovie from "../../../../main/store/zustand/types/IMovie";
 import IMoviesCount from "../../../../main/store/zustand/types/IMoviesCount";
 import IMoviesSearchResponse from "../../../../main/store/zustand/types/IMovieSearchResponse";
+import HomeCarousel from "./homeCarousel";
 import "./style.css";
 
 export default function Home() {
@@ -26,20 +26,6 @@ export default function Home() {
     latestMovies,
     setLatestMovies
   } = useStore();
-
-  const images = [
-    { source: "http://localhost:4000/images/rsz_fistful_of_vengeance.png" },
-    { source: "http://localhost:4000/images/rsz_texas.png" },
-    { source: "http://localhost:4000/images/rsz_movieposter_en.png" },
-    {
-      source:
-        "http://localhost:4000/images/rsz_wyihsxwyqn8ejsdut2p1p0o97n0.png",
-    },
-    {
-      source:
-        "http://localhost:4000/images/rsz_elevjj3yg279mmpwuygyrhbjbbq.png",
-    },
-  ];
 
   let pageCount;
   if (params.query) {
@@ -148,13 +134,7 @@ export default function Home() {
     <>
       <div className="home-wrapper-menus">
         <Header />
-        {
-          (!params.query) && movies ? (
-            <div className="home-ribbon-1">
-              <Carousel views={images} />
-            </div>
-          ) : null
-        }
+        {!params.query && movies && (<HomeCarousel />)}
         <div className="home-ribbon-2">
           {params.query ? (
             <span className="movie-count-span">
@@ -165,7 +145,7 @@ export default function Home() {
               Total movies: {moviesCount?.count}{" "}
             </span>
           )}
-          {!params.query ? (
+          {!params.query && (
             <>
               <h3>Sort By: </h3>
               <ul className="list-sort">
@@ -174,7 +154,7 @@ export default function Home() {
                 <Link to="/movies/sortBy/title">Title (Desc)</Link>
               </ul>
             </>
-          ) : null}
+          )}
           {movies.length !== 0 ? (
             <div className="image-ribbon-2-wrapper">
               {movies.map((movie: any) => (
@@ -233,7 +213,7 @@ export default function Home() {
             activeClassName={"paginationActive"}
           />
         </div>
-        {(!params.query) && movies.length !== 0 ? (
+        {!params.query && movies.length !== 0 && (
           <div className="home-ribbon-3">
             <ul className="list-latest">
               <li className="special-last">LATEST MOVIES</li>
@@ -271,15 +251,13 @@ export default function Home() {
                     ))}
                   </div>
                   <span className="imdb-span">
-                    {latestMovie.ratingImdb !== 0
-                      ? "Imdb: " + latestMovie.ratingImdb
-                      : null}
+                    {latestMovie.ratingImdb !== 0 && `Imdb: ${latestMovie.ratingImdb}`}
                   </span>
                 </div>
               ))}
             </div>
           </div>
-        ) : null}
+        )}
         <Footer />
       </div>
     </>
