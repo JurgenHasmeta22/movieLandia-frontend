@@ -3,13 +3,16 @@ import ReactLoading from "react-loading";
 import ReactPaginate from "react-paginate";
 import { useNavigate, useParams } from "react-router";
 import { Link } from "react-router-dom";
+import Card from "../../../../main/components/card";
 import Footer from "../../../../main/components/footer";
 import Header from "../../../../main/components/header";
+import Label from "../../../../main/components/label";
 import moviesController from "../../../../main/controllers/moviesController";
 import { useStore } from "../../../../main/store/zustand/store";
 import IMovie from "../../../../main/store/zustand/types/IMovie";
 import IMoviesCount from "../../../../main/store/zustand/types/IMoviesCount";
 import IMoviesSearchResponse from "../../../../main/store/zustand/types/IMovieSearchResponse";
+import IMoviesResponse from "../../../../main/store/zustand/types/IMoviesResponse";
 import HomeCarousel from "./homeCarousel";
 import "./style.css";
 
@@ -77,11 +80,11 @@ export default function Home() {
         setMovies(responseSearch.movies);
         setMoviesCountSearch(responseSearch.count);
     } else if (!params.page && !params.query && params.sort) {
-      const movies: IMovie[] = await moviesController.getMoviesSortingNoPagination(params.sort);
-      setMovies(movies);
+      const responseMovies: IMoviesResponse = await moviesController.getMoviesSortingNoPagination(params.sort);
+      setMovies(responseMovies.rows);
     } else if (params.page && !params.query && params.sort) {
-      const movies: IMovie[] = await moviesController.getMoviesSortingWithPagination(params.sort, params.page);
-      setMovies(movies);
+      const responseMovies: IMoviesResponse = await moviesController.getMoviesSortingWithPagination(params.sort, params.page);
+      setMovies(responseMovies.rows);
     }
   }
 
@@ -137,13 +140,13 @@ export default function Home() {
         {!params.query && movies && (<HomeCarousel />)}
         <div className="home-ribbon-2">
           {params.query ? (
-            <span className="movie-count-span">
+            <Label classname="movie-count-span">
               Total movies: {moviesCountSearch}{" "}
-            </span>
+            </Label>
           ) : (
-            <span className="movie-count-span">
+            <Label classname="movie-count-span">
               Total movies: {moviesCount?.count}{" "}
-            </span>
+            </Label>
           )}
           {!params.query && (
             <>
@@ -158,8 +161,8 @@ export default function Home() {
           {movies.length !== 0 ? (
             <div className="image-ribbon-2-wrapper">
               {movies.map((movie: any) => (
-                <div
-                  className="movie-item"
+                <Card
+                  classname="movie-item"
                   key={movie.id}
                   onClick={function (e) {
                     e.stopPropagation();
@@ -173,10 +176,10 @@ export default function Home() {
                   }}
                 >
                   <img src={movie.photoSrc} />
-                  <span className="movie-title">{movie.title}</span>
+                  <Label classname="movie-title">{movie.title}</Label>
                   <div className="genres-holder-span">
                     {movie.genres.map((genre: any) => (
-                      <span
+                      <Label
                         key={genre.genre.name}
                         onClick={function (e) {
                           e.stopPropagation();
@@ -185,20 +188,20 @@ export default function Home() {
                         }}
                       >
                         {genre.genre.name}
-                      </span>
+                      </Label>
                     ))}
                   </div>
-                  <span className="imdb-span">
+                  <Label classname="imdb-span">
                     {movie.ratingImdb !== 0
-                      ? "Imdb: " + movie.ratingImdb
-                      : "Imdb: " + "N/A"}
-                  </span>
-                </div>
+                      ? `Imdb: ${movie.ratingImdb}`
+                      : "Imdb: N/A"}
+                  </Label>
+                </Card>
               ))}
             </div>
           ) : (
             <div className="no-search">
-              <span>No Search Result, no movie found with that criteria.</span>
+              <Label>No Search Result, no movie found with that criteria.</Label>
             </div>
           )}
           <ReactPaginate
@@ -220,8 +223,8 @@ export default function Home() {
             </ul>
             <div className="image-ribbon-3-wrapper">
               {latestMovies?.map((latestMovie: any) => (
-                <div
-                  className="movie-item-latest"
+                <Card
+                  classname="movie-item-latest"
                   key={latestMovie.id}
                   onClick={function (e) {
                     e.stopPropagation();
@@ -235,10 +238,10 @@ export default function Home() {
                   }}
                 >
                   <img src={latestMovie.photoSrc} />
-                  <span className="movie-title">{latestMovie.title}</span>
+                  <Label classname="movie-title">{latestMovie.title}</Label>
                   <div className="genres-holder-span">
                     {latestMovie.genres.map((genre: any) => (
-                      <span
+                      <Label
                         key={genre.genre.name}
                         onClick={function (e) {
                           e.stopPropagation();
@@ -247,13 +250,13 @@ export default function Home() {
                         }}
                       >
                         {genre.genre.name}
-                      </span>
+                      </Label>
                     ))}
                   </div>
-                  <span className="imdb-span">
+                  <Label classname="imdb-span">
                     {latestMovie.ratingImdb !== 0 && `Imdb: ${latestMovie.ratingImdb}`}
-                  </span>
-                </div>
+                  </Label>
+                </Card>
               ))}
             </div>
           </div>

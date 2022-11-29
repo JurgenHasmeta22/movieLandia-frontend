@@ -2,6 +2,7 @@ import ReactLoading from "react-loading";
 import { useNavigate, useParams } from "react-router-dom";
 import Footer from "../../../../main/components/footer";
 import Header from "../../../../main/components/header";
+import Label from "../../../../main/components/label";
 import { useStore } from "../../../../main/store/zustand/store";
 import "./style.css";
 
@@ -31,7 +32,7 @@ export default function Profile() {
         <div className="container-profile-nav">
           <div className="profile-info">
             <img src="/assets/avatars/blankavatar.jpg" />
-            <span className="userName-span">{user.userName}</span>
+            <Label classname="userName-span">{user.userName}</Label>
           </div>
         </div>
         <div className="container-tabs">
@@ -73,8 +74,8 @@ export default function Profile() {
                       }}
                     >
                       <img src={movie.photoSrc} />
-                      <span>Movie title: {movie.title}</span>
-                      <span>Release year: {movie.releaseYear}</span>
+                      <Label>Movie title: {movie.title}</Label>
+                      <Label>Release year: {movie.releaseYear}</Label>
                     </li>
                   ))}
                 </ul>
@@ -82,7 +83,7 @@ export default function Profile() {
             </>
           ) : params.tab === "aboutUs" ? (
             <div className="container-about">
-              <span>This is my account</span>
+              <Label>This is my account</Label>
             </div>
           ) : null}
         </div>

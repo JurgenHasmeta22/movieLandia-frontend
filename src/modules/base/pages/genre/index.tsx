@@ -1,10 +1,11 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import ReactLoading from "react-loading";
 import ReactPaginate from "react-paginate";
 import { useNavigate, useParams } from "react-router";
+import Card from "../../../../main/components/card";
 import Footer from "../../../../main/components/footer";
 import Header from "../../../../main/components/header";
+import Label from "../../../../main/components/label";
 import moviesController from "../../../../main/controllers/moviesController";
 import { useStore } from "../../../../main/store/zustand/store";
 import IGenreResponse from "../../../../main/store/zustand/types/IGenreResponse";
@@ -65,13 +66,13 @@ export default function Genre() {
       <div className="genre-wrapper-menus">
         <Header />
         <div className="genre-ribbon-1">
-          <span className="movie-count-span">
+          <Label classname="movie-count-span">
             Total movies in this genre: {moviesCountGenre}{" "}
-          </span>
+          </Label>
           <div className="image-ribbon-1-genre-wrapper">
             {movies?.map((movie: any) => (
-              <div
-                className="movie-item-genre"
+              <Card
+                classname="movie-item-genre"
                 key={movie.id}
                 onClick={function (e) {
                   e.stopPropagation();
@@ -85,10 +86,10 @@ export default function Genre() {
                 }}
               >
                 <img src={movie?.photoSrc} />
-                <span className="movie-title">{movie?.title}</span>
+                <Label classname="movie-title">{movie?.title}</Label>
                 <div className="genres-holder-span">
                   {movie?.genres.map((genre: any) => (
-                    <span
+                    <Label
                       key={genre.genre.name}
                       onClick={function (e) {
                         e.stopPropagation();
@@ -97,15 +98,15 @@ export default function Genre() {
                       }}
                     >
                       {genre.genre.name}
-                    </span>
+                    </Label>
                   ))}
                 </div>
-                <span className="imdb-span">
+                <Label classname="imdb-span">
                   {movie?.ratingImdb !== 0
                     ? "Imdb: " + movie?.ratingImdb
                     : "Imdb: " + "N/A"}
-                </span>
-              </div>
+                </Label>
+              </Card>
             ))}
           </div>
           <ReactPaginate
