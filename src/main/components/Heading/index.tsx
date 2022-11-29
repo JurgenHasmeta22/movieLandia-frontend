@@ -2,7 +2,6 @@ import "./style.css";
 
 interface IHeadingProps {
   classname?: string,
-  key?: number,
   onClick?: (e: any) => void;
   children?: any;
   type?: string;
@@ -11,7 +10,6 @@ interface IHeadingProps {
 export default function Heading(props: IHeadingProps) {
   const {
     classname,
-    key,
     onClick,
     type,
     children
@@ -20,7 +18,6 @@ export default function Heading(props: IHeadingProps) {
   return (
     <h2
       className={classname}
-      key={key}
       onClick={onClick}
     >
       {children}

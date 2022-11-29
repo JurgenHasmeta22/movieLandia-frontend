@@ -1,8 +1,10 @@
 import { useEffect, useReducer, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import Button from "../../../../main/components/button";
 import Container from "../../../../main/components/container";
 import Footer from "../../../../main/components/footer";
 import Header from "../../../../main/components/header";
+import Input from "../../../../main/components/input";
 import Picture from "../../../../main/components/picture";
 import authenticationController from "../../../../main/controllers/authenticationController";
 import { useStore } from "../../../../main/store/zustand/store";
@@ -105,7 +107,7 @@ export default function Login() {
           >
             <h1>MovieLandia22</h1>
             <label>
-              <input
+              <Input
                 type="text"
                 name="email"
                 placeholder="Enter your email"
@@ -119,7 +121,7 @@ export default function Login() {
               />
             </label>
             <label>
-              <input
+              <Input
                 type="password"
                 name="password"
                 placeholder="Enter your password"
@@ -133,7 +135,7 @@ export default function Login() {
               />
             </label>
             <label>
-              <button>Log In</button>
+              <Button>Log In</Button>
             </label>
             <label id="signup-link-wrapper" htmlFor="">
               Don't have an account?

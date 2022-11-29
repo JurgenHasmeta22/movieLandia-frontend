@@ -3,7 +3,7 @@ import "./style.css";
 
 interface ICardProps {
   classname?: string,
-  key?: number,
+  myKey?: number,
   onClick?: (e: any) => void;
   children?: any;
 }
@@ -11,7 +11,7 @@ interface ICardProps {
 export default function Card(props: ICardProps) {
   const {
     classname,
-    key,
+    myKey,
     onClick,
     children
   } = props;
@@ -19,7 +19,7 @@ export default function Card(props: ICardProps) {
   return (
     <Container
       classname={classname}
-      key={key}
+      myKey={myKey}
       onClick={onClick}
     >
       {children}
