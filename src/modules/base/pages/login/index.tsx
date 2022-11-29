@@ -1,30 +1,23 @@
-import axios from "axios";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Footer from "../../../../main/components/footer";
 import Header from "../../../../main/components/header";
+import authenticationController from "../../../../main/controllers/authenticationController";
 import { useStore } from "../../../../main/store/zustand/store";
-import ILogin from "../../../../main/store/zustand/types/ILogin";
 import IResponseLogin from "../../../../main/store/zustand/types/IResponseLogin";
 import "./style.css";
 
 export default function Login() {
+  const navigate = useNavigate();
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
   const {
     user,
     setUser
   } = useStore();
 
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const navigate = useNavigate();
-
   async function onSubmit() {
-    const payload: ILogin = {
-      email,
-      password
-    };
-
-    const response: IResponseLogin = await axios.post("http://localhost:4000/login", payload).then(x => x.data);
+    const response: IResponseLogin = await authenticationController.onLogin(email, password);
     localStorage.setItem("token", response.token);
     setUser(response.user);
   }

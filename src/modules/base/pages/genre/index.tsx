@@ -1,10 +1,13 @@
+import axios from "axios";
 import { useEffect, useState } from "react";
 import ReactLoading from "react-loading";
 import ReactPaginate from "react-paginate";
 import { useNavigate, useParams } from "react-router";
 import Footer from "../../../../main/components/footer";
 import Header from "../../../../main/components/header";
+import moviesController from "../../../../main/controllers/moviesController";
 import { useStore } from "../../../../main/store/zustand/store";
+import IGenreResponse from "../../../../main/store/zustand/types/IGenreResponse";
 import "./style.css";
 
 export default function Genre() {
@@ -24,32 +27,24 @@ export default function Genre() {
   }
   const changePage = ({ selected }: any) => {
     handleChangingPageNumber(selected);
-    navigate(`../genres/${params.name}/page/${selected + 1}`);
+    navigate(`/genres/${params.name}/page/${selected + 1}`);
   };
 
-  function getMoviesOnGenre(pageNr = 0): void {
-    if (params.page === undefined || params.page === null) {
-      fetch(`http://localhost:4000/genres/${params.name}?page=1`)
-        .then((resp) => resp.json())
-        .then((movies) => {
-          setMovies(movies.movies);
-          setMoviesCountGenres(movies.count);
-        });
+  async function getMoviesOnGenre(): Promise<void> {
+    if (!params.page && params.name) {
+      const response: IGenreResponse = await moviesController.getGenreMoviesNoPagination(params.name);
+      setMovies(response.movies);
+      setMoviesCountGenres(response.count);
     } else {
-      fetch(`http://localhost:4000/genres/${params.name}?page=${params.page}`)
-        .then((resp) => resp.json())
-        .then((movies) => {
-          setMovies(movies.movies);
-          setMoviesCountGenres(movies.count);
-        });
+      const response: IGenreResponse = await moviesController.getGenreMoviesWithPagination(params.name, params.page);
+      setMovies(response.movies);
+      setMoviesCountGenres(response.count);
     }
   }
   
-  if (params.page === undefined || params.page === null) {
-    useEffect(getMoviesOnGenre, [params.name, params.page]);
-  } else {
-    useEffect(getMoviesOnGenre, [params.name, params.page]);
-  }
+  useEffect(() => {
+    getMoviesOnGenre()
+  }, [params.name, params.page]);
 
   if (!movies) {
     return (
