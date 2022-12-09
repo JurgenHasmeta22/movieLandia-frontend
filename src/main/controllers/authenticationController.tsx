@@ -31,7 +31,7 @@ const authenticationController = {
           Authorization: localStorage.token,
         }
       }
-      const response: IUser = await axios.get("http://localhost:4000/validate", config).then(x=>x.data);
+      const response: IUser = await axios.get("http://localhost:4000/validate", config).then(x => x.data);
       return response;
     }
   }

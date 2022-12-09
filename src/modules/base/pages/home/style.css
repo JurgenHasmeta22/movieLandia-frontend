@@ -51,20 +51,20 @@
 
 .list-sort span:hover {
   color: #ee0000;
-  transition: 1s;
+  -o-transition: 1s;
   -webkit-transition: 1s;
   -moz-transition: 1s;
   -ms-transition: 1s;
-  -o-transition: 1s;
+  transition: 1s;
 }
 
 .list-latest li:hover {
   color: #ee0000;
-  transition: 1s;
+  -o-transition: 1s;
   -webkit-transition: 1s;
   -moz-transition: 1s;
   -ms-transition: 1s;
-  -o-transition: 1s;
+  transition: 1s;
 }
 
 .home-ribbon-3 {
@@ -78,25 +78,23 @@
   width: 80%;
   height: 60px;
   list-style: none;
-
   display: flex;
   justify-content: center;
   justify-items: center;
-
   padding-left: 250px;
 }
 
 .paginationBttns a {
   padding: 15px;
   margin: 8px;
-  border-radius: 5px;
+  -o-border-radius: 5px;
   border: 1px solid #9597fc;
   color: #bfd5db;
   cursor: pointer;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   -ms-border-radius: 5px;
-  -o-border-radius: 5px;
+  border-radius: 5px;
 }
 
 .paginationBttns a:hover {
@@ -120,8 +118,6 @@
   grid-template-rows: 50px 0.1fr 0.1fr auto;
   grid-gap: 20px;
   height: auto;
-  /* place-items: center;
-    place-content: center; */
 }
 
 .home-ribbon-2 h3 {
@@ -153,8 +149,6 @@ ul.list-latest {
   align-items: center;
   justify-items: center;
   justify-content: center;
-  /* padding-bottom: 20px;
-    border-bottom: 3px solid #5ad2f3; */
 }
 
 .list-sort span {
@@ -172,19 +166,10 @@ ul.list-latest {
   place-items: center;
 }
 
-/* .movie-item-latest .imdb-span {
-    font-size: 14px;
-    font-weight: 800;
-    color: #f03636;
-    display: grid;
-    place-items: center;
-} */
-
 .movie-title {
   display: grid;
   place-items: center;
   width: 100%;
-  /* width: 90%; */
 }
 
 .movie-item-latest .imdb-span {
