@@ -1,3 +1,4 @@
+import * as React from 'react'
 import {
   Routes,
   Route,
@@ -6,18 +7,19 @@ import {
 import "./App.css";
 import { useEffect } from "react";
 import { useStore } from "~/main/store/zustand/store";
-import Error404 from "~/modules/base/pages/error";
-import Genre from "~/modules/base/pages/genre";
-import GenreCategories from "~/modules/base/pages/genre/genreCategories";
-import Home from "~/modules/base/pages/home";
-import Login from "~/modules/base/pages/login";
-import Movie from "~/modules/base/pages/movie";
-import Profile from "~/modules/base/pages/profile";
-import Register from "~/modules/base/pages/register";
+const Error404 = React.lazy(() => import("~/modules/base/pages/error"))
+const Genre = React.lazy(() => import("~/modules/base/pages/genre"))
+const GenreCategories = React.lazy(() => import("~/modules/base/pages/genre/genreCategories"))
+const Home = React.lazy(() => import("~/modules/base/pages/home"))
+const Login = React.lazy(() => import("~/modules/base/pages/login"))
+const Movie = React.lazy(() => import("~/modules/base/pages/movie"));
+const Profile = React.lazy(() => import("~/modules/base/pages/profile"));
+const Register = React.lazy(() => import("~/modules/base/pages/register"));
 import IUser from "~/main/store/zustand/types/IUser";
 import authenticationController from "~/main/controllers/authenticationController";
 import AboutUsTab from "~/modules/base/pages/profile/aboutUs";
 import FavoriteMoviesTab from "~/modules/base/pages/profile/favoriteMovies";
+import PrivateRoutes from "~/main/utils/PrivateRoutes";
 
 function App() {
   // const userContext = createContext(null);
@@ -35,19 +37,20 @@ function App() {
   return (
     <Routes>
       <Route index element={<Navigate replace to="/movies" />} />
-      <Route path="*" element={<Error404 />} />
-      <Route path="movies" element={<Home />} />
-      <Route path="movies/:title" element={<Movie />} />
-      <Route path="profile" element={<Profile />}>
-        <Route path="favoriteMovies" element={<FavoriteMoviesTab />} />
-        <Route path="aboutUs" element={<AboutUsTab />} />
-        <Route path="*" element={<Error404 />} />
+      <Route path="*" element={<React.Suspense fallback={<>...</>}><Error404 /></React.Suspense>} />
+      <Route element={<PrivateRoutes />}>
+        <Route path="profile" element={<React.Suspense fallback={<>...</>}><Profile /></React.Suspense>}>
+          <Route path="favoriteMovies" element={<React.Suspense fallback={<>...</>}><FavoriteMoviesTab /></React.Suspense>} />
+          <Route path="aboutUs" element={<React.Suspense fallback={<>...</>}><AboutUsTab /></React.Suspense>} />
+          <Route path="*" element={<React.Suspense fallback={<>...</>}><Error404 /></React.Suspense>} />
+        </Route>
       </Route>
-      <Route path="login" element={<Login />} />
-      <Route path="register" element={<Register />} />
-      <Route path="genres" element={<GenreCategories />} />
-      <Route path="genres/:name" element={<Genre />} />
-      <Route path="genres/:name/page/:page" element={<Genre />} />
+      <Route path="movies" element={<React.Suspense fallback={<>...</>}><Home /></React.Suspense>} />
+      <Route path="movies/:title" element={<React.Suspense fallback={<>...</>}><Movie /></React.Suspense>} />
+      <Route path="genres" element={<React.Suspense fallback={<>...</>}><GenreCategories /></React.Suspense>} />
+      <Route path="genres/:name" element={<React.Suspense fallback={<>...</>}><Genre /></React.Suspense>} />
+      <Route path="login" element={<React.Suspense fallback={<>...</>}><Login /></React.Suspense>} />
+      <Route path="register" element={<React.Suspense fallback={<>...</>}><Register /></React.Suspense>} />
     </Routes>
   );
 }
