@@ -15,10 +15,10 @@ const Login = React.lazy(() => import("~/modules/base/pages/login"))
 const Movie = React.lazy(() => import("~/modules/base/pages/movie"));
 const Profile = React.lazy(() => import("~/modules/base/pages/profile"));
 const Register = React.lazy(() => import("~/modules/base/pages/register"));
+const AboutUsTab = React.lazy(() => import("~/modules/base/pages/profile/aboutUs"));
+const FavoriteMoviesTab = React.lazy(() => import("~/modules/base/pages/profile/favoriteMovies"));
 import IUser from "~/main/store/zustand/types/IUser";
 import authenticationController from "~/main/controllers/authenticationController";
-import AboutUsTab from "~/modules/base/pages/profile/aboutUs";
-import FavoriteMoviesTab from "~/modules/base/pages/profile/favoriteMovies";
 import PrivateRoutes from "~/main/utils/PrivateRoutes";
 
 function App() {
