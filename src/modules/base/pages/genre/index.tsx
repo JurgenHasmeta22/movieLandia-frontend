@@ -9,7 +9,7 @@ import Label from "~/main/components/label/index";
 import Picture from "~/main/components/picture/index";
 import moviesController from "~/main/controllers/moviesController";
 import { useStore } from "~/main/store/zustand/store";
-import IGenreResponse from "~/main/store/zustand/types/IGenreResponse";
+import IGenreResponse from "~/main/interfaces/IGenreResponse";
 import "~/modules/base/pages/genre/style.css";
 import Footer from "~/main/components/footer";
 

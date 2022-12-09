@@ -13,10 +13,10 @@ import ListItem from "~/main/components/list/listItem/index";
 import Picture from "~/main/components/picture/index";
 import moviesController from "~/main/controllers/moviesController";
 import { useStore } from "~/main/store/zustand/store";
-import IMovie from "~/main/store/zustand/types/IMovie";
-import IMoviesCount from "~/main/store/zustand/types/IMoviesCount";
-import IMoviesSearchResponse from "~/main/store/zustand/types/IMovieSearchResponse";
-import IMoviesResponse from "~/main/store/zustand/types/IMoviesResponse";
+import IMovie from "~/main/interfaces/IMovie";
+import IMoviesCount from "~/main/interfaces/IMoviesCount";
+import IMoviesSearchResponse from "~/main/interfaces/IMovieSearchResponse";
+import IMoviesResponse from "~/main/interfaces/IMoviesResponse";
 import HomeCarousel from "~/modules/base/pages/home/homeCarousel/index";
 import "~/modules/base/pages/home/style.css";
 

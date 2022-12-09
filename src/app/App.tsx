@@ -17,7 +17,7 @@ const Profile = React.lazy(() => import("~/modules/base/pages/profile"));
 const Register = React.lazy(() => import("~/modules/base/pages/register"));
 const AboutUsTab = React.lazy(() => import("~/modules/base/pages/profile/aboutUs"));
 const FavoriteMoviesTab = React.lazy(() => import("~/modules/base/pages/profile/favoriteMovies"));
-import IUser from "~/main/store/zustand/types/IUser";
+import IUser from "~/main/interfaces/IUser";
 import authenticationController from "~/main/controllers/authenticationController";
 import PrivateRoutes from "~/main/utils/PrivateRoutes";
 

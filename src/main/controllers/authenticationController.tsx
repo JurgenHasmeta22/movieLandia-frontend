@@ -1,8 +1,8 @@
 import axios from 'axios';
-import ILogin from '~/main/store/zustand/types/ILogin';
-import IRegister from '~/main/store/zustand/types/IRegister';
-import IResponseLogin from '~/main/store/zustand/types/IResponseLogin';
-import IUser from '~/main/store/zustand/types/IUser';
+import ILogin from '~/main/interfaces/ILogin';
+import IRegister from '~/main/interfaces/IRegister';
+import IResponseLogin from '~/main/interfaces/IResponseLogin';
+import IUser from '~/main/interfaces/IUser';
 
 const authenticationController = {
   onLogin: async(email: string, password: string): Promise<any> => {

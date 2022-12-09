@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Card from "~/main/components/card/index";
 import Container from "~/main/components/container/index";
 import Footer from "~/main/components/footer/index";
@@ -8,7 +8,7 @@ import Heading from "~/main/components/heading/index";
 import Label from "~/main/components/label/index";
 import moviesController from "~/main/controllers/moviesController";
 import { useStore } from "~/main/store/zustand/store";
-import IGenre from "~/main/store/zustand/types/IGenre";
+import IGenre from "~/main/interfaces/IGenre";
 import "~/modules/base/pages/genre/genreCategories/style.css";
 
 export default function GenreCategories() {
