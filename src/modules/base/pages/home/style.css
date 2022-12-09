@@ -49,7 +49,7 @@
   color: #7dd2f3;
 }
 
-.list-sort a:hover {
+.list-sort span:hover {
   color: #ee0000;
   transition: 1s;
   -webkit-transition: 1s;
@@ -157,7 +157,7 @@ ul.list-latest {
     border-bottom: 3px solid #5ad2f3; */
 }
 
-.list-sort a {
+.list-sort span {
   font-size: 16px;
   color: #6466f2;
   font-weight: 700;

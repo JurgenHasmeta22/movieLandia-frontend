@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import ReactLoading from "react-loading";
 import ReactPaginate from "react-paginate";
-import { useNavigate, useParams } from "react-router";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import Card from "~/main/components/card/index";
 import Container from "~/main/components/container/index";
 import Header from "~/main/components/header/index";
@@ -16,29 +16,30 @@ import Footer from "~/main/components/footer";
 export default function Genre() {
   const params = useParams();
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [pageNumber, setPageNumber] = useState<number>(0);
   const [itemsPerPage, setItemsPerPage] = useState<number>(20);
   const [moviesCountGenre, setMoviesCountGenres] = useState<number>(0);
   const { movies, setMovies } = useStore();
 
   const pageCount: number = Math.ceil(moviesCountGenre / itemsPerPage);
-
   function handleChangingPageNumber(selected: any): void {
     setPageNumber(selected);
   }
 
   const changePage = ({ selected }: any): void => {
     handleChangingPageNumber(selected);
-    navigate(`/genres/${params.name}/page/${selected + 1}`);
+    searchParams.set("page", selected + 1);
+    setSearchParams(searchParams);
   };
 
   async function getMoviesOnGenre(): Promise<void> {
-    if (!params.page && params.name) {
+    if (!searchParams.get("page") && params.name) {
       const response: IGenreResponse = await moviesController.getGenreMoviesNoPagination(params.name);
       setMovies(response.movies);
       setMoviesCountGenres(response.count);
     } else {
-      const response: IGenreResponse = await moviesController.getGenreMoviesWithPagination(params.name, params.page);
+      const response: IGenreResponse = await moviesController.getGenreMoviesWithPagination(params.name, searchParams.get("page"));
       setMovies(response.movies);
       setMoviesCountGenres(response.count);
     }
@@ -46,7 +47,7 @@ export default function Genre() {
   
   useEffect(() => {
     getMoviesOnGenre()
-  }, [params.name, params.page]);
+  }, [params.name, searchParams.get("page")]);
 
   if (!movies) {
     return (
