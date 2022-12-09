@@ -4,7 +4,7 @@ import {
   Navigate,
 } from "react-router-dom";
 import "./App.css";
-import { createContext, useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useStore } from "~/main/store/zustand/store";
 import Error404 from "~/modules/base/pages/error";
 import Genre from "~/modules/base/pages/genre";
@@ -21,90 +21,33 @@ import FavoriteMoviesTab from "~/modules/base/pages/profile/favoriteMovies";
 
 function App() {
   // const userContext = createContext(null);
-  const { setUser } = useStore();
   // const [userNew, setUserNew] = useState(user);
+  const { setUser } = useStore();
 
   useEffect(() => {
     const validateUser = async () => {
       const response: IUser | undefined = await authenticationController.validateUser();
-      if (response) setUser;
+      if (response) setUser(response);
     }
     validateUser();
-  }, [])
+  }, []);
 
   return (
     <Routes>
-      <Route 
-        index element={<Navigate replace to="/movies" />} 
-      />
-      <Route
-        path="*"
-        element={<Error404 />}
-      />
-      <Route
-        path="/movies"
-        element={<Home />}
-      />
-      <Route
-        path="/movies/page/:page"
-        element={<Home />}
-      />
-      <Route
-        path="/movies/:title"
-        element={<Movie />}
-      />
-      <Route
-        path="/movies/search/:query"
-        element={<Home />}
-      />
-      <Route
-        path="/movies/search/"
-        element={<Home />}
-      />
-      <Route
-        path="/movies/search/:query/page/:page"
-        element={<Home />}
-      />
-      <Route
-        path="/movies/sortBy/:sort"
-        element={<Home />}
-      />
-      <Route
-        path="/movies/sortBy/:sort/page/:page"
-        element={<Home />}
-      />
-      <Route
-        path="/profile"
-        element={<Profile />}
-      />
-      <Route
-        path="/profile/:tab"
-        element={<Profile />}
-      />
-      {/* <Route path="/profile" element={<Profile />}>
-        <Route path="/profile/favoriteMovies" element={<AboutUsTab />} />
-        <Route path="/profile/aboutUs" element={<FavoriteMoviesTab />} />
-      </Route> */}
-      <Route
-        path="/login"
-        element={<Login />}
-      />
-      <Route
-        path="/register"
-        element={<Register />}
-      />
-      <Route
-        path="/genres"
-        element={<GenreCategories />}
-      />
-      <Route
-        path="/genres/:name"
-        element={<Genre />}
-      />
-      <Route
-        path="/genres/:name/page/:page"
-        element={<Genre />}
-      />
+      <Route index element={<Navigate replace to="/movies" />} />
+      <Route path="*" element={<Error404 />} />
+      <Route path="movies" element={<Home />} />
+      <Route path="movies/:title" element={<Movie />} />
+      <Route path="profile" element={<Profile />}>
+        <Route path="favoriteMovies" element={<FavoriteMoviesTab />} />
+        <Route path="aboutUs" element={<AboutUsTab />} />
+        <Route path="*" element={<Error404 />} />
+      </Route>
+      <Route path="login" element={<Login />} />
+      <Route path="register" element={<Register />} />
+      <Route path="genres" element={<GenreCategories />} />
+      <Route path="genres/:name" element={<Genre />} />
+      <Route path="genres/:name/page/:page" element={<Genre />} />
     </Routes>
   );
 }

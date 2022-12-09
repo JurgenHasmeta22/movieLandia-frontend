@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useNavigate } from "react-router";
+import { Outlet, useNavigate } from "react-router-dom";
 import Card from "~/main/components/card/index";
 import Container from "~/main/components/container/index";
 import Footer from "~/main/components/footer/index";
@@ -43,6 +43,7 @@ export default function GenreCategories() {
             <Label>{genre.name}</Label>
           </Card>
         ))}
+        {/* <Outlet /> Doesnt work becase this is used only when its in this page not other component etc */}
       </Container>
       <Footer />
     </Container>
