@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import ReactLoading from "react-loading";
 import ReactPaginate from "react-paginate";
-import { useNavigate, useParams } from "react-router";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router";
+import { useSearchParams } from "react-router-dom";
 import Card from "~/main/components/card/index";
 import Container from "~/main/components/container/index";
 import Footer from "~/main/components/footer/index";
@@ -22,16 +22,18 @@ import "~/modules/base/pages/home/style.css";
 
 export default function Home() {
   const navigate = useNavigate();
-  const params = useParams();
-  const [moviesCount, setMoviesCount] = useState<IMoviesCount>();
-  const [moviesCountSearch, setMoviesCountSearch] = useState<number>();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [moviesCount, setMoviesCount] = useState<IMoviesCount | null>(null);
+  const [moviesCountSearch, setMoviesCountSearch] = useState<number | null>(null);
   const [pageNumber, setPageNumber] = useState<number>(0);
   const [itemsPerPage, setItemsPerPage] = useState<number>(20);
+  const [sortBy, setSortBy] = useState<string>("");
+  const [search, setSearch] = useState<string>("");
   const { movies, setMovies, latestMovies, setLatestMovies } = useStore();
 
   let pageCount;
   
-  if (params.query) {
+  if (searchParams.get("search")) {
     pageCount = Math.ceil(moviesCountSearch! / itemsPerPage);
   } else {
     pageCount = Math.ceil(moviesCount?.count! / itemsPerPage);
@@ -41,21 +43,26 @@ export default function Home() {
     setPageNumber(selected);
   }
 
-  const changePage = ({ selected }: any) => {
-    if (!params.sort && !params.query) {
+  const changePage = ({ selected}: any) => {
+    if (!searchParams.get("sort") && !searchParams.get("search")) {
       handleChangingPageNumber(selected);
-      navigate(`/movies/page/${selected + 1}`);
-    } else if (params.sort && !params.query) {
+      searchParams.set("page", selected + 1);
+      setSearchParams(searchParams);
+    } else if (searchParams.get("sort") && !searchParams.get("search")) {
       handleChangingPageNumber(selected);
-      navigate(`/movies/sortBy/${params.sort}/page/${selected + 1}`);
+      searchParams.set("sortBy", sortBy);
+      searchParams.set("page", selected + 1);
+      setSearchParams(searchParams);
     } else {
       handleChangingPageNumber(selected);
-      navigate(`/movies/search/${params.query}/page/${selected + 1}`);
+      searchParams.set("search", search);
+      searchParams.set("page", selected + 1);
+      setSearchParams(searchParams);
     }
   };
 
   function conditionalRenderingMovieCount(): JSX.Element | undefined {
-    if (params.query) {
+    if (searchParams.get("search")) {
       return (
         <Label classname="movie-count-span">
           Total movies: {moviesCountSearch}
@@ -71,7 +78,7 @@ export default function Home() {
   }
 
   function conditionalRenderingCarousel(): JSX.Element | undefined {
-    if (!params.query) {
+    if (!searchParams.get("search")) {
       return (
         <HomeCarousel />
       )
@@ -79,14 +86,20 @@ export default function Home() {
   }
 
   function conditionalRenderingSorting(): JSX.Element | undefined {
-    if (!params.query) {
+    if (!searchParams.get("search")) {
       return (
         <>
           <h3>Sort By: </h3>
           <List classname="list-sort">
-            <Link to="/movies/sortBy/views">Most viewed (Desc)</Link>
-            <Link to="/movies/sortBy/ratingImdb">Imdb rating (Desc)</Link>
-            <Link to="/movies/sortBy/title">Title (Desc)</Link>
+            <Label onClick={()=>{
+              setSearchParams({sortBy: 'views'})
+            }}>Most viewed (Desc)</Label>
+            <Label onClick={()=>{
+              setSearchParams({sortBy: 'imdbRating'})
+            }}>Imdb rating (Desc)</Label>
+            <Label onClick={()=>{
+              setSearchParams({sortBy: 'title'})
+            }}>Title (Desc)</Label>
           </List>
         </>
       )
@@ -146,7 +159,7 @@ export default function Home() {
   }
 
   function conditionalRenderingLatestMovies(): JSX.Element | undefined {
-    if (!params.query) {
+    if (!searchParams.get("search")) {
       return (
         <Container classname="home-ribbon-3">
           <List classname="list-latest">
@@ -207,53 +220,53 @@ export default function Home() {
   }
 
   async function getMovies(): Promise<void> {
-    if (!params.page && !params.query && !params.sort) {
+    if (!searchParams.get("page") && !searchParams.get("search") && !searchParams.get("sortBy")) {
       const movies: IMovie[] = await moviesController.getMoviesDefault();
       setMovies(movies);
-    } else if (params.page && !params.query && !params.sort) {
-      const movies: IMovie[] = await moviesController.getMoviesPagination(params.page);
-      setMovies(movies);
-    } else if (!params.page && params.query && !params.sort) {
-        const responseSearch: IMoviesSearchResponse = await moviesController.getMoviesSearchNoPagination(params.query);
+    } else if (searchParams.get("page") && !searchParams.get("search") && !searchParams.get("sortBy")) {
+        const movies: IMovie[] = await moviesController.getMoviesPagination(searchParams.get("page"));
+        setMovies(movies);
+    } else if (!searchParams.get("page") && searchParams.get("search") && !searchParams.get("sortBy")) {
+        const responseSearch: IMoviesSearchResponse = await moviesController.getMoviesSearchNoPagination(searchParams.get("search"));
         setMovies(responseSearch.movies);
         setMoviesCountSearch(responseSearch.count);
-    } else if (params.page && params.query && !params.sort) {
-        const responseSearch: IMoviesSearchResponse = await moviesController.getMoviesSearchWithPagination(params.query, params.page);
+    } else if (searchParams.get("page") && searchParams.get("search") && !searchParams.get("sortBy")) {
+        const responseSearch: IMoviesSearchResponse = await moviesController.getMoviesSearchWithPagination(searchParams.get("search"), searchParams.get("page"));
         setMovies(responseSearch.movies);
         setMoviesCountSearch(responseSearch.count);
-    } else if (!params.page && !params.query && params.sort) {
-      const responseMovies: IMoviesResponse = await moviesController.getMoviesSortingNoPagination(params.sort);
-      setMovies(responseMovies.rows);
-    } else if (params.page && !params.query && params.sort) {
-      const responseMovies: IMoviesResponse = await moviesController.getMoviesSortingWithPagination(params.sort, params.page);
-      setMovies(responseMovies.rows);
+    } else if (!searchParams.get("page") && !searchParams.get("search") && searchParams.get("sortBy")) {
+        const responseMovies: IMoviesResponse = await moviesController.getMoviesSortingNoPagination(searchParams.get("sortBy"));
+        setMovies(responseMovies.rows);
+    } else if (searchParams.get("page") && !searchParams.get("search") && searchParams.get("sortBy")) {
+        const responseMovies: IMoviesResponse = await moviesController.getMoviesSortingWithPagination(searchParams.get("sortBy"), searchParams.get("page"));
+        setMovies(responseMovies.rows);
     }
   }
 
-  if (!params.page && !params.query && !params.sort) {
+  if (!searchParams.get("page") && !searchParams.get("search") && !searchParams.get("sortBy")) {
     useEffect(() => {
       getMovies()
-    }, [params.page]);
-  } else if (params.page && !params.query && !params.sort) {
+    }, [searchParams.get("page")]);
+  } else if (searchParams.get("page") && !searchParams.get("search") && !searchParams.get("sortBy")) {
     useEffect(() => {
-      getMovies()
-    }, [params.page]);
-  } else if (!params.page && params.query && !params.sort) {
+      getMovies();
+    }, [searchParams.get("page")]);
+  } else if (!searchParams.get("page") && searchParams.get("search") && !searchParams.get("sortBy")) {
     useEffect(() => {
-      getMovies()
-    }, [params.query]);
-  } else if (params.page && params.query && !params.sort) {
+      getMovies();
+    }, [searchParams.get("search")]);
+  } else if (searchParams.get("page") && searchParams.get("search") && !searchParams.get("sortBy")) {
     useEffect(() => {
-      getMovies()
-    }, [params.page]);
-  } else if (!params.page && !params.query && params.sort) {
+      getMovies();
+    }, [searchParams.get("page")]);
+  } else if (!searchParams.get("page") && !searchParams.get("search") && searchParams.get("sortBy")) {
     useEffect(() => {
-      getMovies()
-    }, [params.sort]);
-  } else if (params.page && !params.query && params.sort) {
+      getMovies();
+    }, [searchParams.get("sortBy")]);
+  } else if (searchParams.get("page") && !searchParams.get("search") && searchParams.get("sortBy")) {
     useEffect(() => {
-      getMovies()
-    }, [params.page]);
+      getMovies();
+    }, [searchParams.get("page")]);
   }
 
   useEffect(() => {

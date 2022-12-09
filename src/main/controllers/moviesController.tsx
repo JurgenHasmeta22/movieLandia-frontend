@@ -27,12 +27,12 @@ const moviesController = {
     return moviesResponse.rows;
   },
 
-  getMoviesPagination: async(page: string): Promise<any> => {
+  getMoviesPagination: async(page: string | null): Promise<any> => {
     const moviesResponse: IMoviesResponse = await axios.get(`http://localhost:4000/movies/page/${page}`).then(x=>x.data);
     return moviesResponse.rows;
   },
 
-  getMoviesSearchWithPagination: async(query: string, page: string): Promise<any> => {
+  getMoviesSearchWithPagination: async(query: string | null, page: string | null): Promise<any> => {
     const payload = {
       title: query,
       page: page
@@ -41,7 +41,7 @@ const moviesController = {
     return responseSearch;
   },
 
-  getMoviesSearchNoPagination: async(query: string): Promise<any> => {
+  getMoviesSearchNoPagination: async(query: string | null): Promise<any> => {
     const payload = {
       title: query,
       page: 1
@@ -50,12 +50,12 @@ const moviesController = {
     return responseSearch;
   },
 
-  getMoviesSortingWithPagination: async(sort: string, page: string): Promise<any> => {
+  getMoviesSortingWithPagination: async(sort: string | null, page: string | null): Promise<any> => {
     const moviesResponse: IMoviesResponse = await axios.get(`http://localhost:4000/movies/page/${page}?sortBy=${sort}&ascOrDesc=desc`).then(x=>x.data);
     return moviesResponse;
   },
 
-  getMoviesSortingNoPagination: async(sort: string): Promise<any> => {
+  getMoviesSortingNoPagination: async(sort: string | null): Promise<any> => {
     const moviesResponse: IMoviesResponse = await axios.get(`http://localhost:4000/movies/page/1?sortBy=${sort}&ascOrDesc=desc`).then(x=>x.data);
     return moviesResponse;
   },
@@ -73,7 +73,7 @@ const moviesController = {
     return responseGenre;
   },
 
-  getGenreMoviesWithPagination: async(name: string | undefined, page: string | undefined): Promise<any> => {
+  getGenreMoviesWithPagination: async(name: string | undefined, page: string | undefined | null): Promise<any> => {
     const responseGenre: IGenreResponse = await axios.get(`http://localhost:4000/genres/${name}?page=${page}`).then(x => x.data);
     return responseGenre;
   },
