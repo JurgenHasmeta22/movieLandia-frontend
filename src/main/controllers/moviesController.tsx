@@ -1,10 +1,10 @@
 import axios from 'axios';
-import IGenre from '../store/zustand/types/IGenre';
-import IGenreResponse from '../store/zustand/types/IGenreResponse';
-import IMovie from '../store/zustand/types/IMovie';
-import IMoviesCount from '../store/zustand/types/IMoviesCount';
-import IMoviesResponse from '../store/zustand/types/IMoviesResponse';
-import IUser from '../store/zustand/types/IUser';
+import IGenre from '~/main/store/zustand/types/IGenre';
+import IGenreResponse from '~/main/store/zustand/types/IGenreResponse';
+import IMovie from '~/main/store/zustand/types/IMovie';
+import IMoviesCount from '~/main/store/zustand/types/IMoviesCount';
+import IMoviesResponse from '~/main/store/zustand/types/IMoviesResponse';
+import IUser from '~/main/store/zustand/types/IUser';
 
 const moviesController = {
   getMovieCount: async(): Promise<any> => {
