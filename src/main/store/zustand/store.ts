@@ -1,5 +1,5 @@
 import create from "zustand";
-import AppStoreState from "~/main/store/zustand/types/interfaceStore";
+import AppStoreState from "~/main/interfaces/IStore";
 
 export const useStore = create<AppStoreState>((set, get): AppStoreState => ({
   movies: [],

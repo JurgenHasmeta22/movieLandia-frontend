@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router";
 import ListItem from "~/main/components/list/listItem";
 import Picture from "~/main/components/picture";
-import IMovie from "~/main/store/zustand/types/IMovie";
+import IMovie from "~/main/interfaces/IMovie";
 
 interface IMovieItemLatestProps {
   latestMovie: IMovie

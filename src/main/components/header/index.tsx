@@ -1,17 +1,17 @@
 import { useEffect } from "react";
 import { Link, useNavigate, NavLink } from "react-router-dom";
-import { useStore } from "../../store/zustand/store";
+import { useStore } from "~/main/store/zustand/store";
 import "react-dropdown/style.css";
 import "./style.css";
 import axios from "axios";
-import IGenre from "../../store/zustand/types/IGenre";
-import Picture from "../picture";
-import Label from "../label";
-import Container from "../container";
-import ListItem from "../list/listItem";
-import List from "../list";
-import Button from "../button";
-import Input from "../input";
+import IGenre from "~/main/interfaces/IGenre";
+import Picture from "~/main/components/picture/index";
+import Label from "~/main/components/label/index";
+import Container from "~/main/components/container/index";
+import ListItem from "~/main/components/list/listItem/index";
+import List from "~/main/components/list/index";
+import Button from "~/main/components/button/index";
+import Input from "~/main/components/input/index";
 
 export default function Header() {
   const navigate = useNavigate();

@@ -8,7 +8,7 @@ import Input from "~/main/components/input/index"
 import Picture from "~/main/components/picture/index";
 import authenticationController from "~/main/controllers/authenticationController";
 import { useStore } from "~/main/store/zustand/store";
-import IResponseLogin from "~/main/store/zustand/types/IResponseLogin";
+import IResponseLogin from "~/main/interfaces/IResponseLogin";
 import "~/modules/base/pages/register/style.css";
 
 export default function Register() {
