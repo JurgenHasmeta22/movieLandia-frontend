@@ -29,7 +29,7 @@ export default function Home() {
   const [itemsPerPage, setItemsPerPage] = useState<number>(20);
   const [sortBy, setSortBy] = useState<string>("");
   const [search, setSearch] = useState<string>("");
-  const { movies, setMovies, latestMovies, setLatestMovies } = useStore();
+  const { movies, setMovies, latestMovies, setLatestMovies, searchTerm } = useStore();
 
   let pageCount;
   
@@ -55,7 +55,6 @@ export default function Home() {
       setSearchParams(searchParams);
     } else {
       handleChangingPageNumber(selected);
-      searchParams.set("search", search);
       searchParams.set("page", selected + 1);
       setSearchParams(searchParams);
     }
@@ -273,6 +272,18 @@ export default function Home() {
     getMoviesCount(),
     getLatestMovies()
   }, []);
+
+  useEffect(() => {
+    if (searchTerm && searchTerm.length > 0) {
+      searchParams.set("search", searchTerm);
+      setSearchParams(searchParams);
+    } else if (search.length === 0) {
+      searchParams.delete("search");
+      if (searchParams.get("page")) searchParams.delete("page");
+      if (searchParams.get("sortBy")) searchParams.delete("sortBy");
+      setSearchParams(searchParams);
+    } 
+  }, [searchTerm]);
 
   if (!movies) {
     return (
