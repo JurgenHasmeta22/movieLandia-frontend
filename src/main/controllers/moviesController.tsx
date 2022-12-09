@@ -1,4 +1,5 @@
 import axios from 'axios';
+import IGenre from '../store/zustand/types/IGenre';
 import IGenreResponse from '../store/zustand/types/IGenreResponse';
 import IMovie from '../store/zustand/types/IMovie';
 import IMoviesCount from '../store/zustand/types/IMoviesCount';
@@ -72,9 +73,14 @@ const moviesController = {
     return responseGenre;
   },
 
-  getGenreMoviesWithPagination: async(name: string, page: string): Promise<any> => {
+  getGenreMoviesWithPagination: async(name: string | undefined, page: string | undefined): Promise<any> => {
     const responseGenre: IGenreResponse = await axios.get(`http://localhost:4000/genres/${name}?page=${page}`).then(x => x.data);
     return responseGenre;
+  },
+
+  getGenresWithNoPagination: async(): Promise<any> => {
+    const genres: IGenre[] = await axios.get("http://localhost:4000/genres").then(x => x.data);
+    return genres;
   }
 
 }

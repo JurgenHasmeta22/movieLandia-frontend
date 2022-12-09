@@ -1,0 +1,117 @@
+.genre-category {
+  background-color: rgb(217, 217, 217);
+  height: 300px;
+  width: 250px;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.genre-category span {
+  color: #004355;
+  font-size: 16px;
+  letter-spacing: 1px;
+  font-weight: 700;
+}
+
+.movie-item-genre span {
+  font-size: 16px;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.movie-item-genre span.movie.title {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  /* width: 90%; */
+}
+
+.movie-item-genre .imdb-span {
+  font-size: 14px;
+  font-weight: 800;
+  color: #5ad2f3;
+  display: grid;
+  place-items: center;
+}
+
+.movie-item-genre {
+  display: grid;
+  grid-template-rows: 0.7fr 0.1fr 0.1fr 0.1fr;
+  grid-gap: 10px;
+  cursor: pointer;
+}
+
+.movie-item-genre:hover {
+  transform: scale(1.1);
+  margin-right: 3%;
+  margin-left: 3%;
+  transition: 1s;
+  -webkit-transform: scale(1.1);
+  -moz-transform: scale(1.1);
+  -ms-transform: scale(1.1);
+  -o-transform: scale(1.1);
+}
+
+.movie-item-genre .genres-holder-span {
+  display: grid;
+  grid-template-columns: 60px 80px 60px 60px;
+  /* grid-column-gap: 20px; */
+  place-items: center;
+}
+
+.movie-item-genre .genres-holder-span span {
+  font-size: 12px;
+  color: #7dd2f3;
+}
+
+.movie-item {
+  display: grid;
+  grid-template-rows: 0.7fr 0.1fr 0.1fr 0.1fr;
+  grid-gap: 10px;
+  cursor: pointer;
+}
+
+.movie-item:hover {
+  transform: scale(1.1);
+  margin-right: 3%;
+  margin-left: 3%;
+  transition: 1s;
+  -webkit-transform: scale(1.1);
+  -moz-transform: scale(1.1);
+  -ms-transform: scale(1.1);
+  -o-transform: scale(1.1);
+}
+
+.movie-item span {
+  font-size: 16px;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.movie-item-latest {
+  display: grid;
+  grid-template-rows: 0.7fr 0.1fr 0.1fr 0.1fr;
+  grid-gap: 10px;
+  cursor: pointer;
+}
+
+.movie-item-latest:hover {
+  transform: scale(1.1);
+  margin-right: 3%;
+  margin-left: 3%;
+  transition: 1s;
+  -webkit-transform: scale(1.1);
+  -moz-transform: scale(1.1);
+  -ms-transform: scale(1.1);
+  -o-transform: scale(1.1);
+}
+
+.movie-item-latest span {
+  font-size: 16px;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+}

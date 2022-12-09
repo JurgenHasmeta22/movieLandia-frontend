@@ -1,7 +1,11 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import Button from "../../../../main/components/button";
+import Container from "../../../../main/components/container";
 import Footer from "../../../../main/components/footer";
 import Header from "../../../../main/components/header";
+import Input from "../../../../main/components/input";
+import Picture from "../../../../main/components/picture";
 import authenticationController from "../../../../main/controllers/authenticationController";
 import { useStore } from "../../../../main/store/zustand/store";
 import IResponseLogin from "../../../../main/store/zustand/types/IResponseLogin";
@@ -30,16 +34,16 @@ export default function Register() {
   return (
     <>
       <Header />
-      <div className="signup-page-wrapper">
-        <div className="left-main-wrapper">
-          <img
-            className="special-image-2"
+      <Container classname="signup-page-wrapper">
+        <Container classname="left-main-wrapper">
+          <Picture
+            classname="special-image-2"
             id="signup-page-img"
             src="/assets/images/netflix.png"
             alt=""
           />
-        </div>
-        <div className="right-main-wrapper">
+        </Container>
+        <Container classname="right-main-wrapper">
           <form
             id="signup-form"
             onSubmit={function (e) {
@@ -49,17 +53,17 @@ export default function Register() {
           >
             <h1>MovieLandia24</h1>
             <label id="username" htmlFor="">
-              <input
+              <Input 
                 type="text"
                 placeholder="Enter your username"
-                required
-                onChange={function (e) {
+                required={true}
+                onChange={function (e: any) {
                   setUsername(e.target.value);
                 }}
               />
             </label>
-            <label htmlFor="">
-              <input
+            <label>
+              <Input 
                 type="text"
                 id="email"
                 placeholder="Enter your email"
@@ -68,10 +72,9 @@ export default function Register() {
                 }}
               />
             </label>
-            <label htmlFor="">
-              <input
+            <label>
+              <Input 
                 type="password"
-                name=""
                 id="password"
                 placeholder="Enter your password"
                 required
@@ -80,8 +83,8 @@ export default function Register() {
                 }}
               />
             </label>
-            <label htmlFor="">
-              <button>Sign Up</button>
+            <label>
+              <Button>Sign Up</Button>
             </label>
             <label id="login-link-wrapper" htmlFor="">
               You have an account?
@@ -90,8 +93,8 @@ export default function Register() {
               </Link>
             </label>
           </form>
-        </div>
-      </div>
+        </Container>
+      </Container>
       <Footer />
     </>
   );
