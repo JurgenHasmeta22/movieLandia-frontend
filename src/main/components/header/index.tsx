@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Link, useNavigate, NavLink } from "react-router-dom";
+import { Link, useNavigate, NavLink, useSearchParams } from "react-router-dom";
 import { useStore } from "~/main/store/zustand/store";
 import "react-dropdown/style.css";
 import "./style.css";
@@ -103,10 +103,6 @@ export default function Header() {
             className="button-search"
             onSubmit={function (e) {
               e.preventDefault();
-              // @ts-ignore
-              setSearchTerm(e.target.value);
-              // @ts-ignore
-              navigate(`/movies/search/${e.target.searchMovie.value}`);
             }}
           >
             <Input
@@ -115,13 +111,10 @@ export default function Header() {
               placeholder="Search for movies..."
               ariaLabel="Search through site content"
               onChange={function (e: React.ChangeEvent<HTMLInputElement>) {
-                navigate(`/movies/search/${e.target.value}`);
                 if (e.target.value.length > 0) {
                   setSearchTerm(e.target.value);
-                  navigate(`/movies/search/${e.target.value}`);
                 } else {
                   setSearchTerm(e.target.value);
-                  navigate(`/movies/search/`);
                 }
               }}
             />
