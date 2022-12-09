@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router";
-import ListItem from "../../../../../main/components/list/listItem";
-import Picture from "../../../../../main/components/picture";
-import IMovie from "../../../../../main/store/zustand/types/IMovie";
+import ListItem from "~/main/components/list/listItem";
+import Picture from "~/main/components/picture";
+import IMovie from "~/main/store/zustand/types/IMovie";
 
 interface IMovieItemLatestProps {
   latestMovie: IMovie
@@ -9,9 +9,7 @@ interface IMovieItemLatestProps {
 
 export default function movieItemLatest(props: IMovieItemLatestProps) {
   const navigate = useNavigate();
-  const {
-    latestMovie
-  } = props;
+  const { latestMovie } = props;
   
   return (
     <ListItem

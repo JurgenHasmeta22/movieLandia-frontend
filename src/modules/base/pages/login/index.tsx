@@ -1,16 +1,15 @@
-import { useEffect, useReducer, useRef, useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Button from "../../../../main/components/button";
-import Container from "../../../../main/components/container";
-import Footer from "../../../../main/components/footer";
-import Header from "../../../../main/components/header";
-import Input from "../../../../main/components/input";
-import Picture from "../../../../main/components/picture";
-import authenticationController from "../../../../main/controllers/authenticationController";
-import { useStore } from "../../../../main/store/zustand/store";
-// import ILogin from "../../../../main/store/zustand/types/ILogin";
-import IResponseLogin from "../../../../main/store/zustand/types/IResponseLogin";
-import "./style.css";
+import Button from "~/main/components/button/index";
+import Container from "~/main/components/container/index";
+import Footer from "~/main/components/footer/index";
+import Header from "~/main/components/header/index";
+import Input from "~/main/components/input/index";
+import Picture from "~/main/components/picture/index";
+import authenticationController from "~/main/controllers/authenticationController";
+import { useStore } from "~/main/store/zustand/store";
+import IResponseLogin from "~/main/store/zustand/types/IResponseLogin";
+import "~/modules/base/pages/login/style.css";
 
 // const initialState = {
 //   email: "",
@@ -35,10 +34,6 @@ import "./style.css";
 // };
 
 export default function Login() {
-  const navigate = useNavigate();
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-
   // const emailRef = useRef<HTMLInputElement>(null);
   // const passwordRef = useRef<HTMLInputElement>(null);
   // const count = useRef(0);
@@ -50,10 +45,10 @@ export default function Login() {
   //   password: ""
   // })
 
-  const {
-    user,
-    setUser
-  } = useStore();
+  const navigate = useNavigate();
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const { user, setUser } = useStore();
 
   async function onSubmit() {
     const response: IResponseLogin = await authenticationController.onLogin(email, password);
