@@ -54,71 +54,6 @@ export default function Home() {
     }
   };
 
-  async function getMoviesCount(): Promise<void> {
-    const moviesCount: IMoviesCount = await moviesController.getMovieCount();
-    setMoviesCount(moviesCount);
-  }
-
-  async function getLatestMovies(): Promise<void> {
-    const latestMovies: IMovie[] = await moviesController.getLatestMovies();
-    setLatestMovies(latestMovies);
-  }
-
-  async function getMovies(): Promise<void> {
-    if (!params.page && !params.query && !params.sort) {
-      const movies: IMovie[] = await moviesController.getMoviesDefault();
-      setMovies(movies);
-    } else if (params.page && !params.query && !params.sort) {
-      const movies: IMovie[] = await moviesController.getMoviesPagination(params.page);
-      setMovies(movies);
-    } else if (!params.page && params.query && !params.sort) {
-        const responseSearch: IMoviesSearchResponse = await moviesController.getMoviesSearchNoPagination(params.query);
-        setMovies(responseSearch.movies);
-        setMoviesCountSearch(responseSearch.count);
-    } else if (params.page && params.query && !params.sort) {
-        const responseSearch: IMoviesSearchResponse = await moviesController.getMoviesSearchWithPagination(params.query, params.page);
-        setMovies(responseSearch.movies);
-        setMoviesCountSearch(responseSearch.count);
-    } else if (!params.page && !params.query && params.sort) {
-      const responseMovies: IMoviesResponse = await moviesController.getMoviesSortingNoPagination(params.sort);
-      setMovies(responseMovies.rows);
-    } else if (params.page && !params.query && params.sort) {
-      const responseMovies: IMoviesResponse = await moviesController.getMoviesSortingWithPagination(params.sort, params.page);
-      setMovies(responseMovies.rows);
-    }
-  }
-
-  if (!params.page && !params.query && !params.sort) {
-    useEffect(() => {
-      getMovies()
-    }, [params.page]);
-  } else if (params.page && !params.query && !params.sort) {
-    useEffect(() => {
-      getMovies()
-    }, [params.page]);
-  } else if (!params.page && params.query && !params.sort) {
-    useEffect(() => {
-      getMovies()
-    }, [params.query]);
-  } else if (params.page && params.query && !params.sort) {
-    useEffect(() => {
-      getMovies()
-    }, [params.page]);
-  } else if (!params.page && !params.query && params.sort) {
-    useEffect(() => {
-      getMovies()
-    }, [params.sort]);
-  } else if (params.page && !params.query && params.sort) {
-    useEffect(() => {
-      getMovies()
-    }, [params.page]);
-  }
-
-  useEffect(() => {
-    getMoviesCount(),
-    getLatestMovies()
-  }, []);
-
   function conditionalRenderingMovieCount(): JSX.Element | undefined {
     if (params.query) {
       return (
@@ -261,6 +196,71 @@ export default function Home() {
     }
   }
   
+  async function getMoviesCount(): Promise<void> {
+    const moviesCount: IMoviesCount = await moviesController.getMovieCount();
+    setMoviesCount(moviesCount);
+  }
+
+  async function getLatestMovies(): Promise<void> {
+    const latestMovies: IMovie[] = await moviesController.getLatestMovies();
+    setLatestMovies(latestMovies);
+  }
+
+  async function getMovies(): Promise<void> {
+    if (!params.page && !params.query && !params.sort) {
+      const movies: IMovie[] = await moviesController.getMoviesDefault();
+      setMovies(movies);
+    } else if (params.page && !params.query && !params.sort) {
+      const movies: IMovie[] = await moviesController.getMoviesPagination(params.page);
+      setMovies(movies);
+    } else if (!params.page && params.query && !params.sort) {
+        const responseSearch: IMoviesSearchResponse = await moviesController.getMoviesSearchNoPagination(params.query);
+        setMovies(responseSearch.movies);
+        setMoviesCountSearch(responseSearch.count);
+    } else if (params.page && params.query && !params.sort) {
+        const responseSearch: IMoviesSearchResponse = await moviesController.getMoviesSearchWithPagination(params.query, params.page);
+        setMovies(responseSearch.movies);
+        setMoviesCountSearch(responseSearch.count);
+    } else if (!params.page && !params.query && params.sort) {
+      const responseMovies: IMoviesResponse = await moviesController.getMoviesSortingNoPagination(params.sort);
+      setMovies(responseMovies.rows);
+    } else if (params.page && !params.query && params.sort) {
+      const responseMovies: IMoviesResponse = await moviesController.getMoviesSortingWithPagination(params.sort, params.page);
+      setMovies(responseMovies.rows);
+    }
+  }
+
+  if (!params.page && !params.query && !params.sort) {
+    useEffect(() => {
+      getMovies()
+    }, [params.page]);
+  } else if (params.page && !params.query && !params.sort) {
+    useEffect(() => {
+      getMovies()
+    }, [params.page]);
+  } else if (!params.page && params.query && !params.sort) {
+    useEffect(() => {
+      getMovies()
+    }, [params.query]);
+  } else if (params.page && params.query && !params.sort) {
+    useEffect(() => {
+      getMovies()
+    }, [params.page]);
+  } else if (!params.page && !params.query && params.sort) {
+    useEffect(() => {
+      getMovies()
+    }, [params.sort]);
+  } else if (params.page && !params.query && params.sort) {
+    useEffect(() => {
+      getMovies()
+    }, [params.page]);
+  }
+
+  useEffect(() => {
+    getMoviesCount(),
+    getLatestMovies()
+  }, []);
+
   if (!movies) {
     return (
       <Container classname="loading-wrapper">
