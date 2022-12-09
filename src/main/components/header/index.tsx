@@ -5,6 +5,13 @@ import "react-dropdown/style.css";
 import "./style.css";
 import axios from "axios";
 import IGenre from "../../store/zustand/types/IGenre";
+import Picture from "../picture";
+import Label from "../label";
+import Container from "../container";
+import ListItem from "../list/listItem";
+import List from "../list";
+import Button from "../button";
+import Input from "../input";
 
 export default function Header() {
   const navigate = useNavigate();
@@ -42,34 +49,34 @@ export default function Header() {
   return (
     <>
       <header className="header">
-        <div className="header-group-1">
+        <Container classname="header-group-1">
           <Link to="/movies">MovieLand24</Link>
-          <ul className="list-nav">
-            <div className="div-inside-li">
-              <img src="/assets/logos/ico_filma_blu.png" alt="" />
+          <List classname="list-nav">
+            <Container classname="div-inside-li">
+              <Picture src="/assets/logos/ico_filma_blu.png" alt="" />
               <NavLink to="/movies" className="special-uppercase">
                 Movies
               </NavLink>
-            </div>
-            <div className="div-inside-li-special">
-              <div className="dropdown">
-                <div className="genre-drop">
-                  <img src="/assets/logos/list_blu.png" alt="" />
-                  <li
-                    className="special-uppercase"
+            </Container>
+            <Container classname="div-inside-li-special">
+              <Container classname="dropdown">
+                <Container classname="genre-drop">
+                  <Picture src="/assets/logos/list_blu.png" alt="" />
+                  <ListItem
+                    classname="special-uppercase"
                     onClick={function (e) {
                       e.stopPropagation();
                       navigate("/genres");
                     }}
                   >
                     Genres
-                  </li>
-                </div>
-                <div className="dropdown-content">
-                  <ul>
+                  </ListItem>
+                </Container>
+                <Container classname="dropdown-content">
+                  <List>
                     {genres.map((genre: any) => (
-                      <li
-                        className="special-list-drop"
+                      <ListItem
+                        classname="special-list-drop"
                         key={genre.id}
                         onClick={function (e: any) {
                           e.stopPropagation();
@@ -77,21 +84,21 @@ export default function Header() {
                         }}
                       >
                         {genre.name}
-                      </li>
+                      </ListItem>
                     ))}
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div className="div-inside-li">
-              <img src="/assets/logos/netflix-red.png" alt="" />
+                  </List>
+                </Container>
+              </Container>
+            </Container>
+            <Container classname="div-inside-li">
+              <Picture src="/assets/logos/netflix-red.png" alt="" />
               <NavLink to="/genres/NETFLIX" className="special-uppercase">
                 Netflix
               </NavLink>
-            </div>
-          </ul>
-        </div>
-        <div className="header-group-2">
+            </Container>
+          </List>
+        </Container>
+        <Container classname="header-group-2">
           <form
             className="button-search"
             onSubmit={function (e) {
@@ -102,11 +109,11 @@ export default function Header() {
               navigate(`/movies/search/${e.target.searchMovie.value}`);
             }}
           >
-            <input
+            <Input
               type="search"
               name="searchMovie"
               placeholder="Search for movies..."
-              aria-label="Search through site content"
+              ariaLabel="Search through site content"
               onChange={function (e: React.ChangeEvent<HTMLInputElement>) {
                 navigate(`/movies/search/${e.target.value}`);
                 if (e.target.value.length > 0) {
@@ -118,45 +125,45 @@ export default function Header() {
                 }
               }}
             />
-            <button type="submit">
+            <Button type="submit">
               <i className="fa fa-search"></i>
-            </button>
+            </Button>
           </form>
           {!user ? (
-            <button
-              className="button-login-header"
+            <Button
+              classname="button-login-header"
               onClick={function () {
                 navigate("/login");
               }}
             >
               <i className="material-icons special-icon">account_circle</i>
               Sign In
-            </button>
+            </Button>
           ) : (
-            <div className="dropdown">
-              <li
-                className="dropbtn"
+            <Container classname="dropdown">
+              <ListItem
+                classname="dropbtn"
                 onClick={function () {
                   redirectToProfile(user);
                 }}
               >
-                <img src={`/assets/avatars/blankavatar.jpg`} />
+                <Picture src={`/assets/avatars/blankavatar.jpg`} />
                 {user.userName}
-              </li>
-              <div className="dropdown-content">
-                <button
-                  className="log-out"
+              </ListItem>
+              <Container classname="dropdown-content">
+                <Button
+                  classname="log-out"
                   onClick={function (e: any) {
                     e.stopPropagation();
                     handleLogout();
                   }}
                 >
-                  <span>Log Out</span>
-                </button>
-              </div>
-            </div>
+                  <Label>Log Out</Label>
+                </Button>
+              </Container>
+            </Container>
           )}
-        </div>
+        </Container>
       </header>
     </>
   );

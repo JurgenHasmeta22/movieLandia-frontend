@@ -4,7 +4,7 @@ import {
   Navigate,
 } from "react-router-dom";
 import "./App.css";
-import { useEffect } from "react";
+import { createContext, useEffect, useState } from "react";
 import { useStore } from "../main/store/zustand/store";
 import Error404 from "../modules/base/pages/error";
 import Genre from "../modules/base/pages/genre";
@@ -18,7 +18,9 @@ import axios from "axios";
 import IUser from "../main/store/zustand/types/IUser";
 
 function App() {
-  const { setUser } = useStore();
+  // const userContext = createContext(null);
+  const { user, setUser } = useStore();
+  // const [userNew, setUserNew] = useState(user);
 
   async function validateUser() {
     if (localStorage.token) {

@@ -1,0 +1,7 @@
+.movie-count-span {
+  display: grid;
+  place-self: center;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 800;
+}

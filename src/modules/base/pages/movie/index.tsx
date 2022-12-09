@@ -9,6 +9,12 @@ import IMovie from "../../../../main/store/zustand/types/IMovie";
 import IUser from "../../../../main/store/zustand/types/IUser";
 import moviesController from "../../../../main/controllers/moviesController";
 import MovieItemLatest from "./movieItemLatest";
+import Paragraph from "../../../../main/components/text";
+import Container from "../../../../main/components/container";
+import Heading from "../../../../main/components/heading";
+import ListItem from "../../../../main/components/list/listItem";
+import List from "../../../../main/components/list";
+import Button from "../../../../main/components/button";
 
 export default function Movie() {
   const params = useParams();
@@ -46,7 +52,7 @@ export default function Movie() {
 
   if (!movie) {
     return (
-      <div className="loading-wrapper">
+      <Container classname="loading-wrapper">
         <ReactLoading
           type={"spin"}
           color={"#000"}
@@ -54,7 +60,7 @@ export default function Movie() {
           width={100}
           className="loading"
         />
-      </div>
+      </Container>
     );
   }
 
@@ -62,14 +68,14 @@ export default function Movie() {
     <>
       <Header />
       <section className="movie-item-wrapper">
-        <div className="left-section">
-          <div className="video-and-servers">
-            <div className="servers">
-              <ul className="server-list">
-                <li>Movie Server</li>
-              </ul>
-            </div>
-            <div className="video-square">
+        <Container classname="left-section">
+          <Container classname="video-and-servers">
+            <Container classname="servers">
+              <List classname="server-list">
+                <ListItem>Movie Server</ListItem>
+              </List>
+            </Container>
+            <Container classname="video-square">
               <iframe
                 src={movie.videoSrc}
                 name="movieFrame"
@@ -78,29 +84,28 @@ export default function Movie() {
                 height="550px"
                 width="850px"
                 allowFullScreen
-              ></iframe>
-            </div>
-            <div className="movie-details">
-              <div className="movie-specifications">
-                <ul className="trailer">
-                  <li>Trailer: </li>
+              >
+              </iframe>
+            </Container>
+            <Container classname="movie-details">
+              <Container classname="movie-specifications">
+                <List classname="trailer">
+                  <ListItem>Trailer: </ListItem>
                   <a href={movie.trailerSrc} className="trailer-link">
                     Youtube trailer
                   </a>
-                </ul>
-                <ul className="length">
-                  <li>Duration: {movie.duration}</li>
-                  <li>Year: {movie.releaseYear}</li>
-                  <li>
-                    Imdb Rating:{" "}
-                    {movie.ratingImdb === 0
-                      ? "N/A"
-                      : movie.ratingImdb}
-                  </li>
-                </ul>
-                {user?.userName ? (
-                  <button
-                    className="button-favorite-add"
+                </List>
+                <List classname="length">
+                  <ListItem>Duration: {movie.duration}</ListItem>
+                  <ListItem>Year: {movie.releaseYear}</ListItem>
+                  <ListItem>
+                    Imdb Rating:
+                    {movie.ratingImdb === 0 ? "N/A" : movie.ratingImdb}
+                  </ListItem>
+                </List>
+                {user?.userName && (
+                  <Button
+                    classname="button-favorite-add"
                     onClick={function () {
                       addToFavorites();
                       navigate("/profile");
@@ -108,29 +113,29 @@ export default function Movie() {
                     }}
                   >
                     Add to favorites
-                  </button>
-                ) : null}
-              </div>
-            </div>
-          </div>
-          <div className="movie-fabula">
-            <p id="fabula">{movie.description}</p>
-          </div>
-          <div className="last movies">
-            <div className="posted-lastest">
-              <h2>Latest Movies</h2>
-            </div>
-            <ul className="last-movies-list">
+                  </Button>
+                )}
+              </Container>
+            </Container>
+          </Container>
+          <Container classname="movie-fabula">
+            <Paragraph id="fabula">{movie.description}</Paragraph>
+          </Container>
+          <Container classname="last movies">
+            <Container classname="posted-lastest">
+              <Heading>Latest Movies</Heading>
+            </Container>
+            <List classname="last-movies-list">
               {latestMovies.slice(14, 19).map((latestMovie: any) => (
                 <MovieItemLatest 
                   latestMovie={latestMovie}
                 />
               ))}
-            </ul>
-          </div>
-        </div>
-        <div className="right-section">
-        </div>
+            </List>
+          </Container>
+        </Container>
+        <Container classname="right-section">
+        </Container>
       </section>
       <Footer />
     </>
