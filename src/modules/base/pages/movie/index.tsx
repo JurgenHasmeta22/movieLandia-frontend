@@ -1,31 +1,26 @@
 import { useNavigate, useParams } from "react-router-dom";
 import ReactLoading from "react-loading";
 import { useEffect, useState } from "react";
-import "./style.css";
-import { useStore } from "../../../../main/store/zustand/store";
-import Footer from "../../../../main/components/footer";
-import Header from "../../../../main/components/header";
-import IMovie from "../../../../main/store/zustand/types/IMovie";
-import IUser from "../../../../main/store/zustand/types/IUser";
-import moviesController from "../../../../main/controllers/moviesController";
-import MovieItemLatest from "./movieItemLatest";
-import Paragraph from "../../../../main/components/text";
-import Container from "../../../../main/components/container";
-import Heading from "../../../../main/components/heading";
-import ListItem from "../../../../main/components/list/listItem";
-import List from "../../../../main/components/list";
-import Button from "../../../../main/components/button";
+import "~/modules/base/pages/movie/style.css";
+import { useStore } from "~/main/store/zustand/store";
+import Footer from "~/main/components/footer/index";
+import Header from "~/main/components/header/index";
+import IMovie from "~/main/store/zustand/types/IMovie";
+import IUser from "~/main/store/zustand/types/IUser";
+import moviesController from "~/main/controllers/moviesController";
+import MovieItemLatest from "~/modules/base/pages/movie/movieItemLatest/index";
+import Paragraph from "~/main/components/text/index";
+import Container from "~/main/components/container/index";
+import Heading from "~/main/components/heading/index";
+import ListItem from "~/main/components/list/listItem";
+import List from "~/main/components/list";
+import Button from "~/main/components/button";
 
 export default function Movie() {
   const params = useParams();
   const navigate = useNavigate();
   const [movie, setMovie] = useState<IMovie | null>(null);
-  const {
-    latestMovies,
-    setLatestMovies,
-    setUser,
-    user
-  } = useStore();
+  const { latestMovies, setLatestMovies, setUser, user } = useStore();
 
   async function getLatestMovies(): Promise<void> {
     const response: IMovie[] = await moviesController.getLatestMovies();
@@ -78,9 +73,8 @@ export default function Movie() {
             <Container classname="video-square">
               <iframe
                 src={movie.videoSrc}
+                title={movie.title}
                 name="movieFrame"
-                scrolling="no"
-                frameBorder={0}
                 height="550px"
                 width="850px"
                 allowFullScreen

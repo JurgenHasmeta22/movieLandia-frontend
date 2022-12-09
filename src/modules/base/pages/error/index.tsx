@@ -1,8 +1,8 @@
-import Container from "../../../../main/components/container";
-import Footer from "../../../../main/components/footer";
-import Header from "../../../../main/components/header";
-import Label from "../../../../main/components/label";
-import "./style.css";
+import Container from "~/main/components/container/index";
+import Footer from "~/main/components/footer/index";
+import Header from "~/main/components/header/index";
+import Label from "~/main/components/label/index";
+import "~/modules/base/pages/error/style.css";
 
 export default function Error404() {
   return (
