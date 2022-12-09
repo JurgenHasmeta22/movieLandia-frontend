@@ -25,7 +25,7 @@ i {
 body {
   font-family: "Roboto", sans-serif;
   font-size: 12px;
-  overflow-x: hidden; /* removes scroll in bottom */
+  overflow-x: hidden;
 }
 
 html {

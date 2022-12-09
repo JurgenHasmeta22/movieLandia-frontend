@@ -1,7 +1,6 @@
 .genre-categories-menus {
   height: auto;
   width: 100%;
-
   display: grid;
   grid-template:
     "header" 100px
@@ -11,7 +10,6 @@
     1fr;
   grid-gap: 100px;
   background-color: #004355;
-  /* place-items: center; */
 }
 
 .genre-categories-menus h2 {
