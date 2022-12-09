@@ -3,22 +3,22 @@ import ReactLoading from "react-loading";
 import ReactPaginate from "react-paginate";
 import { useNavigate, useParams } from "react-router";
 import { Link } from "react-router-dom";
-import Card from "../../../../main/components/card";
-import Container from "../../../../main/components/container";
-import Footer from "../../../../main/components/footer";
-import Header from "../../../../main/components/header";
-import Label from "../../../../main/components/label";
-import List from "../../../../main/components/list";
-import ListItem from "../../../../main/components/list/listItem";
-import Picture from "../../../../main/components/picture";
-import moviesController from "../../../../main/controllers/moviesController";
-import { useStore } from "../../../../main/store/zustand/store";
-import IMovie from "../../../../main/store/zustand/types/IMovie";
-import IMoviesCount from "../../../../main/store/zustand/types/IMoviesCount";
-import IMoviesSearchResponse from "../../../../main/store/zustand/types/IMovieSearchResponse";
-import IMoviesResponse from "../../../../main/store/zustand/types/IMoviesResponse";
-import HomeCarousel from "./homeCarousel";
-import "./style.css";
+import Card from "~/main/components/card/index";
+import Container from "~/main/components/container/index";
+import Footer from "~/main/components/footer/index";
+import Header from "~/main/components/header/index";
+import Label from "~/main/components/label/index";
+import List from "~/main/components/list/index";
+import ListItem from "~/main/components/list/listItem/index";
+import Picture from "~/main/components/picture/index";
+import moviesController from "~/main/controllers/moviesController";
+import { useStore } from "~/main/store/zustand/store";
+import IMovie from "~/main/store/zustand/types/IMovie";
+import IMoviesCount from "~/main/store/zustand/types/IMoviesCount";
+import IMoviesSearchResponse from "~/main/store/zustand/types/IMovieSearchResponse";
+import IMoviesResponse from "~/main/store/zustand/types/IMoviesResponse";
+import HomeCarousel from "~/modules/base/pages/home/homeCarousel/index";
+import "~/modules/base/pages/home/style.css";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -27,14 +27,10 @@ export default function Home() {
   const [moviesCountSearch, setMoviesCountSearch] = useState<number>();
   const [pageNumber, setPageNumber] = useState<number>(0);
   const [itemsPerPage, setItemsPerPage] = useState<number>(20);
-  const {
-    movies, 
-    setMovies, 
-    latestMovies,
-    setLatestMovies
-  } = useStore();
+  const { movies, setMovies, latestMovies, setLatestMovies } = useStore();
 
   let pageCount;
+  
   if (params.query) {
     pageCount = Math.ceil(moviesCountSearch! / itemsPerPage);
   } else {
