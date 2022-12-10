@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import { Link, useNavigate, NavLink, useSearchParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate, NavLink, useLocation} from "react-router-dom";
 import { useStore } from "~/main/store/zustand/store";
 import "react-dropdown/style.css";
 import "./style.css";
@@ -15,17 +15,9 @@ import Input from "~/main/components/input/index";
 
 export default function Header() {
   const navigate = useNavigate();
-  const { setUser, setSearchTerm, user, genres, setGenres } = useStore();
-
-  const options: any = [];
-  for (const genre of genres) {
-    options.push(
-      { 
-        value: genre.name, 
-        label: genre.name 
-      }
-    );
-  }
+  const location = useLocation();
+  const [options, setOptions] = useState<any>([]);
+  const { setUser, searchTerm, setSearchTerm, user, genres, setGenres } = useStore();
 
   function handleLogout() {
     localStorage.removeItem("token");
@@ -44,6 +36,16 @@ export default function Header() {
 
   useEffect(() => {
     getGenres();
+  }, []);
+
+  useEffect(() => {
+    for (const genre of genres) {
+      const option = {
+        value: genre.name, 
+        label: genre.name 
+      };
+      setOptions([...options, option]);
+    }
   }, []);
 
   return (
@@ -113,8 +115,10 @@ export default function Header() {
               onChange={function (e: React.ChangeEvent<HTMLInputElement>) {
                 if (e.target.value.length > 0) {
                   setSearchTerm(e.target.value);
+                  if (location.pathname !== '/movies') navigate(`/movies?search=${searchTerm}`)
                 } else {
                   setSearchTerm(e.target.value);
+                  if (location.pathname !== '/movies') navigate(`/movies`)
                 }
               }}
             />
