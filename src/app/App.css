@@ -42,3 +42,41 @@ a {
 li {
   list-style: none;
 }
+
+.paginationBttns {
+  width: 80%;
+  height: 60px;
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  justify-items: center;
+  padding-left: 250px;
+}
+
+.paginationBttns a {
+  padding: 15px;
+  margin: 8px;
+  -o-border-radius: 5px;
+  border: 1px solid #9597fc;
+  color: #bfd5db;
+  cursor: pointer;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  border-radius: 5px;
+}
+
+.paginationBttns a:hover {
+  color: white;
+  background-color: #0e0e23;
+}
+
+.paginationActive a {
+  color: white;
+  background-color: #6466f2;
+}
+
+.paginationDisabled a {
+  color: grey;
+  background-color: grey;
+}

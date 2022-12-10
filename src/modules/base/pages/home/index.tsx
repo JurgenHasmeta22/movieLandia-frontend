@@ -322,6 +322,8 @@ export default function Home() {
             nextLabel={"Next >"}
             pageCount={pageCount}
             onPageChange={changePage}
+            // initialPage={2}
+            // initialPage={searchParams.get("page") && Number(searchParams.get("page"))}
             containerClassName={"paginationBttns"}
             previousLinkClassName={"previousBttn"}
             nextLinkClassName={"nextBttn"}

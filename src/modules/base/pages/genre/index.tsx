@@ -10,7 +10,7 @@ import Picture from "~/main/components/picture/index";
 import moviesController from "~/main/controllers/moviesController";
 import { useStore } from "~/main/store/zustand/store";
 import IGenreResponse from "~/main/interfaces/IGenreResponse";
-import "~/modules/base/pages/genre/style.css";
+import "./style.css";
 import Footer from "~/main/components/footer";
 
 export default function Genre() {
