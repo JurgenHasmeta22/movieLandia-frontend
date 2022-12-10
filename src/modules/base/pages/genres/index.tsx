@@ -4,14 +4,14 @@ import Card from "~/main/components/card/index";
 import Container from "~/main/components/container/index";
 import Footer from "~/main/components/footer/index";
 import Header from "~/main/components/header/index";
-import Heading from "~/main/components/heading/index";
 import Label from "~/main/components/label/index";
 import moviesController from "~/main/controllers/moviesController";
 import { useStore } from "~/main/store/zustand/store";
 import IGenre from "~/main/interfaces/IGenre";
-import "~/modules/base/pages/genre/genreCategories/style.css";
+import "./style.css";
+import Heading from "~/main/components/heading/index";
 
-export default function GenreCategories() {
+export default function Genres() {
   const { genres, setGenres } = useStore();
   const navigate = useNavigate();
 
