@@ -19,6 +19,7 @@ import IMoviesSearchResponse from "~/main/interfaces/IMovieSearchResponse";
 import IMoviesResponse from "~/main/interfaces/IMoviesResponse";
 import HomeCarousel from "~/modules/base/pages/home/homeCarousel/index";
 import "~/modules/base/pages/home/style.css";
+// import useQuery from "~/main/hooks/useQueryParams";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -28,11 +29,12 @@ export default function Home() {
   const [pageNumber, setPageNumber] = useState<number>(0);
   const [itemsPerPage, setItemsPerPage] = useState<number>(20);
   const [sortBy, setSortBy] = useState<string>("");
-  const [sortByParam, setSortByParam] = useState<string | null>("");
-  const [searchParam, setSearchParam] = useState<string | null>("");
-  const [pageParam, setPageParam] = useState<string | null>("");
+  // const [sortByParam, setSortByParam] = useState<string | null>("");
+  // const [searchParam, setSearchParam] = useState<string | null>("");
+  // const [pageParam, setPageParam] = useState<string | null>("");
+  // let query = useQuery();
   const { movies, setMovies, latestMovies, setLatestMovies, searchTerm } = useStore();
-    let pageCount;
+  let pageCount;
   
   if (searchParams.get("search")) {
     pageCount = Math.ceil(moviesCountSearch! / itemsPerPage);
@@ -44,7 +46,7 @@ export default function Home() {
     setPageNumber(selected);
   }
 
-  const changePage = ({ selected}: any) => {
+  const changePage = ({selected}: any) => {
     if (!searchParams.get("sort") && !searchParams.get("search")) {
       handleChangingPageNumber(selected);
       searchParams.set("page", selected + 1);
@@ -286,11 +288,11 @@ export default function Home() {
     } 
   }, [searchTerm]);
 
-  useEffect(() => {
-    if (searchParams.get("page")) setPageParam(searchParams.get("page"))
-    if (searchParams.get("search")) setSearchParam(searchParams.get("search"));
-    if (searchParams.get("sortBy")) setSortByParam(searchParams.get("sortBy"));
-  }, [searchParams]);
+  // useEffect(() => {
+  //   if (searchParams.get("page")) setPageParam(searchParams.get("page"))
+  //   if (searchParams.get("search")) setSearchParam(searchParams.get("search"));
+  //   if (searchParams.get("sortBy")) setSortByParam(searchParams.get("sortBy"));
+  // }, [searchParams]);
 
   if (!movies) {
     return (
