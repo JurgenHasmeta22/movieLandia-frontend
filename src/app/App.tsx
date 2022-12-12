@@ -10,6 +10,8 @@ import { useStore } from "~/main/store/zustand/store";
 import IUser from "~/main/interfaces/IUser";
 import authenticationController from "~/main/controllers/authenticationController";
 import PrivateRoutes from "~/main/utils/PrivateRoutes";
+import Series from '~/modules/base/pages/series';
+import Seria from '~/modules/base/pages/seria';
 const Error404 = React.lazy(() => import("~/modules/base/pages/error"))
 const Genre = React.lazy(() => import("~/modules/base/pages/genre"))
 const Genres = React.lazy(() => import("~/modules/base/pages/genres/index"))
@@ -49,6 +51,8 @@ function App() {
       <Route path="/movies/:title" element={<React.Suspense fallback={<>...</>}><Movie /></React.Suspense>} />
       <Route path="/genres" element={<React.Suspense fallback={<>...</>}><Genres /></React.Suspense>} />
       <Route path="/genres/:name" element={<React.Suspense fallback={<>...</>}><Genre /></React.Suspense>} />
+      <Route path="/series" element={<React.Suspense fallback={<>...</>}><Series /></React.Suspense>} />
+      <Route path="/series/:title" element={<React.Suspense fallback={<>...</>}><Seria /></React.Suspense>} />
       <Route path="/login" element={<React.Suspense fallback={<>...</>}><Login /></React.Suspense>} />
       <Route path="/register" element={<React.Suspense fallback={<>...</>}><Register /></React.Suspense>} />
     </Routes>
