@@ -37,9 +37,7 @@ export default function Login() {
   // const emailRef = useRef<HTMLInputElement>(null);
   // const passwordRef = useRef<HTMLInputElement>(null);
   // const count = useRef(0);
-
   // const [login, dispatch] = useReducer(reducer, initialState);
-
   // const [login, setLogin] = useState<ILogin>({
   //   email: "",
   //   password: ""

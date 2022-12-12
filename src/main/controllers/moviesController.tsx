@@ -5,6 +5,7 @@ import IMovie from '~/main/interfaces/IMovie';
 import IMoviesCount from '~/main/interfaces/IMoviesCount';
 import IMoviesResponse from '~/main/interfaces/IMoviesResponse';
 import IUser from '~/main/interfaces/IUser';
+import ISerie from '../interfaces/ISerie';
 
 const moviesController = {
   getMovieCount: async(): Promise<any> => {
@@ -88,8 +89,27 @@ const moviesController = {
   getGenresWithNoPagination: async(): Promise<any> => {
     const genres: IGenre[] = await axios.get("http://localhost:4000/genres").then(x => x.data);
     return genres;
-  }
+  },
 
+  getSerieEpisodesNoPagination: async(): Promise<any> => {
+    const responseGenre: IGenreResponse = await axios.get(`http://localhost:4000/series/page/1`).then(x => x.data);
+    return responseGenre;
+  },
+
+  getSerieEpisodesWithPagination: async(page: string | undefined | null): Promise<any> => {
+    const responseGenre: ISerie = await axios.get(`http://localhost:4000/series/page/${page}`).then(x => x.data);
+    return responseGenre;
+  },
+
+  getSerieCount: async(): Promise<any> => {
+    const seriesCount: any = await axios.get("http://localhost:4000/series-count").then(x =>x.data);
+    return seriesCount;
+  },
+
+  getSerieMovie: async(slug: string | undefined): Promise<any> => {
+    const responseGenre: ISerie = await axios.get(`http://localhost:4000/series/${slug}`).then(x => x.data);
+    return responseGenre;
+  },
 }
 
 export default moviesController;

@@ -19,7 +19,6 @@ import IMoviesSearchResponse from "~/main/interfaces/IMovieSearchResponse";
 import IMoviesResponse from "~/main/interfaces/IMoviesResponse";
 import HomeCarousel from "~/modules/base/pages/home/homeCarousel/index";
 import "~/modules/base/pages/home/style.css";
-// import useQuery from "~/main/hooks/useQueryParams";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -29,10 +28,6 @@ export default function Home() {
   const [pageNumber, setPageNumber] = useState<number>(0);
   const [itemsPerPage, setItemsPerPage] = useState<number>(20);
   const [sortBy, setSortBy] = useState<string>("");
-  // const [sortByParam, setSortByParam] = useState<string | null>("");
-  // const [searchParam, setSearchParam] = useState<string | null>("");
-  // const [pageParam, setPageParam] = useState<string | null>("");
-  // let query = useQuery();
   const { movies, setMovies, latestMovies, setLatestMovies, searchTerm } = useStore();
   let pageCount;
   
@@ -94,13 +89,13 @@ export default function Home() {
           <h3>Sort By: </h3>
           <List classname="list-sort">
             <Label onClick={()=>{
-              setSearchParams({sortBy: 'views'})
+              setSearchParams({sortBy: 'views'});
             }}>Most viewed (Desc)</Label>
             <Label onClick={()=>{
-              setSearchParams({sortBy: 'imdbRating'})
+              setSearchParams({sortBy: 'imdbRating'});
             }}>Imdb rating (Desc)</Label>
             <Label onClick={()=>{
-              setSearchParams({sortBy: 'title'})
+              setSearchParams({sortBy: 'title'});
             }}>Title (Desc)</Label>
           </List>
         </>
@@ -288,12 +283,6 @@ export default function Home() {
     } 
   }, [searchTerm]);
 
-  // useEffect(() => {
-  //   if (searchParams.get("page")) setPageParam(searchParams.get("page"))
-  //   if (searchParams.get("search")) setSearchParam(searchParams.get("search"));
-  //   if (searchParams.get("sortBy")) setSortByParam(searchParams.get("sortBy"));
-  // }, [searchParams]);
-
   if (!movies) {
     return (
       <Container classname="loading-wrapper">
@@ -322,8 +311,6 @@ export default function Home() {
             nextLabel={"Next >"}
             pageCount={pageCount}
             onPageChange={changePage}
-            // initialPage={2}
-            // initialPage={searchParams.get("page") && Number(searchParams.get("page"))}
             containerClassName={"paginationBttns"}
             previousLinkClassName={"previousBttn"}
             nextLinkClassName={"nextBttn"}
