@@ -1,0 +1,16 @@
+.home-ribbon-1 {
+  grid-area: ribbon-1;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 15px;
+  place-items: center;
+  place-content: center;
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
+.home-ribbon-1 img {
+  height: 500px;
+  width: 350px;
+  cursor: pointer;
+}
