@@ -33,8 +33,8 @@ export default function Profile() {
   //                 }}
   //               >
   //                 <img src={movie.photoSrc} />
-  //                 <label>Movie title: {movie.title}</label>
-  //                 <label>Release year: {movie.releaseYear}</label>
+  //                 <span>Movie title: {movie.title}</span>
+  //                 <span>Release year: {movie.releaseYear}</span>
   //               </li>
   //             ))}
   //           </ul>
@@ -44,7 +44,7 @@ export default function Profile() {
   //   } else if (params.tab === "aboutUs") {
   //     return (
   //       <div className="container-about">
-  //         <label>This is my account</label>
+  //         <span>This is my account</span>
   //       </div>
   //     )
   //   }
@@ -71,7 +71,7 @@ export default function Profile() {
         <div className="container-profile-nav">
           <div className="profile-info">
             <img src="/assets/avatars/blankavatar.jpg" />
-            <label className="userName-span">{user.userName}</label>
+            <span className="userName-span">{user.userName}</span>
           </div>
         </div>
         <div className="container-tabs">

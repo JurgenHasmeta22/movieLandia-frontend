@@ -12,6 +12,28 @@
   background-color: #004355;
 }
 
+.genre-cateogory-image {
+  height: 350px;
+  width: 250px;
+  cursor: pointer;
+}
+
+.genre-category {
+  background-color: rgb(217, 217, 217);
+  height: 300px;
+  width: 250px;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.genre-category span {
+  color: #004355;
+  font-size: 16px;
+  letter-spacing: 1px;
+  font-weight: 700;
+}
+
 .genre-categories-menus h2 {
   grid-area: fav-genre;
   font-size: 22px;
