@@ -174,3 +174,25 @@ ul.list-latest {
   width: 250px;
   cursor: pointer;
 }
+
+.image-ribbon-1-genre-wrapper {
+  display: grid;
+  grid-template-columns: repeat(4, 0.25fr);
+  grid-gap: 5px;
+  place-items: center;
+  height: auto;
+}
+
+.genre-cateogory-image {
+  height: 350px;
+  width: 250px;
+  cursor: pointer;
+}
+
+.movie-count-span {
+  display: grid;
+  place-self: center;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 800;
+}
