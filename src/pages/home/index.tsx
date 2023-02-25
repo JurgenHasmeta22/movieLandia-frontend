@@ -13,6 +13,7 @@ import IMoviesSearchResponse from "~/interfaces/IMovieSearchResponse";
 import IMoviesResponse from "~/interfaces/IMoviesResponse";
 import HomeCarousel from "~/components/homeCarousel/index";
 import "~/pages/home/style.css";
+import MovieCard from "~/components/MovieCard";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -58,15 +59,15 @@ export default function Home() {
   function conditionalRenderingMovieCount(): JSX.Element | undefined {
     if (searchParams.get("search")) {
       return (
-        <label className="movie-count-span">
+        <span className="movie-count-span">
           Total movies: {moviesCountSearch}
-        </label>
+        </span>
       );
     } else {
       return (
-        <label className="movie-count-span">
+        <span className="movie-count-span">
           Total movies: {moviesCount?.count}
-        </label>
+        </span>
       );
     }
   }
@@ -83,27 +84,27 @@ export default function Home() {
         <>
           <h3>Sort By: </h3>
           <ul className="list-sort">
-            <label
+            <span
               onClick={() => {
                 setSearchParams({ sortBy: "views" });
               }}
             >
               Most viewed (Desc)
-            </label>
-            <label
+            </span>
+            <span
               onClick={() => {
                 setSearchParams({ sortBy: "imdbRating" });
               }}
             >
               Imdb rating (Desc)
-            </label>
-            <label
+            </span>
+            <span
               onClick={() => {
                 setSearchParams({ sortBy: "title" });
               }}
             >
               Title (Desc)
-            </label>
+            </span>
           </ul>
         </>
       );
@@ -115,49 +116,14 @@ export default function Home() {
       return (
         <div className="image-ribbon-2-wrapper">
           {movies.map((movie: any) => (
-            <div
-              className="movie-item"
-              key={movie.id}
-              onClick={function (e) {
-                e.stopPropagation();
-                navigate(
-                  `/movies/${movie.title
-                    .split("")
-                    .map((char: any) => (char === " " ? "-" : char))
-                    .join("")}`
-                );
-                window.scrollTo(0, 0);
-              }}
-            >
-              <img src={movie.photoSrc} />
-              <label className="movie-title">{movie.title}</label>
-              <div className="genres-holder-span">
-                {movie.genres.map((genre: any) => (
-                  <label
-                    key={genre.genre.name}
-                    onClick={function (e) {
-                      e.stopPropagation();
-                      navigate(`/genres/${genre.genre.name}`);
-                      window.scrollTo(0, 0);
-                    }}
-                  >
-                    {genre.genre.name}
-                  </label>
-                ))}
-              </div>
-              <label className="imdb-span">
-                {movie.ratingImdb !== 0
-                  ? `Imdb: ${movie.ratingImdb}`
-                  : "Imdb: N/A"}
-              </label>
-            </div>
+            <MovieCard movie={movie} type="homeMovie" key={movie.id} />
           ))}
         </div>
       );
     } else {
       return (
         <div className="no-search">
-          <label>No Search Result, no movie found with that criteria.</label>
+          <span>No Search Result, no movie found with that criteria.</span>
         </div>
       );
     }
@@ -172,41 +138,11 @@ export default function Home() {
           </ul>
           <div className="image-ribbon-3-wrapper">
             {latestMovies?.map((latestMovie: any) => (
-              <div
-                className="movie-item-latest"
-                key={latestMovie.id}
-                onClick={function (e) {
-                  e.stopPropagation();
-                  navigate(
-                    `/movies/${latestMovie.title
-                      .split("")
-                      .map((char: any) => (char === " " ? "-" : char))
-                      .join("")}`
-                  );
-                  window.scrollTo(0, 0);
-                }}
-              >
-                <img src={latestMovie.photoSrc} />
-                <label className="movie-title">{latestMovie.title}</label>
-                <div className="genres-holder-span">
-                  {latestMovie.genres.map((genre: any) => (
-                    <label
-                      key={genre.genre.name}
-                      onClick={function (e) {
-                        e.stopPropagation();
-                        navigate(`/genres/${genre.genre.name}`);
-                        window.scrollTo(0, 0);
-                      }}
-                    >
-                      {genre.genre.name}
-                    </label>
-                  ))}
-                </div>
-                <label className="imdb-span">
-                  {latestMovie.ratingImdb !== 0 &&
-                    `Imdb: ${latestMovie.ratingImdb}`}
-                </label>
-              </div>
+              <MovieCard
+                type="homeLatest"
+                movie={latestMovie}
+                key={latestMovie}
+              />
             ))}
           </div>
         </div>
@@ -369,29 +305,27 @@ export default function Home() {
   }
 
   return (
-    <>
-      <div className="home-wrapper-menus">
-        <Header />
-        {conditionalRenderingCarousel()}
-        <div className="home-ribbon-2">
-          {conditionalRenderingMovieCount()}
-          {conditionalRenderingSorting()}
-          {conditionalRenderingMovies()}
-          <ReactPaginate
-            previousLabel={"< Previous"}
-            nextLabel={"Next >"}
-            pageCount={pageCount}
-            onPageChange={changePage}
-            containerClassName={"paginationBttns"}
-            previousLinkClassName={"previousBttn"}
-            nextLinkClassName={"nextBttn"}
-            disabledClassName={"paginationDisabled"}
-            activeClassName={"paginationActive"}
-          />
-        </div>
-        {conditionalRenderingLatestMovies()}
-        <Footer />
+    <div className="home-wrapper-menus">
+      <Header />
+      {conditionalRenderingCarousel()}
+      <div className="home-ribbon-2">
+        {conditionalRenderingMovieCount()}
+        {conditionalRenderingSorting()}
+        {conditionalRenderingMovies()}
+        <ReactPaginate
+          previousLabel={"< Previous"}
+          nextLabel={"Next >"}
+          pageCount={pageCount}
+          onPageChange={changePage}
+          containerClassName={"paginationBttns"}
+          previousLinkClassName={"previousBttn"}
+          nextLinkClassName={"nextBttn"}
+          disabledClassName={"paginationDisabled"}
+          activeClassName={"paginationActive"}
+        />
       </div>
-    </>
+      {conditionalRenderingLatestMovies()}
+      <Footer />
+    </div>
   );
 }

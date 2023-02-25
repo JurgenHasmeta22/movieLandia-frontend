@@ -126,9 +126,9 @@ export default function Login() {
                 }}
               />
             </label>
-            <label>
+            <span>
               <button>Log In</button>
-            </label>
+            </span>
             <label id="signup-link-wrapper" htmlFor="">
               Don't have an account?
               <Link id="link" to={"/register"}>

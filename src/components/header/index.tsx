@@ -140,7 +140,7 @@ export default function Header() {
                   redirectToProfile(user);
                 }}
               >
-                <img src={`/assets/avatars/blankavatar.jpg`} />
+                <img src='/assets/avatars/blankavatar.jpg' />
                 {user.userName}
               </li>
               <div className="dropdown-content">
@@ -151,7 +151,7 @@ export default function Header() {
                     handleLogout();
                   }}
                 >
-                  <label>Log Out</label>
+                  <span>Log Out</span>
                 </button>
               </div>
             </div>

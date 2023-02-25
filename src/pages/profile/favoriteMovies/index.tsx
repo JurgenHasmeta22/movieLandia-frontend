@@ -25,8 +25,8 @@ export default function FavoriteMoviesTab() {
               }}
             >
               <img src={movie.photoSrc} />
-              <label>Movie title: {movie.title}</label>
-              <label>Release year: {movie.releaseYear}</label>
+              <span>Movie title: {movie.title}</span>
+              <span>Release year: {movie.releaseYear}</span>
             </li>
           ))}
         </ul>

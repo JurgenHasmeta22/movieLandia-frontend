@@ -120,28 +120,6 @@ ul.list-latest {
   cursor: pointer;
 }
 
-.movie-item .imdb-span {
-  font-size: 14px;
-  font-weight: 800;
-  color: #5ad2f3;
-  display: grid;
-  place-items: center;
-}
-
-.movie-title {
-  display: grid;
-  place-items: center;
-  width: 100%;
-}
-
-.movie-item-latest .imdb-span {
-  font-size: 14px;
-  font-weight: 800;
-  color: #5ad2f3;
-  display: grid;
-  place-items: center;
-}
-
 .home-ribbon-2 ul li {
   font-size: 14px;
   color: #fff;
@@ -181,12 +159,6 @@ ul.list-latest {
   grid-gap: 5px;
   place-items: center;
   height: auto;
-}
-
-.genre-cateogory-image {
-  height: 350px;
-  width: 250px;
-  cursor: pointer;
 }
 
 .movie-count-span {

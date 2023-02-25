@@ -8,6 +8,7 @@ import { useStore } from "~/store/zustand/store";
 import IGenreResponse from "~/interfaces/IGenreResponse";
 import "./style.css";
 import Footer from "~/components/footer";
+import MovieCard from "~/components/MovieCard";
 
 export default function Genre() {
   const params = useParams();
@@ -68,47 +69,12 @@ export default function Genre() {
     <div className="genre-wrapper-menus">
       <Header />
       <div className="genre-ribbon-1">
-        <label className="movie-count-span">
+        <span className="movie-count-span">
           Total movies in this genre: {moviesCountGenre}
-        </label>
+        </span>
         <div className="image-ribbon-1-genre-wrapper">
           {movies.map((movie: any) => (
-            <div
-              className="movie-item-genre"
-              key={movie.id}
-              onClick={function (e) {
-                e.stopPropagation();
-                navigate(
-                  `/movies/${movie.title
-                    .split("")
-                    .map((char: any) => (char === " " ? "-" : char))
-                    .join("")}`
-                );
-                window.scrollTo(0, 0);
-              }}
-            >
-              <img src={movie.photoSrc} className={"genre-cateogory-image"} />
-              <label className="movie-title">{movie.title}</label>
-              <div className="genres-holder-span">
-                {movie.genres.map((genre: any) => (
-                  <label
-                    key={genre.genre.name}
-                    onClick={function (e) {
-                      e.stopPropagation();
-                      navigate(`/genres/${genre.genre.name}`);
-                      window.scrollTo(0, 0);
-                    }}
-                  >
-                    {genre.genre.name}
-                  </label>
-                ))}
-              </div>
-              <label className="imdb-span">
-                {movie.ratingImdb !== 0
-                  ? `Imdb: ${movie.ratingImdb}`
-                  : "Imdb: N/A"}
-              </label>
-            </div>
+            <MovieCard movie={movie} type="genreMovie" key={movie.id} />
           ))}
         </div>
         <ReactPaginate

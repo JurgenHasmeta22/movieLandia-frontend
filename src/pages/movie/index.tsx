@@ -115,7 +115,7 @@ export default function Movie() {
             </div>
             <ul className="last-movies-list">
               {latestMovies.slice(14, 19).map((latestMovie: any) => (
-                <MovieItemLatest latestMovie={latestMovie} />
+                <MovieItemLatest latestMovie={latestMovie} key={latestMovie.id} />
               ))}
             </ul>
           </div>

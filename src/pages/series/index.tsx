@@ -8,6 +8,7 @@ import moviesController from "~/services/movies";
 import "../genre/style.css";
 import "../home/style.css";
 import ISeriesResponse from "~/interfaces/ISeriesResponse";
+import MovieCard from "~/components/MovieCard";
 
 export default function Series() {
   const [pageNumber, setPageNumber] = useState<number>(0);
@@ -71,28 +72,8 @@ export default function Series() {
       <div className="genre-ribbon-1">
         <span className="movie-count-span">Total series: {seriesCount}</span>
         <div className="image-ribbon-1-genre-wrapper">
-          {series.map((serie: ISerie) => (
-            <div
-              className="movie-item-genre"
-              key={serie.id}
-              onClick={function (e) {
-                e.stopPropagation();
-                navigate(
-                  `/series/${serie.title
-                    .split("")
-                    .map((char: any) => (char === " " ? "-" : char))
-                    .join("")}`
-                );
-              }}
-            >
-              <img src={serie.photoSrc} alt="" />
-              <span className="movie-title">{serie.title}</span>
-              <span className="imdb-span">
-                {serie.ratingImdb
-                  ? "Imdb: " + serie.ratingImdb
-                  : "Imdb: " + "N/A"}
-              </span>
-            </div>
+          {series.map((serie: any) => (
+            <MovieCard movie={serie} type="serie" key={serie.id} />
           ))}
         </div>
         <ReactPaginate

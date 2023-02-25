@@ -37,7 +37,7 @@ export default function Genres() {
               window.scrollTo(0, 0);
             }}
           >
-            <label>{genre.name}</label>
+            <span>{genre.name}</span>
           </div>
         ))}
         {/* <Outlet /> Doesnt work becase this is used only when its in this page not other component etc */}
