@@ -1,12 +1,7 @@
 import ReactLoading from "react-loading";
 import { Outlet, useNavigate, useParams } from "react-router-dom";
-import Container from "~/components/container";
 import Footer from "~/components/footer";
 import Header from "~/components/header";
-import Label from "~/components/label";
-import List from "~/components/list";
-import ListItem from "~/components/list/listItem";
-import Picture from "~/components/picture";
 import { useStore } from "~/store/zustand/store";
 import "~/pages/profile/style.css";
 
@@ -20,11 +15,11 @@ export default function Profile() {
   //     return (
   //       <>
   //         <h3 className="special-video-you">Bookmarked movies</h3>
-  //         <Container classname="container-videos">
-  //           <List classname="favorite-movies">
+  //         <div className="container-videos">
+  //           <ul className="favorite-movies">
   //             {user?.favMovies!.map((movie: any) => (
-  //               <ListItem
-  //                 classname="movie-fav"
+  //               <li
+  //                 className="movie-fav"
   //                 // key={movie.id}
   //                 myKey={movie.id}
   //                 onClick={function () {
@@ -37,27 +32,27 @@ export default function Profile() {
   //                   window.scroll(0, 0);
   //                 }}
   //               >
-  //                 <Picture src={movie.photoSrc} />
-  //                 <Label>Movie title: {movie.title}</Label>
-  //                 <Label>Release year: {movie.releaseYear}</Label>
-  //               </ListItem>
+  //                 <img src={movie.photoSrc} />
+  //                 <label>Movie title: {movie.title}</label>
+  //                 <label>Release year: {movie.releaseYear}</label>
+  //               </li>
   //             ))}
-  //           </List>
-  //         </Container>
+  //           </ul>
+  //         </div>
   //       </>
   //     );
   //   } else if (params.tab === "aboutUs") {
   //     return (
-  //       <Container classname="container-about">
-  //         <Label>This is my account</Label>
-  //       </Container>
+  //       <div className="container-about">
+  //         <label>This is my account</label>
+  //       </div>
   //     )
   //   }
   // }
 
   if (!user) {
     return (
-      <Container classname="loading-wrapper">
+      <div className="loading-wrapper">
         <ReactLoading
           type={"spin"}
           color={"#000"}
@@ -65,7 +60,7 @@ export default function Profile() {
           width={100}
           className="loading"
         />
-      </Container>
+      </div>
     );
   }
 
@@ -73,16 +68,16 @@ export default function Profile() {
     <main>
       <Header />
       <section className="container-profile-menus">
-        <Container classname="container-profile-nav">
-          <Container classname="profile-info">
-            <Picture src="/assets/avatars/blankavatar.jpg" />
-            <Label classname="userName-span">{user.userName}</Label>
-          </Container>
-        </Container>
-        <Container classname="container-tabs">
-          <List classname="list-tabs">
-            <ListItem
-              classname={
+        <div className="container-profile-nav">
+          <div className="profile-info">
+            <img src="/assets/avatars/blankavatar.jpg" />
+            <label className="userName-span">{user.userName}</label>
+          </div>
+        </div>
+        <div className="container-tabs">
+          <ul className="list-tabs">
+            <li
+              className={
                 params.tab === "favoriteMovies" ? "clicked" : "videos-tab"
               }
               onClick={() => {
@@ -90,19 +85,19 @@ export default function Profile() {
               }}
             >
               Favorite Movies
-            </ListItem>
-            <ListItem
-              classname={params.tab === "aboutUs" ? "clicked" : "about-tab"}
+            </li>
+            <li
+              className={params.tab === "aboutUs" ? "clicked" : "about-tab"}
               onClick={() => {
                 navigate("/profile/aboutUs");
               }}
             >
               About Channel
-            </ListItem>
-          </List>
+            </li>
+          </ul>
           {/* {conditionalRenderingTabs()} */}
           <Outlet />
-        </Container>
+        </div>
       </section>
       <Footer />
     </main>

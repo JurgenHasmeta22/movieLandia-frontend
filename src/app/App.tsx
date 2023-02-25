@@ -1,13 +1,12 @@
 import * as React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import "./App.css";
 import { useEffect } from "react";
 import { useStore } from "~/store/zustand/store";
 import IUser from "~/interfaces/IUser";
 import authenticationController from "~/services/authentication";
 import PrivateRoutes from "~/utils/PrivateRoutes";
-import Series from "~/pages/series";
-import Seria from "~/pages/seria";
+const Series = React.lazy(() => import("~/pages/series"));
+const Seria = React.lazy(() => import("~/pages/seria"));
 const Error404 = React.lazy(() => import("~/pages/error"));
 const Genre = React.lazy(() => import("~/pages/genre"));
 const Genres = React.lazy(() => import("~/pages/genres/index"));
@@ -20,6 +19,7 @@ const AboutUsTab = React.lazy(() => import("~/pages/profile/aboutUs"));
 const FavoriteMoviesTab = React.lazy(
   () => import("~/pages/profile/favoriteMovies")
 );
+import "./App.css";
 
 function App() {
   // const userContext = createContext(null);

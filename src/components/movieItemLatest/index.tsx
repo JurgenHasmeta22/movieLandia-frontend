@@ -1,6 +1,4 @@
 import { useNavigate } from "react-router";
-import ListItem from "~/components/list/listItem";
-import Picture from "~/components/picture";
 import IMovie from "~/interfaces/IMovie";
 
 interface IMovieItemLatestProps {
@@ -12,7 +10,7 @@ export default function movieItemLatest(props: IMovieItemLatestProps) {
   const { latestMovie } = props;
 
   return (
-    <ListItem
+    <li
       key={latestMovie.id}
       onClick={function () {
         navigate(
@@ -24,7 +22,7 @@ export default function movieItemLatest(props: IMovieItemLatestProps) {
         window.scrollTo(0, 0);
       }}
     >
-      <Picture src={latestMovie.photoSrc} />
-    </ListItem>
+      <img src={latestMovie.photoSrc} />
+    </li>
   );
 }

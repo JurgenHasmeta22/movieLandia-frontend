@@ -2,11 +2,7 @@ import { useEffect, useState } from "react";
 import ReactLoading from "react-loading";
 import ReactPaginate from "react-paginate";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
-import Card from "~/components/card/index";
-import Container from "~/components/container/index";
 import Header from "~/components/header/index";
-import Label from "~/components/label/index";
-import Picture from "~/components/picture/index";
 import moviesController from "~/services/movies";
 import { useStore } from "~/store/zustand/store";
 import IGenreResponse from "~/interfaces/IGenreResponse";
@@ -56,7 +52,7 @@ export default function Genre() {
 
   if (!movies) {
     return (
-      <Container classname="loading-wrapper">
+      <div className="loading-wrapper">
         <ReactLoading
           type={"spin"}
           color={"#000"}
@@ -64,21 +60,21 @@ export default function Genre() {
           width={100}
           className="loading"
         />
-      </Container>
+      </div>
     );
   }
 
   return (
-    <Container classname="genre-wrapper-menus">
+    <div className="genre-wrapper-menus">
       <Header />
-      <Container classname="genre-ribbon-1">
-        <Label classname="movie-count-span">
+      <div className="genre-ribbon-1">
+        <label className="movie-count-span">
           Total movies in this genre: {moviesCountGenre}
-        </Label>
-        <Container classname="image-ribbon-1-genre-wrapper">
+        </label>
+        <div className="image-ribbon-1-genre-wrapper">
           {movies.map((movie: any) => (
-            <Card
-              classname="movie-item-genre"
+            <div
+              className="movie-item-genre"
               key={movie.id}
               onClick={function (e) {
                 e.stopPropagation();
@@ -91,14 +87,11 @@ export default function Genre() {
                 window.scrollTo(0, 0);
               }}
             >
-              <Picture
-                src={movie.photoSrc}
-                classname={"genre-cateogory-image"}
-              />
-              <Label classname="movie-title">{movie.title}</Label>
-              <Container classname="genres-holder-span">
+              <img src={movie.photoSrc} className={"genre-cateogory-image"} />
+              <label className="movie-title">{movie.title}</label>
+              <div className="genres-holder-span">
                 {movie.genres.map((genre: any) => (
-                  <Label
+                  <label
                     key={genre.genre.name}
                     onClick={function (e) {
                       e.stopPropagation();
@@ -107,17 +100,17 @@ export default function Genre() {
                     }}
                   >
                     {genre.genre.name}
-                  </Label>
+                  </label>
                 ))}
-              </Container>
-              <Label classname="imdb-span">
+              </div>
+              <label className="imdb-span">
                 {movie.ratingImdb !== 0
                   ? `Imdb: ${movie.ratingImdb}`
                   : "Imdb: N/A"}
-              </Label>
-            </Card>
+              </label>
+            </div>
           ))}
-        </Container>
+        </div>
         <ReactPaginate
           previousLabel={"< Previous"}
           nextLabel={"Next >"}
@@ -129,8 +122,8 @@ export default function Genre() {
           disabledClassName={"paginationDisabled"}
           activeClassName={"paginationActive"}
         />
-      </Container>
+      </div>
       <Footer />
-    </Container>
+    </div>
   );
 }

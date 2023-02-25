@@ -1,5 +1,4 @@
 import Carousel from "@palustris/react-images";
-import Container from "~/components/container";
 import "./style.css";
 
 // interface IHomeCarouselLatestProps {
@@ -26,8 +25,8 @@ export default function homeCarousel() {
   // } = props;
 
   return (
-    <Container classname="home-ribbon-1">
+    <div className="home-ribbon-1">
       <Carousel views={images} />
-    </Container>
+    </div>
   );
 }

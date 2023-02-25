@@ -1,7 +1,7 @@
 import "./style.css";
 
 interface IButtonProps {
-  classname?: string;
+  className?: string;
   type?: "button" | "submit" | "reset" | undefined;
   id?: string;
   onClick?: (e: any) => void;
@@ -9,10 +9,10 @@ interface IButtonProps {
 }
 
 export default function Button(props: IButtonProps) {
-  const { classname, type, id, onClick, children } = props;
+  const { className, type, id, onClick, children } = props;
 
   return (
-    <button type={type} className={classname} onClick={onClick} id={id}>
+    <button type={type} className={className} onClick={onClick} id={id}>
       {children}
     </button>
   );

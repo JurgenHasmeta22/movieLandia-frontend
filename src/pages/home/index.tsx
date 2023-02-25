@@ -3,21 +3,15 @@ import ReactLoading from "react-loading";
 import ReactPaginate from "react-paginate";
 import { useNavigate } from "react-router";
 import { useSearchParams } from "react-router-dom";
-import Card from "~/components/card/index";
-import Container from "~/components/container/index";
 import Footer from "~/components/footer/index";
 import Header from "~/components/header/index";
-import Label from "~/components/label/index";
-import List from "~/components/list/index";
-import ListItem from "~/components/list/listItem/index";
-import Picture from "~/components/picture/index";
 import moviesController from "~/services/movies";
 import { useStore } from "~/store/zustand/store";
 import IMovie from "~/interfaces/IMovie";
 import IMoviesCount from "~/interfaces/IMoviesCount";
 import IMoviesSearchResponse from "~/interfaces/IMovieSearchResponse";
 import IMoviesResponse from "~/interfaces/IMoviesResponse";
-import HomeCarousel from "~/pages/home/homeCarousel/index";
+import HomeCarousel from "~/components/homeCarousel/index";
 import "~/pages/home/style.css";
 
 export default function Home() {
@@ -64,15 +58,15 @@ export default function Home() {
   function conditionalRenderingMovieCount(): JSX.Element | undefined {
     if (searchParams.get("search")) {
       return (
-        <Label classname="movie-count-span">
+        <label className="movie-count-span">
           Total movies: {moviesCountSearch}
-        </Label>
+        </label>
       );
     } else {
       return (
-        <Label classname="movie-count-span">
+        <label className="movie-count-span">
           Total movies: {moviesCount?.count}
-        </Label>
+        </label>
       );
     }
   }
@@ -88,29 +82,29 @@ export default function Home() {
       return (
         <>
           <h3>Sort By: </h3>
-          <List classname="list-sort">
-            <Label
+          <ul className="list-sort">
+            <label
               onClick={() => {
                 setSearchParams({ sortBy: "views" });
               }}
             >
               Most viewed (Desc)
-            </Label>
-            <Label
+            </label>
+            <label
               onClick={() => {
                 setSearchParams({ sortBy: "imdbRating" });
               }}
             >
               Imdb rating (Desc)
-            </Label>
-            <Label
+            </label>
+            <label
               onClick={() => {
                 setSearchParams({ sortBy: "title" });
               }}
             >
               Title (Desc)
-            </Label>
-          </List>
+            </label>
+          </ul>
         </>
       );
     }
@@ -119,12 +113,11 @@ export default function Home() {
   function conditionalRenderingMovies(): JSX.Element | undefined {
     if (movies.length !== 0) {
       return (
-        <Container classname="image-ribbon-2-wrapper">
+        <div className="image-ribbon-2-wrapper">
           {movies.map((movie: any) => (
-            <Card
-              classname="movie-item"
+            <div
+              className="movie-item"
               key={movie.id}
-              myKey={movie.id}
               onClick={function (e) {
                 e.stopPropagation();
                 navigate(
@@ -136,11 +129,11 @@ export default function Home() {
                 window.scrollTo(0, 0);
               }}
             >
-              <Picture src={movie.photoSrc} />
-              <Label classname="movie-title">{movie.title}</Label>
-              <Container classname="genres-holder-span">
+              <img src={movie.photoSrc} />
+              <label className="movie-title">{movie.title}</label>
+              <div className="genres-holder-span">
                 {movie.genres.map((genre: any) => (
-                  <Label
+                  <label
                     key={genre.genre.name}
                     onClick={function (e) {
                       e.stopPropagation();
@@ -149,23 +142,23 @@ export default function Home() {
                     }}
                   >
                     {genre.genre.name}
-                  </Label>
+                  </label>
                 ))}
-              </Container>
-              <Label classname="imdb-span">
+              </div>
+              <label className="imdb-span">
                 {movie.ratingImdb !== 0
                   ? `Imdb: ${movie.ratingImdb}`
                   : "Imdb: N/A"}
-              </Label>
-            </Card>
+              </label>
+            </div>
           ))}
-        </Container>
+        </div>
       );
     } else {
       return (
-        <Container classname="no-search">
-          <Label>No Search Result, no movie found with that criteria.</Label>
-        </Container>
+        <div className="no-search">
+          <label>No Search Result, no movie found with that criteria.</label>
+        </div>
       );
     }
   }
@@ -173,14 +166,14 @@ export default function Home() {
   function conditionalRenderingLatestMovies(): JSX.Element | undefined {
     if (!searchParams.get("search")) {
       return (
-        <Container classname="home-ribbon-3">
-          <List classname="list-latest">
-            <ListItem classname="special-last">LATEST MOVIES</ListItem>
-          </List>
-          <Container classname="image-ribbon-3-wrapper">
+        <div className="home-ribbon-3">
+          <ul className="list-latest">
+            <li className="special-last">LATEST MOVIES</li>
+          </ul>
+          <div className="image-ribbon-3-wrapper">
             {latestMovies?.map((latestMovie: any) => (
-              <Card
-                classname="movie-item-latest"
+              <div
+                className="movie-item-latest"
                 key={latestMovie.id}
                 onClick={function (e) {
                   e.stopPropagation();
@@ -193,11 +186,11 @@ export default function Home() {
                   window.scrollTo(0, 0);
                 }}
               >
-                <Picture src={latestMovie.photoSrc} />
-                <Label classname="movie-title">{latestMovie.title}</Label>
-                <Container classname="genres-holder-span">
+                <img src={latestMovie.photoSrc} />
+                <label className="movie-title">{latestMovie.title}</label>
+                <div className="genres-holder-span">
                   {latestMovie.genres.map((genre: any) => (
-                    <Label
+                    <label
                       key={genre.genre.name}
                       onClick={function (e) {
                         e.stopPropagation();
@@ -206,17 +199,17 @@ export default function Home() {
                       }}
                     >
                       {genre.genre.name}
-                    </Label>
+                    </label>
                   ))}
-                </Container>
-                <Label classname="imdb-span">
+                </div>
+                <label className="imdb-span">
                   {latestMovie.ratingImdb !== 0 &&
                     `Imdb: ${latestMovie.ratingImdb}`}
-                </Label>
-              </Card>
+                </label>
+              </div>
             ))}
-          </Container>
-        </Container>
+          </div>
+        </div>
       );
     }
   }
@@ -363,7 +356,7 @@ export default function Home() {
 
   if (!movies) {
     return (
-      <Container classname="loading-wrapper">
+      <div className="loading-wrapper">
         <ReactLoading
           type={"spin"}
           color={"#000"}
@@ -371,16 +364,16 @@ export default function Home() {
           width={100}
           className="loading"
         />
-      </Container>
+      </div>
     );
   }
 
   return (
     <>
-      <Container classname="home-wrapper-menus">
+      <div className="home-wrapper-menus">
         <Header />
         {conditionalRenderingCarousel()}
-        <Container classname="home-ribbon-2">
+        <div className="home-ribbon-2">
           {conditionalRenderingMovieCount()}
           {conditionalRenderingSorting()}
           {conditionalRenderingMovies()}
@@ -395,10 +388,10 @@ export default function Home() {
             disabledClassName={"paginationDisabled"}
             activeClassName={"paginationActive"}
           />
-        </Container>
+        </div>
         {conditionalRenderingLatestMovies()}
         <Footer />
-      </Container>
+      </div>
     </>
   );
 }
