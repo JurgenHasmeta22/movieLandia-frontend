@@ -5,13 +5,6 @@ import "react-dropdown/style.css";
 import "./style.css";
 import axios from "axios";
 import IGenre from "~/interfaces/IGenre";
-import Picture from "~/components/picture/index";
-import Label from "~/components/label/index";
-import Container from "~/components/container/index";
-import ListItem from "~/components/list/listItem/index";
-import List from "~/components/list/index";
-import Button from "~/components/button/index";
-import Input from "~/components/input/index";
 
 export default function Header() {
   const navigate = useNavigate();
@@ -54,34 +47,34 @@ export default function Header() {
   return (
     <>
       <header className="header">
-        <Container classname="header-group-1">
+        <div className="header-group-1">
           <Link to="/movies">MovieLand24</Link>
-          <List classname="list-nav">
-            <Container classname="div-inside-li">
-              <Picture src="/assets/logos/ico_filma_blu.png" alt="" />
+          <ul className="list-nav">
+            <div className="div-inside-li">
+              <img src="/assets/logos/ico_filma_blu.png" alt="" />
               <NavLink to="/movies" className="special-uppercase">
                 Movies
               </NavLink>
-            </Container>
-            <Container classname="div-inside-li-special">
-              <Container classname="dropdown">
-                <Container classname="genre-drop">
-                  <Picture src="/assets/logos/list_blu.png" alt="" />
-                  <ListItem
-                    classname="special-uppercase"
+            </div>
+            <div className="div-inside-li-special">
+              <div className="dropdown">
+                <div className="genre-drop">
+                  <img src="/assets/logos/list_blu.png" alt="" />
+                  <li
+                    className="special-uppercase"
                     onClick={function (e) {
                       e.stopPropagation();
                       navigate("/genres");
                     }}
                   >
                     Genres
-                  </ListItem>
-                </Container>
-                <Container classname="dropdown-content">
-                  <List>
+                  </li>
+                </div>
+                <div className="dropdown-content">
+                  <ul>
                     {genres.map((genre: any) => (
-                      <ListItem
-                        classname="special-list-drop"
+                      <li
+                        className="special-list-drop"
                         key={genre.id}
                         onClick={function (e: any) {
                           e.stopPropagation();
@@ -89,32 +82,31 @@ export default function Header() {
                         }}
                       >
                         {genre.name}
-                      </ListItem>
+                      </li>
                     ))}
-                  </List>
-                </Container>
-              </Container>
-            </Container>
-            <Container classname="div-inside-li">
-              <Picture src="/assets/logos/netflix-red.png" alt="" />
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div className="div-inside-li">
+              <img src="/assets/logos/netflix-red.png" alt="" />
               <NavLink to="/genres/NETFLIX" className="special-uppercase">
                 Netflix
               </NavLink>
-            </Container>
-          </List>
-        </Container>
-        <Container classname="header-group-2">
+            </div>
+          </ul>
+        </div>
+        <div className="header-group-2">
           <form
             className="button-search"
             onSubmit={function (e) {
               e.preventDefault();
             }}
           >
-            <Input
+            <input
               type="search"
               name="searchMovie"
               placeholder="Search for movies..."
-              ariaLabel="Search through site content"
               onChange={function (e: React.ChangeEvent<HTMLInputElement>) {
                 if (e.target.value.length > 0) {
                   setSearchTerm(e.target.value);
@@ -126,45 +118,45 @@ export default function Header() {
                 }
               }}
             />
-            <Button type="submit">
+            <button type="submit">
               <i className="fa fa-search"></i>
-            </Button>
+            </button>
           </form>
           {!user ? (
-            <Button
-              classname="button-login-header"
+            <button
+              className="button-login-header"
               onClick={function () {
                 navigate("/login");
               }}
             >
               <i className="material-icons special-icon">account_circle</i>
               Sign In
-            </Button>
+            </button>
           ) : (
-            <Container classname="dropdown">
-              <ListItem
-                classname="dropbtn"
+            <div className="dropdown">
+              <li
+                className="dropbtn"
                 onClick={function () {
                   redirectToProfile(user);
                 }}
               >
-                <Picture src={`/assets/avatars/blankavatar.jpg`} />
+                <img src={`/assets/avatars/blankavatar.jpg`} />
                 {user.userName}
-              </ListItem>
-              <Container classname="dropdown-content">
-                <Button
-                  classname="log-out"
+              </li>
+              <div className="dropdown-content">
+                <button
+                  className="log-out"
                   onClick={function (e: any) {
                     e.stopPropagation();
                     handleLogout();
                   }}
                 >
-                  <Label>Log Out</Label>
-                </Button>
-              </Container>
-            </Container>
+                  <label>Log Out</label>
+                </button>
+              </div>
+            </div>
           )}
-        </Container>
+        </div>
       </header>
     </>
   );

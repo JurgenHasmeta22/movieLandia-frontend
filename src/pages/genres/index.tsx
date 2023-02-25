@@ -1,15 +1,11 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Card from "~/components/card/index";
-import Container from "~/components/container/index";
 import Footer from "~/components/footer/index";
 import Header from "~/components/header/index";
-import Label from "~/components/label/index";
 import moviesController from "~/services/movies";
 import { useStore } from "~/store/zustand/store";
 import IGenre from "~/interfaces/IGenre";
 import "./style.css";
-import Heading from "~/components/heading/index";
 
 export default function Genres() {
   const { genres, setGenres } = useStore();
@@ -28,25 +24,25 @@ export default function Genres() {
   }
 
   return (
-    <Container classname="genre-categories-menus">
+    <div className="genre-categories-menus">
       <Header />
-      <Heading>Choose your favorite genre</Heading>
-      <Container classname="genre-categories-wrapper">
+      <h2>Choose your favorite genre</h2>
+      <div className="genre-categories-wrapper">
         {genres.map((genre: any) => (
-          <Card
-            classname="genre-category"
+          <div
+            className="genre-category"
             key={genre.id}
             onClick={function () {
               navigate(`/genres/${genre.name}`);
               window.scrollTo(0, 0);
             }}
           >
-            <Label>{genre.name}</Label>
-          </Card>
+            <label>{genre.name}</label>
+          </div>
         ))}
         {/* <Outlet /> Doesnt work becase this is used only when its in this page not other component etc */}
-      </Container>
+      </div>
       <Footer />
-    </Container>
+    </div>
   );
 }

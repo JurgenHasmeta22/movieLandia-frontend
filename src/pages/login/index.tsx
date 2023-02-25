@@ -1,11 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Button from "~/components/button/index";
-import Container from "~/components/container/index";
 import Footer from "~/components/footer/index";
 import Header from "~/components/header/index";
-import Input from "~/components/input/index";
-import Picture from "~/components/picture/index";
 import authenticationController from "~/services/authentication";
 import { useStore } from "~/store/zustand/store";
 import IResponseLogin from "~/interfaces/IResponseLogin";
@@ -84,16 +80,16 @@ export default function Login() {
     <>
       <Header />
       {/* <h1>Render Count: {count.current}</h1> Count the renders */}
-      <Container classname="login-page-wrapper">
-        <Container classname="left-main-wrapper">
-          <Picture
-            classname="special-image-1"
+      <div className="login-page-wrapper">
+        <div className="left-main-wrapper">
+          <img
+            className="special-image-1"
             id="login-page-img"
             src="/assets/images/netflix.png"
             alt=""
           />
-        </Container>
-        <Container classname="right-main-wrapper">
+        </div>
+        <div className="right-main-wrapper">
           <form
             id="login-form"
             onSubmit={function (e) {
@@ -103,7 +99,7 @@ export default function Login() {
           >
             <h1>MovieLandia22</h1>
             <label>
-              <Input
+              <input
                 type="text"
                 name="email"
                 placeholder="Enter your email"
@@ -117,7 +113,7 @@ export default function Login() {
               />
             </label>
             <label>
-              <Input
+              <input
                 type="password"
                 name="password"
                 placeholder="Enter your password"
@@ -131,7 +127,7 @@ export default function Login() {
               />
             </label>
             <label>
-              <Button>Log In</Button>
+              <button>Log In</button>
             </label>
             <label id="signup-link-wrapper" htmlFor="">
               Don't have an account?
@@ -140,8 +136,8 @@ export default function Login() {
               </Link>
             </label>
           </form>
-        </Container>
-      </Container>
+        </div>
+      </div>
       <Footer />
     </>
   );
