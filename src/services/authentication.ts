@@ -4,6 +4,10 @@ import IRegister from '~/interfaces/IRegister';
 import IResponseLogin from '~/interfaces/IResponseLogin';
 import IUser from '~/interfaces/IUser';
 
+const api = {
+	url: import.meta.env.api.url
+};
+
 const authenticationController = {
 	onLogin: async (email: string, password: string): Promise<any> => {
 		const payload: ILogin = {
@@ -11,7 +15,7 @@ const authenticationController = {
 			password
 		};
 		const responseLogin: IResponseLogin = await axios
-			.post('http://localhost:4000/login', payload)
+			.post(`${api.url}login`, payload)
 			.then((x) => x.data);
 		return responseLogin;
 	},
@@ -23,7 +27,7 @@ const authenticationController = {
 			password
 		};
 		const responseLogin: IResponseLogin = await axios
-			.post('http://localhost:4000/sign-up', payload)
+			.post(`${api.url}sign-up`, payload)
 			.then((x) => x.data);
 		return responseLogin;
 	},
@@ -35,9 +39,7 @@ const authenticationController = {
 					Authorization: localStorage.token
 				}
 			};
-			const response: IUser = await axios
-				.get('http://localhost:4000/validate', config)
-				.then((x) => x.data);
+			const response: IUser = await axios.get(`${api.url}validate`, config).then((x) => x.data);
 			return response;
 		}
 	}
