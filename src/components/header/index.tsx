@@ -5,12 +5,15 @@ import 'react-dropdown/style.css';
 import './style.css';
 import axios from 'axios';
 import IGenre from '~/interfaces/IGenre';
+import moviesController from '~/services/movies';
 
 export default function Header() {
 	const navigate = useNavigate();
 	const location = useLocation();
 	const [options, setOptions] = useState<any>([]);
-	const { setUser, searchTerm, setSearchTerm, user, genres, setGenres } = useStore();
+	const [genres, setGenres] = useState<IGenre[]>([]);
+	const [searchTerm, setSearchTerm] = useState<string>('');
+	const { user, setUser } = useStore();
 
 	function handleLogout() {
 		localStorage.removeItem('token');
@@ -23,7 +26,7 @@ export default function Header() {
 	}
 
 	async function getGenres(): Promise<void> {
-		const response: IGenre[] = await axios.get('http://localhost:4000/genres').then((x) => x.data);
+		const response: IGenre[] = await moviesController.getGenresWithNoPagination();
 		setGenres(response);
 	}
 
