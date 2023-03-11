@@ -1,82 +1,82 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap');
 @font-face {
-  font-family: "Libre Baskerville";
-  src: url("./assets/fonts/LibreBaskerville-Regular.ttf");
-  font-display: swap;
+	font-family: 'Libre Baskerville';
+	src: url('./assets/fonts/LibreBaskerville-Regular.ttf');
+	font-display: swap;
 }
 
 button {
-  cursor: pointer;
+	cursor: pointer;
 }
 
 i {
-  cursor: pointer;
+	cursor: pointer;
 }
 
 .loading-wrapper {
-  display: grid;
-  place-items: center;
-  height: 100vh;
-  z-index: 1;
-  background-color: #fff;
+	display: grid;
+	place-items: center;
+	height: 100vh;
+	z-index: 1;
+	background-color: #fff;
 }
 
 body {
-  font-family: "Roboto", sans-serif;
-  font-size: 12px;
-  overflow-x: hidden;
+	font-family: 'Roboto', sans-serif;
+	font-size: 12px;
+	overflow-x: hidden;
 }
 
 html {
-  scroll-behavior: smooth;
+	scroll-behavior: smooth;
 }
 
 a {
-  transition: 1s;
-  color: #111111;
-  outline: none;
-  text-decoration: none;
+	transition: 1s;
+	color: #111111;
+	outline: none;
+	text-decoration: none;
 }
 
 li {
-  list-style: none;
+	list-style: none;
 }
 
 .paginationBttns {
-  width: 80%;
-  height: 60px;
-  list-style: none;
-  display: flex;
-  justify-content: center;
-  justify-items: center;
-  padding-left: 250px;
+	width: 80%;
+	height: 60px;
+	list-style: none;
+	display: flex;
+	justify-content: center;
+	justify-items: center;
+	padding-left: 250px;
 }
 
 .paginationBttns a {
-  padding: 15px;
-  margin: 8px;
-  -o-border-radius: 5px;
-  border: 1px solid #9597fc;
-  color: #bfd5db;
-  cursor: pointer;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  -ms-border-radius: 5px;
-  border-radius: 5px;
+	padding: 15px;
+	margin: 8px;
+	-o-border-radius: 5px;
+	border: 1px solid #9597fc;
+	color: #bfd5db;
+	cursor: pointer;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-ms-border-radius: 5px;
+	border-radius: 5px;
 }
 
 .paginationBttns a:hover {
-  color: white;
-  background-color: #0e0e23;
+	color: white;
+	background-color: #0e0e23;
 }
 
 .paginationActive a {
-  color: white;
-  background-color: #6466f2;
+	color: white;
+	background-color: #6466f2;
 }
 
 .paginationDisabled a {
-  color: grey;
-  background-color: grey;
+	color: grey;
+	background-color: grey;
 }
