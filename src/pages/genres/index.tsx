@@ -15,18 +15,16 @@ export default function Genres() {
 		setGenres(response);
 	}
 
-	if (!genres) {
-		useEffect(() => {
-			getGenres();
-		}, []);
-	}
+	useEffect(() => {
+		getGenres();
+	}, []);
 
 	return (
 		<div className="genre-categories-menus">
 			<Header />
 			<h2>Choose your favorite genre</h2>
 			<div className="genre-categories-wrapper">
-				{genres.map((genre: any) => (
+				{genres?.map((genre: any) => (
 					<div
 						className="genre-category"
 						key={genre.id}
