@@ -1,7 +1,7 @@
-import IMovie from "./IMovie";
+import IMovie from './IMovie';
 
 export default interface IGenre {
-  id?: number;
-  name: string;
-  movies?: IMovie[];
+	id?: number;
+	name: string;
+	movies?: IMovie[];
 }

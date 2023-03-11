@@ -1,6 +1,6 @@
-import IMovie from "./IMovie";
+import IMovie from './IMovie';
 
 export default interface IMoviesResponse {
-  count: number;
-  rows: IMovie[];
+	count: number;
+	rows: IMovie[];
 }

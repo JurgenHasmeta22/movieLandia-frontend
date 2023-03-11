@@ -1,2 +1,2 @@
 # hoxton-final-project-frontend
-Final Group Project for Hoxton Academy MovieLandia24
+Movies project to watch favorite movies made with React, Typescript and Node/express
