@@ -5,7 +5,7 @@ import IResponseLogin from '~/interfaces/IResponseLogin';
 import IUser from '~/interfaces/IUser';
 
 const api = {
-	url: import.meta.env.api.VITE_API_URL
+	url: import.meta.env.VITE_API_URL
 };
 
 const authenticationController = {
@@ -15,7 +15,7 @@ const authenticationController = {
 			password
 		};
 		const responseLogin: IResponseLogin = await axios
-			.post(`${api.url}login`, payload)
+			.post(`${api.url}/login`, payload)
 			.then((x) => x.data);
 		return responseLogin;
 	},
@@ -27,7 +27,7 @@ const authenticationController = {
 			password
 		};
 		const responseLogin: IResponseLogin = await axios
-			.post(`${api.url}sign-up`, payload)
+			.post(`${api.url}/sign-up`, payload)
 			.then((x) => x.data);
 		return responseLogin;
 	},
@@ -39,7 +39,7 @@ const authenticationController = {
 					Authorization: localStorage.token
 				}
 			};
-			const response: IUser = await axios.get(`${api.url}validate`, config).then((x) => x.data);
+			const response: IUser = await axios.get(`${api.url}/validate`, config).then((x) => x.data);
 			return response;
 		}
 	}
