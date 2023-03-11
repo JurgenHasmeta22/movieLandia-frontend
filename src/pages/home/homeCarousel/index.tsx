@@ -2,7 +2,7 @@ import Carousel from '@palustris/react-images';
 import './style.css';
 
 const api = {
-	url: import.meta.env.api.VITE_API_URL
+	url: import.meta.env.VITE_API_URL
 };
 
 export default function homeCarousel() {

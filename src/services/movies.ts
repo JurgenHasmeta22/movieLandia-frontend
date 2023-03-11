@@ -8,12 +8,12 @@ import IUser from '~/interfaces/IUser';
 import ISerie from '../interfaces/ISerie';
 
 const api = {
-	url: import.meta.env.api.VITE_API_URL
+	url: import.meta.env.VITE_API_URL
 };
 
 const moviesController = {
 	getMovieCount: async (): Promise<any> => {
-		const moviesCount: IMoviesCount = await axios.get(`${api.url}movie-count`).then((x) => x.data);
+		const moviesCount: IMoviesCount = await axios.get(`${api.url}/movie-count`).then((x) => x.data);
 		return moviesCount;
 	},
 
@@ -23,13 +23,13 @@ const moviesController = {
 	},
 
 	getLatestMovies: async (): Promise<any> => {
-		const latestMovies: IMovie[] = await axios.get(`${api.url}latest`).then((x) => x.data);
+		const latestMovies: IMovie[] = await axios.get(`${api.url}/latest`).then((x) => x.data);
 		return latestMovies;
 	},
 
 	getMoviesDefault: async (): Promise<any> => {
 		const moviesResponse: IMoviesResponse = await axios
-			.get(`${api.url}movies/page/1`)
+			.get(`${api.url}/movies/page/1`)
 			.then((x) => x.data);
 		return moviesResponse.rows;
 	},
@@ -49,7 +49,7 @@ const moviesController = {
 			title: query,
 			page: page
 		};
-		const responseSearch = await axios.post(`${api.url}search`, payload).then((x) => x.data);
+		const responseSearch = await axios.post(`${api.url}/search`, payload).then((x) => x.data);
 		return responseSearch;
 	},
 
@@ -58,7 +58,7 @@ const moviesController = {
 			title: query,
 			page: 1
 		};
-		const responseSearch = await axios.post(`${api.url}search`, payload).then((x) => x.data);
+		const responseSearch = await axios.post(`${api.url}/search`, payload).then((x) => x.data);
 		return responseSearch;
 	},
 
@@ -90,7 +90,7 @@ const moviesController = {
 				movieId
 			};
 			const user: IUser = await axios
-				.post(`${api.url}favorites`, payload, config)
+				.post(`${api.url}/favorites`, payload, config)
 				.then((x) => x.data);
 			return user;
 		}
@@ -114,7 +114,7 @@ const moviesController = {
 	},
 
 	getGenresWithNoPagination: async (): Promise<any> => {
-		const genres: IGenre[] = await axios.get(`${api.url}genres`).then((x) => x.data);
+		const genres: IGenre[] = await axios.get(`${api.url}/genres`).then((x) => x.data);
 		return genres;
 	},
 
@@ -133,7 +133,7 @@ const moviesController = {
 	},
 
 	getSerieCount: async (): Promise<any> => {
-		const seriesCount: any = await axios.get(`${api.url}series-count`).then((x) => x.data);
+		const seriesCount: any = await axios.get(`${api.url}/series-count`).then((x) => x.data);
 		return seriesCount;
 	},
 
