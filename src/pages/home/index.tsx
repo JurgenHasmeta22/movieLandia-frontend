@@ -6,7 +6,6 @@ import { useSearchParams } from "react-router-dom";
 import Footer from "~/components/footer/index";
 import Header from "~/components/header/index";
 import moviesController from "~/services/movies";
-import { useStore } from "~/store/zustand/store";
 import IMovie from "~/interfaces/IMovie";
 import IMoviesCount from "~/interfaces/IMoviesCount";
 import IMoviesSearchResponse from "~/interfaces/IMovieSearchResponse";
@@ -25,8 +24,10 @@ export default function Home() {
   const [pageNumber, setPageNumber] = useState<number>(0);
   const [itemsPerPage, setItemsPerPage] = useState<number>(20);
   const [sortBy, setSortBy] = useState<string>("");
-  const { movies, setMovies, latestMovies, setLatestMovies, searchTerm } =
-    useStore();
+  const [movies, setMovies] = useState<IMovie[]>([]);
+  const [latestMovies, setLatestMovies] = useState<IMovie[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+
   let pageCount;
 
   if (searchParams.get("search")) {

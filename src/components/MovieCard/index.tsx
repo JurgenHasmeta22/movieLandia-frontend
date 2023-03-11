@@ -27,20 +27,21 @@ const MovieCard = ({ movie, type }: IMovieCardProps) => {
     >
       <img src={movie.photoSrc} />
       <span className="movie-title">{movie.title}</span>
-      {type !== 'serie' && (
+      {type !== "serie" && (
         <div className="genres-holder-span">
-          {movie.genres && movie.genres.map((genre: any) => (
-            <span
-              key={genre.genre.name}
-              onClick={function (e) {
-                e.stopPropagation();
-                navigate(`/genres/${genre.genre.name}`);
-                window.scrollTo(0, 0);
-              }}
-            >
-              {genre.genre.name}
-            </span>
-          ))}
+          {movie.genres &&
+            movie.genres.map((genre: any) => (
+              <span
+                key={genre.genre.name}
+                onClick={function (e) {
+                  e.stopPropagation();
+                  navigate(`/genres/${genre.genre.name}`);
+                  window.scrollTo(0, 0);
+                }}
+              >
+                {genre.genre.name}
+              </span>
+            ))}
         </div>
       )}
       <span className="imdb-span">

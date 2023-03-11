@@ -1,14 +1,13 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Footer from "~/components/footer/index";
 import Header from "~/components/header/index";
 import moviesController from "~/services/movies";
-import { useStore } from "~/store/zustand/store";
 import IGenre from "~/interfaces/IGenre";
 import "./style.css";
 
 export default function Genres() {
-  const { genres, setGenres } = useStore();
+  const [genres, setGenres] = useState<IGenre[]>([]);
   const navigate = useNavigate();
 
   async function getGenres(): Promise<void> {
@@ -40,7 +39,6 @@ export default function Genres() {
             <span>{genre.name}</span>
           </div>
         ))}
-        {/* <Outlet /> Doesnt work becase this is used only when its in this page not other component etc */}
       </div>
       <Footer />
     </div>
