@@ -5,7 +5,7 @@ import IResponseLogin from '~/interfaces/IResponseLogin';
 import IUser from '~/interfaces/IUser';
 
 const api = {
-	url: import.meta.env.api.url
+	url: import.meta.env.api.VITE_API_URL
 };
 
 const authenticationController = {

@@ -8,7 +8,7 @@ import IUser from '~/interfaces/IUser';
 import ISerie from '../interfaces/ISerie';
 
 const api = {
-	url: import.meta.env.api.url
+	url: import.meta.env.api.VITE_API_URL
 };
 
 const moviesController = {
