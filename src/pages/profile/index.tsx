@@ -10,46 +10,6 @@ export default function Profile() {
   const { user } = useStore();
   const params = useParams();
 
-  // function conditionalRenderingTabs(): JSX.Element | undefined {
-  //   if (params.tab === "favoriteMovies") {
-  //     return (
-  //       <>
-  //         <h3 className="special-video-you">Bookmarked movies</h3>
-  //         <div className="container-videos">
-  //           <ul className="favorite-movies">
-  //             {user?.favMovies!.map((movie: any) => (
-  //               <li
-  //                 className="movie-fav"
-  //                 // key={movie.id}
-  //                 myKey={movie.id}
-  //                 onClick={function () {
-  //                   navigate(
-  //                     `/movies/${movie.title
-  //                       .split("")
-  //                       .map((char: any) => (char === " " ? "-" : char))
-  //                       .join("")}`
-  //                   );
-  //                   window.scroll(0, 0);
-  //                 }}
-  //               >
-  //                 <img src={movie.photoSrc} />
-  //                 <span>Movie title: {movie.title}</span>
-  //                 <span>Release year: {movie.releaseYear}</span>
-  //               </li>
-  //             ))}
-  //           </ul>
-  //         </div>
-  //       </>
-  //     );
-  //   } else if (params.tab === "aboutUs") {
-  //     return (
-  //       <div className="container-about">
-  //         <span>This is my account</span>
-  //       </div>
-  //     )
-  //   }
-  // }
-
   if (!user) {
     return (
       <div className="loading-wrapper">
@@ -95,7 +55,6 @@ export default function Profile() {
               About Channel
             </li>
           </ul>
-          {/* {conditionalRenderingTabs()} */}
           <Outlet />
         </div>
       </section>

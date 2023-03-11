@@ -14,11 +14,12 @@ export default function Movie() {
   const params = useParams();
   const navigate = useNavigate();
   const [movie, setMovie] = useState<IMovie | null>(null);
-  const { latestMovies, setLatestMovies, setUser, user } = useStore();
+  const [latestMoviesRelated, setLatestMoviesRelated] = useState<IMovie[]>([]);
+  const { user, setUser } = useStore();
 
   async function getLatestMovies(): Promise<void> {
     const response: IMovie[] = await moviesController.getLatestMovies();
-    setLatestMovies(response);
+    setLatestMoviesRelated(response);
   }
 
   async function getMovie(): Promise<void> {
@@ -114,8 +115,11 @@ export default function Movie() {
               <h2>Latest Movies</h2>
             </div>
             <ul className="last-movies-list">
-              {latestMovies.slice(14, 19).map((latestMovie: any) => (
-                <MovieItemLatest latestMovie={latestMovie} key={latestMovie.id} />
+              {latestMoviesRelated.slice(14, 19).map((latestMovie: any) => (
+                <MovieItemLatest
+                  latestMovie={latestMovie}
+                  key={latestMovie.id}
+                />
               ))}
             </ul>
           </div>

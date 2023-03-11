@@ -9,6 +9,7 @@ import IGenreResponse from "~/interfaces/IGenreResponse";
 import "./style.css";
 import Footer from "~/components/footer";
 import MovieCard from "~/components/MovieCard";
+import IMovie from "~/interfaces/IMovie";
 
 export default function Genre() {
   const params = useParams();
@@ -17,9 +18,10 @@ export default function Genre() {
   const [pageNumber, setPageNumber] = useState<number>(0);
   const [itemsPerPage, setItemsPerPage] = useState<number>(20);
   const [moviesCountGenre, setMoviesCountGenres] = useState<number>(0);
-  const { movies, setMovies } = useStore();
+  const [moviesOfGenre, setMoviesOfGenre] = useState<IMovie[]>([]);
 
   const pageCount: number = Math.ceil(moviesCountGenre / itemsPerPage);
+
   function handleChangingPageNumber(selected: any): void {
     setPageNumber(selected);
   }
@@ -34,7 +36,7 @@ export default function Genre() {
     if (!searchParams.get("page") && params.name) {
       const response: IGenreResponse =
         await moviesController.getGenreMoviesNoPagination(params.name);
-      setMovies(response.movies);
+      setMoviesOfGenre(response.movies);
       setMoviesCountGenres(response.count);
     } else {
       const response: IGenreResponse =
@@ -42,7 +44,7 @@ export default function Genre() {
           params.name,
           searchParams.get("page")
         );
-      setMovies(response.movies);
+      setMoviesOfGenre(response.movies);
       setMoviesCountGenres(response.count);
     }
   }
@@ -51,7 +53,7 @@ export default function Genre() {
     getMoviesOnGenre();
   }, [params.name, searchParams.get("page")]);
 
-  if (!movies) {
+  if (!moviesOfGenre) {
     return (
       <div className="loading-wrapper">
         <ReactLoading
@@ -73,7 +75,7 @@ export default function Genre() {
           Total movies in this genre: {moviesCountGenre}
         </span>
         <div className="image-ribbon-1-genre-wrapper">
-          {movies.map((movie: any) => (
+          {moviesOfGenre.map((movie: any) => (
             <MovieCard movie={movie} type="genreMovie" key={movie.id} />
           ))}
         </div>

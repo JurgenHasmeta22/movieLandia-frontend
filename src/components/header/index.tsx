@@ -140,7 +140,7 @@ export default function Header() {
                   redirectToProfile(user);
                 }}
               >
-                <img src='/assets/avatars/blankavatar.jpg' />
+                <img src="/assets/avatars/blankavatar.jpg" />
                 {user.userName}
               </li>
               <div className="dropdown-content">
