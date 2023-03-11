@@ -2,12 +2,12 @@ import { useNavigate } from 'react-router-dom';
 import IMovie from '~/interfaces/IMovie';
 import './style.css';
 
-interface IMovieCardProps {
+interface IMovieItemProps {
 	movie: IMovie;
 	type: string;
 }
 
-const MovieCard = ({ movie, type }: IMovieCardProps) => {
+const MovieItem = ({ movie, type }: IMovieItemProps) => {
 	const navigate = useNavigate();
 
 	return (
@@ -51,4 +51,4 @@ const MovieCard = ({ movie, type }: IMovieCardProps) => {
 	);
 };
 
-export default MovieCard;
+export default MovieItem;

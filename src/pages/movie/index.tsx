@@ -8,7 +8,7 @@ import Header from '~/components/header/index';
 import IMovie from '~/interfaces/IMovie';
 import IUser from '~/interfaces/IUser';
 import moviesController from '~/services/movies';
-import MovieItemLatest from '~/components/movieItemLatest/index';
+import MovieItemLatest from '~/pages/movie/MovieItemLatest/index';
 
 export default function Movie() {
 	const params = useParams();

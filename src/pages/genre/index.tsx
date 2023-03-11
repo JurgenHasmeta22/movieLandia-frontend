@@ -7,7 +7,7 @@ import moviesController from '~/services/movies';
 import IGenreResponse from '~/interfaces/IGenreResponse';
 import './style.css';
 import Footer from '~/components/footer';
-import MovieCard from '~/components/MovieCard';
+import MovieItem from '~/components/MovieItem';
 import IMovie from '~/interfaces/IMovie';
 
 export default function Genre() {
@@ -66,7 +66,7 @@ export default function Genre() {
 				<span className="movie-count-span">Total movies in this genre: {moviesCountGenre}</span>
 				<div className="image-ribbon-1-genre-wrapper">
 					{moviesOfGenre.map((movie: any) => (
-						<MovieCard movie={movie} type="genreMovie" key={movie.id} />
+						<MovieItem movie={movie} type="genreMovie" key={movie.id} />
 					))}
 				</div>
 				<ReactPaginate
