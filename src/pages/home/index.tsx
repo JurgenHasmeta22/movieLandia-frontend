@@ -10,9 +10,9 @@ import IMovie from '~/interfaces/IMovie';
 import IMoviesCount from '~/interfaces/IMoviesCount';
 import IMoviesSearchResponse from '~/interfaces/IMovieSearchResponse';
 import IMoviesResponse from '~/interfaces/IMoviesResponse';
-import HomeCarousel from '~/components/homeCarousel/index';
+import HomeCarousel from '~/pages/home/homeCarousel/index';
 import '~/pages/home/style.css';
-import MovieCard from '~/components/MovieCard';
+import MovieItem from '~/components/MovieItem';
 
 export default function Home() {
 	const navigate = useNavigate();
@@ -107,7 +107,7 @@ export default function Home() {
 			return (
 				<div className="image-ribbon-2-wrapper">
 					{movies.map((movie: any) => (
-						<MovieCard movie={movie} type="homeMovie" key={movie.id} />
+						<MovieItem movie={movie} type="homeMovie" key={movie.id} />
 					))}
 				</div>
 			);
@@ -129,7 +129,7 @@ export default function Home() {
 					</ul>
 					<div className="image-ribbon-3-wrapper">
 						{latestMovies?.map((latestMovie: any) => (
-							<MovieCard type="homeLatest" movie={latestMovie} key={latestMovie} />
+							<MovieItem type="homeLatest" movie={latestMovie} key={latestMovie} />
 						))}
 					</div>
 				</div>
