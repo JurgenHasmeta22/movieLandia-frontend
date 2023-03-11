@@ -7,11 +7,11 @@ const api = {
 
 export default function homeCarousel() {
 	const images = [
-		{ source: `${api.url}images/rsz_fistful_of_vengeance.png` },
-		{ source: `${api.url}images/rsz_texas.png` },
-		{ source: `${api.url}images/rsz_movieposter_en.png` },
-		{ source: `${api.url}images/rsz_wyihsxwyqn8ejsdut2p1p0o97n0.png` },
-		{ source: `${api.url}images/rsz_elevjj3yg279mmpwuygyrhbjbbq.png` }
+		{ source: `${api.url}/images/rsz_fistful_of_vengeance.png` },
+		{ source: `${api.url}/images/rsz_texas.png` },
+		{ source: `${api.url}/images/rsz_movieposter_en.png` },
+		{ source: `${api.url}/images/rsz_wyihsxwyqn8ejsdut2p1p0o97n0.png` },
+		{ source: `${api.url}/images/rsz_elevjj3yg279mmpwuygyrhbjbbq.png` }
 	];
 
 	return (

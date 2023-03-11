@@ -3,7 +3,6 @@ import { Link, useNavigate, NavLink, useLocation } from 'react-router-dom';
 import { useStore } from '~/store/zustand/store';
 import 'react-dropdown/style.css';
 import './style.css';
-import axios from 'axios';
 import IGenre from '~/interfaces/IGenre';
 import moviesController from '~/services/movies';
 
