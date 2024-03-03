@@ -1,8 +1,8 @@
-import axios from 'axios';
-import ILogin from '~/interfaces/ILogin';
-import IRegister from '~/interfaces/IRegister';
-import IResponseLogin from '~/interfaces/IResponseLogin';
-import IUser from '~/interfaces/IUser';
+import axios from "axios";
+import type ILogin from "~/interfaces/ILogin";
+import type IRegister from "~/interfaces/IRegister";
+import type IResponseLogin from "~/interfaces/IResponseLogin";
+import type IUser from "~/interfaces/IUser";
 
 const api = {
     url: import.meta.env.VITE_API_URL,

@@ -1,9 +1,9 @@
-import ReactLoading from 'react-loading';
-import { Outlet, useNavigate, useParams } from 'react-router-dom';
-import Footer from '~/components/footer';
-import Header from '~/components/header';
-import { useStore } from '~/store/zustand/store';
-import '~/pages/profile/style.css';
+import ReactLoading from "react-loading";
+import { Outlet, useNavigate, useParams } from "react-router-dom";
+import Footer from "~/components/footer";
+import Header from "~/components/header";
+import { useStore } from "~/store/zustand/store";
+import "~/pages/profile/style.css";
 
 export default function Profile() {
     const navigate = useNavigate();
@@ -12,13 +12,13 @@ export default function Profile() {
 
     if (!user) {
         return (
-            <div className='loading-wrapper'>
+            <div className="loading-wrapper">
                 <ReactLoading
-                    type={'spin'}
-                    color={'#000'}
+                    type={"spin"}
+                    color={"#000"}
                     height={200}
                     width={100}
-                    className='loading'
+                    className="loading"
                 />
             </div>
         );
@@ -27,27 +27,27 @@ export default function Profile() {
     return (
         <main>
             <Header />
-            <section className='container-profile-menus'>
-                <div className='container-profile-nav'>
-                    <div className='profile-info'>
-                        <img src='/assets/avatars/blankavatar.jpg' />
-                        <span className='userName-span'>{user.userName}</span>
+            <section className="container-profile-menus">
+                <div className="container-profile-nav">
+                    <div className="profile-info">
+                        <img src="/assets/avatars/blankavatar.jpg" />
+                        <span className="userName-span">{user.userName}</span>
                     </div>
                 </div>
-                <div className='container-tabs'>
-                    <ul className='list-tabs'>
+                <div className="container-tabs">
+                    <ul className="list-tabs">
                         <li
-                            className={params.tab === 'favoriteMovies' ? 'clicked' : 'videos-tab'}
+                            className={params.tab === "favoriteMovies" ? "clicked" : "videos-tab"}
                             onClick={() => {
-                                navigate('/profile/favoriteMovies');
+                                navigate("/profile/favoriteMovies");
                             }}
                         >
                             Favorite Movies
                         </li>
                         <li
-                            className={params.tab === 'aboutUs' ? 'clicked' : 'about-tab'}
+                            className={params.tab === "aboutUs" ? "clicked" : "about-tab"}
                             onClick={() => {
-                                navigate('/profile/aboutUs');
+                                navigate("/profile/aboutUs");
                             }}
                         >
                             About Channel

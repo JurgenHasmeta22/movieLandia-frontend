@@ -1,4 +1,4 @@
-import IEpisode from './IEpisode';
+import type IEpisode from "./IEpisode";
 
 export default interface ISerie {
     id?: number;

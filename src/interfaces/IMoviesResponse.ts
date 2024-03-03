@@ -1,4 +1,4 @@
-import IMovie from './IMovie';
+import type IMovie from "./IMovie";
 
 export default interface IMoviesResponse {
     count: number;

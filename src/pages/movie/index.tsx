@@ -1,14 +1,14 @@
-import { useNavigate, useParams } from 'react-router-dom';
-import ReactLoading from 'react-loading';
-import { useEffect, useState } from 'react';
-import '~/pages/movie/style.css';
-import { useStore } from '~/store/zustand/store';
-import Footer from '~/components/footer/index';
-import Header from '~/components/header/index';
-import IMovie from '~/interfaces/IMovie';
-import IUser from '~/interfaces/IUser';
-import moviesController from '~/services/movies';
-import MovieItemLatest from '~/pages/movie/MovieItemLatest/index';
+import { useNavigate, useParams } from "react-router-dom";
+import ReactLoading from "react-loading";
+import { useEffect, useState } from "react";
+import "~/pages/movie/style.css";
+import { useStore } from "~/store/zustand/store";
+import Footer from "~/components/footer/index";
+import Header from "~/components/header/index";
+import type IMovie from "~/interfaces/IMovie";
+import type IUser from "~/interfaces/IUser";
+import moviesController from "~/services/movies";
+import MovieItemLatest from "~/pages/movie/MovieItemLatest/index";
 
 export default function Movie() {
     const params = useParams();
@@ -42,13 +42,13 @@ export default function Movie() {
 
     if (!movie) {
         return (
-            <div className='loading-wrapper'>
+            <div className="loading-wrapper">
                 <ReactLoading
-                    type={'spin'}
-                    color={'#000'}
+                    type={"spin"}
+                    color={"#000"}
                     height={200}
                     width={100}
-                    className='loading'
+                    className="loading"
                 />
             </div>
         );
@@ -57,47 +57,47 @@ export default function Movie() {
     return (
         <>
             <Header />
-            <section className='movie-item-wrapper'>
-                <div className='left-section'>
-                    <div className='video-and-servers'>
-                        <div className='servers'>
-                            <ul className='server-list'>
+            <section className="movie-item-wrapper">
+                <div className="left-section">
+                    <div className="video-and-servers">
+                        <div className="servers">
+                            <ul className="server-list">
                                 <li>Movie Server</li>
                             </ul>
                         </div>
-                        <div className='video-square'>
+                        <div className="video-square">
                             <iframe
                                 src={movie.videoSrc}
                                 title={movie.title}
-                                id='iframeMovie'
-                                name='movieFrame'
-                                height='550px'
-                                width='850px'
+                                id="iframeMovie"
+                                name="movieFrame"
+                                height="550px"
+                                width="850px"
                                 allowFullScreen
                             ></iframe>
                         </div>
-                        <div className='movie-details'>
-                            <div className='movie-specifications'>
-                                <ul className='trailer'>
+                        <div className="movie-details">
+                            <div className="movie-specifications">
+                                <ul className="trailer">
                                     <li>Trailer: </li>
-                                    <a href={movie.trailerSrc} className='trailer-link'>
+                                    <a href={movie.trailerSrc} className="trailer-link">
                                         Youtube trailer
                                     </a>
                                 </ul>
-                                <ul className='length'>
+                                <ul className="length">
                                     <li>Duration: {movie.duration}</li>
                                     <li>Year: {movie.releaseYear}</li>
                                     <li>
                                         Imdb Rating:
-                                        {movie.ratingImdb === 0 ? 'N/A' : movie.ratingImdb}
+                                        {movie.ratingImdb === 0 ? "N/A" : movie.ratingImdb}
                                     </li>
                                 </ul>
                                 {user?.userName && (
                                     <button
-                                        className='button-favorite-add'
+                                        className="button-favorite-add"
                                         onClick={function () {
                                             addToFavorites();
-                                            navigate('/profile');
+                                            navigate("/profile");
                                             window.scrollTo(0, 0);
                                         }}
                                     >
@@ -107,21 +107,21 @@ export default function Movie() {
                             </div>
                         </div>
                     </div>
-                    <div className='movie-fabula'>
-                        <p id='fabula'>{movie.description}</p>
+                    <div className="movie-fabula">
+                        <p id="fabula">{movie.description}</p>
                     </div>
-                    <div className='last movies'>
-                        <div className='posted-lastest'>
+                    <div className="last movies">
+                        <div className="posted-lastest">
                             <h2>Latest Movies</h2>
                         </div>
-                        <ul className='last-movies-list'>
+                        <ul className="last-movies-list">
                             {latestMoviesRelated.slice(14, 19).map((latestMovie: any) => (
                                 <MovieItemLatest latestMovie={latestMovie} key={latestMovie.id} />
                             ))}
                         </ul>
                     </div>
                 </div>
-                <div className='right-section'></div>
+                <div className="right-section"></div>
             </section>
             <Footer />
         </>

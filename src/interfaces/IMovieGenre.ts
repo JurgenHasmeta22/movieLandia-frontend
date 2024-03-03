@@ -1,5 +1,5 @@
-import IGenre from './IGenre';
-import IMovie from './IMovie';
+import type IGenre from "./IGenre";
+import type IMovie from "./IMovie";
 
 export default interface IMovieGenre {
     id?: number;

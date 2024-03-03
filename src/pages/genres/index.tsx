@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import Footer from '~/components/footer/index';
-import Header from '~/components/header/index';
-import moviesController from '~/services/movies';
-import IGenre from '~/interfaces/IGenre';
-import './style.css';
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Footer from "~/components/footer/index";
+import Header from "~/components/header/index";
+import moviesController from "~/services/movies";
+import type IGenre from "~/interfaces/IGenre";
+import "./style.css";
 
 export default function Genres() {
     const [genres, setGenres] = useState<IGenre[]>([]);
@@ -20,13 +20,13 @@ export default function Genres() {
     }, []);
 
     return (
-        <div className='genre-categories-menus'>
+        <div className="genre-categories-menus">
             <Header />
             <h2>Choose your favorite genre</h2>
-            <div className='genre-categories-wrapper'>
+            <div className="genre-categories-wrapper">
                 {genres?.map((genre: any) => (
                     <div
-                        className='genre-category'
+                        className="genre-category"
                         key={genre.id}
                         onClick={function () {
                             navigate(`/genres/${genre.name}`);

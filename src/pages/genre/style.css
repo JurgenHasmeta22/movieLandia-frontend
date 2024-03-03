@@ -1,9 +1,9 @@
 .genre-wrapper-menus {
     display: grid;
     grid-template:
-        'header' 100px
-        'genre-ribbon-1' auto
-        'footer' 100px /
+        "header" 100px
+        "genre-ribbon-1" auto
+        "footer" 100px /
         1fr;
     height: auto;
     grid-gap: 60px;
