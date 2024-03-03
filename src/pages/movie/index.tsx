@@ -1,14 +1,13 @@
 import { useNavigate, useParams } from "react-router-dom";
-import ReactLoading from "react-loading";
 import { useEffect, useState } from "react";
 import "~/pages/movie/style.css";
 import { useStore } from "~/store/zustand/store";
-import Footer from "~/components/footer/index";
-import Header from "~/components/header/index";
+import  { Footer } from "~/components/footer/index";
+import { Header } from "~/components/header/index";
 import type IMovie from "~/interfaces/IMovie";
 import type IUser from "~/interfaces/IUser";
 import moviesController from "~/services/movies";
-import MovieItemLatest from "~/pages/movie/MovieItemLatest/index";
+import MovieItemLatest from "~/pages/movie/movieItemLatest/index";
 
 export default function Movie() {
     const params = useParams();
@@ -43,13 +42,7 @@ export default function Movie() {
     if (!movie) {
         return (
             <div className="loading-wrapper">
-                <ReactLoading
-                    type={"spin"}
-                    color={"#000"}
-                    height={200}
-                    width={100}
-                    className="loading"
-                />
+                ...
             </div>
         );
     }

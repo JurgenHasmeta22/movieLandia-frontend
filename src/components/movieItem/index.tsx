@@ -1,3 +1,4 @@
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import type IMovie from "~/interfaces/IMovie";
 import "./style.css";
@@ -7,7 +8,7 @@ interface IMovieItemProps {
     type: string;
 }
 
-const MovieItem = ({ movie, type }: IMovieItemProps) => {
+const MovieItem = ({ movie, type }: IMovieItemProps): React.JSX.Element => {
     const navigate = useNavigate();
 
     return (

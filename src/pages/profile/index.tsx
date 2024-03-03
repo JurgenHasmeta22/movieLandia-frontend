@@ -1,7 +1,6 @@
-import ReactLoading from "react-loading";
 import { Outlet, useNavigate, useParams } from "react-router-dom";
-import Footer from "~/components/footer";
-import Header from "~/components/header";
+import  { Footer } from "~/components/footer";
+import { Header } from "~/components/header";
 import { useStore } from "~/store/zustand/store";
 import "~/pages/profile/style.css";
 
@@ -13,13 +12,7 @@ export default function Profile() {
     if (!user) {
         return (
             <div className="loading-wrapper">
-                <ReactLoading
-                    type={"spin"}
-                    color={"#000"}
-                    height={200}
-                    width={100}
-                    className="loading"
-                />
+                ...
             </div>
         );
     }

@@ -1,3 +1,4 @@
+import React from "react";
 import "./style.css";
 
 interface IButtonProps {
@@ -8,7 +9,7 @@ interface IButtonProps {
     children?: any;
 }
 
-export default function Button(props: IButtonProps) {
+export const Button = (props: IButtonProps): React.JSX.Element => {
     const { className, type, id, onClick, children } = props;
 
     return (
@@ -16,4 +17,4 @@ export default function Button(props: IButtonProps) {
             {children}
         </button>
     );
-}
+};

@@ -1,18 +1,16 @@
-import { useEffect, useState } from "react";
-import ReactLoading from "react-loading";
+import React, { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
-import Header from "~/components/header/index";
+import { Header } from "~/components/header/index";
 import moviesController from "~/services/movies";
 import type IGenreResponse from "~/interfaces/IGenreResponse";
 import "./style.css";
-import Footer from "~/components/footer";
+import { Footer } from "~/components/footer/index";
 import MovieItem from "~/components/MovieItem";
 import type IMovie from "~/interfaces/IMovie";
 
-export default function Genre() {
+export default function Genre(): React.JSX.Element {
     const params = useParams();
-    const navigate = useNavigate();
     const [searchParams, setSearchParams] = useSearchParams();
     const [pageNumber, setPageNumber] = useState<number>(0);
     const [itemsPerPage, setItemsPerPage] = useState<number>(20);
@@ -20,13 +18,13 @@ export default function Genre() {
     const [moviesOfGenre, setMoviesOfGenre] = useState<IMovie[]>([]);
     const pageCount: number = Math.ceil(moviesCountGenre / itemsPerPage);
 
-    function handleChangingPageNumber(selected: any): void {
+    function handleChangingPageNumber(selected: number): void {
         setPageNumber(selected);
     }
 
-    const changePage = ({ selected }: any): void => {
+    const changePage = ({ selected }: { selected: number }): void => {
         handleChangingPageNumber(selected);
-        searchParams.set("page", selected + 1);
+        searchParams.set("page", (selected + 1).toString());
         setSearchParams(searchParams);
     };
 
@@ -52,17 +50,7 @@ export default function Genre() {
     }, [params.name, searchParams.get("page")]);
 
     if (!moviesOfGenre) {
-        return (
-            <div className="loading-wrapper">
-                <ReactLoading
-                    type={"spin"}
-                    color={"#000"}
-                    height={200}
-                    width={100}
-                    className="loading"
-                />
-            </div>
-        );
+        return <div className="loading-wrapper">...</div>;
     }
 
     return (

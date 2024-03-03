@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
-import ReactLoading from "react-loading";
 import ReactPaginate from "react-paginate";
 import { useNavigate } from "react-router";
 import { useSearchParams } from "react-router-dom";
-import Footer from "~/components/footer/index";
-import Header from "~/components/header/index";
+import { Footer } from "~/components/footer/index";
+import { Header } from "~/components/header/index";
 import moviesController from "~/services/movies";
 import type IMovie from "~/interfaces/IMovie";
 import type IMoviesCount from "~/interfaces/IMoviesCount";
@@ -15,7 +14,6 @@ import "~/pages/home/style.css";
 import MovieItem from "~/components/MovieItem";
 
 export default function Home() {
-    const navigate = useNavigate();
     const [searchParams, setSearchParams] = useSearchParams();
     const [moviesCount, setMoviesCount] = useState<IMoviesCount | null>(null);
     const [moviesCountSearch, setMoviesCountSearch] = useState<number | null>(null);
@@ -59,6 +57,7 @@ export default function Home() {
         if (searchParams.get("search")) {
             return <span className="movie-count-span">Total movies: {moviesCountSearch}</span>;
         }
+
         return <span className="movie-count-span">Total movies: {moviesCount?.count}</span>;
     }
 
@@ -268,17 +267,7 @@ export default function Home() {
     }, [searchTerm]);
 
     if (!movies) {
-        return (
-            <div className="loading-wrapper">
-                <ReactLoading
-                    type={"spin"}
-                    color={"#000"}
-                    height={200}
-                    width={100}
-                    className="loading"
-                />
-            </div>
-        );
+        return <div className="loading-wrapper">...</div>;
     }
 
     return (

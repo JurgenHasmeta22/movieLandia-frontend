@@ -1,4 +1,3 @@
-import Carousel from "@palustris/react-images";
 import "./style.css";
 
 const api = {
@@ -16,7 +15,7 @@ export default function homeCarousel() {
 
     return (
         <div className="home-ribbon-1">
-            <Carousel views={images} />
+            {/* <Carousel views={images} /> */}
         </div>
     );
 }

@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import ReactPaginate from "react-paginate";
-import Footer from "~/components/footer";
-import Header from "~/components/header";
+import  { Footer } from "~/components/footer";
+import { Header } from "~/components/header";
 import type ISerie from "~/interfaces/ISerie";
 import moviesController from "~/services/movies";
 import "../genre/style.css";
 import "../home/style.css";
 import type ISeriesResponse from "~/interfaces/ISeriesResponse";
-import MovieItem from "~/components/MovieItem";
+import MovieItem from "~/components/movieItem";
 
 export default function Series() {
     const [pageNumber, setPageNumber] = useState<number>(0);
@@ -16,9 +16,7 @@ export default function Series() {
     const [series, setSeries] = useState<ISerie[]>([]);
     const [seriesCount, setSeriesCount] = useState<number>(0);
     const [sortBy, setSortBy] = useState<string>("");
-    const navigate = useNavigate();
     const [searchParams, setSearchParams] = useSearchParams();
-    const pagesVisited = pageNumber * itemsPerPage;
     const pageCount = Math.ceil(seriesCount / itemsPerPage);
 
     function handleChangingPageNumber(selected: any) {
