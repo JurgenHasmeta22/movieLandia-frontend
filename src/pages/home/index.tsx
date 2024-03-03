@@ -11,7 +11,7 @@ import type IMoviesSearchResponse from "~/interfaces/IMovieSearchResponse";
 import type IMoviesResponse from "~/interfaces/IMoviesResponse";
 import HomeCarousel from "~/pages/home/homeCarousel/index";
 import "~/pages/home/style.css";
-import MovieItem from "~/components/MovieItem";
+import MovieItem from "~/components/movieItem";
 
 export default function Home() {
     const [searchParams, setSearchParams] = useSearchParams();

@@ -8,4 +8,4 @@ export default interface IEpisode {
     description: string;
     serieId: number;
     serie: ISerie;
-};
+}

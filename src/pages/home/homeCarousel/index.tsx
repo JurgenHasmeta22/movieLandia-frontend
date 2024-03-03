@@ -13,9 +13,5 @@ export default function homeCarousel() {
         { source: `${api.url}/images/rsz_elevjj3yg279mmpwuygyrhbjbbq.png` },
     ];
 
-    return (
-        <div className="home-ribbon-1">
-            {/* <Carousel views={images} /> */}
-        </div>
-    );
+    return <div className="home-ribbon-1">{/* <Carousel views={images} /> */}</div>;
 }

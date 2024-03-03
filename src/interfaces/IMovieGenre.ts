@@ -7,4 +7,4 @@ export default interface IMovieGenre {
     genreId: number;
     movie?: IMovie[];
     genre?: IGenre[];
-};
+}

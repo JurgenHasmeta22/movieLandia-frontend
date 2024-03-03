@@ -14,4 +14,4 @@ export default interface IMovie {
     views: number;
     genres?: IGenre[];
     userWhoBookmarkedIt?: IFavoriteMovie[];
-};
+}

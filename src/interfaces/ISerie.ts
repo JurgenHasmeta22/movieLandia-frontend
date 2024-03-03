@@ -7,4 +7,4 @@ export default interface ISerie {
     releaseYear: number;
     ratingImdb: number;
     episodes: IEpisode[];
-};
+}
