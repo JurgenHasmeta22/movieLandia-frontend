@@ -1,5 +1,5 @@
-import Carousel from '@palustris/react-images';
-import './style.css';
+import Carousel from "@palustris/react-images";
+import "./style.css";
 
 const api = {
     url: import.meta.env.VITE_API_URL,
@@ -15,7 +15,7 @@ export default function homeCarousel() {
     ];
 
     return (
-        <div className='home-ribbon-1'>
+        <div className="home-ribbon-1">
             <Carousel views={images} />
         </div>
     );

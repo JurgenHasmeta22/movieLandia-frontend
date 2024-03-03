@@ -1,5 +1,5 @@
-import IComment from './IComment';
-import IMovie from './IMovie';
+import type IComment from "./IComment";
+import type IMovie from "./IMovie";
 
 export default interface IUser {
     id?: number;

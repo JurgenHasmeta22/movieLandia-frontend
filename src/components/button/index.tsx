@@ -1,8 +1,8 @@
-import './style.css';
+import "./style.css";
 
 interface IButtonProps {
     className?: string;
-    type?: 'button' | 'submit' | 'reset' | undefined;
+    type?: "button" | "submit" | "reset" | undefined;
     id?: string;
     onClick?: (e: any) => void;
     children?: any;

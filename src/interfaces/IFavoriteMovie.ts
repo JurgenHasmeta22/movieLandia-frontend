@@ -1,5 +1,5 @@
-import IMovie from './IMovie';
-import IUser from './IUser';
+import type IMovie from "./IMovie";
+import type IUser from "./IUser";
 
 export default interface IFavoriteMovie {
     id?: number;

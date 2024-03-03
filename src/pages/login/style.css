@@ -38,7 +38,7 @@
 }
 
 #login-form h1 {
-    font-family: 'Permanent Marker';
+    font-family: "Permanent Marker";
     color: #28fccaf5;
     font-size: 44px;
     letter-spacing: 1px;
@@ -68,7 +68,7 @@
     place-content: center;
     border-style: none;
     border-radius: 5px;
-    font-family: 'Permanent Marker';
+    font-family: "Permanent Marker";
     background-color: #4190d1;
     color: whitesmoke;
     transition: 0.3s;

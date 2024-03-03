@@ -1,11 +1,11 @@
-import axios from 'axios';
-import IGenre from '~/interfaces/IGenre';
-import IGenreResponse from '~/interfaces/IGenreResponse';
-import IMovie from '~/interfaces/IMovie';
-import IMoviesCount from '~/interfaces/IMoviesCount';
-import IMoviesResponse from '~/interfaces/IMoviesResponse';
-import IUser from '~/interfaces/IUser';
-import ISerie from '../interfaces/ISerie';
+import axios from "axios";
+import type IGenre from "~/interfaces/IGenre";
+import type IGenreResponse from "~/interfaces/IGenreResponse";
+import type IMovie from "~/interfaces/IMovie";
+import type IMoviesCount from "~/interfaces/IMoviesCount";
+import type IMoviesResponse from "~/interfaces/IMoviesResponse";
+import type IUser from "~/interfaces/IUser";
+import type ISerie from "../interfaces/ISerie";
 
 const api = {
     url: import.meta.env.VITE_API_URL,
@@ -49,7 +49,7 @@ const moviesController = {
     ): Promise<any> => {
         const payload = {
             title: query,
-            page: page,
+            page,
         };
         const responseSearch = await axios.post(`${api.url}/search`, payload).then((x) => x.data);
         return responseSearch;

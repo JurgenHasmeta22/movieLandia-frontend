@@ -1,5 +1,5 @@
-import { useNavigate } from 'react-router';
-import IMovie from '~/interfaces/IMovie';
+import { useNavigate } from "react-router";
+import type IMovie from "~/interfaces/IMovie";
 
 interface IMovieItemLatestProps {
     latestMovie: IMovie;
@@ -15,9 +15,9 @@ export default function MovieItemLatest(props: IMovieItemLatestProps) {
             onClick={function () {
                 navigate(
                     `/movies/${latestMovie.title
-                        .split('')
-                        .map((char: any) => (char === ' ' ? '-' : char))
-                        .join('')}`,
+                        .split("")
+                        .map((char: any) => (char === " " ? "-" : char))
+                        .join("")}`,
                 );
                 window.scrollTo(0, 0);
             }}

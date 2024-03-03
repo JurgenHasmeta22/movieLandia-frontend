@@ -15,8 +15,8 @@ section.container-profile-menus .container-profile-nav {
 section.container-profile-menus .profile-info {
     display: grid;
     grid-template:
-        'image user' 0.5fr
-        'image subs' 0.5fr /
+        "image user" 0.5fr
+        "image subs" 0.5fr /
         0.5fr auto;
     grid-gap: 20px;
     place-items: center;

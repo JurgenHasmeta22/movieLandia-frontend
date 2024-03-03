@@ -3,10 +3,10 @@
     width: 100%;
     display: grid;
     grid-template:
-        'header' 100px
-        'fav-genre' 100px
-        'genre-cat' auto
-        'footer' 200px /
+        "header" 100px
+        "fav-genre" 100px
+        "genre-cat" auto
+        "footer" 200px /
         1fr;
     grid-gap: 100px;
     background-color: #004355;
