@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import ReactPaginate from "react-paginate";
-import  { Footer } from "~/components/footer";
+import { Footer } from "~/components/footer";
 import { Header } from "~/components/header";
 import type ISerie from "~/interfaces/ISerie";
 import moviesController from "~/services/movies";

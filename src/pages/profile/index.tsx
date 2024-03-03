@@ -1,5 +1,5 @@
 import { Outlet, useNavigate, useParams } from "react-router-dom";
-import  { Footer } from "~/components/footer";
+import { Footer } from "~/components/footer";
 import { Header } from "~/components/header";
 import { useStore } from "~/store/zustand/store";
 import "~/pages/profile/style.css";
@@ -10,11 +10,7 @@ export default function Profile() {
     const params = useParams();
 
     if (!user) {
-        return (
-            <div className="loading-wrapper">
-                ...
-            </div>
-        );
+        return <div className="loading-wrapper">...</div>;
     }
 
     return (

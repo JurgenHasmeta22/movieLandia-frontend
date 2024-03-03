@@ -6,7 +6,7 @@ import moviesController from "~/services/movies";
 import type IGenreResponse from "~/interfaces/IGenreResponse";
 import "./style.css";
 import { Footer } from "~/components/footer/index";
-import MovieItem from "~/components/MovieItem";
+import MovieItem from "~/components/movieItem";
 import type IMovie from "~/interfaces/IMovie";
 
 export default function Genre(): React.JSX.Element {

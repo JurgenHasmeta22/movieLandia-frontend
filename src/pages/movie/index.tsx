@@ -2,7 +2,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import "~/pages/movie/style.css";
 import { useStore } from "~/store/zustand/store";
-import  { Footer } from "~/components/footer/index";
+import { Footer } from "~/components/footer/index";
 import { Header } from "~/components/header/index";
 import type IMovie from "~/interfaces/IMovie";
 import type IUser from "~/interfaces/IUser";
@@ -40,11 +40,7 @@ export default function Movie() {
     }, [params.title]);
 
     if (!movie) {
-        return (
-            <div className="loading-wrapper">
-                ...
-            </div>
-        );
+        return <div className="loading-wrapper">...</div>;
     }
 
     return (
