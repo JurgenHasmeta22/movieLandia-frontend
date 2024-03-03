@@ -1,21 +1,21 @@
 .movie-item .imdb-span {
-	font-size: 14px;
-	font-weight: 800;
-	color: #5ad2f3;
-	display: grid;
-	place-items: center;
+    font-size: 14px;
+    font-weight: 800;
+    color: #5ad2f3;
+    display: grid;
+    place-items: center;
 }
 
 .movie-title {
-	display: grid;
-	place-items: center;
-	width: 100%;
+    display: grid;
+    place-items: center;
+    width: 100%;
 }
 
 .movie-item-latest .imdb-span {
-	font-size: 14px;
-	font-weight: 800;
-	color: #5ad2f3;
-	display: grid;
-	place-items: center;
+    font-size: 14px;
+    font-weight: 800;
+    color: #5ad2f3;
+    display: grid;
+    place-items: center;
 }
