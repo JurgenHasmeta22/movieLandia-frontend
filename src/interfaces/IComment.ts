@@ -6,4 +6,4 @@ export default interface IComment {
     createdAt: string;
     userId: number;
     user?: IUser;
-}
+};

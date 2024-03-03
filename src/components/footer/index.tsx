@@ -1,6 +1,7 @@
+import React from "react";
 import "./style.css";
 
-export default function Footer() {
+export const Footer = (): React.JSX.Element => {
     return (
         <footer className="footer-welcome">
             <span>
@@ -13,4 +14,4 @@ export default function Footer() {
             </span>
         </footer>
     );
-}
+};

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Footer from "~/components/footer/index";
-import Header from "~/components/header/index";
+import { Footer } from "~/components/footer/index";
+import { Header } from "~/components/header/index";
 import authenticationController from "~/services/authentication";
 import { useStore } from "~/store/zustand/store";
 import type IResponseLogin from "~/interfaces/IResponseLogin";

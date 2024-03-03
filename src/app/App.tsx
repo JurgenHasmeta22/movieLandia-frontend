@@ -7,7 +7,7 @@ import authenticationController from "~/services/authentication";
 import PrivateRoutes from "~/utils/PrivateRoutes";
 import "./App.css";
 const Series = React.lazy(async () => await import("~/pages/series"));
-const Seria = React.lazy(async () => await import("~/pages/seria"));
+// const Seria = React.lazy(async () => await import("~/pages/serie"));
 const Error404 = React.lazy(async () => await import("~/pages/error"));
 const Genre = React.lazy(async () => await import("~/pages/genre"));
 const Genres = React.lazy(async () => await import("~/pages/genres/index"));
@@ -118,14 +118,14 @@ function App() {
                     </React.Suspense>
                 }
             />
-            <Route
+            {/* <Route
                 path="/series/:title"
                 element={
                     <React.Suspense fallback={<>...</>}>
                         <Seria />
                     </React.Suspense>
                 }
-            />
+            /> */}
             <Route
                 path="/login"
                 element={

@@ -8,4 +8,4 @@ export default interface IUser {
     password: string;
     comments?: IComment[];
     favMovies?: IMovie[];
-}
+};
