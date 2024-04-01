@@ -49,22 +49,6 @@ export default function Movie() {
             <section className="movie-item-wrapper">
                 <div className="left-section">
                     <div className="video-and-servers">
-                        <div className="servers">
-                            <ul className="server-list">
-                                <li>Movie Server</li>
-                            </ul>
-                        </div>
-                        <div className="video-square">
-                            <iframe
-                                src={movie.videoSrc}
-                                title={movie.title}
-                                id="iframeMovie"
-                                name="movieFrame"
-                                height="550px"
-                                width="850px"
-                                allowFullScreen
-                            ></iframe>
-                        </div>
                         <div className="movie-details">
                             <div className="movie-specifications">
                                 <ul className="trailer">
