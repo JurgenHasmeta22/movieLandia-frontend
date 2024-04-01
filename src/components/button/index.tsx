@@ -9,7 +9,7 @@ interface IButtonProps {
     children?: any;
 }
 
-export const Button = (props: IButtonProps): React.JSX.Element => {
+export const Button = (props: IButtonProps) => {
     const { className, type, id, onClick, children } = props;
 
     return (

@@ -5,7 +5,7 @@ import { Footer } from "~/components/footer/index";
 import { Header } from "~/components/header/index";
 import moviesController from "~/services/movies";
 import IMovie from "~/interfaces/IMovie";
-import MovieItem from "~/components/movieItem";
+import MovieItem from "~/pages/home/movieItem";
 import "~/pages/home/style.css";
 
 export default function Home() {

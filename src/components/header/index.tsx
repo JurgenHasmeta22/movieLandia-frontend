@@ -6,7 +6,7 @@ import "./style.css";
 import type IGenre from "~/interfaces/IGenre";
 import moviesController from "~/services/movies";
 
-export const Header = (): React.JSX.Element => {
+export const Header = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const [options, setOptions] = useState<any>([]);
@@ -26,7 +26,7 @@ export const Header = (): React.JSX.Element => {
 
     async function getGenres(): Promise<void> {
         try {
-            const response: IGenre[] = await moviesController.getGenresWithNoPagination();
+            const response: IGenre[] = await moviesController.getGenres();
             setGenres(response);
         } catch (error) {
             console.log(error);

@@ -8,7 +8,7 @@ import moviesController from "~/services/movies";
 import "../genre/style.css";
 import "../home/style.css";
 import type ISeriesResponse from "~/interfaces/ISeriesResponse";
-import MovieItem from "~/components/movieItem";
+import MovieItem from "~/pages/home/movieItem";
 
 export default function Series() {
     const [pageNumber, setPageNumber] = useState<number>(0);
@@ -37,30 +37,14 @@ export default function Series() {
         }
     };
 
-    async function getSeriesCount(): Promise<void> {
-        const seriesCount: any = await moviesController.getSerieCount();
-        setSeriesCount(seriesCount.count);
-    }
-
     async function getSeries(): Promise<void> {
-        if (searchParams.get("page")) {
-            const responseSeries: ISeriesResponse =
-                await moviesController.getSerieEpisodesWithPagination(searchParams.get("page"));
-            setSeries(responseSeries.rows);
-        } else {
-            const responseSeries: ISeriesResponse =
-                await moviesController.getSerieEpisodesNoPagination();
-            setSeries(responseSeries.rows);
-        }
+        const responseSeries: ISeriesResponse = await moviesController.getSeries();
+        setSeries(responseSeries.rows);
     }
 
     useEffect(() => {
         getSeries();
     }, [searchParams.get("page")]);
-
-    useEffect(() => {
-        getSeriesCount();
-    }, []);
 
     return (
         <div className="genre-wrapper-menus">

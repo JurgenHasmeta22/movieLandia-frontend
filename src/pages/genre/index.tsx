@@ -6,7 +6,7 @@ import moviesController from "~/services/movies";
 import type IGenreResponse from "~/interfaces/IGenreResponse";
 import "./style.css";
 import { Footer } from "~/components/footer/index";
-import MovieItem from "~/components/movieItem";
+import MovieItem from "~/pages/home/movieItem";
 import type IMovie from "~/interfaces/IMovie";
 
 export default function Genre() {
@@ -28,25 +28,14 @@ export default function Genre() {
         setSearchParams(searchParams);
     };
 
-    async function getMoviesOnGenre(): Promise<void> {
-        if (!searchParams.get("page") && params.name) {
-            const response: IGenreResponse = await moviesController.getGenreMoviesNoPagination(
-                params.name,
-            );
-            setMoviesOfGenre(response.movies);
-            setMoviesCountGenres(response.count);
-        } else {
-            const response: IGenreResponse = await moviesController.getGenreMoviesWithPagination(
-                params.name,
-                searchParams.get("page"),
-            );
-            setMoviesOfGenre(response.movies);
-            setMoviesCountGenres(response.count);
-        }
+    async function getGenre(): Promise<void> {
+        const response: IGenreResponse = await moviesController.getGenre();
+        setMoviesOfGenre(response.movies);
+        setMoviesCountGenres(response.count);
     }
 
     useEffect(() => {
-        getMoviesOnGenre();
+        getGenre();
     }, [params.name, searchParams.get("page")]);
 
     if (!moviesOfGenre) {

@@ -8,7 +8,7 @@ interface IMovieItemProps {
     type: string;
 }
 
-const MovieItem = ({ movie, type }: IMovieItemProps): React.JSX.Element => {
+const MovieItem = ({ movie, type }: IMovieItemProps) => {
     const navigate = useNavigate();
 
     return (

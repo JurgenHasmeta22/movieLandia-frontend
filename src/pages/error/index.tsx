@@ -3,7 +3,7 @@ import { Footer } from "~/components/footer/index";
 import { Header } from "~/components/header/index";
 import "~/pages/error/style.css";
 
-export default function Error404(): React.JSX.Element {
+export default function Error404() {
     return (
         <>
             <Header />
