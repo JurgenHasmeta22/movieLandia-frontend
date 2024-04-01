@@ -11,7 +11,7 @@ export default function Genres() {
     const navigate = useNavigate();
 
     async function getGenres(): Promise<void> {
-        const response: IGenre[] = await moviesController.getGenresWithNoPagination();
+        const response: IGenre[] = await moviesController.getGenres();
         setGenres(response);
     }
 

@@ -9,7 +9,7 @@ import { Footer } from "~/components/footer/index";
 import MovieItem from "~/components/movieItem";
 import type IMovie from "~/interfaces/IMovie";
 
-export default function Genre(): React.JSX.Element {
+export default function Genre() {
     const params = useParams();
     const [searchParams, setSearchParams] = useSearchParams();
     const [pageNumber, setPageNumber] = useState<number>(0);
