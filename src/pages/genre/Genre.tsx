@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
-import { Header } from "~/components/header/index";
+import { Header } from "~/components/header/Header";
 import moviesController from "~/services/movies";
 import type IGenreResponse from "~/interfaces/IGenreResponse";
 import "./style.css";
-import { Footer } from "~/components/footer/index";
-import MovieItem from "~/components/movieItem";
+import { Footer } from "~/components/footer/Footer";
+import MovieItem from "~/components/movieItem/MovieItem";
 import type IMovie from "~/interfaces/IMovie";
 
 export default function Genre(): React.JSX.Element {

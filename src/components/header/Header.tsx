@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, NavLink, useLocation } from "react-router-dom";
 import { useStore } from "~/store/zustand/store";
-import "react-dropdown/style.css";
 import "./style.css";
 import type IGenre from "~/interfaces/IGenre";
 import moviesController from "~/services/movies";

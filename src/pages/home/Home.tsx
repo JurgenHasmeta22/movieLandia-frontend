@@ -2,16 +2,16 @@ import { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
 import { useNavigate } from "react-router";
 import { useSearchParams } from "react-router-dom";
-import { Footer } from "~/components/footer/index";
-import { Header } from "~/components/header/index";
+import { Footer } from "~/components/footer/Footer";
+import { Header } from "~/components/header/Header";
 import moviesController from "~/services/movies";
 import type IMovie from "~/interfaces/IMovie";
 import type IMoviesCount from "~/interfaces/IMoviesCount";
 import type IMoviesSearchResponse from "~/interfaces/IMovieSearchResponse";
 import type IMoviesResponse from "~/interfaces/IMoviesResponse";
-import HomeCarousel from "~/pages/home/homeCarousel/index";
+import HomeCarousel from "~/pages/home/homeCarousel/HomeCarousel";
 import "~/pages/home/style.css";
-import MovieItem from "~/components/movieItem";
+import MovieItem from "~/components/movieItem/MovieItem";
 
 export default function Home() {
     const [searchParams, setSearchParams] = useSearchParams();
