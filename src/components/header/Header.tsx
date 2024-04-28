@@ -167,7 +167,7 @@ export const Header = (): React.JSX.Element => {
                             navigate("/login");
                         }}
                     >
-                        <i className="material-icons special-icon">account_circle</i>
+                        <i className="material-icons special-icon"></i>
                         Sign In
                     </button>
                 )}
