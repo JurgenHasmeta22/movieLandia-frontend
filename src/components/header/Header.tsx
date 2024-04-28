@@ -3,7 +3,7 @@ import { Link, useNavigate, NavLink, useLocation } from "react-router-dom";
 import { useStore } from "~/store/zustand/store";
 import "./style.css";
 import type IGenre from "~/interfaces/IGenre";
-import moviesController from "~/services/movies";
+import movieService from "~/services/movieService";
 
 export const Header = (): React.JSX.Element => {
     const navigate = useNavigate();
@@ -25,7 +25,7 @@ export const Header = (): React.JSX.Element => {
 
     async function getGenres(): Promise<void> {
         try {
-            const response: IGenre[] = await moviesController.getGenresWithNoPagination();
+            const response: IGenre[] = await movieService.getGenresWithNoPagination();
             setGenres(response);
         } catch (error) {
             console.log(error);

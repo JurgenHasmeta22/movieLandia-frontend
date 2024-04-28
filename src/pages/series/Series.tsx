@@ -4,7 +4,7 @@ import ReactPaginate from "react-paginate";
 import { Footer } from "~/components/footer/Footer";
 import { Header } from "~/components/header/Header";
 import type ISerie from "~/interfaces/ISerie";
-import moviesController from "~/services/movies";
+import movieService from "~/services/movieService";
 import "../genre/style.css";
 import "../home/style.css";
 import type ISeriesResponse from "~/interfaces/ISeriesResponse";
@@ -38,18 +38,18 @@ export default function Series() {
     };
 
     async function getSeriesCount(): Promise<void> {
-        const seriesCount: any = await moviesController.getSerieCount();
+        const seriesCount: any = await movieService.getSerieCount();
         setSeriesCount(seriesCount.count);
     }
 
     async function getSeries(): Promise<void> {
         if (searchParams.get("page")) {
             const responseSeries: ISeriesResponse =
-                await moviesController.getSerieEpisodesWithPagination(searchParams.get("page"));
+                await movieService.getSerieEpisodesWithPagination(searchParams.get("page"));
             setSeries(responseSeries.rows);
         } else {
             const responseSeries: ISeriesResponse =
-                await moviesController.getSerieEpisodesNoPagination();
+                await movieService.getSerieEpisodesNoPagination();
             setSeries(responseSeries.rows);
         }
     }

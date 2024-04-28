@@ -8,7 +8,7 @@ const api = {
     url: import.meta.env.VITE_API_URL,
 };
 
-const authenticationController = {
+const authenticationService = {
     onLogin: async (email: string, password: string): Promise<any> => {
         const payload: ILogin = {
             email,
@@ -47,4 +47,4 @@ const authenticationController = {
     },
 };
 
-export default authenticationController;
+export default authenticationService;

@@ -6,7 +6,7 @@ import { Footer } from "~/components/footer/Footer";
 import { Header } from "~/components/header/Header";
 import type IMovie from "~/interfaces/IMovie";
 import type IUser from "~/interfaces/IUser";
-import moviesController from "~/services/movies";
+import movieService from "~/services/movieService";
 import MovieItemLatest from "~/pages/movie/movieItemLatest/MovieItemLatest";
 
 export default function Movie() {
@@ -17,17 +17,17 @@ export default function Movie() {
     const { user, setUser } = useStore();
 
     async function getLatestMovies(): Promise<void> {
-        const response: IMovie[] = await moviesController.getLatestMovies();
+        const response: IMovie[] = await movieService.getLatestMovies();
         setLatestMoviesRelated(response);
     }
 
     async function getMovie(): Promise<void> {
-        const response: IMovie = await moviesController.getMovie(params.title);
+        const response: IMovie = await movieService.getMovie(params.title);
         setMovie(response);
     }
 
     async function addToFavorites() {
-        const response: IUser = await moviesController.addToFavorites(movie?.id);
+        const response: IUser = await movieService.addToFavorites(movie?.id);
         setUser(response);
     }
 

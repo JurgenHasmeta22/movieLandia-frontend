@@ -11,7 +11,7 @@ const api = {
     url: import.meta.env.VITE_API_URL,
 };
 
-const moviesController = {
+const movieService = {
     getMovieCount: async (): Promise<any> => {
         const moviesCount: IMoviesCount = await axios
             .get(`${api.url}/movie-count`)
@@ -147,4 +147,4 @@ const moviesController = {
     },
 };
 
-export default moviesController;
+export default movieService;
