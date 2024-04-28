@@ -14,7 +14,6 @@ import "~/pages/home/style.css";
 import MovieItem from "~/components/movieItem/MovieItem";
 
 export default function Home() {
-    const [searchParams, setSearchParams] = useSearchParams();
     const [moviesCount, setMoviesCount] = useState<IMoviesCount | null>(null);
     const [moviesCountSearch, setMoviesCountSearch] = useState<number | null>(null);
     const [pageNumber, setPageNumber] = useState<number>(0);
@@ -23,6 +22,8 @@ export default function Home() {
     const [movies, setMovies] = useState<IMovie[]>([]);
     const [latestMovies, setLatestMovies] = useState<IMovie[]>([]);
     const [searchTerm, setSearchTerm] = useState<string>("");
+
+    const [searchParams, setSearchParams] = useSearchParams();
 
     let pageCount;
 

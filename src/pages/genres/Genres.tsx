@@ -8,6 +8,7 @@ import "./style.css";
 
 export default function Genres() {
     const [genres, setGenres] = useState<IGenre[]>([]);
+    
     const navigate = useNavigate();
 
     async function getGenres(): Promise<void> {

@@ -6,8 +6,9 @@ interface IMovieItemLatestProps {
 }
 
 export default function MovieItemLatest(props: IMovieItemLatestProps) {
-    const navigate = useNavigate();
     const { latestMovie } = props;
+
+    const navigate = useNavigate();
 
     return (
         <li
