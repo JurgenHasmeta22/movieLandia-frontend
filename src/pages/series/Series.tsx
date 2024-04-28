@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import ReactPaginate from "react-paginate";
-import { Footer } from "~/components/footer";
-import { Header } from "~/components/header";
+import { Footer } from "~/components/footer/Footer";
+import { Header } from "~/components/header/Header";
 import type ISerie from "~/interfaces/ISerie";
 import moviesController from "~/services/movies";
 import "../genre/style.css";
 import "../home/style.css";
 import type ISeriesResponse from "~/interfaces/ISeriesResponse";
-import MovieItem from "~/components/movieItem";
+import MovieItem from "~/components/movieItem/MovieItem";
 
 export default function Series() {
     const [pageNumber, setPageNumber] = useState<number>(0);

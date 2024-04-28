@@ -2,12 +2,12 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import "~/pages/movie/style.css";
 import { useStore } from "~/store/zustand/store";
-import { Footer } from "~/components/footer/index";
-import { Header } from "~/components/header/index";
+import { Footer } from "~/components/footer/Footer";
+import { Header } from "~/components/header/Header";
 import type IMovie from "~/interfaces/IMovie";
 import type IUser from "~/interfaces/IUser";
 import moviesController from "~/services/movies";
-import MovieItemLatest from "~/pages/movie/movieItemLatest/index";
+import MovieItemLatest from "~/pages/movie/movieItemLatest/MovieItemLatest";
 
 export default function Movie() {
     const params = useParams();

@@ -1,6 +1,6 @@
 import { Outlet, useNavigate, useParams } from "react-router-dom";
-import { Footer } from "~/components/footer";
-import { Header } from "~/components/header";
+import { Footer } from "~/components/footer/Footer";
+import { Header } from "~/components/header/Header";
 import { useStore } from "~/store/zustand/store";
 import "~/pages/profile/style.css";
 
