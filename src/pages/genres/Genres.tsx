@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Footer } from "~/components/footer/Footer";
 import { Header } from "~/components/header/Header";
-import moviesController from "~/services/movies";
+import movieService from "~/services/movieService";
 import type IGenre from "~/interfaces/IGenre";
 import "./style.css";
 
@@ -11,7 +11,7 @@ export default function Genres() {
     const navigate = useNavigate();
 
     async function getGenres(): Promise<void> {
-        const response: IGenre[] = await moviesController.getGenresWithNoPagination();
+        const response: IGenre[] = await movieService.getGenresWithNoPagination();
         setGenres(response);
     }
 

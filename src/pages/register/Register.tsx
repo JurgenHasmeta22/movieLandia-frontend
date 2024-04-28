@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Footer } from "~/components/footer/Footer";
 import { Header } from "~/components/header/Header";
-import authenticationController from "~/services/authentication";
+import authenticationService from "~/services/authenticationService";
 import { useStore } from "~/store/zustand/store";
 import type IResponseLogin from "~/interfaces/IResponseLogin";
 import "~/pages/register/style.css";
@@ -14,7 +14,7 @@ export default function Register() {
     const { user, setUser } = useStore();
 
     async function onSubmit() {
-        const response: IResponseLogin = await authenticationController.onRegister(
+        const response: IResponseLogin = await authenticationService.onRegister(
             username,
             email,
             password,

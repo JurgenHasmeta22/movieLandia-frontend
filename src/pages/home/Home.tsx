@@ -4,7 +4,7 @@ import { useNavigate } from "react-router";
 import { useSearchParams } from "react-router-dom";
 import { Footer } from "~/components/footer/Footer";
 import { Header } from "~/components/header/Header";
-import moviesController from "~/services/movies";
+import movieService from "~/services/movieService";
 import type IMovie from "~/interfaces/IMovie";
 import type IMoviesCount from "~/interfaces/IMoviesCount";
 import type IMoviesSearchResponse from "~/interfaces/IMovieSearchResponse";
@@ -135,12 +135,12 @@ export default function Home() {
     }
 
     async function getMoviesCount(): Promise<void> {
-        const moviesCount: IMoviesCount = await moviesController.getMovieCount();
+        const moviesCount: IMoviesCount = await movieService.getMovieCount();
         setMoviesCount(moviesCount);
     }
 
     async function getLatestMovies(): Promise<void> {
-        const latestMovies: IMovie[] = await moviesController.getLatestMovies();
+        const latestMovies: IMovie[] = await movieService.getLatestMovies();
         setLatestMovies(latestMovies);
     }
 
@@ -150,14 +150,14 @@ export default function Home() {
             !searchParams.get("search") &&
             !searchParams.get("sortBy")
         ) {
-            const movies: IMovie[] = await moviesController.getMoviesDefault();
+            const movies: IMovie[] = await movieService.getMoviesDefault();
             setMovies(movies);
         } else if (
             searchParams.get("page") &&
             !searchParams.get("search") &&
             !searchParams.get("sortBy")
         ) {
-            const movies: IMovie[] = await moviesController.getMoviesPagination(
+            const movies: IMovie[] = await movieService.getMoviesPagination(
                 searchParams.get("page"),
             );
             setMovies(movies);
@@ -167,7 +167,7 @@ export default function Home() {
             !searchParams.get("sortBy")
         ) {
             const responseSearch: IMoviesSearchResponse =
-                await moviesController.getMoviesSearchNoPagination(searchParams.get("search"));
+                await movieService.getMoviesSearchNoPagination(searchParams.get("search"));
             setMovies(responseSearch.movies);
             setMoviesCountSearch(responseSearch.count);
         } else if (
@@ -176,7 +176,7 @@ export default function Home() {
             !searchParams.get("sortBy")
         ) {
             const responseSearch: IMoviesSearchResponse =
-                await moviesController.getMoviesSearchWithPagination(
+                await movieService.getMoviesSearchWithPagination(
                     searchParams.get("search"),
                     searchParams.get("page"),
                 );
@@ -187,8 +187,9 @@ export default function Home() {
             !searchParams.get("search") &&
             searchParams.get("sortBy")
         ) {
-            const responseMovies: IMoviesResponse =
-                await moviesController.getMoviesSortingNoPagination(searchParams.get("sortBy"));
+            const responseMovies: IMoviesResponse = await movieService.getMoviesSortingNoPagination(
+                searchParams.get("sortBy"),
+            );
             setMovies(responseMovies.rows);
         } else if (
             searchParams.get("page") &&
@@ -196,7 +197,7 @@ export default function Home() {
             searchParams.get("sortBy")
         ) {
             const responseMovies: IMoviesResponse =
-                await moviesController.getMoviesSortingWithPagination(
+                await movieService.getMoviesSortingWithPagination(
                     searchParams.get("sortBy"),
                     searchParams.get("page"),
                 );

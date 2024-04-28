@@ -3,11 +3,11 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useStore } from "~/store/zustand/store";
 import type IUser from "~/interfaces/IUser";
-import authenticationController from "~/services/authentication";
+import authenticationService from "~/services/authenticationService";
 import PrivateRoutes from "~/utils/PrivateRoutes";
 import "./App.css";
+
 const Series = React.lazy(async () => await import("~/pages/series/Series"));
-// const Seria = React.lazy(async () => await import("~/pages/serie"));
 const Error404 = React.lazy(async () => await import("~/pages/error/Error"));
 const Genre = React.lazy(async () => await import("~/pages/genre/Genre"));
 const Genres = React.lazy(async () => await import("~/pages/genres/Genres"));
@@ -17,16 +17,16 @@ const Movie = React.lazy(async () => await import("~/pages/movie/Movie"));
 const Profile = React.lazy(async () => await import("~/pages/profile/Profile"));
 const Register = React.lazy(async () => await import("~/pages/register/Register"));
 const AboutUsTab = React.lazy(async () => await import("~/pages/profile/aboutUs/AboutUs"));
-const FavoriteMoviesTab = React.lazy(async () => await import("~/pages/profile/favoriteMovies/FavoriteMovies"));
+const FavoriteMoviesTab = React.lazy(
+    async () => await import("~/pages/profile/favoriteMovies/FavoriteMovies"),
+);
 
 function App() {
-    // const userContext = createContext(null);
-    // const [userNew, setUserNew] = useState(user);
     const { setUser } = useStore();
 
     useEffect(() => {
         const validateUser = async () => {
-            const response: IUser | undefined = await authenticationController.validateUser();
+            const response: IUser | undefined = await authenticationService.validateUser();
             if (response) setUser(response);
         };
         validateUser();
@@ -118,14 +118,6 @@ function App() {
                     </React.Suspense>
                 }
             />
-            {/* <Route
-                path="/series/:title"
-                element={
-                    <React.Suspense fallback={<>...</>}>
-                        <Seria />
-                    </React.Suspense>
-                }
-            /> */}
             <Route
                 path="/login"
                 element={

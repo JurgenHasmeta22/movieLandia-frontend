@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { Header } from "~/components/header/Header";
-import moviesController from "~/services/movies";
+import movieService from "~/services/movieService";
 import type IGenreResponse from "~/interfaces/IGenreResponse";
 import "./style.css";
 import { Footer } from "~/components/footer/Footer";
@@ -30,13 +30,13 @@ export default function Genre(): React.JSX.Element {
 
     async function getMoviesOnGenre(): Promise<void> {
         if (!searchParams.get("page") && params.name) {
-            const response: IGenreResponse = await moviesController.getGenreMoviesNoPagination(
+            const response: IGenreResponse = await movieService.getGenreMoviesNoPagination(
                 params.name,
             );
             setMoviesOfGenre(response.movies);
             setMoviesCountGenres(response.count);
         } else {
-            const response: IGenreResponse = await moviesController.getGenreMoviesWithPagination(
+            const response: IGenreResponse = await movieService.getGenreMoviesWithPagination(
                 params.name,
                 searchParams.get("page"),
             );
