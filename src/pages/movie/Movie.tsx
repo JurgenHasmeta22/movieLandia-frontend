@@ -10,10 +10,12 @@ import movieService from "~/services/movieService";
 import MovieItemLatest from "~/pages/movie/movieItemLatest/MovieItemLatest";
 
 export default function Movie() {
-    const params = useParams();
-    const navigate = useNavigate();
     const [movie, setMovie] = useState<IMovie | null>(null);
     const [latestMoviesRelated, setLatestMoviesRelated] = useState<IMovie[]>([]);
+
+    const params = useParams();
+    const navigate = useNavigate();
+
     const { user, setUser } = useStore();
 
     async function getLatestMovies(): Promise<void> {

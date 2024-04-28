@@ -6,8 +6,9 @@ import "~/pages/profile/style.css";
 
 export default function Profile() {
     const navigate = useNavigate();
-    const { user } = useStore();
     const params = useParams();
+
+    const { user } = useStore();
 
     if (!user) {
         return <div className="loading-wrapper">...</div>;

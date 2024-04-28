@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import { Header } from "~/components/header/Header";
 import movieService from "~/services/movieService";
 import type IGenreResponse from "~/interfaces/IGenreResponse";

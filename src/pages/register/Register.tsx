@@ -11,7 +11,10 @@ export default function Register() {
     const [username, setUsername] = useState<string>("");
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
+
     const { user, setUser } = useStore();
+
+    const navigate = useNavigate();
 
     async function onSubmit() {
         const response: IResponseLogin = await authenticationService.onRegister(
@@ -19,11 +22,11 @@ export default function Register() {
             email,
             password,
         );
+
         localStorage.setItem("token", response.token);
         setUser(response.user);
     }
-
-    const navigate = useNavigate();
+    
     if (user) {
         navigate("/movies");
     }

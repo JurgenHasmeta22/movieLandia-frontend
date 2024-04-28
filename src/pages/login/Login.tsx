@@ -8,10 +8,12 @@ import type IResponseLogin from "~/interfaces/IResponseLogin";
 import "~/pages/login/style.css";
 
 export default function Login() {
-    const navigate = useNavigate();
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
+
     const { user, setUser } = useStore();
+
+    const navigate = useNavigate();
 
     async function onSubmit() {
         const response: IResponseLogin = await authenticationService.onLogin(email, password);

@@ -6,13 +6,15 @@ import type IGenre from "~/interfaces/IGenre";
 import movieService from "~/services/movieService";
 
 export const Header = (): React.JSX.Element => {
-    const navigate = useNavigate();
-    const location = useLocation();
     const [options, setOptions] = useState<any>([]);
     const [genres, setGenres] = useState<IGenre[]>([]);
     const [searchTerm, setSearchTerm] = useState<string>("");
+
     const { user, setUser } = useStore();
 
+    const navigate = useNavigate();
+    const location = useLocation();
+    
     function handleLogout(): void {
         localStorage.removeItem("token");
         setUser(null);

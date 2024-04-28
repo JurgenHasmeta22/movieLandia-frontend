@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import ReactPaginate from "react-paginate";
 import { Footer } from "~/components/footer/Footer";
 import { Header } from "~/components/header/Header";
@@ -16,7 +16,9 @@ export default function Series() {
     const [series, setSeries] = useState<ISerie[]>([]);
     const [seriesCount, setSeriesCount] = useState<number>(0);
     const [sortBy, setSortBy] = useState<string>("");
+
     const [searchParams, setSearchParams] = useSearchParams();
+
     const pageCount = Math.ceil(seriesCount / itemsPerPage);
 
     function handleChangingPageNumber(selected: any) {
@@ -25,6 +27,7 @@ export default function Series() {
 
     const changePage = ({ selected }: any) => {
         handleChangingPageNumber(selected);
+        
         if (searchParams.get("sort")) {
             handleChangingPageNumber(selected);
             searchParams.set("sortBy", sortBy);
