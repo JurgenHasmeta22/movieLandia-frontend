@@ -4,7 +4,7 @@ import type ISerie from "~/interfaces/ISerie";
 import movieService from "~/services/movieService";
 import type ISeriesResponse from "~/interfaces/ISeriesResponse";
 import MovieItem from "~/components/movieItem/MovieItem";
-import { Box, Typography } from "@mui/material";
+import { Box, Pagination, Stack, Typography } from "@mui/material";
 
 export default function Series() {
     const [pageNumber, setPageNumber] = useState<number>(0);
@@ -72,17 +72,21 @@ export default function Series() {
                         <MovieItem movie={serie} type="serie" key={serie.id} />
                     ))}
                 </Box>
-                {/* <ReactPaginate
-                    previousLabel={"< Previous"}
-                    nextLabel={"Next >"}
-                    pageCount={pageCount}
-                    onPageChange={changePage}
-                    containerClassName="paginationBttns"
-                    previousLinkClassName="previousBttn"
-                    nextLinkClassName="nextBttn"
-                    disabledClassName="paginationDisabled"
-                    activeClassName="paginationActive"
-                /> */}
+                <Stack
+                    spacing={2}
+                    sx={{ display: "flex", placeItems: "center", marginTop: 4, marginBottom: 4 }}
+                >
+                    <Pagination
+                        page={pageNumber}
+                        size="large"
+                        count={pageCount}
+                        showFirstButton
+                        showLastButton
+                        onChange={(page) => {
+                            handleChangingPageNumber(page);
+                        }}
+                    />
+                </Stack>
             </Box>
         </Box>
     );

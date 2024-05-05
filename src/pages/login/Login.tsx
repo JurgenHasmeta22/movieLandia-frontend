@@ -3,14 +3,19 @@ import { Link, useNavigate } from "react-router-dom";
 import authenticationService from "~/services/authenticationService";
 import { useStore } from "~/store/zustand/store";
 import type IResponseLogin from "~/interfaces/IResponseLogin";
-import { Box, Button, TextField, Typography } from "@mui/material";
+import { Box, Button, Paper, TextField, Typography } from "@mui/material";
+import { Form, Formik } from "formik";
+
+// const loginSchema = yup.object().shape({
+//     userName: yup.string().required("required"),
+//     password: yup.string().required("required"),
+// });
 
 export default function Login() {
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
 
     const { user, setUser } = useStore();
-
     const navigate = useNavigate();
 
     async function onSubmit() {
@@ -24,52 +29,80 @@ export default function Login() {
     }
 
     return (
-        <Box>
-            <Box>
-                <img id="login-page-img" src="/assets/images/netflix.png" alt="" />
-            </Box>
-            <Box>
-                <form
-                    id="login-form"
-                    onSubmit={function (e) {
-                        e.preventDefault();
-                        onSubmit();
+        <Box
+            sx={{
+                backgroundImage: "url('/assets/images/netflix.png')",
+                display: "flex",
+                placeContent: "center",
+                placeItems: "center",
+                padding: 5, //this is amazing fixes layout no need for fixed height
+            }}
+        >
+            <Paper
+                sx={{
+                    backgroundColor: "rgb(0 0 0 / 85%)",
+                    padding: 10,
+                }}
+            >
+                <Formik
+                    // innerRef={formRef}
+                    initialValues={{
+                        email: "",
+                        password: "",
                     }}
+                    // validationSchema={validationSchema}
+                    onSubmit={onSubmit}
+                    enableReinitialize
                 >
-                    <h1>MovieLandia22</h1>
-                    <label>
-                        <TextField
-                            type="text"
-                            name="email"
-                            placeholder="Enter your email"
-                            required
-                            onChange={function (e) {
-                                setEmail(e.target.value);
-                            }}
-                        />
-                    </label>
-                    <label>
-                        <TextField
-                            type="password"
-                            name="password"
-                            placeholder="Enter your password"
-                            required
-                            onChange={function (e) {
-                                setPassword(e.target.value);
-                            }}
-                        />
-                    </label>
-                    <Typography>
-                        <Button>Log In</Button>
-                    </Typography>
-                    <label htmlFor="">
-                        Don't have an account?
-                        <Link id="link" to={"/register"}>
-                            Sign Up
-                        </Link>
-                    </label>
-                </form>
-            </Box>
+                    {({ values, errors, touched, handleBlur, handleChange, handleSubmit }) => {
+                        return (
+                            <Form onSubmit={handleSubmit}>
+                                <Box
+                                    sx={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        rowGap: 2,
+                                    }}
+                                >
+                                    <Typography variant="h1">Sign In</Typography>
+                                    <TextField
+                                        type="text"
+                                        placeholder="Enter your email"
+                                        required
+                                        onChange={function (e) {
+                                            setEmail(e.target.value);
+                                        }}
+                                    />
+                                    <TextField
+                                        type="password"
+                                        placeholder="Enter your password"
+                                        required
+                                        onChange={function (e) {
+                                            setPassword(e.target.value);
+                                        }}
+                                    />
+                                    <Button
+                                        type="submit"
+                                        color="secondary"
+                                        variant="outlined"
+                                        size="large"
+                                    >
+                                        Sign In
+                                    </Button>
+                                    <Box>
+                                        <Typography variant="overline">
+                                            Don't have an account?{" "}
+                                        </Typography>
+                                        <Link id="link" to={"/register"}>
+                                            Sign Up
+                                        </Link>
+                                    </Box>
+                                </Box>
+                            </Form>
+                        );
+                    }}
+                </Formik>
+            </Paper>
         </Box>
     );
 }

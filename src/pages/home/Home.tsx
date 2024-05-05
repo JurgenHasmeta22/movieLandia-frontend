@@ -7,7 +7,7 @@ import type IMoviesSearchResponse from "~/interfaces/IMovieSearchResponse";
 import type IMoviesResponse from "~/interfaces/IMoviesResponse";
 import HomeCarousel from "~/pages/home/homeCarousel/HomeCarousel";
 import MovieItem from "~/components/movieItem/MovieItem";
-import { Box, MenuItem, Pagination, Select, Stack, Typography, useTheme } from "@mui/material";
+import { Box, CircularProgress, MenuItem, Pagination, Select, Stack, Typography, useTheme } from "@mui/material";
 import { tokens } from "~/utils/theme";
 
 const api = {
@@ -200,7 +200,7 @@ export default function Home() {
     }, [searchTerm]);
 
     if (!movies) {
-        return <Box>...</Box>;
+        return <Box><CircularProgress size={80} thickness={4} /></Box>;
     }
 
     return (

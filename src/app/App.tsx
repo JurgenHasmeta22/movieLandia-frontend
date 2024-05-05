@@ -28,7 +28,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
     return (
         <React.Fragment>
             <Grid container>
-                <Grid item xs={12}>
+                <Grid item xs={12} height={"100vh"}>
                     <Header />
                     <React.Suspense
                         fallback={
@@ -91,7 +91,7 @@ export const FavMoviesPage = withMainLayout(FavoriteMoviesTab);
 
 function App() {
     const { setUser } = useStore();
-    const [theme, colorMode] = useMode(); // MUI theme mode hook
+    const [theme, colorMode] = useMode();
 
     useEffect(() => {
         const validateUser = async () => {
