@@ -3,8 +3,20 @@ import { Link, useNavigate, NavLink, useLocation } from "react-router-dom";
 import { useStore } from "~/store/zustand/store";
 import type IGenre from "~/interfaces/IGenre";
 import movieService from "~/services/movieService";
-import { AppBar, Box, Button, List, ListItem, TextField, Typography } from "@mui/material";
+import {
+    AppBar,
+    Box,
+    Button,
+    List,
+    ListItem,
+    TextField,
+    Toolbar,
+    Typography,
+    useTheme,
+} from "@mui/material";
 import { Form } from "formik";
+import { tokens } from "~/utils/theme";
+import LockOpenIcon from "@mui/icons-material/LockOpen";
 
 export const Header = (): React.JSX.Element => {
     const [options, setOptions] = useState<any>([]);
@@ -15,6 +27,9 @@ export const Header = (): React.JSX.Element => {
 
     const navigate = useNavigate();
     const location = useLocation();
+
+    const theme = useTheme();
+    const colors = tokens(theme.palette.mode);
 
     function handleLogout(): void {
         localStorage.removeItem("token");
@@ -61,17 +76,39 @@ export const Header = (): React.JSX.Element => {
     }, []);
 
     return (
-        <AppBar>
-            <Box>
-                <Link to="/movies">MovieLand24</Link>
-                <List className="list-nav">
-                    <ListItem className="div-inside-li">
-                        <img src="/assets/logos/ico_filma_blu.png" alt="" />
-                        <NavLink to="/movies" className="special-uppercase">
-                            Movies
-                        </NavLink>
-                    </ListItem>
-                    {/* <ListItem>
+        <AppBar position="static">
+            <Toolbar
+                sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    flexWrap: "wrap",
+                    backgroundColor: colors.primary[900],
+                    height: "120px",
+                }}
+            >
+                <Box
+                    sx={{
+                        display: "flex",
+                        flexDirection: "row",
+                        placeItems: "center",
+                        columnGap: 6,
+                    }}
+                >
+                    <Link style={{ textDecoration: "none", fontSize: "20px" }} to="/movies">
+                        MovieLand24
+                    </Link>
+                    <List sx={{ display: "flex", flexDirection: "row" }}>
+                        <ListItem>
+                            <img src="/assets/logos/ico_filma_blu.png" alt="" />
+                            <NavLink
+                                style={{ textDecoration: "none", fontSize: "20px", paddingLeft: 8 }}
+                                to="/movies"
+                            >
+                                Movies
+                            </NavLink>
+                        </ListItem>
+                        {/* <ListItem>
                         <Box>
                             <Box className="genre-drop">
                                 <img src="/assets/logos/list_blu.png" alt="" />
@@ -103,72 +140,84 @@ export const Header = (): React.JSX.Element => {
                             </Box>
                         </Box>
                     </ListItem> */}
-                    <ListItem className="div-inside-li">
-                        <img src="/assets/logos/netflix-red.png" alt="" />
-                        <NavLink to="/genres/NETFLIX" className="special-uppercase">
-                            Netflix
-                        </NavLink>
-                    </ListItem>
-                </List>
-            </Box>
-            <Box>
-                <form
-                    className="button-search"
-                    onSubmit={function (e) {
-                        e.preventDefault();
-                    }}
-                >
+                        <ListItem>
+                            <img src="/assets/logos/netflix-red.png" alt="" />
+                            <NavLink
+                                style={{ textDecoration: "none", fontSize: "20px", paddingLeft: 8 }}
+                                to="/genres/NETFLIX"
+                            >
+                                Netflix
+                            </NavLink>
+                        </ListItem>
+                    </List>
+                </Box>
+                <Box sx={{ display: "flex", placeItems: "center", columnGap: 4 }}>
                     <TextField
                         placeholder="Search for movies..."
-                        onChange={function (e: React.ChangeEvent<HTMLInputElement>) {
+                        onChange={(e) => {
                             if (e.target.value.length > 0) {
                                 setSearchTerm(e.target.value);
+
                                 if (location.pathname !== "/movies") {
                                     navigate(`/movies?search=${searchTerm}`);
                                 }
                             } else {
                                 setSearchTerm(e.target.value);
+
                                 if (location.pathname !== "/movies") navigate("/movies");
                             }
                         }}
                     />
-                    <Button type="submit">
-                        <i className="fa fa-search"></i>
-                    </Button>
-                </form>
-                {user !== null ? (
-                    <Box className="dropdown">
-                        <ListItem
-                            className="dropbtn"
-                            onClick={function () {
-                                redirectToProfile(user);
-                            }}
-                        >
-                            <img src="/assets/avatars/blankavatar.jpg" />
-                            {user.userName}
-                        </ListItem>
-                        <Box className="dropdown-content">
-                            <Button
-                                onClick={function (e: any) {
-                                    e.stopPropagation();
-                                    handleLogout();
+                    {user !== null ? (
+                        <Box>
+                            <Box
+                                onClick={function () {
+                                    redirectToProfile(user);
                                 }}
                             >
-                                <Typography>Log Out</Typography>
-                            </Button>
+                                <img src="/assets/avatars/blankavatar.jpg" />
+                                {user.userName}
+                            </Box>
+                            <Box>
+                                <Button
+                                    color="secondary"
+                                    variant="outlined"
+                                    onClick={function (e: any) {
+                                        handleLogout();
+                                    }}
+                                >
+                                    <Typography>Log Out</Typography>
+                                </Button>
+                            </Box>
                         </Box>
-                    </Box>
-                ) : (
-                    <Button
-                        onClick={function () {
-                            navigate("/login");
-                        }}
-                    >
-                        <i className="material-icons special-icon"></i>
-                        Sign In
-                    </Button>
-                )}
-            </Box>
+                    ) : (
+                        <>
+                            <Button
+                                color="secondary"
+                                variant="outlined"
+                                size="large"
+                                onClick={function () {
+                                    navigate("/login");
+                                }}
+                            >
+                                <Typography>Login</Typography>
+                                <LockOpenIcon />
+                            </Button>
+                            <Button
+                                color="secondary"
+                                variant="outlined"
+                                size="large"
+                                onClick={function () {
+                                    navigate("/register");
+                                }}
+                            >
+                                <Typography>Register</Typography>
+                                <LockOpenIcon />
+                            </Button>
+                        </>
+                    )}
+                </Box>
+            </Toolbar>
         </AppBar>
     );
 };
