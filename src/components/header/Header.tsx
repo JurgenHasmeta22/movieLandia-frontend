@@ -112,6 +112,7 @@ export const Header = (): React.JSX.Element => {
                             textDecoration: "none",
                             fontSize: "20px",
                             color: colors.primary[100],
+                            cursor: "pointer",
                         }}
                         to="/movies"
                     >
@@ -126,6 +127,7 @@ export const Header = (): React.JSX.Element => {
                                     fontSize: "20px",
                                     paddingLeft: 8,
                                     color: colors.primary[100],
+                                    cursor: "pointer",
                                 }}
                                 to="/movies"
                             >
@@ -135,14 +137,15 @@ export const Header = (): React.JSX.Element => {
                         <ListItem
                             onMouseEnter={handleGenreMouseEnter}
                             onMouseLeave={handleGenreMouseLeave}
+                            onClick={() => {
+                                navigate(`/genres`);
+                            }}
+                            sx={{ cursor: "pointer" }}
                         >
                             <Typography
-                                onClick={() => {
-                                    navigate(`/genres`);
-                                }}
                                 style={{
                                     textDecoration: "none",
-                                    fontSize: "20px",
+                                    fontSize: 20,
                                     color: colors.primary[100],
                                 }}
                             >
@@ -175,9 +178,10 @@ export const Header = (): React.JSX.Element => {
                             <NavLink
                                 style={{
                                     textDecoration: "none",
-                                    fontSize: "20px",
+                                    fontSize: 20,
                                     paddingLeft: 8,
                                     color: colors.primary[100],
+                                    cursor: "pointer",
                                 }}
                                 to="/genres/NETFLIX"
                             >

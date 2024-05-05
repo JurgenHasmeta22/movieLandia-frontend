@@ -36,7 +36,7 @@ export default function Register() {
                 display: "flex",
                 placeContent: "center",
                 placeItems: "center",
-                padding: 5 //this is amazing fixes layout no need for fixed height
+                padding: 5, //this is amazing fixes layout no need for fixed height
             }}
         >
             <Paper
