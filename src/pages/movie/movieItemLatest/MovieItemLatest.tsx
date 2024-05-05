@@ -1,3 +1,4 @@
+import { ListItem } from "@mui/material";
 import { useNavigate } from "react-router";
 import type IMovie from "~/interfaces/IMovie";
 
@@ -11,7 +12,7 @@ export default function MovieItemLatest(props: IMovieItemLatestProps) {
     const navigate = useNavigate();
 
     return (
-        <li
+        <ListItem
             key={latestMovie.id}
             onClick={function () {
                 navigate(
@@ -24,6 +25,6 @@ export default function MovieItemLatest(props: IMovieItemLatestProps) {
             }}
         >
             <img src={latestMovie.photoSrc} />
-        </li>
+        </ListItem>
     );
 }

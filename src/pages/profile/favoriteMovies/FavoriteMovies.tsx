@@ -1,3 +1,4 @@
+import { Box, List, ListItem, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useStore } from "~/store/zustand/store";
 
@@ -7,12 +8,11 @@ export default function FavoriteMoviesTab() {
 
     return (
         <>
-            <h3 className="special-video-you">Bookmarked movies</h3>
-            <div className="container-videos">
-                <ul className="favorite-movies">
+            <h3>Bookmarked movies</h3>
+            <Box>
+                <List>
                     {user?.favMovies!.map((movie: any) => (
-                        <li
-                            className="movie-fav"
+                        <ListItem
                             key={movie.id}
                             onClick={function () {
                                 navigate(
@@ -25,12 +25,12 @@ export default function FavoriteMoviesTab() {
                             }}
                         >
                             <img src={movie.photoSrc} />
-                            <span>Movie title: {movie.title}</span>
-                            <span>Release year: {movie.releaseYear}</span>
-                        </li>
+                            <Typography>Movie title: {movie.title}</Typography>
+                            <Typography>Release year: {movie.releaseYear}</Typography>
+                        </ListItem>
                     ))}
-                </ul>
-            </div>
+                </List>
+            </Box>
         </>
     );
 }

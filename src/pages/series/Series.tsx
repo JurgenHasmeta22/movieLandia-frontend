@@ -2,10 +2,9 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import type ISerie from "~/interfaces/ISerie";
 import movieService from "~/services/movieService";
-import "../genre/style.css";
-import "../home/style.css";
 import type ISeriesResponse from "~/interfaces/ISeriesResponse";
 import MovieItem from "~/components/movieItem/MovieItem";
+import { Box, Typography } from "@mui/material";
 
 export default function Series() {
     const [pageNumber, setPageNumber] = useState<number>(0);
@@ -24,7 +23,7 @@ export default function Series() {
 
     const changePage = ({ selected }: any) => {
         handleChangingPageNumber(selected);
-        
+
         if (searchParams.get("sort")) {
             handleChangingPageNumber(selected);
             searchParams.set("sortBy", sortBy);
@@ -46,10 +45,12 @@ export default function Series() {
         if (searchParams.get("page")) {
             const responseSeries: ISeriesResponse =
                 await movieService.getSerieEpisodesWithPagination(searchParams.get("page"));
+
             setSeries(responseSeries.rows);
         } else {
             const responseSeries: ISeriesResponse =
                 await movieService.getSerieEpisodesNoPagination();
+
             setSeries(responseSeries.rows);
         }
     }
@@ -63,14 +64,14 @@ export default function Series() {
     }, []);
 
     return (
-        <div className="genre-wrapper-menus">
-            <div className="genre-ribbon-1">
-                <span className="movie-count-span">Total series: {seriesCount}</span>
-                <div className="image-ribbon-1-genre-wrapper">
+        <Box>
+            <Box>
+                <Typography>Total series: {seriesCount}</Typography>
+                <Box>
                     {series.map((serie: any) => (
                         <MovieItem movie={serie} type="serie" key={serie.id} />
                     ))}
-                </div>
+                </Box>
                 {/* <ReactPaginate
                     previousLabel={"< Previous"}
                     nextLabel={"Next >"}
@@ -82,7 +83,7 @@ export default function Series() {
                     disabledClassName="paginationDisabled"
                     activeClassName="paginationActive"
                 /> */}
-            </div>
-        </div>
+            </Box>
+        </Box>
     );
 }

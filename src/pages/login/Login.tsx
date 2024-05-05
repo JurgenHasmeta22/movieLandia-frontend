@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import authenticationService from "~/services/authenticationService";
 import { useStore } from "~/store/zustand/store";
 import type IResponseLogin from "~/interfaces/IResponseLogin";
-import "~/pages/login/style.css";
+import { Box, Button, TextField, Typography } from "@mui/material";
 
 export default function Login() {
     const [email, setEmail] = useState<string>("");
@@ -24,57 +24,52 @@ export default function Login() {
     }
 
     return (
-            <div className="login-page-wrapper">
-                <div className="left-main-wrapper">
-                    <img
-                        className="special-image-1"
-                        id="login-page-img"
-                        src="/assets/images/netflix.png"
-                        alt=""
-                    />
-                </div>
-                <div className="right-main-wrapper">
-                    <form
-                        id="login-form"
-                        onSubmit={function (e) {
-                            e.preventDefault();
-                            onSubmit();
-                        }}
-                    >
-                        <h1>MovieLandia22</h1>
-                        <label>
-                            <input
-                                type="text"
-                                name="email"
-                                placeholder="Enter your email"
-                                required
-                                onChange={function (e) {
-                                    setEmail(e.target.value);
-                                }}
-                            />
-                        </label>
-                        <label>
-                            <input
-                                type="password"
-                                name="password"
-                                placeholder="Enter your password"
-                                required
-                                onChange={function (e) {
-                                    setPassword(e.target.value);
-                                }}
-                            />
-                        </label>
-                        <span>
-                            <button>Log In</button>
-                        </span>
-                        <label id="signup-link-wrapper" htmlFor="">
-                            Don't have an account?
-                            <Link id="link" to={"/register"}>
-                                Sign Up
-                            </Link>
-                        </label>
-                    </form>
-                </div>
-            </div>
+        <Box>
+            <Box>
+                <img id="login-page-img" src="/assets/images/netflix.png" alt="" />
+            </Box>
+            <Box>
+                <form
+                    id="login-form"
+                    onSubmit={function (e) {
+                        e.preventDefault();
+                        onSubmit();
+                    }}
+                >
+                    <h1>MovieLandia22</h1>
+                    <label>
+                        <TextField
+                            type="text"
+                            name="email"
+                            placeholder="Enter your email"
+                            required
+                            onChange={function (e) {
+                                setEmail(e.target.value);
+                            }}
+                        />
+                    </label>
+                    <label>
+                        <TextField
+                            type="password"
+                            name="password"
+                            placeholder="Enter your password"
+                            required
+                            onChange={function (e) {
+                                setPassword(e.target.value);
+                            }}
+                        />
+                    </label>
+                    <Typography>
+                        <Button>Log In</Button>
+                    </Typography>
+                    <label htmlFor="">
+                        Don't have an account?
+                        <Link id="link" to={"/register"}>
+                            Sign Up
+                        </Link>
+                    </label>
+                </form>
+            </Box>
+        </Box>
     );
 }

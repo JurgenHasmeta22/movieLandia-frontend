@@ -1,7 +1,7 @@
 export default function AboutUsTab() {
     return (
-        <div className="container-about">
-            <span>This is my account</span>
-        </div>
+        <Box className="container-about">
+            <Typography>This is my account</Typography>
+        </Box>
     );
 }

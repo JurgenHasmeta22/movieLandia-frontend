@@ -1,6 +1,6 @@
+import { Box, List, ListItem, Typography } from "@mui/material";
 import { Outlet, useNavigate, useParams } from "react-router-dom";
 import { useStore } from "~/store/zustand/store";
-import "~/pages/profile/style.css";
 
 export default function Profile() {
     const navigate = useNavigate();
@@ -9,39 +9,37 @@ export default function Profile() {
     const { user } = useStore();
 
     if (!user) {
-        return <div className="loading-wrapper">...</div>;
+        return <Box className="loading-wrapper">...</Box>;
     }
 
     return (
         <main>
-            <section className="container-profile-menus">
-                <div className="container-profile-nav">
-                    <div className="profile-info">
+            <section>
+                <Box>
+                    <Box>
                         <img src="/assets/avatars/blankavatar.jpg" />
-                        <span className="userName-span">{user.userName}</span>
-                    </div>
-                </div>
-                <div className="container-tabs">
-                    <ul className="list-tabs">
-                        <li
-                            className={params.tab === "favoriteMovies" ? "clicked" : "videos-tab"}
+                        <Typography>{user.userName}</Typography>
+                    </Box>
+                </Box>
+                <Box>
+                    <List>
+                        <ListItem
                             onClick={() => {
                                 navigate("/profile/favoriteMovies");
                             }}
                         >
                             Favorite Movies
-                        </li>
-                        <li
-                            className={params.tab === "aboutUs" ? "clicked" : "about-tab"}
+                        </ListItem>
+                        <ListItem
                             onClick={() => {
                                 navigate("/profile/aboutUs");
                             }}
                         >
                             About Channel
-                        </li>
-                    </ul>
+                        </ListItem>
+                    </List>
                     <Outlet />
-                </div>
+                </Box>
             </section>
         </main>
     );

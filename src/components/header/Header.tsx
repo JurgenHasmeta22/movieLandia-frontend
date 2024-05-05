@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, NavLink, useLocation } from "react-router-dom";
 import { useStore } from "~/store/zustand/store";
-import "./style.css";
 import type IGenre from "~/interfaces/IGenre";
 import movieService from "~/services/movieService";
+import { AppBar, Box, Button, List, ListItem, TextField, Typography } from "@mui/material";
+import { Form } from "formik";
 
 export const Header = (): React.JSX.Element => {
     const [options, setOptions] = useState<any>([]);
@@ -14,7 +15,7 @@ export const Header = (): React.JSX.Element => {
 
     const navigate = useNavigate();
     const location = useLocation();
-    
+
     function handleLogout(): void {
         localStorage.removeItem("token");
         setUser(null);
@@ -60,21 +61,21 @@ export const Header = (): React.JSX.Element => {
     }, []);
 
     return (
-        <header className="header">
-            <div className="header-group-1">
+        <AppBar>
+            <Box>
                 <Link to="/movies">MovieLand24</Link>
-                <ul className="list-nav">
-                    <div className="div-inside-li">
+                <List className="list-nav">
+                    <ListItem className="div-inside-li">
                         <img src="/assets/logos/ico_filma_blu.png" alt="" />
                         <NavLink to="/movies" className="special-uppercase">
                             Movies
                         </NavLink>
-                    </div>
-                    <div className="div-inside-li-special">
-                        <div className="dropdown">
-                            <div className="genre-drop">
+                    </ListItem>
+                    {/* <ListItem>
+                        <Box>
+                            <Box className="genre-drop">
                                 <img src="/assets/logos/list_blu.png" alt="" />
-                                <li
+                                <ListItem
                                     className="special-uppercase"
                                     onClick={function (e) {
                                         e.stopPropagation();
@@ -82,12 +83,12 @@ export const Header = (): React.JSX.Element => {
                                     }}
                                 >
                                     Genres
-                                </li>
-                            </div>
-                            <div className="dropdown-content">
-                                <ul>
+                                </ListItem>
+                            </Box>
+                            <Box className="dropdown-content">
+                                <List>
                                     {genres.map((genre: any) => (
-                                        <li
+                                        <ListItem
                                             className="special-list-drop"
                                             key={genre.id}
                                             onClick={function (e: any) {
@@ -96,30 +97,28 @@ export const Header = (): React.JSX.Element => {
                                             }}
                                         >
                                             {genre.name}
-                                        </li>
+                                        </ListItem>
                                     ))}
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="div-inside-li">
+                                </List>
+                            </Box>
+                        </Box>
+                    </ListItem> */}
+                    <ListItem className="div-inside-li">
                         <img src="/assets/logos/netflix-red.png" alt="" />
                         <NavLink to="/genres/NETFLIX" className="special-uppercase">
                             Netflix
                         </NavLink>
-                    </div>
-                </ul>
-            </div>
-            <div className="header-group-2">
+                    </ListItem>
+                </List>
+            </Box>
+            <Box>
                 <form
                     className="button-search"
                     onSubmit={function (e) {
                         e.preventDefault();
                     }}
                 >
-                    <input
-                        type="search"
-                        name="searchMovie"
+                    <TextField
                         placeholder="Search for movies..."
                         onChange={function (e: React.ChangeEvent<HTMLInputElement>) {
                             if (e.target.value.length > 0) {
@@ -133,13 +132,13 @@ export const Header = (): React.JSX.Element => {
                             }
                         }}
                     />
-                    <button type="submit">
+                    <Button type="submit">
                         <i className="fa fa-search"></i>
-                    </button>
+                    </Button>
                 </form>
                 {user !== null ? (
-                    <div className="dropdown">
-                        <li
+                    <Box className="dropdown">
+                        <ListItem
                             className="dropbtn"
                             onClick={function () {
                                 redirectToProfile(user);
@@ -147,31 +146,29 @@ export const Header = (): React.JSX.Element => {
                         >
                             <img src="/assets/avatars/blankavatar.jpg" />
                             {user.userName}
-                        </li>
-                        <div className="dropdown-content">
-                            <button
-                                className="log-out"
+                        </ListItem>
+                        <Box className="dropdown-content">
+                            <Button
                                 onClick={function (e: any) {
                                     e.stopPropagation();
                                     handleLogout();
                                 }}
                             >
-                                <span>Log Out</span>
-                            </button>
-                        </div>
-                    </div>
+                                <Typography>Log Out</Typography>
+                            </Button>
+                        </Box>
+                    </Box>
                 ) : (
-                    <button
-                        className="button-login-header"
+                    <Button
                         onClick={function () {
                             navigate("/login");
                         }}
                     >
                         <i className="material-icons special-icon"></i>
                         Sign In
-                    </button>
+                    </Button>
                 )}
-            </div>
-        </header>
+            </Box>
+        </AppBar>
     );
 };
