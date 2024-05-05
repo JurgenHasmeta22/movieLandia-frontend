@@ -1,17 +1,44 @@
-import { Box } from "@mui/material";
+import { useState } from "react";
+import { IconButton, Box } from "@mui/material";
+import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 
-const api = {
-    url: import.meta.env.VITE_API_URL,
+const Carousel = ({ images }: any) => {
+    const [index, setIndex] = useState(0);
+
+    const handleNext = () => {
+        setIndex((prevIndex) => (prevIndex === images.length - 1 ? 0 : prevIndex + 1));
+    };
+
+    const handlePrev = () => {
+        setIndex((prevIndex) => (prevIndex === 0 ? images.length - 1 : prevIndex - 1));
+    };
+
+    return (
+        <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            width="100%"
+            overflow="hidden"
+        >
+            <IconButton onClick={handlePrev}>
+                <NavigateBeforeIcon />
+            </IconButton>
+            <img
+                src={images[index].source}
+                alt={`Slide ${index}`}
+                style={{
+                    maxWidth: "80%",
+                    maxHeight: "100%",
+                    width: "auto",
+                }}
+            />
+            <IconButton onClick={handleNext}>
+                <NavigateNextIcon />
+            </IconButton>
+        </Box>
+    );
 };
 
-export default function homeCarousel() {
-    const images = [
-        { source: `${api.url}/images/rsz_fistful_of_vengeance.png` },
-        { source: `${api.url}/images/rsz_texas.png` },
-        { source: `${api.url}/images/rsz_movieposter_en.png` },
-        { source: `${api.url}/images/rsz_wyihsxwyqn8ejsdut2p1p0o97n0.png` },
-        { source: `${api.url}/images/rsz_elevjj3yg279mmpwuygyrhbjbbq.png` },
-    ];
-
-    return <Box className="home-ribbon-1">{/* <Carousel views={images} /> */}</Box>;
-}
+export default Carousel;
