@@ -10,6 +10,10 @@ import MovieItem from "~/components/movieItem/MovieItem";
 import { Box, MenuItem, Pagination, Select, Stack, Typography, useTheme } from "@mui/material";
 import { tokens } from "~/utils/theme";
 
+const api = {
+    url: import.meta.env.VITE_API_URL,
+};
+
 export default function Home() {
     const [moviesCount, setMoviesCount] = useState<IMoviesCount | null>(null);
     const [moviesCountSearch, setMoviesCountSearch] = useState<number | null>(null);
@@ -26,6 +30,14 @@ export default function Home() {
 
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
+
+    const images = [
+        { source: `${api.url}/images/rsz_fistful_of_vengeance.png` },
+        { source: `${api.url}/images/rsz_texas.png` },
+        { source: `${api.url}/images/rsz_movieposter_en.png` },
+        { source: `${api.url}/images/rsz_wyihsxwyqn8ejsdut2p1p0o97n0.png` },
+        { source: `${api.url}/images/rsz_elevjj3yg279mmpwuygyrhbjbbq.png` },
+    ];
 
     if (searchParams.get("search")) {
         pageCount = Math.ceil(moviesCountSearch! / itemsPerPage);
@@ -200,7 +212,11 @@ export default function Home() {
                 backgroundColor: `${colors.blueAccent[700]}`,
             }}
         >
-            {!searchParams.get("search") && <HomeCarousel />}
+            {!searchParams.get("search") && (
+                <Box mt={4} mb={2}>
+                    <HomeCarousel images={images} />{" "}
+                </Box>
+            )}
             <Box>
                 <Box
                     sx={{

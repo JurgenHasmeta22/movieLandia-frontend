@@ -16,6 +16,7 @@ const movieService = {
         const moviesCount: IMoviesCount = await axios
             .get(`${api.url}/movie-count`)
             .then((x) => x.data);
+
         return moviesCount;
     },
 
@@ -33,6 +34,7 @@ const movieService = {
         const moviesResponse: IMoviesResponse = await axios
             .get(`${api.url}/movies/page/1`)
             .then((x) => x.data);
+
         return moviesResponse.rows;
     },
 
@@ -40,6 +42,7 @@ const movieService = {
         const moviesResponse: IMoviesResponse = await axios
             .get(`${api.url}/movies/page/${page}`)
             .then((x) => x.data);
+
         return moviesResponse.rows;
     },
 
@@ -52,6 +55,7 @@ const movieService = {
             page,
         };
         const responseSearch = await axios.post(`${api.url}/search`, payload).then((x) => x.data);
+
         return responseSearch;
     },
 
@@ -71,6 +75,7 @@ const movieService = {
         const moviesResponse: IMoviesResponse = await axios
             .get(`${api.url}/movies/page/${page}?sortBy=${sort}&ascOrDesc=desc`)
             .then((x) => x.data);
+
         return moviesResponse;
     },
 
@@ -78,6 +83,7 @@ const movieService = {
         const moviesResponse: IMoviesResponse = await axios
             .get(`${api.url}/movies/page/1?sortBy=${sort}&ascOrDesc=desc`)
             .then((x) => x.data);
+
         return moviesResponse;
     },
 
@@ -94,6 +100,7 @@ const movieService = {
             const user: IUser = await axios
                 .post(`${api.url}/favorites`, payload, config)
                 .then((x) => x.data);
+
             return user;
         }
     },
@@ -102,6 +109,7 @@ const movieService = {
         const responseGenre: IGenreResponse = await axios
             .get(`${api.url}/genres/${name}?page=1`)
             .then((x) => x.data);
+
         return responseGenre;
     },
 
@@ -112,6 +120,7 @@ const movieService = {
         const responseGenre: IGenreResponse = await axios
             .get(`${api.url}/genres/${name}?page=${page}`)
             .then((x) => x.data);
+
         return responseGenre;
     },
 
@@ -124,6 +133,7 @@ const movieService = {
         const responseGenre: IGenreResponse = await axios
             .get(`${api.url}/series/page/1`)
             .then((x) => x.data);
+
         return responseGenre;
     },
 
@@ -131,6 +141,7 @@ const movieService = {
         const responseGenre: ISerie = await axios
             .get(`${api.url}/series/page/${page}`)
             .then((x) => x.data);
+
         return responseGenre;
     },
 
@@ -143,6 +154,7 @@ const movieService = {
         const responseGenre: ISerie = await axios
             .get(`${api.url}/series/${slug}`)
             .then((x) => x.data);
+
         return responseGenre;
     },
 };

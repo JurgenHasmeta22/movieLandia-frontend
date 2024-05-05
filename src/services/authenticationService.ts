@@ -17,6 +17,7 @@ const authenticationService = {
         const responseLogin: IResponseLogin = await axios
             .post(`${api.url}/login`, payload)
             .then((x) => x.data);
+            
         return responseLogin;
     },
 
@@ -29,6 +30,7 @@ const authenticationService = {
         const responseLogin: IResponseLogin = await axios
             .post(`${api.url}/sign-up`, payload)
             .then((x) => x.data);
+
         return responseLogin;
     },
 
@@ -42,6 +44,7 @@ const authenticationService = {
             const response: IUser = await axios
                 .get(`${api.url}/validate`, config)
                 .then((x) => x.data);
+
             return response;
         }
     },
