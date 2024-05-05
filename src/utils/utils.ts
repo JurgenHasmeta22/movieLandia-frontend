@@ -13,7 +13,7 @@ export function toFirstWordUpperCase(str: string) {
 }
 
 export function toCamelCase(str: string) {
-    console.log(str)
+    console.log(str);
     if (str) {
         const strFinal = str
             .replace(/(?:^\w|[A-Z]|\b\w)/g, (letter, index) => {
