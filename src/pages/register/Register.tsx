@@ -1,7 +1,5 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Footer } from "~/components/footer/Footer";
-import { Header } from "~/components/header/Header";
 import authenticationService from "~/services/authenticationService";
 import { useStore } from "~/store/zustand/store";
 import type IResponseLogin from "~/interfaces/IResponseLogin";
@@ -32,8 +30,6 @@ export default function Register() {
     }
 
     return (
-        <>
-            <Header />
             <div className="signup-page-wrapper">
                 <div className="left-main-wrapper">
                     <img
@@ -95,7 +91,5 @@ export default function Register() {
                     </form>
                 </div>
             </div>
-            <Footer />
-        </>
     );
 }

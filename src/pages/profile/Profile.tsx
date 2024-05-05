@@ -1,6 +1,4 @@
 import { Outlet, useNavigate, useParams } from "react-router-dom";
-import { Footer } from "~/components/footer/Footer";
-import { Header } from "~/components/header/Header";
 import { useStore } from "~/store/zustand/store";
 import "~/pages/profile/style.css";
 
@@ -16,7 +14,6 @@ export default function Profile() {
 
     return (
         <main>
-            <Header />
             <section className="container-profile-menus">
                 <div className="container-profile-nav">
                     <div className="profile-info">
@@ -46,7 +43,6 @@ export default function Profile() {
                     <Outlet />
                 </div>
             </section>
-            <Footer />
         </main>
     );
 }

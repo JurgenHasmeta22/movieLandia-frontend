@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from "react";
-import ReactPaginate from "react-paginate";
 import { useParams, useSearchParams } from "react-router-dom";
-import { Header } from "~/components/header/Header";
 import movieService from "~/services/movieService";
 import type IGenreResponse from "~/interfaces/IGenreResponse";
 import "./style.css";
-import { Footer } from "~/components/footer/Footer";
 import MovieItem from "~/components/movieItem/MovieItem";
 import type IMovie from "~/interfaces/IMovie";
 
@@ -55,7 +52,6 @@ export default function Genre(): React.JSX.Element {
 
     return (
         <div className="genre-wrapper-menus">
-            <Header />
             <div className="genre-ribbon-1">
                 <span className="movie-count-span">
                     Total movies in this genre: {moviesCountGenre}
@@ -65,7 +61,7 @@ export default function Genre(): React.JSX.Element {
                         <MovieItem movie={movie} type="genreMovie" key={movie.id} />
                     ))}
                 </div>
-                <ReactPaginate
+                {/* <ReactPaginate
                     previousLabel={"< Previous"}
                     nextLabel={"Next >"}
                     pageCount={pageCount}
@@ -75,9 +71,8 @@ export default function Genre(): React.JSX.Element {
                     nextLinkClassName={"nextBttn"}
                     disabledClassName={"paginationDisabled"}
                     activeClassName={"paginationActive"}
-                />
+                /> */}
             </div>
-            <Footer />
         </div>
     );
 }
