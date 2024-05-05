@@ -19,6 +19,7 @@ import {
     useTheme,
 } from "@mui/material";
 import { tokens } from "~/utils/theme";
+import { toCamelCase, toFirstWordUpperCase } from "~/utils/utils";
 
 const api = {
     url: import.meta.env.VITE_API_URL,
@@ -66,12 +67,22 @@ export default function Home() {
 
     const handleChangeSorting = (event: SelectChangeEvent) => {
         const selectedValue = event.target.value as string;
-        const [, sortByValue, ascOrDesc] = selectedValue.match(/(\w+)(Asc|Desc)/) || [];
 
-        if (sortByValue && ascOrDesc) {
-            searchParams.set("sortBy", sortByValue);
-            searchParams.set("sortDirection", ascOrDesc.toLowerCase());
-            navigate(`/movies?sortBy=${sortByValue}&ascOrDesc=${ascOrDesc.toLowerCase()}`);
+        if (selectedValue === "none") {
+            if (searchParams.get("sortBy") && searchParams.get("ascOrDesc")) {
+                searchParams.delete("sortBy");
+                searchParams.delete("ascOrDesc");
+                setSearchParams(searchParams);
+            }
+        } else {
+            const [, sortByValue, ascOrDesc] = selectedValue.match(/(\w+)(Asc|Desc)/) || [];
+
+            if (sortByValue && ascOrDesc) {
+                searchParams.set("sortBy", sortByValue.toLowerCase());
+                searchParams.set("sortDirection", ascOrDesc.toLowerCase());
+                setSearchParams(searchParams);
+                navigate(`/movies?sortBy=${sortByValue}&ascOrDesc=${ascOrDesc.toLowerCase()}`);
+            }
         }
     };
 
@@ -205,18 +216,22 @@ export default function Home() {
                             <Typography>Sort By: </Typography>
                             <Box sx={{ display: "flex", flexDirection: "row", gap: 3 }}>
                                 <Select
-                                    defaultValue={"TitleAsc"}
+                                    defaultValue={"none"}
                                     value={
-                                        searchParams.get("sortBy")! + searchParams.get("ascOrDesc")!
+                                        searchParams.get("sortBy") && searchParams.get("ascOrDesc")
+                                            ? searchParams.get("sortBy")! +
+                                              toFirstWordUpperCase(searchParams.get("ascOrDesc")!)
+                                            : "none"
                                     }
                                     onChange={handleChangeSorting}
                                 >
-                                    <MenuItem value={"ViewAsc"}>Most viewed (Asc)</MenuItem>
-                                    <MenuItem value={"ViewDesc"}>Most viewed (Desc)</MenuItem>
-                                    <MenuItem value={"ImdbratingAsc"}>Imdb rating (Asc)</MenuItem>
-                                    <MenuItem value={"ImdbratingDesc"}>Imdb rating (Desc)</MenuItem>
-                                    <MenuItem value={"TitleAsc"}>Title (Asc)</MenuItem>
-                                    <MenuItem value={"TitleDesc"}>Title (Desc)</MenuItem>
+                                    <MenuItem value={"none"}>None</MenuItem>
+                                    <MenuItem value={"viewsAsc"}>Most viewed (Asc)</MenuItem>
+                                    <MenuItem value={"viewsDesc"}>Most viewed (Desc)</MenuItem>
+                                    <MenuItem value={"ratingImdbAsc"}>Imdb rating (Asc)</MenuItem>
+                                    <MenuItem value={"ratingImdbDesc"}>Imdb rating (Desc)</MenuItem>
+                                    <MenuItem value={"titleAsc"}>Title (Asc)</MenuItem>
+                                    <MenuItem value={"titleDesc"}>Title (Desc)</MenuItem>
                                 </Select>
                             </Box>
                         </Box>
