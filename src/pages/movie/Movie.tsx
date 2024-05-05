@@ -74,8 +74,6 @@ export default function Movie() {
                         <iframe
                             src={movie.videoSrc}
                             title={movie.title}
-                            id="iframeMovie"
-                            name="movieFrame"
                             height="500px"
                             width="700px"
                             allowFullScreen

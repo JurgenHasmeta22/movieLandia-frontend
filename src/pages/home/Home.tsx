@@ -7,7 +7,16 @@ import type IMoviesSearchResponse from "~/interfaces/IMovieSearchResponse";
 import type IMoviesResponse from "~/interfaces/IMoviesResponse";
 import HomeCarousel from "~/pages/home/homeCarousel/HomeCarousel";
 import MovieItem from "~/components/movieItem/MovieItem";
-import { Box, CircularProgress, MenuItem, Pagination, Select, Stack, Typography, useTheme } from "@mui/material";
+import {
+    Box,
+    CircularProgress,
+    MenuItem,
+    Pagination,
+    Select,
+    Stack,
+    Typography,
+    useTheme,
+} from "@mui/material";
 import { tokens } from "~/utils/theme";
 
 const api = {
@@ -77,130 +86,70 @@ export default function Home() {
     }
 
     async function getMovies(): Promise<void> {
-        if (
-            !searchParams.get("page") &&
-            !searchParams.get("search") &&
-            !searchParams.get("sortBy")
-        ) {
-            const movies: IMovie[] = await movieService.getMoviesDefault();
-            setMovies(movies);
-        } else if (
-            searchParams.get("page") &&
-            !searchParams.get("search") &&
-            !searchParams.get("sortBy")
-        ) {
-            const movies: IMovie[] = await movieService.getMoviesPagination(
-                searchParams.get("page"),
-            );
-            setMovies(movies);
-        } else if (
-            !searchParams.get("page") &&
-            searchParams.get("search") &&
-            !searchParams.get("sortBy")
-        ) {
-            const responseSearch: IMoviesSearchResponse =
-                await movieService.getMoviesSearchNoPagination(searchParams.get("search"));
-            setMovies(responseSearch.movies);
-            setMoviesCountSearch(responseSearch.count);
-        } else if (
-            searchParams.get("page") &&
-            searchParams.get("search") &&
-            !searchParams.get("sortBy")
-        ) {
-            const responseSearch: IMoviesSearchResponse =
-                await movieService.getMoviesSearchWithPagination(
-                    searchParams.get("search"),
-                    searchParams.get("page"),
-                );
-            setMovies(responseSearch.movies);
-            setMoviesCountSearch(responseSearch.count);
-        } else if (
-            !searchParams.get("page") &&
-            !searchParams.get("search") &&
-            searchParams.get("sortBy")
-        ) {
-            const responseMovies: IMoviesResponse = await movieService.getMoviesSortingNoPagination(
-                searchParams.get("sortBy"),
-            );
-            setMovies(responseMovies.rows);
-        } else if (
-            searchParams.get("page") &&
-            !searchParams.get("search") &&
-            searchParams.get("sortBy")
-        ) {
-            const responseMovies: IMoviesResponse =
-                await movieService.getMoviesSortingWithPagination(
-                    searchParams.get("sortBy"),
-                    searchParams.get("page"),
-                );
-            setMovies(responseMovies.rows);
-        }
-    }
+        let moviesResponse: IMovie[] = [];
 
-    if (!searchParams.get("page") && !searchParams.get("search") && !searchParams.get("sortBy")) {
-        useEffect(() => {
-            getMovies();
-        }, [searchParams.get("page")]);
-    } else if (
-        searchParams.get("page") &&
-        !searchParams.get("search") &&
-        !searchParams.get("sortBy")
-    ) {
-        useEffect(() => {
-            getMovies();
-        }, [searchParams.get("page")]);
-    } else if (
-        !searchParams.get("page") &&
-        searchParams.get("search") &&
-        !searchParams.get("sortBy")
-    ) {
-        useEffect(() => {
-            getMovies();
-        }, [searchParams.get("search")]);
-    } else if (
-        searchParams.get("page") &&
-        searchParams.get("search") &&
-        !searchParams.get("sortBy")
-    ) {
-        useEffect(() => {
-            getMovies();
-        }, [searchParams.get("page")]);
-    } else if (
-        !searchParams.get("page") &&
-        !searchParams.get("search") &&
-        searchParams.get("sortBy")
-    ) {
-        useEffect(() => {
-            getMovies();
-        }, [searchParams.get("sortBy")]);
-    } else if (
-        searchParams.get("page") &&
-        !searchParams.get("search") &&
-        searchParams.get("sortBy")
-    ) {
-        useEffect(() => {
-            getMovies();
-        }, [searchParams.get("page")]);
+        if (searchParams.get("search")) {
+            if (searchParams.get("page")) {
+                const responseSearch: IMoviesSearchResponse =
+                    await movieService.getMoviesSearchWithPagination(
+                        searchParams.get("search"),
+                        searchParams.get("page"),
+                    );
+
+                moviesResponse = responseSearch.movies;
+                setMoviesCountSearch(responseSearch.count);
+            } else {
+                const responseSearch: IMoviesSearchResponse =
+                    await movieService.getMoviesSearchNoPagination(searchParams.get("search"));
+
+                moviesResponse = responseSearch.movies;
+                setMoviesCountSearch(responseSearch.count);
+            }
+        } else {
+            if (searchParams.get("sortBy")) {
+                if (searchParams.get("page")) {
+                    const responseMovies: IMoviesResponse =
+                        await movieService.getMoviesSortingWithPagination(
+                            searchParams.get("sortBy"),
+                            searchParams.get("page"),
+                        );
+
+                    moviesResponse = responseMovies.rows;
+                } else {
+                    const responseMovies: IMoviesResponse =
+                        await movieService.getMoviesSortingNoPagination(searchParams.get("sortBy"));
+
+                    moviesResponse = responseMovies.rows;
+                }
+            } else if (searchParams.get("page")) {
+                const movies: IMovie[] = await movieService.getMoviesPagination(
+                    searchParams.get("page"),
+                );
+
+                moviesResponse = movies;
+            } else {
+                const movies: IMovie[] = await movieService.getMoviesDefault();
+                moviesResponse = movies;
+            }
+        }
+
+        setMovies(moviesResponse);
     }
 
     useEffect(() => {
-        getMoviesCount(), getLatestMovies();
-    }, []);
+        const fetchData = async () => {
+            await Promise.all([getMovies(), getMoviesCount(), getLatestMovies()]);
+        };
 
-    useEffect(() => {
-        if (searchTerm && searchTerm.length > 0) {
-            searchParams.set("search", searchTerm);
-            setSearchParams(searchParams);
-        } else if (searchTerm.length === 0) {
-            searchParams.delete("search");
-            if (searchParams.get("page")) searchParams.delete("page");
-            if (searchParams.get("sortBy")) searchParams.delete("sortBy");
-            setSearchParams(searchParams);
-        }
-    }, [searchTerm]);
+        fetchData();
+    }, [searchParams, searchTerm, sortBy, moviesCountSearch, moviesCount]);
 
     if (!movies) {
-        return <Box><CircularProgress size={80} thickness={4} /></Box>;
+        return (
+            <Box>
+                <CircularProgress size={80} thickness={4} />
+            </Box>
+        );
     }
 
     return (

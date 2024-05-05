@@ -7,6 +7,7 @@ import {
     AppBar,
     Box,
     Button,
+    InputAdornment,
     List,
     ListItem,
     Menu,
@@ -19,6 +20,7 @@ import {
 import { tokens } from "~/utils/theme";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
+import { Clear, Search } from "@mui/icons-material";
 
 export const Header = (): React.JSX.Element => {
     const [options, setOptions] = useState<any>([]);
@@ -151,6 +153,10 @@ export const Header = (): React.JSX.Element => {
                                 anchorEl={anchorEl}
                                 open={Boolean(anchorEl)}
                                 onClose={handleGenreMouseLeave}
+                                MenuListProps={{
+                                    onMouseLeave: handleGenreMouseLeave,
+                                    style: { padding: 10 },
+                                }}
                             >
                                 {genres.map((genre) => (
                                     <MenuItem
@@ -183,19 +189,34 @@ export const Header = (): React.JSX.Element => {
                 </Box>
                 <Box sx={{ display: "flex", placeItems: "center", columnGap: 4 }}>
                     <TextField
-                        placeholder="Search for movies..."
+                        placeholder="Search for movies"
+                        value={searchTerm}
                         onChange={(e) => {
                             if (e.target.value.length > 0) {
                                 setSearchTerm(e.target.value);
-
-                                if (location.pathname !== "/movies") {
-                                    navigate(`/movies?search=${searchTerm}`);
-                                }
+                                navigate(`/movies?search=${searchTerm}`);
                             } else {
                                 setSearchTerm(e.target.value);
-
-                                if (location.pathname !== "/movies") navigate("/movies");
+                                navigate("/movies");
                             }
+                        }}
+                        InputProps={{
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    <Search />
+                                </InputAdornment>
+                            ),
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    <Clear
+                                        sx={{ cursor: "pointer" }}
+                                        onClick={() => {
+                                            setSearchTerm("");
+                                            navigate("/movies");
+                                        }}
+                                    />
+                                </InputAdornment>
+                            ),
                         }}
                     />
                     {user !== null ? (
