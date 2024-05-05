@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Footer } from "~/components/footer/Footer";
-import { Header } from "~/components/header/Header";
 import movieService from "~/services/movieService";
 import type IGenre from "~/interfaces/IGenre";
 import "./style.css";
@@ -22,7 +20,6 @@ export default function Genres() {
 
     return (
         <div className="genre-categories-menus">
-            <Header />
             <h2>Choose your favorite genre</h2>
             <div className="genre-categories-wrapper">
                 {genres?.map((genre: any) => (
@@ -38,7 +35,6 @@ export default function Genres() {
                     </div>
                 ))}
             </div>
-            <Footer />
         </div>
     );
 }

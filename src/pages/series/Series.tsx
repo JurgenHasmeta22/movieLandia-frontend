@@ -1,8 +1,5 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import ReactPaginate from "react-paginate";
-import { Footer } from "~/components/footer/Footer";
-import { Header } from "~/components/header/Header";
 import type ISerie from "~/interfaces/ISerie";
 import movieService from "~/services/movieService";
 import "../genre/style.css";
@@ -67,7 +64,6 @@ export default function Series() {
 
     return (
         <div className="genre-wrapper-menus">
-            <Header />
             <div className="genre-ribbon-1">
                 <span className="movie-count-span">Total series: {seriesCount}</span>
                 <div className="image-ribbon-1-genre-wrapper">
@@ -75,7 +71,7 @@ export default function Series() {
                         <MovieItem movie={serie} type="serie" key={serie.id} />
                     ))}
                 </div>
-                <ReactPaginate
+                {/* <ReactPaginate
                     previousLabel={"< Previous"}
                     nextLabel={"Next >"}
                     pageCount={pageCount}
@@ -85,9 +81,8 @@ export default function Series() {
                     nextLinkClassName="nextBttn"
                     disabledClassName="paginationDisabled"
                     activeClassName="paginationActive"
-                />
+                /> */}
             </div>
-            <Footer />
         </div>
     );
 }

@@ -1,9 +1,5 @@
 import { useEffect, useState } from "react";
-import ReactPaginate from "react-paginate";
-import { useNavigate } from "react-router";
 import { useSearchParams } from "react-router-dom";
-import { Footer } from "~/components/footer/Footer";
-import { Header } from "~/components/header/Header";
 import movieService from "~/services/movieService";
 import type IMovie from "~/interfaces/IMovie";
 import type IMoviesCount from "~/interfaces/IMoviesCount";
@@ -53,87 +49,6 @@ export default function Home() {
             setSearchParams(searchParams);
         }
     };
-
-    function conditionalRenderingMovieCount(): JSX.Element | undefined {
-        if (searchParams.get("search")) {
-            return <span className="movie-count-span">Total movies: {moviesCountSearch}</span>;
-        }
-
-        return <span className="movie-count-span">Total movies: {moviesCount?.count}</span>;
-    }
-
-    function conditionalRenderingCarousel(): JSX.Element | undefined {
-        if (!searchParams.get("search")) {
-            return <HomeCarousel />;
-        }
-    }
-
-    function conditionalRenderingSorting(): JSX.Element | undefined {
-        if (!searchParams.get("search")) {
-            return (
-                <>
-                    <h3>Sort By: </h3>
-                    <ul className="list-sort">
-                        <span
-                            onClick={() => {
-                                setSearchParams({ sortBy: "views" });
-                            }}
-                        >
-                            Most viewed (Desc)
-                        </span>
-                        <span
-                            onClick={() => {
-                                setSearchParams({ sortBy: "imdbRating" });
-                            }}
-                        >
-                            Imdb rating (Desc)
-                        </span>
-                        <span
-                            onClick={() => {
-                                setSearchParams({ sortBy: "title" });
-                            }}
-                        >
-                            Title (Desc)
-                        </span>
-                    </ul>
-                </>
-            );
-        }
-    }
-
-    function conditionalRenderingMovies(): JSX.Element | undefined {
-        if (movies.length !== 0) {
-            return (
-                <div className="image-ribbon-2-wrapper">
-                    {movies.map((movie: any) => (
-                        <MovieItem movie={movie} type="homeMovie" key={movie.id} />
-                    ))}
-                </div>
-            );
-        }
-        return (
-            <div className="no-search">
-                <span>No Search Result, no movie found with that criteria.</span>
-            </div>
-        );
-    }
-
-    function conditionalRenderingLatestMovies(): JSX.Element | undefined {
-        if (!searchParams.get("search")) {
-            return (
-                <div className="home-ribbon-3">
-                    <ul className="list-latest">
-                        <li className="special-last">LATEST MOVIES</li>
-                    </ul>
-                    <div className="image-ribbon-3-wrapper">
-                        {latestMovies?.map((latestMovie: any) => (
-                            <MovieItem type="homeLatest" movie={latestMovie} key={latestMovie} />
-                        ))}
-                    </div>
-                </div>
-            );
-        }
-    }
 
     async function getMoviesCount(): Promise<void> {
         const moviesCount: IMoviesCount = await movieService.getMovieCount();
@@ -274,13 +189,53 @@ export default function Home() {
 
     return (
         <div className="home-wrapper-menus">
-            <Header />
-            {conditionalRenderingCarousel()}
+            {!searchParams.get("search") && <HomeCarousel />}
             <div className="home-ribbon-2">
-                {conditionalRenderingMovieCount()}
-                {conditionalRenderingSorting()}
-                {conditionalRenderingMovies()}
-                <ReactPaginate
+                {searchParams.get("search") ? (
+                    <span className="movie-count-span">Total movies: {moviesCountSearch}</span>
+                ) : (
+                    <span className="movie-count-span">Total movies: {moviesCount?.count}</span>
+                )}
+                {!searchParams.get("search") && (
+                    <>
+                        <h3>Sort By: </h3>
+                        <ul className="list-sort">
+                            <span
+                                onClick={() => {
+                                    setSearchParams({ sortBy: "views" });
+                                }}
+                            >
+                                Most viewed (Desc)
+                            </span>
+                            <span
+                                onClick={() => {
+                                    setSearchParams({ sortBy: "imdbRating" });
+                                }}
+                            >
+                                Imdb rating (Desc)
+                            </span>
+                            <span
+                                onClick={() => {
+                                    setSearchParams({ sortBy: "title" });
+                                }}
+                            >
+                                Title (Desc)
+                            </span>
+                        </ul>
+                    </>
+                )}
+                {movies.length !== 0 ? (
+                    <div className="image-ribbon-2-wrapper">
+                        {movies.map((movie: any) => (
+                            <MovieItem movie={movie} type="homeMovie" key={movie.id} />
+                        ))}
+                    </div>
+                ) : (
+                    <div className="no-search">
+                        <span>No Search Result, no movie found with that criteria.</span>
+                    </div>
+                )}
+                {/* <ReactPaginate
                     previousLabel={"< Previous"}
                     nextLabel={"Next >"}
                     pageCount={pageCount}
@@ -290,10 +245,20 @@ export default function Home() {
                     nextLinkClassName={"nextBttn"}
                     disabledClassName={"paginationDisabled"}
                     activeClassName={"paginationActive"}
-                />
+                /> */}
             </div>
-            {conditionalRenderingLatestMovies()}
-            <Footer />
+            {!searchParams.get("search") && (
+                <div className="home-ribbon-3">
+                    <ul className="list-latest">
+                        <li className="special-last">LATEST MOVIES</li>
+                    </ul>
+                    <div className="image-ribbon-3-wrapper">
+                        {latestMovies?.map((latestMovie: any) => (
+                            <MovieItem type="homeLatest" movie={latestMovie} key={latestMovie} />
+                        ))}
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

@@ -2,8 +2,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import "~/pages/movie/style.css";
 import { useStore } from "~/store/zustand/store";
-import { Footer } from "~/components/footer/Footer";
-import { Header } from "~/components/header/Header";
 import type IMovie from "~/interfaces/IMovie";
 import type IUser from "~/interfaces/IUser";
 import movieService from "~/services/movieService";
@@ -46,8 +44,6 @@ export default function Movie() {
     }
 
     return (
-        <>
-            <Header />
             <section className="movie-item-wrapper">
                 <div className="left-section">
                     <div className="video-and-servers">
@@ -114,7 +110,5 @@ export default function Movie() {
                 </div>
                 <div className="right-section"></div>
             </section>
-            <Footer />
-        </>
     );
 }
