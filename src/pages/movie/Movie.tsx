@@ -5,7 +5,7 @@ import type IMovie from "~/interfaces/IMovie";
 import type IUser from "~/interfaces/IUser";
 import movieService from "~/services/movieService";
 import MovieItemLatest from "~/pages/movie/movieItemLatest/MovieItemLatest";
-import { Box, Button, Container, List, ListItem, Stack, Typography, useTheme } from "@mui/material";
+import { Box, Button, CircularProgress, Container, List, ListItem, Stack, Typography, useTheme } from "@mui/material";
 import { tokens } from "~/utils/theme";
 
 export default function Movie() {
@@ -44,7 +44,7 @@ export default function Movie() {
     }, [params.title]);
 
     if (!movie) {
-        return <Box>...</Box>;
+        return <Box><CircularProgress size={80} thickness={4} /></Box>;
     }
 
     return (

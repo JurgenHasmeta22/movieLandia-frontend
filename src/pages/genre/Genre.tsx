@@ -4,22 +4,22 @@ import movieService from "~/services/movieService";
 import type IGenreResponse from "~/interfaces/IGenreResponse";
 import MovieItem from "~/components/movieItem/MovieItem";
 import type IMovie from "~/interfaces/IMovie";
-import { Box, Pagination, Stack, Typography, useTheme } from "@mui/material";
+import { Box, CircularProgress, Pagination, Stack, Typography, useTheme } from "@mui/material";
 import { tokens } from "~/utils/theme";
 
 export default function Genre(): React.JSX.Element {
-    const params = useParams();
-    const [searchParams, setSearchParams] = useSearchParams();
-
     const [pageNumber, setPageNumber] = useState<number>(0);
     const [itemsPerPage, setItemsPerPage] = useState<number>(20);
     const [moviesCountGenre, setMoviesCountGenres] = useState<number>(0);
     const [moviesOfGenre, setMoviesOfGenre] = useState<IMovie[]>([]);
 
-    const pageCount: number = Math.ceil(moviesCountGenre / itemsPerPage);
+    const params = useParams();
+    const [searchParams, setSearchParams] = useSearchParams();
 
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
+
+    const pageCount: number = Math.ceil(moviesCountGenre / itemsPerPage);
 
     function handleChangingPageNumber(selected: any): void {
         setPageNumber(selected);
@@ -55,7 +55,7 @@ export default function Genre(): React.JSX.Element {
     }, [params.name, searchParams.get("page")]);
 
     if (!moviesOfGenre) {
-        return <Box>...</Box>;
+        return <Box><CircularProgress size={80} thickness={4} /></Box>;
     }
 
     return (

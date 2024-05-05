@@ -16,9 +16,9 @@ import {
     Typography,
     useTheme,
 } from "@mui/material";
-import { Form } from "formik";
 import { tokens } from "~/utils/theme";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
+import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 
 export const Header = (): React.JSX.Element => {
     const [options, setOptions] = useState<any>([]);
@@ -95,7 +95,7 @@ export const Header = (): React.JSX.Element => {
                     justifyContent: "space-between",
                     flexWrap: "wrap",
                     backgroundColor: colors.primary[900],
-                    height: "120px",
+                    padding: 2,
                 }}
             >
                 <Box
@@ -229,20 +229,32 @@ export const Header = (): React.JSX.Element => {
                                 onClick={function () {
                                     navigate("/login");
                                 }}
+                                sx={{
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    columnGap: 1,
+                                    padding: 2,
+                                }}
                             >
-                                <Typography>Login</Typography>
                                 <LockOpenIcon />
+                                <Typography>Sign In</Typography>
                             </Button>
                             <Button
                                 color="secondary"
                                 variant="outlined"
                                 size="large"
+                                sx={{
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    columnGap: 1,
+                                    padding: 2,
+                                }}
                                 onClick={function () {
                                     navigate("/register");
                                 }}
                             >
-                                <Typography>Register</Typography>
-                                <LockOpenIcon />
+                                <AppRegistrationIcon />
+                                <Typography>Sign Up</Typography>
                             </Button>
                         </>
                     )}

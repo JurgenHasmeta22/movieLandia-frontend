@@ -1,6 +1,8 @@
+import { Box, Typography } from "@mui/material";
+
 export default function AboutUsTab() {
     return (
-        <Box className="container-about">
+        <Box>
             <Typography>This is my account</Typography>
         </Box>
     );
