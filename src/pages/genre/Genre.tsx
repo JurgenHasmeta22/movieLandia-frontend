@@ -4,18 +4,24 @@ import movieService from "~/services/movieService";
 import type IGenreResponse from "~/interfaces/IGenreResponse";
 import MovieItem from "~/components/movieItem/MovieItem";
 import type IMovie from "~/interfaces/IMovie";
-import { Box, Typography } from "@mui/material";
+import { Box, Pagination, Stack, Typography, useTheme } from "@mui/material";
+import { tokens } from "~/utils/theme";
 
 export default function Genre(): React.JSX.Element {
     const params = useParams();
     const [searchParams, setSearchParams] = useSearchParams();
+
     const [pageNumber, setPageNumber] = useState<number>(0);
     const [itemsPerPage, setItemsPerPage] = useState<number>(20);
     const [moviesCountGenre, setMoviesCountGenres] = useState<number>(0);
     const [moviesOfGenre, setMoviesOfGenre] = useState<IMovie[]>([]);
+
     const pageCount: number = Math.ceil(moviesCountGenre / itemsPerPage);
 
-    function handleChangingPageNumber(selected: number): void {
+    const theme = useTheme();
+    const colors = tokens(theme.palette.mode);
+
+    function handleChangingPageNumber(selected: any): void {
         setPageNumber(selected);
     }
 
@@ -53,25 +59,43 @@ export default function Genre(): React.JSX.Element {
     }
 
     return (
-        <Box>
+        <Box
+            sx={{
+                display: "flex",
+                flexDirection: "column",
+                rowGap: 4,
+                backgroundColor: `${colors.blueAccent[700]}`,
+            }}
+        >
             <Box>
                 <Typography>Total movies in this genre: {moviesCountGenre}</Typography>
-                <Box>
+                <Stack
+                    direction="row"
+                    flexWrap="wrap"
+                    justifyContent={"center"}
+                    alignContent={"center"}
+                    rowGap={4}
+                    columnGap={4}
+                >
                     {moviesOfGenre.map((movie: any) => (
                         <MovieItem movie={movie} type="genreMovie" key={movie.id} />
                     ))}
-                </Box>
-                {/* <ReactPaginate
-                    previousLabel={"< Previous"}
-                    nextLabel={"Next >"}
-                    pageCount={pageCount}
-                    onPageChange={changePage}
-                    containerClassName={"paginationBttns"}
-                    previousLinkClassName={"previousBttn"}
-                    nextLinkClassName={"nextBttn"}
-                    disabledClassName={"paginationDisabled"}
-                    activeClassName={"paginationActive"}
-                /> */}
+                </Stack>
+                <Stack
+                    spacing={2}
+                    sx={{ display: "flex", placeItems: "center", marginTop: 4, marginBottom: 4 }}
+                >
+                    <Pagination
+                        page={pageNumber}
+                        size="large"
+                        count={pageCount}
+                        showFirstButton
+                        showLastButton
+                        onChange={(page) => {
+                            handleChangingPageNumber(page);
+                        }}
+                    />
+                </Stack>
             </Box>
         </Box>
     );

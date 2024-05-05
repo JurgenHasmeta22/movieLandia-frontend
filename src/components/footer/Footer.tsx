@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Container, Typography, useTheme } from "@mui/material";
+import { Box, Typography, useTheme } from "@mui/material";
 import { tokens } from "~/utils/theme";
 
 export const Footer = (): React.JSX.Element => {
