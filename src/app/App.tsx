@@ -9,6 +9,7 @@ import { Grid, CircularProgress, Box, ThemeProvider } from "@mui/material";
 import { Header } from "~/components/header/Header";
 import { Footer } from "~/components/footer/Footer";
 import { ColorModeContext, useMode } from "~/utils/theme";
+import ScrollToTop from "~/components/scrollToTop/scrollToTop";
 
 const Series = React.lazy(async () => await import("~/pages/series/Series"));
 const Error404 = React.lazy(async () => await import("~/pages/error/Error"));
@@ -45,6 +46,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
                     >
                         <Box>{children}</Box>
                     </React.Suspense>
+                    <ScrollToTop />
                     <Footer />
                 </Grid>
             </Grid>
