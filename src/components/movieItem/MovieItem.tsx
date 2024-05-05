@@ -15,36 +15,37 @@ const MovieItem = ({ movie, type }: IMovieItemProps): React.JSX.Element => {
         <Box
             key={movie.id}
             onClick={function (e) {
-                e.stopPropagation();
                 navigate(
                     `/movies/${movie.title
                         .split("")
                         .map((char: any) => (char === " " ? "-" : char))
                         .join("")}`,
                 );
-
-                window.scrollTo(0, 0);
             }}
+            sx={{ cursor: "pointer" }}
         >
             <img src={movie.photoSrc} />
-            <Typography>{movie.title}</Typography>
+            <Typography variant="h5" color={"secondary"}>
+                {movie.title}
+            </Typography>
             {type !== "serie" && (
-                <Box>
+                <Box sx={{ display: "flex", flexDirection: "row", flewWrap: "wrap", columnGap: 2 }}>
                     {movie.genres?.map((genre: any) => (
                         <Typography
                             key={genre.genre.name}
                             onClick={function (e) {
-                                e.stopPropagation();
                                 navigate(`/genres/${genre.genre.name}`);
-                                window.scrollTo(0, 0);
                             }}
+                            variant="overline"
+                            color={"primary"}
+                            fontWeight={"bold"}
                         >
                             {genre.genre.name}
                         </Typography>
                     ))}
                 </Box>
             )}
-            <Typography>
+            <Typography color={"secondary"}>
                 {movie.ratingImdb !== 0 ? `Imdb: ${movie.ratingImdb}` : "Imdb: N/A"}
             </Typography>
         </Box>

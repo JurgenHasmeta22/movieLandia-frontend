@@ -8,7 +8,6 @@ import { Box, CircularProgress, Pagination, Stack, Typography, useTheme } from "
 import { tokens } from "~/utils/theme";
 
 export default function Genre(): React.JSX.Element {
-    const [pageNumber, setPageNumber] = useState<number>(0);
     const [itemsPerPage, setItemsPerPage] = useState<number>(20);
     const [moviesCountGenre, setMoviesCountGenres] = useState<number>(0);
     const [moviesOfGenre, setMoviesOfGenre] = useState<IMovie[]>([]);
@@ -21,13 +20,8 @@ export default function Genre(): React.JSX.Element {
 
     const pageCount: number = Math.ceil(moviesCountGenre / itemsPerPage);
 
-    function handleChangingPageNumber(selected: any): void {
-        setPageNumber(selected);
-    }
-
-    const changePage = ({ selected }: { selected: number }): void => {
-        handleChangingPageNumber(selected);
-        searchParams.set("page", (selected + 1).toString());
+    const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
+        searchParams.set("page", String(value));
         setSearchParams(searchParams);
     };
 
@@ -55,7 +49,11 @@ export default function Genre(): React.JSX.Element {
     }, [params.name, searchParams.get("page")]);
 
     if (!moviesOfGenre) {
-        return <Box><CircularProgress size={80} thickness={4} /></Box>;
+        return (
+            <Box>
+                <CircularProgress size={80} thickness={4} />
+            </Box>
+        );
     }
 
     return (
@@ -86,14 +84,12 @@ export default function Genre(): React.JSX.Element {
                     sx={{ display: "flex", placeItems: "center", marginTop: 4, marginBottom: 4 }}
                 >
                     <Pagination
-                        page={pageNumber}
+                        page={searchParams.get("page") ? Number(searchParams.get("page")) : 1}
                         size="large"
                         count={pageCount}
                         showFirstButton
                         showLastButton
-                        onChange={(page) => {
-                            handleChangingPageNumber(page);
-                        }}
+                        onChange={handlePageChange}
                     />
                 </Stack>
             </Box>

@@ -7,33 +7,16 @@ import MovieItem from "~/components/movieItem/MovieItem";
 import { Box, Pagination, Stack, Typography } from "@mui/material";
 
 export default function Series() {
-    const [pageNumber, setPageNumber] = useState<number>(0);
-    const [itemsPerPage, setItemsPerPage] = useState<number>(20);
     const [series, setSeries] = useState<ISerie[]>([]);
     const [seriesCount, setSeriesCount] = useState<number>(0);
-    const [sortBy, setSortBy] = useState<string>("");
 
     const [searchParams, setSearchParams] = useSearchParams();
 
-    const pageCount = Math.ceil(seriesCount / itemsPerPage);
+    const pageCount = Math.ceil(seriesCount / 20);
 
-    function handleChangingPageNumber(selected: any) {
-        setPageNumber(selected);
-    }
-
-    const changePage = ({ selected }: any) => {
-        handleChangingPageNumber(selected);
-
-        if (searchParams.get("sort")) {
-            handleChangingPageNumber(selected);
-            searchParams.set("sortBy", sortBy);
-            searchParams.set("page", selected + 1);
-            setSearchParams(searchParams);
-        } else {
-            handleChangingPageNumber(selected);
-            searchParams.set("page", selected + 1);
-            setSearchParams(searchParams);
-        }
+    const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
+        searchParams.set("page", String(value));
+        setSearchParams(searchParams);
     };
 
     async function getSeriesCount(): Promise<void> {
@@ -77,14 +60,12 @@ export default function Series() {
                     sx={{ display: "flex", placeItems: "center", marginTop: 4, marginBottom: 4 }}
                 >
                     <Pagination
-                        page={pageNumber}
+                        page={searchParams.get("page") ? Number(searchParams.get("page")) : 1}
                         size="large"
                         count={pageCount}
                         showFirstButton
                         showLastButton
-                        onChange={(page) => {
-                            handleChangingPageNumber(page);
-                        }}
+                        onChange={handlePageChange}
                     />
                 </Stack>
             </Box>
