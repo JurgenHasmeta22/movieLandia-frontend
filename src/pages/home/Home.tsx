@@ -7,7 +7,8 @@ import type IMoviesSearchResponse from "~/interfaces/IMovieSearchResponse";
 import type IMoviesResponse from "~/interfaces/IMoviesResponse";
 import HomeCarousel from "~/pages/home/homeCarousel/HomeCarousel";
 import MovieItem from "~/components/movieItem/MovieItem";
-import { Box, List, ListItem, Typography } from "@mui/material";
+import { Box, MenuItem, Pagination, Select, Stack, Typography, useTheme } from "@mui/material";
+import { tokens } from "~/utils/theme";
 
 export default function Home() {
     const [moviesCount, setMoviesCount] = useState<IMoviesCount | null>(null);
@@ -22,6 +23,9 @@ export default function Home() {
     const [searchParams, setSearchParams] = useSearchParams();
 
     let pageCount;
+
+    const theme = useTheme();
+    const colors = tokens(theme.palette.mode);
 
     if (searchParams.get("search")) {
         pageCount = Math.ceil(moviesCountSearch! / itemsPerPage);
@@ -188,48 +192,76 @@ export default function Home() {
     }
 
     return (
-        <Box>
+        <Box
+            sx={{
+                display: "flex",
+                flexDirection: "column",
+                rowGap: 4,
+                backgroundColor: `${colors.blueAccent[700]}`,
+            }}
+        >
             {!searchParams.get("search") && <HomeCarousel />}
             <Box>
-                {searchParams.get("search") ? (
-                    <Typography>Total movies: {moviesCountSearch}</Typography>
-                ) : (
-                    <Typography>Total movies: {moviesCount?.count}</Typography>
-                )}
-                {!searchParams.get("search") && (
-                    <>
-                        <h3>Sort By: </h3>
-                        <List>
-                            <Typography
-                                onClick={() => {
-                                    setSearchParams({ sortBy: "views" });
-                                }}
-                            >
-                                Most viewed (Desc)
+                <Box
+                    sx={{
+                        display: "flex",
+                        flexDirection: "row",
+                        columnGap: 4,
+                        placeContent: "center",
+                        placeItems: "center",
+                        marginBottom: 4,
+                    }}
+                >
+                    {searchParams.get("search") ? (
+                        <Box>
+                            <Typography fontSize={"18px"}>
+                                Total movies: {moviesCountSearch}
                             </Typography>
-                            <Typography
-                                onClick={() => {
-                                    setSearchParams({ sortBy: "imdbRating" });
-                                }}
-                            >
-                                Imdb rating (Desc)
+                        </Box>
+                    ) : (
+                        <Box>
+                            <Typography fontSize={"18px"}>
+                                Total movies: {moviesCount?.count}
                             </Typography>
-                            <Typography
-                                onClick={() => {
-                                    setSearchParams({ sortBy: "title" });
-                                }}
-                            >
-                                Title (Desc)
-                            </Typography>
-                        </List>
-                    </>
-                )}
+                        </Box>
+                    )}
+                    {!searchParams.get("search") && (
+                        <Box
+                            sx={{
+                                display: "flex",
+                                flexDirection: "row",
+                                placeItems: "center",
+                                placeContent: "center",
+                                gap: 2,
+                            }}
+                        >
+                            <Typography>Sort By: </Typography>
+                            <Box sx={{ display: "flex", flexDirection: "row", gap: 3 }}>
+                                <Select
+                                    value={"View"}
+                                    // onChange={handleChange}
+                                >
+                                    <MenuItem value={"View"}>Most viewed (Desc)</MenuItem>"
+                                    <MenuItem value={"Imdb"}>Imdb rating (Desc)</MenuItem>
+                                    <MenuItem value={"Title"}>Title (Desc)</MenuItem>
+                                </Select>
+                            </Box>
+                        </Box>
+                    )}
+                </Box>
                 {movies.length !== 0 ? (
-                    <Box>
+                    <Stack
+                        direction="row"
+                        flexWrap="wrap"
+                        justifyContent={"center"}
+                        alignContent={"center"}
+                        rowGap={8}
+                        columnGap={4}
+                    >
                         {movies.map((movie: any) => (
                             <MovieItem movie={movie} type="homeMovie" key={movie.id} />
                         ))}
-                    </Box>
+                    </Stack>
                 ) : (
                     <Box>
                         <Typography>
@@ -237,28 +269,59 @@ export default function Home() {
                         </Typography>
                     </Box>
                 )}
-                {/* <ReactPaginate
-                    previousLabel={"< Previous"}
-                    nextLabel={"Next >"}
-                    pageCount={pageCount}
-                    onPageChange={changePage}
-                    containerClassName={"paginationBttns"}
-                    previousLinkClassName={"previousBttn"}
-                    nextLinkClassName={"nextBttn"}
-                    disabledClassName={"paginationDisabled"}
-                    activeClassName={"paginationActive"}
-                /> */}
+                <Stack
+                    spacing={2}
+                    sx={{ display: "flex", placeItems: "center", marginTop: 4, marginBottom: 4 }}
+                >
+                    <Pagination
+                        page={pageNumber}
+                        size="large"
+                        count={pageCount}
+                        showFirstButton
+                        showLastButton
+                        onChange={(page) => {
+                            handleChangingPageNumber(page);
+                        }}
+                    />
+                </Stack>
             </Box>
             {!searchParams.get("search") && (
-                <Box>
-                    <List>
-                        <ListItem>LATEST MOVIES</ListItem>
-                    </List>
-                    <Box>
+                <Box sx={{ display: "flex", flexDirection: "column", rowGap: 4, marginBottom: 4 }}>
+                    <Box sx={{ display: "flex", placeContent: "center" }}>
+                        <Typography fontSize={"22px"}>Latest Movies</Typography>
+                    </Box>
+                    <Stack
+                        direction="row"
+                        flexWrap="wrap"
+                        rowGap={8}
+                        columnGap={4}
+                        justifyContent={"center"}
+                        alignContent={"center"}
+                    >
                         {latestMovies?.map((latestMovie: any) => (
                             <MovieItem type="homeLatest" movie={latestMovie} key={latestMovie} />
                         ))}
-                    </Box>
+                    </Stack>
+                    <Stack
+                        spacing={2}
+                        sx={{
+                            display: "flex",
+                            placeItems: "center",
+                            marginTop: 4,
+                            marginBottom: 4,
+                        }}
+                    >
+                        <Pagination
+                            page={pageNumber}
+                            size="large"
+                            count={pageCount}
+                            showFirstButton
+                            showLastButton
+                            onChange={(page) => {
+                                handleChangingPageNumber(page);
+                            }}
+                        />
+                    </Stack>
                 </Box>
             )}
         </Box>

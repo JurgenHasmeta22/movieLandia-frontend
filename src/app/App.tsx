@@ -5,9 +5,10 @@ import { useStore } from "~/store/zustand/store";
 import type IUser from "~/interfaces/IUser";
 import authenticationService from "~/services/authenticationService";
 import PrivateRoutes from "~/utils/PrivateRoutes";
-import { Grid, CircularProgress, Box } from "@mui/material";
+import { Grid, CircularProgress, Box, ThemeProvider } from "@mui/material";
 import { Header } from "~/components/header/Header";
 import { Footer } from "~/components/footer/Footer";
+import { ColorModeContext, useMode } from "~/utils/theme";
 
 const Series = React.lazy(async () => await import("~/pages/series/Series"));
 const Error404 = React.lazy(async () => await import("~/pages/error/Error"));
@@ -42,7 +43,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
                             </Box>
                         }
                     >
-                        <Box ml={4}>{children}</Box>
+                        <Box>{children}</Box>
                     </React.Suspense>
                     <Footer />
                 </Grid>
@@ -90,6 +91,7 @@ export const FavMoviesPage = withMainLayout(FavoriteMoviesTab);
 
 function App() {
     const { setUser } = useStore();
+    const [theme, colorMode] = useMode(); // MUI theme mode hook
 
     useEffect(() => {
         const validateUser = async () => {
@@ -102,24 +104,28 @@ function App() {
     }, []);
 
     return (
-        <Routes>
-            <Route index element={<Navigate replace to="/movies" />} />
-            <Route path="*" element={<ErrorPage />} />
-            <Route element={<PrivateRoutes />}>
-                <Route path="/profile" element={<ProfilePage />}>
-                    <Route path="favoriteMovies" element={<FavMoviesPage />} />
-                    <Route path="aboutUs" element={<AboutUsPage />} />
+        <ColorModeContext.Provider value={colorMode}>
+            <ThemeProvider theme={theme}>
+                <Routes>
+                    <Route index element={<Navigate replace to="/movies" />} />
                     <Route path="*" element={<ErrorPage />} />
-                </Route>
-            </Route>
-            <Route path="/movies" element={<HomePage />} />
-            <Route path="/movies/:title" element={<MoviePage />} />
-            <Route path="/genres" element={<GenresPage />} />
-            <Route path="/genres/:name" element={<GenrePage />} />
-            <Route path="/series" element={<SeriesPage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
-        </Routes>
+                    <Route element={<PrivateRoutes />}>
+                        <Route path="/profile" element={<ProfilePage />}>
+                            <Route path="favoriteMovies" element={<FavMoviesPage />} />
+                            <Route path="aboutUs" element={<AboutUsPage />} />
+                            <Route path="*" element={<ErrorPage />} />
+                        </Route>
+                    </Route>
+                    <Route path="/movies" element={<HomePage />} />
+                    <Route path="/movies/:title" element={<MoviePage />} />
+                    <Route path="/genres" element={<GenresPage />} />
+                    <Route path="/genres/:name" element={<GenrePage />} />
+                    <Route path="/series" element={<SeriesPage />} />
+                    <Route path="/login" element={<LoginPage />} />
+                    <Route path="/register" element={<RegisterPage />} />
+                </Routes>
+            </ThemeProvider>
+        </ColorModeContext.Provider>
     );
 }
 
