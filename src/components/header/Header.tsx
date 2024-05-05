@@ -192,11 +192,12 @@ export const Header = (): React.JSX.Element => {
                         placeholder="Search for movies"
                         value={searchTerm}
                         onChange={(e) => {
-                            if (e.target.value.length > 0) {
-                                setSearchTerm(e.target.value);
-                                navigate(`/movies?search=${searchTerm}`);
+                            const value = e.target.value;
+                            setSearchTerm(value);
+
+                            if (value.length > 0) {
+                                navigate(`/movies?search=${value}`);
                             } else {
-                                setSearchTerm(e.target.value);
                                 navigate("/movies");
                             }
                         }}
