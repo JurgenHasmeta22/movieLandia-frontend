@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate, NavLink, useLocation } from "react-router-dom";
+import { Link, useNavigate, NavLink, useLocation, useSearchParams } from "react-router-dom";
 import { useStore } from "~/store/zustand/store";
 import type IGenre from "~/interfaces/IGenre";
 import movieService from "~/services/movieService";
@@ -25,13 +25,12 @@ import { Clear, Search } from "@mui/icons-material";
 export const Header = (): React.JSX.Element => {
     const [options, setOptions] = useState<any>([]);
     const [genres, setGenres] = useState<IGenre[]>([]);
-    const [searchTerm, setSearchTerm] = useState<string>("");
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
     const { user, setUser } = useStore();
 
     const navigate = useNavigate();
-    const location = useLocation();
+    const [searchParams, setSearchParams] = useSearchParams();
 
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -190,10 +189,9 @@ export const Header = (): React.JSX.Element => {
                 <Box sx={{ display: "flex", placeItems: "center", columnGap: 4 }}>
                     <TextField
                         placeholder="Search for movies"
-                        value={searchTerm}
+                        value={searchParams.get("search") ? searchParams.get("search") : ""}
                         onChange={(e) => {
                             const value = e.target.value;
-                            setSearchTerm(value);
 
                             if (value.length > 0) {
                                 navigate(`/movies?search=${value}`);
@@ -212,8 +210,9 @@ export const Header = (): React.JSX.Element => {
                                     <Clear
                                         sx={{ cursor: "pointer" }}
                                         onClick={() => {
-                                            setSearchTerm("");
-                                            navigate("/movies");
+                                            if (searchParams.get("search")) {
+                                                navigate("/movies");
+                                            }
                                         }}
                                     />
                                 </InputAdornment>
