@@ -15,7 +15,7 @@ export const Footer = (): React.JSX.Element => {
                 placeContent: "center",
                 rowGap: 2,
                 backgroundColor: colors.primary[900],
-                padding: 3
+                padding: 4
             }}
         >
             <Typography color={colors.primary[100]}>

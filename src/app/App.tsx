@@ -28,7 +28,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
     return (
         <React.Fragment>
             <Grid container>
-                <Grid item xs={12} height={"100vh"}>
+                <Grid item xs={12}>
                     <Header />
                     <React.Suspense
                         fallback={
