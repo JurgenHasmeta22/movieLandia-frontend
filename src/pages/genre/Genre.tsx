@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import movieService from "~/services/movieService";
 import type IGenreResponse from "~/interfaces/IGenreResponse";
-import "./style.css";
 import MovieItem from "~/components/movieItem/MovieItem";
 import type IMovie from "~/interfaces/IMovie";
+import { Box, Typography } from "@mui/material";
 
 export default function Genre(): React.JSX.Element {
     const params = useParams();
@@ -30,6 +30,7 @@ export default function Genre(): React.JSX.Element {
             const response: IGenreResponse = await movieService.getGenreMoviesNoPagination(
                 params.name,
             );
+
             setMoviesOfGenre(response.movies);
             setMoviesCountGenres(response.count);
         } else {
@@ -37,6 +38,7 @@ export default function Genre(): React.JSX.Element {
                 params.name,
                 searchParams.get("page"),
             );
+
             setMoviesOfGenre(response.movies);
             setMoviesCountGenres(response.count);
         }
@@ -47,20 +49,18 @@ export default function Genre(): React.JSX.Element {
     }, [params.name, searchParams.get("page")]);
 
     if (!moviesOfGenre) {
-        return <div className="loading-wrapper">...</div>;
+        return <Box>...</Box>;
     }
 
     return (
-        <div className="genre-wrapper-menus">
-            <div className="genre-ribbon-1">
-                <span className="movie-count-span">
-                    Total movies in this genre: {moviesCountGenre}
-                </span>
-                <div className="image-ribbon-1-genre-wrapper">
+        <Box>
+            <Box>
+                <Typography>Total movies in this genre: {moviesCountGenre}</Typography>
+                <Box>
                     {moviesOfGenre.map((movie: any) => (
                         <MovieItem movie={movie} type="genreMovie" key={movie.id} />
                     ))}
-                </div>
+                </Box>
                 {/* <ReactPaginate
                     previousLabel={"< Previous"}
                     nextLabel={"Next >"}
@@ -72,7 +72,7 @@ export default function Genre(): React.JSX.Element {
                     disabledClassName={"paginationDisabled"}
                     activeClassName={"paginationActive"}
                 /> */}
-            </div>
-        </div>
+            </Box>
+        </Box>
     );
 }

@@ -1,7 +1,7 @@
+import { Box, Typography } from "@mui/material";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import type IMovie from "~/interfaces/IMovie";
-import "./style.css";
 
 interface IMovieItemProps {
     movie: IMovie;
@@ -12,8 +12,7 @@ const MovieItem = ({ movie, type }: IMovieItemProps): React.JSX.Element => {
     const navigate = useNavigate();
 
     return (
-        <div
-            className="movie-item"
+        <Box
             key={movie.id}
             onClick={function (e) {
                 e.stopPropagation();
@@ -23,15 +22,16 @@ const MovieItem = ({ movie, type }: IMovieItemProps): React.JSX.Element => {
                         .map((char: any) => (char === " " ? "-" : char))
                         .join("")}`,
                 );
+
                 window.scrollTo(0, 0);
             }}
         >
             <img src={movie.photoSrc} />
-            <span className="movie-title">{movie.title}</span>
+            <Typography>{movie.title}</Typography>
             {type !== "serie" && (
-                <div className="genres-holder-span">
+                <Box>
                     {movie.genres?.map((genre: any) => (
-                        <span
+                        <Typography
                             key={genre.genre.name}
                             onClick={function (e) {
                                 e.stopPropagation();
@@ -40,14 +40,14 @@ const MovieItem = ({ movie, type }: IMovieItemProps): React.JSX.Element => {
                             }}
                         >
                             {genre.genre.name}
-                        </span>
+                        </Typography>
                     ))}
-                </div>
+                </Box>
             )}
-            <span className="imdb-span">
+            <Typography>
                 {movie.ratingImdb !== 0 ? `Imdb: ${movie.ratingImdb}` : "Imdb: N/A"}
-            </span>
-        </div>
+            </Typography>
+        </Box>
     );
 };
 

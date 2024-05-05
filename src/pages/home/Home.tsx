@@ -6,8 +6,8 @@ import type IMoviesCount from "~/interfaces/IMoviesCount";
 import type IMoviesSearchResponse from "~/interfaces/IMovieSearchResponse";
 import type IMoviesResponse from "~/interfaces/IMoviesResponse";
 import HomeCarousel from "~/pages/home/homeCarousel/HomeCarousel";
-import "~/pages/home/style.css";
 import MovieItem from "~/components/movieItem/MovieItem";
+import { Box, List, ListItem, Typography } from "@mui/material";
 
 export default function Home() {
     const [moviesCount, setMoviesCount] = useState<IMoviesCount | null>(null);
@@ -184,56 +184,58 @@ export default function Home() {
     }, [searchTerm]);
 
     if (!movies) {
-        return <div className="loading-wrapper">...</div>;
+        return <Box>...</Box>;
     }
 
     return (
-        <div className="home-wrapper-menus">
+        <Box>
             {!searchParams.get("search") && <HomeCarousel />}
-            <div className="home-ribbon-2">
+            <Box>
                 {searchParams.get("search") ? (
-                    <span className="movie-count-span">Total movies: {moviesCountSearch}</span>
+                    <Typography>Total movies: {moviesCountSearch}</Typography>
                 ) : (
-                    <span className="movie-count-span">Total movies: {moviesCount?.count}</span>
+                    <Typography>Total movies: {moviesCount?.count}</Typography>
                 )}
                 {!searchParams.get("search") && (
                     <>
                         <h3>Sort By: </h3>
-                        <ul className="list-sort">
-                            <span
+                        <List>
+                            <Typography
                                 onClick={() => {
                                     setSearchParams({ sortBy: "views" });
                                 }}
                             >
                                 Most viewed (Desc)
-                            </span>
-                            <span
+                            </Typography>
+                            <Typography
                                 onClick={() => {
                                     setSearchParams({ sortBy: "imdbRating" });
                                 }}
                             >
                                 Imdb rating (Desc)
-                            </span>
-                            <span
+                            </Typography>
+                            <Typography
                                 onClick={() => {
                                     setSearchParams({ sortBy: "title" });
                                 }}
                             >
                                 Title (Desc)
-                            </span>
-                        </ul>
+                            </Typography>
+                        </List>
                     </>
                 )}
                 {movies.length !== 0 ? (
-                    <div className="image-ribbon-2-wrapper">
+                    <Box>
                         {movies.map((movie: any) => (
                             <MovieItem movie={movie} type="homeMovie" key={movie.id} />
                         ))}
-                    </div>
+                    </Box>
                 ) : (
-                    <div className="no-search">
-                        <span>No Search Result, no movie found with that criteria.</span>
-                    </div>
+                    <Box>
+                        <Typography>
+                            No Search Result, no movie found with that criteria.
+                        </Typography>
+                    </Box>
                 )}
                 {/* <ReactPaginate
                     previousLabel={"< Previous"}
@@ -246,19 +248,19 @@ export default function Home() {
                     disabledClassName={"paginationDisabled"}
                     activeClassName={"paginationActive"}
                 /> */}
-            </div>
+            </Box>
             {!searchParams.get("search") && (
-                <div className="home-ribbon-3">
-                    <ul className="list-latest">
-                        <li className="special-last">LATEST MOVIES</li>
-                    </ul>
-                    <div className="image-ribbon-3-wrapper">
+                <Box>
+                    <List>
+                        <ListItem>LATEST MOVIES</ListItem>
+                    </List>
+                    <Box>
                         {latestMovies?.map((latestMovie: any) => (
                             <MovieItem type="homeLatest" movie={latestMovie} key={latestMovie} />
                         ))}
-                    </div>
-                </div>
+                    </Box>
+                </Box>
             )}
-        </div>
+        </Box>
     );
 }

@@ -6,7 +6,7 @@ import "./style.css";
 
 export default function Genres() {
     const [genres, setGenres] = useState<IGenre[]>([]);
-    
+
     const navigate = useNavigate();
 
     async function getGenres(): Promise<void> {
@@ -19,11 +19,11 @@ export default function Genres() {
     }, []);
 
     return (
-        <div className="genre-categories-menus">
+        <Box className="genre-categories-menus">
             <h2>Choose your favorite genre</h2>
-            <div className="genre-categories-wrapper">
+            <Box className="genre-categories-wrapper">
                 {genres?.map((genre: any) => (
-                    <div
+                    <Box
                         className="genre-category"
                         key={genre.id}
                         onClick={function () {
@@ -31,10 +31,10 @@ export default function Genres() {
                             window.scrollTo(0, 0);
                         }}
                     >
-                        <span>{genre.name}</span>
-                    </div>
+                        <Typography>{genre.name}</Typography>
+                    </Box>
                 ))}
-            </div>
-        </div>
+            </Box>
+        </Box>
     );
 }
