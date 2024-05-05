@@ -9,6 +9,8 @@ import {
     Button,
     List,
     ListItem,
+    Menu,
+    MenuItem,
     TextField,
     Toolbar,
     Typography,
@@ -22,6 +24,7 @@ export const Header = (): React.JSX.Element => {
     const [options, setOptions] = useState<any>([]);
     const [genres, setGenres] = useState<IGenre[]>([]);
     const [searchTerm, setSearchTerm] = useState<string>("");
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
     const { user, setUser } = useStore();
 
@@ -57,6 +60,14 @@ export const Header = (): React.JSX.Element => {
             console.log(error);
         }
     }
+
+    const handleGenreMouseEnter = (event: React.MouseEvent<HTMLLIElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleGenreMouseLeave = () => {
+        setAnchorEl(null);
+    };
 
     useEffect(() => {
         fetchData().catch((error) => {
@@ -95,55 +106,74 @@ export const Header = (): React.JSX.Element => {
                         columnGap: 6,
                     }}
                 >
-                    <Link style={{ textDecoration: "none", fontSize: "20px" }} to="/movies">
-                        MovieLand24
+                    <Link
+                        style={{
+                            textDecoration: "none",
+                            fontSize: "20px",
+                            color: colors.primary[100],
+                        }}
+                        to="/movies"
+                    >
+                        MovieLandia24
                     </Link>
                     <List sx={{ display: "flex", flexDirection: "row" }}>
                         <ListItem>
                             <img src="/assets/logos/ico_filma_blu.png" alt="" />
                             <NavLink
-                                style={{ textDecoration: "none", fontSize: "20px", paddingLeft: 8 }}
+                                style={{
+                                    textDecoration: "none",
+                                    fontSize: "20px",
+                                    paddingLeft: 8,
+                                    color: colors.primary[100],
+                                }}
                                 to="/movies"
                             >
                                 Movies
                             </NavLink>
                         </ListItem>
-                        {/* <ListItem>
-                        <Box>
-                            <Box className="genre-drop">
-                                <img src="/assets/logos/list_blu.png" alt="" />
-                                <ListItem
-                                    className="special-uppercase"
-                                    onClick={function (e) {
-                                        e.stopPropagation();
-                                        navigate("/genres");
-                                    }}
-                                >
-                                    Genres
-                                </ListItem>
-                            </Box>
-                            <Box className="dropdown-content">
-                                <List>
-                                    {genres.map((genre: any) => (
-                                        <ListItem
-                                            className="special-list-drop"
-                                            key={genre.id}
-                                            onClick={function (e: any) {
-                                                e.stopPropagation();
-                                                navigate(`/genres/${genre.name}`);
-                                            }}
-                                        >
-                                            {genre.name}
-                                        </ListItem>
-                                    ))}
-                                </List>
-                            </Box>
-                        </Box>
-                    </ListItem> */}
+                        <ListItem
+                            onMouseEnter={handleGenreMouseEnter}
+                            onMouseLeave={handleGenreMouseLeave}
+                        >
+                            <Typography
+                                onClick={() => {
+                                    navigate(`/genres`);
+                                }}
+                                style={{
+                                    textDecoration: "none",
+                                    fontSize: "20px",
+                                    color: colors.primary[100],
+                                }}
+                            >
+                                Genres
+                            </Typography>
+                            <Menu
+                                anchorEl={anchorEl}
+                                open={Boolean(anchorEl)}
+                                onClose={handleGenreMouseLeave}
+                            >
+                                {genres.map((genre) => (
+                                    <MenuItem
+                                        key={genre.id}
+                                        onClick={() => {
+                                            handleGenreMouseLeave();
+                                            navigate(`/genres/${genre.name}`);
+                                        }}
+                                    >
+                                        {genre.name}
+                                    </MenuItem>
+                                ))}
+                            </Menu>
+                        </ListItem>
                         <ListItem>
                             <img src="/assets/logos/netflix-red.png" alt="" />
                             <NavLink
-                                style={{ textDecoration: "none", fontSize: "20px", paddingLeft: 8 }}
+                                style={{
+                                    textDecoration: "none",
+                                    fontSize: "20px",
+                                    paddingLeft: 8,
+                                    color: colors.primary[100],
+                                }}
                                 to="/genres/NETFLIX"
                             >
                                 Netflix

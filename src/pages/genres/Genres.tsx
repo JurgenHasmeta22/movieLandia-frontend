@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import movieService from "~/services/movieService";
 import type IGenre from "~/interfaces/IGenre";
-import "./style.css";
+import { Box, Card, Stack, Typography } from "@mui/material";
 
 export default function Genres() {
     const [genres, setGenres] = useState<IGenre[]>([]);
@@ -19,22 +19,40 @@ export default function Genres() {
     }, []);
 
     return (
-        <Box className="genre-categories-menus">
-            <h2>Choose your favorite genre</h2>
-            <Box className="genre-categories-wrapper">
+        <Box sx={{ display: "flex", flexDirection: "column", placeItems: "center" }}>
+            <Typography mt={2} fontSize={"30px"}>
+                Choose your favorite genre
+            </Typography>
+            <Stack
+                direction={"row"}
+                flexWrap={"wrap"}
+                rowGap={8}
+                columnGap={4}
+                justifyContent={"center"}
+                alignContent={"center"}
+                mb={4}
+                mt={2}
+            >
                 {genres?.map((genre: any) => (
-                    <Box
-                        className="genre-category"
+                    <Card
                         key={genre.id}
                         onClick={function () {
                             navigate(`/genres/${genre.name}`);
                             window.scrollTo(0, 0);
                         }}
+                        sx={{
+                            height: "250px",
+                            width: "300px",
+                            display: "flex",
+                            placeItems: "center",
+                            placeContent: "center",
+                            cursor: "pointer",
+                        }}
                     >
                         <Typography>{genre.name}</Typography>
-                    </Box>
+                    </Card>
                 ))}
-            </Box>
+            </Stack>
         </Box>
     );
 }
