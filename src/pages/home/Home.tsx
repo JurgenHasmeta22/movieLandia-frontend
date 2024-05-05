@@ -19,17 +19,23 @@ import {
     useTheme,
 } from "@mui/material";
 import { tokens } from "~/utils/theme";
-import { toCamelCase, toFirstWordUpperCase } from "~/utils/utils";
+import { toFirstWordUpperCase } from "~/utils/utils";
 
 const api = {
     url: import.meta.env.VITE_API_URL,
 };
 
+const images = [
+    { source: `${api.url}/images/rsz_fistful_of_vengeance.png` },
+    { source: `${api.url}/images/rsz_texas.png` },
+    { source: `${api.url}/images/rsz_movieposter_en.png` },
+    { source: `${api.url}/images/rsz_wyihsxwyqn8ejsdut2p1p0o97n0.png` },
+    { source: `${api.url}/images/rsz_elevjj3yg279mmpwuygyrhbjbbq.png` },
+];
+
 export default function Home() {
     const [moviesCount, setMoviesCount] = useState<IMoviesCount | null>(null);
     const [moviesCountSearch, setMoviesCountSearch] = useState<number | null>(null);
-    const [pageNumber, setPageNumber] = useState<number>(0);
-    const [itemsPerPage, setItemsPerPage] = useState<number>(20);
     const [movies, setMovies] = useState<IMovie[]>([]);
     const [latestMovies, setLatestMovies] = useState<IMovie[]>([]);
 
@@ -41,27 +47,14 @@ export default function Home() {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
-    const images = [
-        { source: `${api.url}/images/rsz_fistful_of_vengeance.png` },
-        { source: `${api.url}/images/rsz_texas.png` },
-        { source: `${api.url}/images/rsz_movieposter_en.png` },
-        { source: `${api.url}/images/rsz_wyihsxwyqn8ejsdut2p1p0o97n0.png` },
-        { source: `${api.url}/images/rsz_elevjj3yg279mmpwuygyrhbjbbq.png` },
-    ];
-
     if (searchParams.get("search")) {
-        pageCount = Math.ceil(moviesCountSearch! / itemsPerPage);
+        pageCount = Math.ceil(moviesCountSearch! / 20);
     } else {
-        pageCount = Math.ceil(moviesCount?.count! / itemsPerPage);
+        pageCount = Math.ceil(moviesCount?.count! / 20);
     }
 
-    function handleChangingPageNumber(selected: any) {
-        setPageNumber(selected);
-    }
-
-    const changePage = ({ selected }: any) => {
-        handleChangingPageNumber(selected);
-        searchParams.set("page", selected + 1);
+    const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
+        searchParams.set("page", String(value));
         setSearchParams(searchParams);
     };
 
@@ -78,7 +71,7 @@ export default function Home() {
             const [, sortByValue, ascOrDesc] = selectedValue.match(/(\w+)(Asc|Desc)/) || [];
 
             if (sortByValue && ascOrDesc) {
-                searchParams.set("sortBy", sortByValue.toLowerCase());
+                searchParams.add("sortBy", sortByValue.toLowerCase());
                 searchParams.set("sortDirection", ascOrDesc.toLowerCase());
                 setSearchParams(searchParams);
                 navigate(`/movies?sortBy=${sortByValue}&ascOrDesc=${ascOrDesc.toLowerCase()}`);
@@ -269,21 +262,19 @@ export default function Home() {
                     sx={{ display: "flex", placeItems: "center", marginTop: 4, marginBottom: 4 }}
                 >
                     <Pagination
-                        page={pageNumber}
+                        page={searchParams.get("page") ? Number(searchParams.get("page")) : 1}
                         size="large"
                         count={pageCount}
                         showFirstButton
                         showLastButton
-                        onChange={(page) => {
-                            handleChangingPageNumber(page);
-                        }}
+                        onChange={handlePageChange}
                     />
                 </Stack>
             </Box>
             {!searchParams.get("search") && (
-                <Box sx={{ display: "flex", flexDirection: "column", rowGap: 4, marginBottom: 4 }}>
+                <Box sx={{ display: "flex", flexDirection: "column", rowGap: 4, marginBottom: 6 }}>
                     <Box sx={{ display: "flex", placeContent: "center" }}>
-                        <Typography fontSize={"22px"}>Latest Movies</Typography>
+                        <Typography fontSize={22}>Latest Movies</Typography>
                     </Box>
                     <Stack
                         direction="row"
@@ -296,26 +287,6 @@ export default function Home() {
                         {latestMovies?.map((latestMovie: any) => (
                             <MovieItem type="homeLatest" movie={latestMovie} key={latestMovie} />
                         ))}
-                    </Stack>
-                    <Stack
-                        spacing={2}
-                        sx={{
-                            display: "flex",
-                            placeItems: "center",
-                            marginTop: 4,
-                            marginBottom: 4,
-                        }}
-                    >
-                        <Pagination
-                            page={pageNumber}
-                            size="large"
-                            count={pageCount}
-                            showFirstButton
-                            showLastButton
-                            onChange={(page) => {
-                                handleChangingPageNumber(page);
-                            }}
-                        />
                     </Stack>
                 </Box>
             )}
