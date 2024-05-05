@@ -19,17 +19,14 @@ const movieService = {
 
         return moviesCount;
     },
-
     getMovie: async (title: string | undefined): Promise<any> => {
         const movie: IMovie = await axios.get(`${api.url}/movie/${title}`).then((x) => x.data);
         return movie;
     },
-
     getLatestMovies: async (): Promise<any> => {
         const latestMovies: IMovie[] = await axios.get(`${api.url}/latest`).then((x) => x.data);
         return latestMovies;
     },
-
     getMoviesDefault: async (): Promise<any> => {
         const moviesResponse: IMoviesResponse = await axios
             .get(`${api.url}/movies/page/1`)
@@ -37,7 +34,6 @@ const movieService = {
 
         return moviesResponse.rows;
     },
-
     getMoviesPagination: async (page: string | null): Promise<any> => {
         const moviesResponse: IMoviesResponse = await axios
             .get(`${api.url}/movies/page/${page}`)
@@ -45,7 +41,6 @@ const movieService = {
 
         return moviesResponse.rows;
     },
-
     getMoviesSearchWithPagination: async (
         query: string | null,
         page: string | null,
@@ -58,7 +53,6 @@ const movieService = {
 
         return responseSearch;
     },
-
     getMoviesSearchNoPagination: async (query: string | null): Promise<any> => {
         const payload = {
             title: query,
@@ -67,26 +61,27 @@ const movieService = {
         const responseSearch = await axios.post(`${api.url}/search`, payload).then((x) => x.data);
         return responseSearch;
     },
-
     getMoviesSortingWithPagination: async (
         sort: string | null,
         page: string | null,
+        sortDirection: string | null,
     ): Promise<any> => {
         const moviesResponse: IMoviesResponse = await axios
-            .get(`${api.url}/movies/page/${page}?sortBy=${sort}&ascOrDesc=desc`)
+            .get(`${api.url}/movies/page/${page}?sortBy=${sort}&ascOrDesc=${sortDirection}`)
             .then((x) => x.data);
 
         return moviesResponse;
     },
-
-    getMoviesSortingNoPagination: async (sort: string | null): Promise<any> => {
+    getMoviesSortingNoPagination: async (
+        sort: string | null,
+        sortDirection: string | null,
+    ): Promise<any> => {
         const moviesResponse: IMoviesResponse = await axios
-            .get(`${api.url}/movies/page/1?sortBy=${sort}&ascOrDesc=desc`)
+            .get(`${api.url}/movies/page/1?sortBy=${sort}&ascOrDesc=${sortDirection}`)
             .then((x) => x.data);
 
         return moviesResponse;
     },
-
     addToFavorites: async (movieId: number | undefined): Promise<any> => {
         if (localStorage.token) {
             const config = {
@@ -104,7 +99,6 @@ const movieService = {
             return user;
         }
     },
-
     getGenreMoviesNoPagination: async (name: string): Promise<any> => {
         const responseGenre: IGenreResponse = await axios
             .get(`${api.url}/genres/${name}?page=1`)
@@ -112,7 +106,6 @@ const movieService = {
 
         return responseGenre;
     },
-
     getGenreMoviesWithPagination: async (
         name: string | undefined,
         page: string | undefined | null,
@@ -123,12 +116,10 @@ const movieService = {
 
         return responseGenre;
     },
-
     getGenresWithNoPagination: async (): Promise<any> => {
         const genres: IGenre[] = await axios.get(`${api.url}/genres`).then((x) => x.data);
         return genres;
     },
-
     getSerieEpisodesNoPagination: async (): Promise<any> => {
         const responseGenre: IGenreResponse = await axios
             .get(`${api.url}/series/page/1`)
@@ -136,7 +127,6 @@ const movieService = {
 
         return responseGenre;
     },
-
     getSerieEpisodesWithPagination: async (page: string | undefined | null): Promise<any> => {
         const responseGenre: ISerie = await axios
             .get(`${api.url}/series/page/${page}`)
@@ -144,12 +134,10 @@ const movieService = {
 
         return responseGenre;
     },
-
     getSerieCount: async (): Promise<any> => {
         const seriesCount: any = await axios.get(`${api.url}/series-count`).then((x) => x.data);
         return seriesCount;
     },
-
     getSerieMovie: async (slug: string | undefined): Promise<any> => {
         const responseGenre: ISerie = await axios
             .get(`${api.url}/series/${slug}`)

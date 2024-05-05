@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import movieService from "~/services/movieService";
 import type IMovie from "~/interfaces/IMovie";
 import type IMoviesCount from "~/interfaces/IMoviesCount";
@@ -13,6 +13,7 @@ import {
     MenuItem,
     Pagination,
     Select,
+    SelectChangeEvent,
     Stack,
     Typography,
     useTheme,
@@ -28,12 +29,11 @@ export default function Home() {
     const [moviesCountSearch, setMoviesCountSearch] = useState<number | null>(null);
     const [pageNumber, setPageNumber] = useState<number>(0);
     const [itemsPerPage, setItemsPerPage] = useState<number>(20);
-    const [sortBy, setSortBy] = useState<string>("");
     const [movies, setMovies] = useState<IMovie[]>([]);
     const [latestMovies, setLatestMovies] = useState<IMovie[]>([]);
-    const [searchTerm, setSearchTerm] = useState<string>("");
 
     const [searchParams, setSearchParams] = useSearchParams();
+    const navigate = useNavigate();
 
     let pageCount;
 
@@ -59,19 +59,19 @@ export default function Home() {
     }
 
     const changePage = ({ selected }: any) => {
-        if (!searchParams.get("sort") && !searchParams.get("search")) {
-            handleChangingPageNumber(selected);
-            searchParams.set("page", selected + 1);
-            setSearchParams(searchParams);
-        } else if (searchParams.get("sort") && !searchParams.get("search")) {
-            handleChangingPageNumber(selected);
-            searchParams.set("sortBy", sortBy);
-            searchParams.set("page", selected + 1);
-            setSearchParams(searchParams);
-        } else {
-            handleChangingPageNumber(selected);
-            searchParams.set("page", selected + 1);
-            setSearchParams(searchParams);
+        handleChangingPageNumber(selected);
+        searchParams.set("page", selected + 1);
+        setSearchParams(searchParams);
+    };
+
+    const handleChangeSorting = (event: SelectChangeEvent) => {
+        const selectedValue = event.target.value as string;
+        const [, sortByValue, ascOrDesc] = selectedValue.match(/(\w+)(Asc|Desc)/) || [];
+
+        if (sortByValue && ascOrDesc) {
+            searchParams.set("sortBy", sortByValue);
+            searchParams.set("sortDirection", ascOrDesc.toLowerCase());
+            navigate(`/movies?sortBy=${sortByValue}&ascOrDesc=${ascOrDesc.toLowerCase()}`);
         }
     };
 
@@ -106,18 +106,22 @@ export default function Home() {
                 setMoviesCountSearch(responseSearch.count);
             }
         } else {
-            if (searchParams.get("sortBy")) {
+            if (searchParams.get("sortBy") && searchParams.get("ascOrDesc")) {
                 if (searchParams.get("page")) {
                     const responseMovies: IMoviesResponse =
                         await movieService.getMoviesSortingWithPagination(
                             searchParams.get("sortBy"),
                             searchParams.get("page"),
+                            searchParams.get("ascOrDesc"),
                         );
 
                     moviesResponse = responseMovies.rows;
                 } else {
                     const responseMovies: IMoviesResponse =
-                        await movieService.getMoviesSortingNoPagination(searchParams.get("sortBy"));
+                        await movieService.getMoviesSortingNoPagination(
+                            searchParams.get("sortBy"),
+                            searchParams.get("ascOrDesc"),
+                        );
 
                     moviesResponse = responseMovies.rows;
                 }
@@ -142,7 +146,7 @@ export default function Home() {
         };
 
         fetchData();
-    }, [searchParams, searchTerm, sortBy, moviesCountSearch, moviesCount]);
+    }, [searchParams]);
 
     if (!movies) {
         return (
@@ -178,14 +182,12 @@ export default function Home() {
                     }}
                 >
                     {searchParams.get("search") ? (
-                        <Box>
-                            <Typography fontSize={"18px"}>
-                                Total movies: {moviesCountSearch}
-                            </Typography>
+                        <Box mt={4}>
+                            <Typography fontSize={18}>Total movies: {moviesCountSearch}</Typography>
                         </Box>
                     ) : (
                         <Box>
-                            <Typography fontSize={"18px"}>
+                            <Typography fontSize={18}>
                                 Total movies: {moviesCount?.count}
                             </Typography>
                         </Box>
@@ -203,12 +205,18 @@ export default function Home() {
                             <Typography>Sort By: </Typography>
                             <Box sx={{ display: "flex", flexDirection: "row", gap: 3 }}>
                                 <Select
-                                    value={"View"}
-                                    // onChange={handleChange}
+                                    defaultValue={"TitleAsc"}
+                                    value={
+                                        searchParams.get("sortBy")! + searchParams.get("ascOrDesc")!
+                                    }
+                                    onChange={handleChangeSorting}
                                 >
-                                    <MenuItem value={"View"}>Most viewed (Desc)</MenuItem>"
-                                    <MenuItem value={"Imdb"}>Imdb rating (Desc)</MenuItem>
-                                    <MenuItem value={"Title"}>Title (Desc)</MenuItem>
+                                    <MenuItem value={"ViewAsc"}>Most viewed (Asc)</MenuItem>
+                                    <MenuItem value={"ViewDesc"}>Most viewed (Desc)</MenuItem>
+                                    <MenuItem value={"ImdbratingAsc"}>Imdb rating (Asc)</MenuItem>
+                                    <MenuItem value={"ImdbratingDesc"}>Imdb rating (Desc)</MenuItem>
+                                    <MenuItem value={"TitleAsc"}>Title (Asc)</MenuItem>
+                                    <MenuItem value={"TitleDesc"}>Title (Desc)</MenuItem>
                                 </Select>
                             </Box>
                         </Box>
@@ -228,7 +236,14 @@ export default function Home() {
                         ))}
                     </Stack>
                 ) : (
-                    <Box>
+                    <Box
+                        sx={{
+                            height: "50vh",
+                            display: "flex",
+                            placeItems: "center",
+                            placeContent: "center",
+                        }}
+                    >
                         <Typography>
                             No Search Result, no movie found with that criteria.
                         </Typography>
