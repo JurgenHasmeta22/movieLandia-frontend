@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import movieService from "~/services/movieService";
 import type IMovie from "~/interfaces/IMovie";
 import type IMoviesCount from "~/interfaces/IMoviesCount";
@@ -39,11 +39,9 @@ export default function Home() {
     const [movies, setMovies] = useState<IMovie[]>([]);
     const [latestMovies, setLatestMovies] = useState<IMovie[]>([]);
 
-    const [searchParams, setSearchParams] = useSearchParams();
-    const navigate = useNavigate();
-
     let pageCount;
 
+    const [searchParams, setSearchParams] = useSearchParams();
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
@@ -71,10 +69,9 @@ export default function Home() {
             const [, sortByValue, ascOrDesc] = selectedValue.match(/(\w+)(Asc|Desc)/) || [];
 
             if (sortByValue && ascOrDesc) {
-                searchParams.add("sortBy", sortByValue.toLowerCase());
-                searchParams.set("sortDirection", ascOrDesc.toLowerCase());
+                searchParams.set("sortBy", sortByValue);
+                searchParams.set("ascOrDesc", ascOrDesc.toLowerCase());
                 setSearchParams(searchParams);
-                navigate(`/movies?sortBy=${sortByValue}&ascOrDesc=${ascOrDesc.toLowerCase()}`);
             }
         }
     };
@@ -92,6 +89,7 @@ export default function Home() {
     async function getMovies(): Promise<void> {
         let moviesResponse: IMovie[] = [];
 
+        console.log(searchParams.get("sortBy"));
         if (searchParams.get("search")) {
             if (searchParams.get("page")) {
                 const responseSearch: IMoviesSearchResponse =
