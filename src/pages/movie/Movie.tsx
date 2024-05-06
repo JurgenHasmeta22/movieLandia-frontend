@@ -9,7 +9,6 @@ import {
     Box,
     Button,
     CircularProgress,
-    Container,
     List,
     ListItem,
     Stack,
@@ -22,10 +21,10 @@ export default function Movie() {
     const [movie, setMovie] = useState<IMovie | null>(null);
     const [latestMoviesRelated, setLatestMoviesRelated] = useState<IMovie[]>([]);
 
+    const { user, setUser } = useStore();
+
     const params = useParams();
     const navigate = useNavigate();
-
-    const { user, setUser } = useStore();
 
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -55,7 +54,14 @@ export default function Movie() {
 
     if (!movie) {
         return (
-            <Box>
+            <Box
+                sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "100vh",
+                }}
+            >
                 <CircularProgress size={80} thickness={4} />
             </Box>
         );
