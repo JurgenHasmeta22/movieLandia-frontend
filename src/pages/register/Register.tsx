@@ -69,27 +69,36 @@ export default function Register() {
                                     <Typography variant="h1">Sign Up</Typography>
                                     <TextField
                                         type="text"
-                                        placeholder="Username"
+                                        placeholder="Enter your username"
+                                        label="Username"
                                         required
                                         onChange={function (e) {
                                             setUsername(e.target.value);
                                         }}
+                                        InputProps={{ color: "secondary" }}
+                                        InputLabelProps={{ color: "secondary" }}
                                     />
                                     <TextField
                                         type="text"
                                         placeholder="Enter your email"
+                                        label="Email"
                                         required
                                         onChange={function (e) {
                                             setEmail(e.target.value);
                                         }}
+                                        InputProps={{ color: "secondary" }}
+                                        InputLabelProps={{ color: "secondary" }}
                                     />
                                     <TextField
                                         type="password"
                                         placeholder="Enter your password"
                                         required
+                                        label={"Password"}
                                         onChange={function (e) {
                                             setPassword(e.target.value);
                                         }}
+                                        InputProps={{ color: "secondary" }}
+                                        InputLabelProps={{ color: "secondary" }}
                                     />
                                     <Button
                                         type="submit"
@@ -103,7 +112,7 @@ export default function Register() {
                                         <Typography variant="overline">
                                             Don't have an account?{" "}
                                         </Typography>
-                                        <Link id="link" to={"/login"}>
+                                        <Link style={{ textDecoration: "none" }} to={"/login"}>
                                             Sign In
                                         </Link>
                                     </Box>

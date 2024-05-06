@@ -68,20 +68,24 @@ export default function Login() {
                                     <TextField
                                         type="text"
                                         placeholder="Enter your email"
+                                        label="Email"
                                         required
                                         onChange={function (e) {
                                             setEmail(e.target.value);
                                         }}
                                         InputProps={{ color: "secondary" }}
+                                        InputLabelProps={{ color: "secondary" }}
                                     />
                                     <TextField
                                         type="password"
+                                        label="Password"
                                         placeholder="Enter your password"
                                         required
                                         onChange={function (e) {
                                             setPassword(e.target.value);
                                         }}
                                         InputProps={{ color: "secondary" }}
+                                        InputLabelProps={{ color: "secondary" }}
                                     />
                                     <Button
                                         type="submit"
@@ -95,7 +99,7 @@ export default function Login() {
                                         <Typography variant="overline">
                                             Don't have an account?{" "}
                                         </Typography>
-                                        <Link id="link" to={"/register"}>
+                                        <Link style={{ textDecoration: "none" }} to={"/register"}>
                                             Sign Up
                                         </Link>
                                     </Box>

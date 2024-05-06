@@ -262,7 +262,7 @@ export const Header = (): React.JSX.Element => {
                             </Box>
                             <Box sx={{ display: "flex", placeItems: "center", columnGap: 4 }}>
                                 <TextField
-                                    placeholder="Search for movies"
+                                    placeholder="Search for movies..."
                                     value={
                                         searchParams.get("search") ? searchParams.get("search") : ""
                                     }
@@ -276,6 +276,7 @@ export const Header = (): React.JSX.Element => {
                                         }
                                     }}
                                     InputProps={{
+                                        color: "secondary",
                                         startAdornment: (
                                             <InputAdornment position="start">
                                                 <Search />
@@ -525,7 +526,7 @@ export const Header = (): React.JSX.Element => {
                             }}
                         >
                             <TextField
-                                placeholder="Search for movies"
+                                placeholder="Search for movies..."
                                 value={searchParams.get("search") ? searchParams.get("search") : ""}
                                 onChange={(e) => {
                                     const value = e.target.value;
@@ -537,6 +538,7 @@ export const Header = (): React.JSX.Element => {
                                     }
                                 }}
                                 InputProps={{
+                                    color: "secondary",
                                     startAdornment: (
                                         <InputAdornment position="start">
                                             <Search />
