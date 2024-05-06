@@ -21,6 +21,7 @@ export default function MovieItemLatest(props: IMovieItemLatestProps) {
                         .map((char: any) => (char === " " ? "-" : char))
                         .join("")}`,
                 );
+                window.scrollTo(0, 0);
             }}
         >
             <img

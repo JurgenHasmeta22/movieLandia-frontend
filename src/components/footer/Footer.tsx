@@ -15,12 +15,12 @@ export const Footer = (): React.JSX.Element => {
                 placeContent: "center",
                 rowGap: 2,
                 backgroundColor: colors.primary[900],
-                padding: 4,
+                padding: 2,
             }}
         >
             <Typography color={colors.primary[100]}>
-                Copyright © 2021 - 2022 | movielandia24.so - Filma dhe Seriale HD me titra shqip /
-                NetFlix shqip!
+                Copyright © 2024 | movielandia24.so - Filma dhe Seriale HD me titra shqip / NetFlix
+                shqip!
             </Typography>
             <Typography color={colors.primary[100]}>
                 Disclaimer: This site does not store any files on its server! All contents are

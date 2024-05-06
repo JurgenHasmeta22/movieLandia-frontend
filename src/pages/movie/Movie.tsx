@@ -101,6 +101,7 @@ export default function Movie() {
                         src={movie.videoSrc}
                         title={movie.title}
                         allowFullScreen
+                        // loading="lazy"
                     ></iframe>
                 </Box>
                 <Box
