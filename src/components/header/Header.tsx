@@ -7,10 +7,14 @@ import {
     AppBar,
     Box,
     Button,
+    Divider,
+    Drawer,
     IconButton,
     InputAdornment,
     List,
     ListItem,
+    ListItemButton,
+    ListItemText,
     Menu,
     MenuItem,
     TextField,
@@ -23,6 +27,10 @@ import LockOpenIcon from "@mui/icons-material/LockOpen";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import { Clear, Search } from "@mui/icons-material";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
+import MenuIcon from "@mui/icons-material/Menu";
+import { useResizeWindow } from "~/hooks/useResizeWindow";
+
+const drawerWidth = 240;
 
 export const Header = (): React.JSX.Element => {
     const [options, setOptions] = useState<any>([]);
@@ -30,13 +38,18 @@ export const Header = (): React.JSX.Element => {
     const [anchorElProfile, setAnchorElProfile] = useState<null | HTMLElement>(null);
     const [anchorElGenres, setAnchorElGenres] = useState<null | HTMLElement>(null);
 
-    const { user, setUser } = useStore();
+    const isPageShrunk = useResizeWindow(); // Custom hook for handling resize logic state and useEffect
 
+    const { user, setUser, openDrawer, mobileOpen, setMobileOpen, setOpenDrawer } = useStore();
     const navigate = useNavigate();
     const [searchParams, setSearchParams] = useSearchParams();
 
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
+
+    const handleDrawerToggle = () => {
+        setOpenDrawer(true);
+    };
 
     function handleLogout(): void {
         localStorage.removeItem("token");
@@ -98,236 +111,522 @@ export const Header = (): React.JSX.Element => {
         }
     }, []);
 
+    useEffect(() => {
+        if (isPageShrunk) {
+            setMobileOpen(true);
+        } else {
+            setMobileOpen(false);
+        }
+    }, [isPageShrunk]);
+
     return (
-        <AppBar position="static">
-            <Toolbar
-                sx={{
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    flexWrap: "wrap",
-                    backgroundColor: colors.primary[900],
-                    padding: 2,
-                }}
-            >
-                <Box
+        <>
+            <AppBar position="static" component={"nav"}>
+                <Toolbar
                     sx={{
                         display: "flex",
                         flexDirection: "row",
-                        placeItems: "center",
-                        columnGap: 6,
+                        justifyContent: "space-between",
+                        flexWrap: "wrap",
+                        backgroundColor: colors.primary[900],
+                        padding: 2,
                     }}
                 >
-                    <Link
-                        style={{
-                            textDecoration: "none",
-                            fontSize: "20px",
-                            color: colors.primary[100],
-                            cursor: "pointer",
-                        }}
-                        to="/movies"
-                    >
-                        MovieLandia24
-                    </Link>
-                    <List sx={{ display: "flex", flexDirection: "row" }}>
-                        <ListItem>
-                            <img src="/assets/logos/ico_filma_blu.png" alt="" />
-                            <NavLink
-                                style={{
-                                    textDecoration: "none",
-                                    fontSize: "20px",
-                                    paddingLeft: 8,
-                                    color: colors.primary[100],
-                                    cursor: "pointer",
-                                }}
-                                to="/movies"
-                            >
-                                Movies
-                            </NavLink>
-                        </ListItem>
-                        <ListItem
-                            onMouseEnter={openMenuGenres}
-                            onMouseLeave={closeMenuGenres}
-                            // onClick={() => {
-                            //     navigate(`/genres`);
-                            // }}
-                            sx={{ cursor: "pointer" }}
-                        >
-                            <img src="/assets/logos/ico_filma_blu.png" alt="" />
-                            <Typography
-                                style={{
-                                    textDecoration: "none",
-                                    fontSize: 20,
-                                    color: colors.primary[100],
-                                    paddingLeft: 8,
-                                }}
-                            >
-                                Genres
-                            </Typography>
-                            <Menu
-                                anchorEl={anchorElGenres}
-                                open={Boolean(anchorElGenres)}
-                                onClose={closeMenuGenres}
-                                MenuListProps={{
-                                    onMouseLeave: closeMenuGenres,
-                                    style: { padding: 10 },
-                                }}
-                            >
-                                {genres.map((genre) => (
-                                    <MenuItem
-                                        key={genre.id}
-                                        onClick={() => {
-                                            closeMenuGenres();
-                                            navigate(`/genres/${genre.name}`);
-                                        }}
-                                    >
-                                        {genre.name}
-                                    </MenuItem>
-                                ))}
-                            </Menu>
-                        </ListItem>
-                        <ListItem>
-                            <img src="/assets/logos/ico_filma_blu.png" alt="" />
-                            <NavLink
-                                style={{
-                                    textDecoration: "none",
-                                    fontSize: "20px",
-                                    paddingLeft: 8,
-                                    color: colors.primary[100],
-                                    cursor: "pointer",
-                                }}
-                                to="/series"
-                            >
-                                Series
-                            </NavLink>
-                        </ListItem>
-                        <ListItem>
-                            <img src="/assets/logos/netflix-red.png" alt="" />
-                            <NavLink
-                                style={{
-                                    textDecoration: "none",
-                                    fontSize: 20,
-                                    paddingLeft: 8,
-                                    color: colors.primary[100],
-                                    cursor: "pointer",
-                                }}
-                                to="/genres/NETFLIX"
-                            >
-                                Netflix
-                            </NavLink>
-                        </ListItem>
-                    </List>
-                </Box>
-                <Box sx={{ display: "flex", placeItems: "center", columnGap: 4 }}>
-                    <TextField
-                        placeholder="Search for movies"
-                        value={searchParams.get("search") ? searchParams.get("search") : ""}
-                        onChange={(e) => {
-                            const value = e.target.value;
-
-                            if (value.length > 0) {
-                                navigate(`/movies?search=${value}`);
-                            } else {
-                                navigate("/movies");
-                            }
-                        }}
-                        InputProps={{
-                            startAdornment: (
-                                <InputAdornment position="start">
-                                    <Search />
-                                </InputAdornment>
-                            ),
-                            endAdornment: (
-                                <InputAdornment position="end">
-                                    <Clear
-                                        sx={{ cursor: "pointer" }}
-                                        onClick={() => {
-                                            if (searchParams.get("search")) {
-                                                navigate("/movies");
-                                            }
-                                        }}
-                                    />
-                                </InputAdornment>
-                            ),
-                        }}
-                    />
-                    {user !== null ? (
+                    {mobileOpen ? (
                         <Box>
                             <IconButton
-                                id="buttonProfile"
-                                aria-controls={Boolean(anchorElProfile) ? "menuProfile" : undefined}
-                                aria-haspopup="true"
-                                aria-expanded={Boolean(anchorElProfile) ? "true" : undefined}
-                                onClick={openMenuProfile}
-                                sx={{ display: "flex", flexDirection: "row", gap: "10px" }}
-                                disableRipple={true}
+                                color="inherit"
+                                aria-label="open drawer"
+                                edge="start"
+                                onClick={handleDrawerToggle}
                             >
-                                <PersonOutlinedIcon color="action" fontSize="large" />
-                                {user?.userName}
+                                <MenuIcon />
                             </IconButton>
-                            <Menu
-                                id="menuProfile"
-                                anchorEl={anchorElProfile}
-                                open={Boolean(anchorElProfile)}
-                                onClose={closeMenuProfile}
-                                MenuListProps={{
-                                    "aria-labelledby": "buttonProfile",
-                                }}
-                            >
-                                <MenuItem
-                                    onClick={redirectToProfile}
-                                    style={{ color: colors.primary[100] }}
-                                >
-                                    Profili im
-                                </MenuItem>
-                                <MenuItem
-                                    onClick={handleLogout}
-                                    style={{ color: colors.primary[100] }}
-                                >
-                                    Log Out
-                                </MenuItem>
-                            </Menu>
                         </Box>
                     ) : (
                         <>
-                            <Button
-                                color="secondary"
-                                variant="outlined"
-                                size="large"
-                                onClick={function () {
-                                    navigate("/login");
-                                }}
+                            <Box
                                 sx={{
                                     display: "flex",
                                     flexDirection: "row",
-                                    columnGap: 1,
-                                    padding: 2,
+                                    placeItems: "center",
+                                    columnGap: 6,
                                 }}
                             >
-                                <LockOpenIcon />
-                                <Typography>Sign In</Typography>
-                            </Button>
-                            <Button
-                                color="secondary"
-                                variant="outlined"
-                                size="large"
-                                sx={{
-                                    display: "flex",
-                                    flexDirection: "row",
-                                    columnGap: 1,
-                                    padding: 2,
-                                }}
-                                onClick={function () {
-                                    navigate("/register");
-                                }}
-                            >
-                                <AppRegistrationIcon />
-                                <Typography>Sign Up</Typography>
-                            </Button>
+                                <Link
+                                    style={{
+                                        textDecoration: "none",
+                                        fontSize: "20px",
+                                        color: colors.primary[100],
+                                        cursor: "pointer",
+                                    }}
+                                    to="/movies"
+                                >
+                                    MovieLandia24
+                                </Link>
+                                <List sx={{ display: "flex", flexDirection: "row" }}>
+                                    <ListItem>
+                                        <img src="/assets/logos/ico_filma_blu.png" alt="" />
+                                        <NavLink
+                                            style={{
+                                                textDecoration: "none",
+                                                fontSize: "20px",
+                                                paddingLeft: 8,
+                                                color: colors.primary[100],
+                                                cursor: "pointer",
+                                            }}
+                                            to="/movies"
+                                        >
+                                            Movies
+                                        </NavLink>
+                                    </ListItem>
+                                    <ListItem
+                                        onMouseEnter={openMenuGenres}
+                                        onMouseLeave={closeMenuGenres}
+                                        // onClick={() => {
+                                        //     navigate(`/genres`);
+                                        // }}
+                                        sx={{ cursor: "pointer" }}
+                                    >
+                                        <img src="/assets/logos/ico_filma_blu.png" alt="" />
+                                        <Typography
+                                            style={{
+                                                textDecoration: "none",
+                                                fontSize: 20,
+                                                color: colors.primary[100],
+                                                paddingLeft: 8,
+                                            }}
+                                        >
+                                            Genres
+                                        </Typography>
+                                        <Menu
+                                            anchorEl={anchorElGenres}
+                                            open={Boolean(anchorElGenres)}
+                                            onClose={closeMenuGenres}
+                                            MenuListProps={{
+                                                onMouseLeave: closeMenuGenres,
+                                                style: { padding: 10 },
+                                            }}
+                                        >
+                                            {genres.map((genre) => (
+                                                <MenuItem
+                                                    key={genre.id}
+                                                    onClick={() => {
+                                                        closeMenuGenres();
+                                                        navigate(`/genres/${genre.name}`);
+                                                    }}
+                                                >
+                                                    {genre.name}
+                                                </MenuItem>
+                                            ))}
+                                        </Menu>
+                                    </ListItem>
+                                    <ListItem>
+                                        <img src="/assets/logos/ico_filma_blu.png" alt="" />
+                                        <NavLink
+                                            style={{
+                                                textDecoration: "none",
+                                                fontSize: "20px",
+                                                paddingLeft: 8,
+                                                color: colors.primary[100],
+                                                cursor: "pointer",
+                                            }}
+                                            to="/series"
+                                        >
+                                            Series
+                                        </NavLink>
+                                    </ListItem>
+                                    <ListItem>
+                                        <img src="/assets/logos/netflix-red.png" alt="" />
+                                        <NavLink
+                                            style={{
+                                                textDecoration: "none",
+                                                fontSize: 20,
+                                                paddingLeft: 8,
+                                                color: colors.primary[100],
+                                                cursor: "pointer",
+                                            }}
+                                            to="/genres/NETFLIX"
+                                        >
+                                            Netflix
+                                        </NavLink>
+                                    </ListItem>
+                                </List>
+                            </Box>
+                            <Box sx={{ display: "flex", placeItems: "center", columnGap: 4 }}>
+                                <TextField
+                                    placeholder="Search for movies"
+                                    value={
+                                        searchParams.get("search") ? searchParams.get("search") : ""
+                                    }
+                                    onChange={(e) => {
+                                        const value = e.target.value;
+
+                                        if (value.length > 0) {
+                                            navigate(`/movies?search=${value}`);
+                                        } else {
+                                            navigate("/movies");
+                                        }
+                                    }}
+                                    InputProps={{
+                                        startAdornment: (
+                                            <InputAdornment position="start">
+                                                <Search />
+                                            </InputAdornment>
+                                        ),
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                <Clear
+                                                    sx={{ cursor: "pointer" }}
+                                                    onClick={() => {
+                                                        if (searchParams.get("search")) {
+                                                            navigate("/movies");
+                                                        }
+                                                    }}
+                                                />
+                                            </InputAdornment>
+                                        ),
+                                    }}
+                                />
+                                {user !== null ? (
+                                    <Box>
+                                        <IconButton
+                                            id="buttonProfile"
+                                            aria-controls={
+                                                Boolean(anchorElProfile) ? "menuProfile" : undefined
+                                            }
+                                            aria-haspopup="true"
+                                            aria-expanded={
+                                                Boolean(anchorElProfile) ? "true" : undefined
+                                            }
+                                            onClick={openMenuProfile}
+                                            sx={{
+                                                display: "flex",
+                                                flexDirection: "row",
+                                                gap: "10px",
+                                            }}
+                                            disableRipple={true}
+                                        >
+                                            <PersonOutlinedIcon color="action" fontSize="large" />
+                                            {user?.userName}
+                                        </IconButton>
+                                        <Menu
+                                            id="menuProfile"
+                                            anchorEl={anchorElProfile}
+                                            open={Boolean(anchorElProfile)}
+                                            onClose={closeMenuProfile}
+                                            MenuListProps={{
+                                                "aria-labelledby": "buttonProfile",
+                                            }}
+                                        >
+                                            <MenuItem
+                                                onClick={redirectToProfile}
+                                                style={{ color: colors.primary[100] }}
+                                            >
+                                                Profili im
+                                            </MenuItem>
+                                            <MenuItem
+                                                onClick={handleLogout}
+                                                style={{ color: colors.primary[100] }}
+                                            >
+                                                Log Out
+                                            </MenuItem>
+                                        </Menu>
+                                    </Box>
+                                ) : (
+                                    <>
+                                        <Button
+                                            color="secondary"
+                                            variant="outlined"
+                                            size="large"
+                                            onClick={function () {
+                                                navigate("/login");
+                                            }}
+                                            sx={{
+                                                display: "flex",
+                                                flexDirection: "row",
+                                                columnGap: 1,
+                                                padding: 2,
+                                            }}
+                                        >
+                                            <LockOpenIcon />
+                                            <Typography>Sign In</Typography>
+                                        </Button>
+                                        <Button
+                                            color="secondary"
+                                            variant="outlined"
+                                            size="large"
+                                            sx={{
+                                                display: "flex",
+                                                flexDirection: "row",
+                                                columnGap: 1,
+                                                padding: 2,
+                                            }}
+                                            onClick={function () {
+                                                navigate("/register");
+                                            }}
+                                        >
+                                            <AppRegistrationIcon />
+                                            <Typography>Sign Up</Typography>
+                                        </Button>
+                                    </>
+                                )}
+                            </Box>
                         </>
                     )}
-                </Box>
-            </Toolbar>
-        </AppBar>
+                </Toolbar>
+            </AppBar>
+            <nav>
+                <Drawer
+                    variant="persistent"
+                    open={openDrawer}
+                    onClose={handleDrawerToggle}
+                    ModalProps={{
+                        keepMounted: true,
+                    }}
+                    sx={{
+                        display: { xs: "block", sm: "none" },
+                        "& .MuiDrawer-paper": { boxSizing: "border-box", width: drawerWidth },
+                    }}
+                >
+                    <Box onClick={handleDrawerToggle}>
+                        <List
+                            sx={{
+                                display: "flex",
+                                flexDirection: "column",
+                                rowGap: 1,
+                                alignItems: "center",
+                            }}
+                        >
+                            <ListItem>
+                                <Link
+                                    style={{
+                                        textDecoration: "none",
+                                        fontSize: "20px",
+                                        color: colors.primary[100],
+                                        cursor: "pointer",
+                                    }}
+                                    to="/movies"
+                                >
+                                    MovieLandia24
+                                </Link>
+                            </ListItem>
+                            <ListItem>
+                                <img src="/assets/logos/ico_filma_blu.png" alt="" />
+                                <NavLink
+                                    style={{
+                                        textDecoration: "none",
+                                        fontSize: "20px",
+                                        paddingLeft: 8,
+                                        color: colors.primary[100],
+                                        cursor: "pointer",
+                                    }}
+                                    to="/movies"
+                                >
+                                    Movies
+                                </NavLink>
+                            </ListItem>
+                            <ListItem
+                                onMouseEnter={openMenuGenres}
+                                onMouseLeave={closeMenuGenres}
+                                // onClick={() => {
+                                //     navigate(`/genres`);
+                                // }}
+                                sx={{ cursor: "pointer" }}
+                            >
+                                <img src="/assets/logos/ico_filma_blu.png" alt="" />
+                                <Typography
+                                    style={{
+                                        textDecoration: "none",
+                                        fontSize: 20,
+                                        color: colors.primary[100],
+                                        paddingLeft: 8,
+                                    }}
+                                >
+                                    Genres
+                                </Typography>
+                                <Menu
+                                    anchorEl={anchorElGenres}
+                                    open={Boolean(anchorElGenres)}
+                                    onClose={closeMenuGenres}
+                                    MenuListProps={{
+                                        onMouseLeave: closeMenuGenres,
+                                        style: { padding: 10 },
+                                    }}
+                                >
+                                    {genres.map((genre) => (
+                                        <MenuItem
+                                            key={genre.id}
+                                            onClick={() => {
+                                                closeMenuGenres();
+                                                navigate(`/genres/${genre.name}`);
+                                            }}
+                                        >
+                                            {genre.name}
+                                        </MenuItem>
+                                    ))}
+                                </Menu>
+                            </ListItem>
+                            <ListItem>
+                                <img src="/assets/logos/ico_filma_blu.png" alt="" />
+                                <NavLink
+                                    style={{
+                                        textDecoration: "none",
+                                        fontSize: "20px",
+                                        paddingLeft: 8,
+                                        color: colors.primary[100],
+                                        cursor: "pointer",
+                                    }}
+                                    to="/series"
+                                >
+                                    Series
+                                </NavLink>
+                            </ListItem>
+                            <ListItem>
+                                <img src="/assets/logos/netflix-red.png" alt="" />
+                                <NavLink
+                                    style={{
+                                        textDecoration: "none",
+                                        fontSize: 20,
+                                        paddingLeft: 8,
+                                        color: colors.primary[100],
+                                        cursor: "pointer",
+                                    }}
+                                    to="/genres/NETFLIX"
+                                >
+                                    Netflix
+                                </NavLink>
+                            </ListItem>
+                            <Box
+                                sx={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    placeContent: "center",
+                                    rowGap: 2,
+                                }}
+                            >
+                                <TextField
+                                    placeholder="Search for movies"
+                                    value={
+                                        searchParams.get("search") ? searchParams.get("search") : ""
+                                    }
+                                    onChange={(e) => {
+                                        const value = e.target.value;
+
+                                        if (value.length > 0) {
+                                            navigate(`/movies?search=${value}`);
+                                        } else {
+                                            navigate("/movies");
+                                        }
+                                    }}
+                                    InputProps={{
+                                        startAdornment: (
+                                            <InputAdornment position="start">
+                                                <Search />
+                                            </InputAdornment>
+                                        ),
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                <Clear
+                                                    sx={{ cursor: "pointer" }}
+                                                    onClick={() => {
+                                                        if (searchParams.get("search")) {
+                                                            navigate("/movies");
+                                                        }
+                                                    }}
+                                                />
+                                            </InputAdornment>
+                                        ),
+                                    }}
+                                />
+                                {user !== null ? (
+                                    <Box>
+                                        <IconButton
+                                            id="buttonProfile"
+                                            aria-controls={
+                                                Boolean(anchorElProfile) ? "menuProfile" : undefined
+                                            }
+                                            aria-haspopup="true"
+                                            aria-expanded={
+                                                Boolean(anchorElProfile) ? "true" : undefined
+                                            }
+                                            onClick={openMenuProfile}
+                                            sx={{
+                                                display: "flex",
+                                                flexDirection: "row",
+                                                gap: "10px",
+                                            }}
+                                            disableRipple={true}
+                                        >
+                                            <PersonOutlinedIcon color="action" fontSize="large" />
+                                            {user?.userName}
+                                        </IconButton>
+                                        <Menu
+                                            id="menuProfile"
+                                            anchorEl={anchorElProfile}
+                                            open={Boolean(anchorElProfile)}
+                                            onClose={closeMenuProfile}
+                                            MenuListProps={{
+                                                "aria-labelledby": "buttonProfile",
+                                            }}
+                                        >
+                                            <MenuItem
+                                                onClick={redirectToProfile}
+                                                style={{ color: colors.primary[100] }}
+                                            >
+                                                Profili im
+                                            </MenuItem>
+                                            <MenuItem
+                                                onClick={handleLogout}
+                                                style={{ color: colors.primary[100] }}
+                                            >
+                                                Log Out
+                                            </MenuItem>
+                                        </Menu>
+                                    </Box>
+                                ) : (
+                                    <>
+                                        <Button
+                                            color="secondary"
+                                            variant="outlined"
+                                            size="medium"
+                                            onClick={function () {
+                                                navigate("/login");
+                                            }}
+                                            sx={{
+                                                display: "flex",
+                                                flexDirection: "row",
+                                                columnGap: 1,
+                                                padding: 1,
+                                            }}
+                                        >
+                                            <LockOpenIcon />
+                                            <Typography>Sign In</Typography>
+                                        </Button>
+                                        <Button
+                                            color="secondary"
+                                            variant="outlined"
+                                            size="medium"
+                                            sx={{
+                                                display: "flex",
+                                                flexDirection: "row",
+                                                columnGap: 1,
+                                                padding: 1,
+                                            }}
+                                            onClick={function () {
+                                                navigate("/register");
+                                            }}
+                                        >
+                                            <AppRegistrationIcon />
+                                            <Typography>Sign Up</Typography>
+                                        </Button>
+                                    </>
+                                )}
+                            </Box>
+                        </List>
+                    </Box>
+                </Drawer>
+            </nav>
+        </>
     );
 };
