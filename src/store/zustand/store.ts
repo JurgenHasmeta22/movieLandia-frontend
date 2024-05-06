@@ -6,6 +6,7 @@ export const useStore = create<AppStoreState>(
         user: null,
         mobileOpen: false,
         openDrawer: false,
+        isPageShrunk: false,
         setUser: (data) => {
             set({ user: data });
         },
@@ -15,5 +16,8 @@ export const useStore = create<AppStoreState>(
         setOpenDrawer: (data) => {
             set({ openDrawer: data });
         },
+        setIsPageShrunk: (data) => {
+            set({ isPageShrunk: data });
+        }
     }),
 );
