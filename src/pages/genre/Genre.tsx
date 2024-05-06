@@ -66,7 +66,20 @@ export default function Genre(): React.JSX.Element {
             }}
         >
             <Box>
-                <Typography>Total movies in this genre: {moviesCountGenre}</Typography>
+                <Box
+                    sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        placeContent: "center",
+                        placeItems: "center",
+                    }}
+                    mb={4}
+                    mt={4}
+                >
+                    <Typography variant="h3" color={"secondary"}>
+                        Total movies in this genre: {moviesCountGenre}
+                    </Typography>
+                </Box>
                 <Stack
                     direction="row"
                     flexWrap="wrap"
