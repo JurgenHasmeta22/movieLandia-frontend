@@ -192,11 +192,13 @@ export default function Home() {
                 >
                     {searchParams.get("search") ? (
                         <Box mt={4}>
-                            <Typography fontSize={18}>Total movies: {moviesCountSearch}</Typography>
+                            <Typography component={"h3"} fontWeight={600} fontSize={22}>
+                                Total movies: {moviesCountSearch}
+                            </Typography>
                         </Box>
                     ) : (
                         <Box>
-                            <Typography fontSize={18}>
+                            <Typography component={"h3"} fontWeight={600} fontSize={22}>
                                 Total movies: {moviesCount?.count}
                             </Typography>
                         </Box>
@@ -257,7 +259,12 @@ export default function Home() {
                             placeContent: "center",
                         }}
                     >
-                        <Typography>
+                        <Typography
+                            component={"h2"}
+                            fontWeight={500}
+                            fontSize={30}
+                            textAlign={"center"}
+                        >
                             No Search Result, no movie found with that criteria.
                         </Typography>
                     </Box>
