@@ -22,14 +22,30 @@ const MovieItem = ({ movie, type }: IMovieItemProps): React.JSX.Element => {
                         .join("")}`,
                 );
             }}
-            sx={{ cursor: "pointer" }}
+            sx={{
+                cursor: "pointer",
+                display: "flex",
+                flexDirection: "column",
+            }}
         >
-            <img src={movie.photoSrc} />
-            <Typography variant="h5" color={"secondary"}>
+            <img
+                src={movie.photoSrc}
+                style={{
+                    height: "300px",
+                    width: "260px",
+                }}
+            />
+            <Typography
+                variant="h5"
+                color={"secondary"}
+                style={{
+                    width: "20ch",
+                }}
+            >
                 {movie.title}
             </Typography>
             {type !== "serie" && (
-                <Box sx={{ display: "flex", flexDirection: "row", flewWrap: "wrap", columnGap: 2 }}>
+                <Box sx={{ display: "flex", flexDirection: "row", flewWrap: "wrap", columnGap: 1 }}>
                     {movie.genres?.map((genre: any) => (
                         <Typography
                             key={genre.genre.name}
