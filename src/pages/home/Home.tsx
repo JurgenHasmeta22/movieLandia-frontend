@@ -272,7 +272,9 @@ export default function Home() {
             {!searchParams.get("search") && (
                 <Box sx={{ display: "flex", flexDirection: "column", rowGap: 4, marginBottom: 6 }}>
                     <Box sx={{ display: "flex", placeContent: "center" }}>
-                        <Typography fontSize={22}>Latest Movies</Typography>
+                        <Typography fontSize={22} color={"secondary"}>
+                            Latest Movies
+                        </Typography>
                     </Box>
                     <Stack
                         direction="row"

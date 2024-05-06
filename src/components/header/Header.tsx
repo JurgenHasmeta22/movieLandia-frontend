@@ -137,16 +137,18 @@ export const Header = (): React.JSX.Element => {
                         <ListItem
                             onMouseEnter={handleGenreMouseEnter}
                             onMouseLeave={handleGenreMouseLeave}
-                            onClick={() => {
-                                navigate(`/genres`);
-                            }}
+                            // onClick={() => {
+                            //     navigate(`/genres`);
+                            // }}
                             sx={{ cursor: "pointer" }}
                         >
+                            <img src="/assets/logos/ico_filma_blu.png" alt="" />
                             <Typography
                                 style={{
                                     textDecoration: "none",
                                     fontSize: 20,
                                     color: colors.primary[100],
+                                    paddingLeft: 8,
                                 }}
                             >
                                 Genres
@@ -172,6 +174,21 @@ export const Header = (): React.JSX.Element => {
                                     </MenuItem>
                                 ))}
                             </Menu>
+                        </ListItem>
+                        <ListItem>
+                            <img src="/assets/logos/ico_filma_blu.png" alt="" />
+                            <NavLink
+                                style={{
+                                    textDecoration: "none",
+                                    fontSize: "20px",
+                                    paddingLeft: 8,
+                                    color: colors.primary[100],
+                                    cursor: "pointer",
+                                }}
+                                to="/series"
+                            >
+                                Series
+                            </NavLink>
                         </ListItem>
                         <ListItem>
                             <img src="/assets/logos/netflix-red.png" alt="" />
