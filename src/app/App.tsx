@@ -20,10 +20,6 @@ const Login = React.lazy(async () => await import("~/pages/login/Login"));
 const Movie = React.lazy(async () => await import("~/pages/movie/Movie"));
 const Profile = React.lazy(async () => await import("~/pages/profile/Profile"));
 const Register = React.lazy(async () => await import("~/pages/register/Register"));
-const AboutUsTab = React.lazy(async () => await import("~/pages/profile/aboutUs/AboutUs"));
-const FavoriteMoviesTab = React.lazy(
-    async () => await import("~/pages/profile/favoriteMovies/FavoriteMovies"),
-);
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
     return (
@@ -88,8 +84,6 @@ export const ProfilePage = withMainLayout(Profile);
 export const ErrorPage = withMainLayout(Error404);
 export const LoginPage = withMainLayout(Login);
 export const RegisterPage = withMainLayout(Register);
-export const AboutUsPage = withMainLayout(AboutUsTab);
-export const FavMoviesPage = withMainLayout(FavoriteMoviesTab);
 
 function App() {
     const { setUser } = useStore();
@@ -112,11 +106,7 @@ function App() {
                     <Route index element={<Navigate replace to="/movies" />} />
                     <Route path="*" element={<ErrorPage />} />
                     <Route element={<PrivateRoutes />}>
-                        <Route path="/profile" element={<ProfilePage />}>
-                            <Route path="favoriteMovies" element={<FavMoviesPage />} />
-                            <Route path="aboutUs" element={<AboutUsPage />} />
-                            <Route path="*" element={<ErrorPage />} />
-                        </Route>
+                        <Route path="/profile" element={<ProfilePage />} />
                     </Route>
                     <Route path="/movies" element={<HomePage />} />
                     <Route path="/movies/:title" element={<MoviePage />} />
