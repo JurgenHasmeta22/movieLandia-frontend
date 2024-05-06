@@ -4,9 +4,9 @@ import type AppStoreState from "~/interfaces/IStore";
 export const useStore = create<AppStoreState>(
     (set, get): AppStoreState => ({
         user: null,
-        mobileOpen: false,
+        mobileOpen: window.innerWidth < 768 ? true : false,
         openDrawer: false,
-        isPageShrunk: false,
+        isPageShrunk: window.innerWidth < 768 ? true : false,
         setUser: (data) => {
             set({ user: data });
         },
