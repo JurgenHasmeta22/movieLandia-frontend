@@ -19,7 +19,6 @@ const Carousel = ({ images }: any) => {
             display="flex"
             alignItems="center"
             justifyContent="center"
-            width="100%"
             overflow="hidden"
         >
             <IconButton onClick={handlePrev}>
@@ -28,11 +27,6 @@ const Carousel = ({ images }: any) => {
             <img
                 src={images[index].source}
                 alt={`Slide ${index}`}
-                style={{
-                    maxWidth: "80%",
-                    maxHeight: "100%",
-                    width: "auto",
-                }}
             />
             <IconButton onClick={handleNext}>
                 <NavigateNextIcon />

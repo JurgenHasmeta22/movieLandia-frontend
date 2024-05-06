@@ -41,8 +41,6 @@ export default function Genres() {
                             window.scrollTo(0, 0);
                         }}
                         sx={{
-                            height: "250px",
-                            width: "300px",
                             display: "flex",
                             placeItems: "center",
                             placeContent: "center",
