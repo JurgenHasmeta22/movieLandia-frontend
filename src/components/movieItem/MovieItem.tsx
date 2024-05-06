@@ -40,6 +40,7 @@ const MovieItem = ({ movie, type }: IMovieItemProps): React.JSX.Element => {
                 color={"secondary"}
                 style={{
                     width: "20ch",
+                    marginTop: 4,
                 }}
             >
                 {movie.title}

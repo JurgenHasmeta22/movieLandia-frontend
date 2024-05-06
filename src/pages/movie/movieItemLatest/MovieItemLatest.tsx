@@ -1,4 +1,4 @@
-import { Box, ListItem, Paper } from "@mui/material";
+import { Box } from "@mui/material";
 import { useNavigate } from "react-router";
 import type IMovie from "~/interfaces/IMovie";
 
@@ -8,11 +8,10 @@ interface IMovieItemLatestProps {
 
 export default function MovieItemLatest(props: IMovieItemLatestProps) {
     const { latestMovie } = props;
-
     const navigate = useNavigate();
 
     return (
-        <Paper
+        <Box
             key={latestMovie.id}
             sx={{ cursor: "pointer" }}
             onClick={function () {
@@ -22,10 +21,15 @@ export default function MovieItemLatest(props: IMovieItemLatestProps) {
                         .map((char: any) => (char === " " ? "-" : char))
                         .join("")}`,
                 );
-                window.scrollTo(0, 0);
             }}
         >
-            <img src={latestMovie.photoSrc} />
-        </Paper>
+            <img
+                src={latestMovie.photoSrc}
+                style={{
+                    height: "200px",
+                    width: "150px",
+                }}
+            />
+        </Box>
     );
 }

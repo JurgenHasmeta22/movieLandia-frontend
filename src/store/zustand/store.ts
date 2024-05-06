@@ -18,6 +18,6 @@ export const useStore = create<AppStoreState>(
         },
         setIsPageShrunk: (data) => {
             set({ isPageShrunk: data });
-        }
+        },
     }),
 );
