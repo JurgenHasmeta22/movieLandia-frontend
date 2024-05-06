@@ -4,7 +4,8 @@ import type ISerie from "~/interfaces/ISerie";
 import movieService from "~/services/movieService";
 import type ISeriesResponse from "~/interfaces/ISeriesResponse";
 import MovieItem from "~/components/movieItem/MovieItem";
-import { Box, Pagination, Stack, Typography } from "@mui/material";
+import { Box, CircularProgress, Pagination, Stack, Typography, useTheme } from "@mui/material";
+import { tokens } from "~/utils/theme";
 
 export default function Series() {
     const [series, setSeries] = useState<ISerie[]>([]);
@@ -13,6 +14,8 @@ export default function Series() {
     const [searchParams, setSearchParams] = useSearchParams();
 
     const pageCount = Math.ceil(seriesCount / 20);
+    const theme = useTheme();
+    const colors = tokens(theme.palette.mode);
 
     const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
         searchParams.set("page", String(value));
@@ -46,10 +49,41 @@ export default function Series() {
         getSeriesCount();
     }, []);
 
+    if (series?.length === 0) {
+        return (
+            <Box
+                sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "100vh",
+                }}
+            >
+                <CircularProgress size={80} thickness={4} />
+            </Box>
+        );
+    }
+
     return (
-        <Box>
-            <Box>
-                <Typography>Total series: {seriesCount}</Typography>
+        <Box
+            component={"main"}
+            sx={{
+                backgroundColor: `${colors.blueAccent[700]}`,
+            }}
+        >
+            <Box
+                component={"section"}
+                sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    placeItems: "center",
+                    placeContent: "center",
+                    rowGap: 4,
+                }}
+            >
+                <Typography color={"secondary"} fontSize={24} mt={4}>
+                    Total series: {seriesCount}
+                </Typography>
                 <Box>
                     {series.map((serie: any) => (
                         <MovieItem movie={serie} type="serie" key={serie.id} />
