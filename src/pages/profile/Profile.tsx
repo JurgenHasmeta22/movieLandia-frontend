@@ -1,11 +1,30 @@
-import { Box, CircularProgress, List, ListItem, Typography } from "@mui/material";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Box, CircularProgress, Tab, Tabs, Typography, useTheme } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import { useStore } from "~/store/zustand/store";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
+import { tokens } from "~/utils/theme";
+import TabPanel from "~/components/tab/Tab";
+import FavoriteMoviesTab from "./favoriteMovies/FavoriteMovies";
+import AboutUsTab from "./aboutUs/AboutUs";
+import { useState } from "react";
 
 export default function Profile() {
+    const [value, setValue] = useState<number>(0);
     const navigate = useNavigate();
     const { user } = useStore();
+
+    const theme = useTheme();
+    const colors = tokens(theme.palette.mode);
+
+    const handleChange = (event: any, newValue: any) => {
+        if (newValue === 0) {
+            navigate("/profile?tab=favMovies");
+        } else if (newValue === 1) {
+            navigate("/profile?tab=about");
+        }
+
+        setValue(newValue);
+    };
 
     if (!user) {
         return (
@@ -23,31 +42,56 @@ export default function Profile() {
     }
 
     return (
-        <Box>
-            <Box>
-                <Box>
-                    <PersonOutlinedIcon color="action" fontSize="large" />
-                    <Typography>{user.userName}</Typography>
-                </Box>
+        <Box height={"70vh"}>
+            <Box
+                display={"flex"}
+                flexDirection={"row"}
+                columnGap={1}
+                justifyContent={"center"}
+                alignItems={"center"}
+                mt={4}
+                mb={4}
+            >
+                <PersonOutlinedIcon color="secondary" fontSize="large" />
+                <Typography color={"primary"} fontWeight={500} fontSize={22}>
+                    {user.userName}
+                </Typography>
             </Box>
             <Box>
-                <List>
-                    <ListItem
-                        onClick={() => {
-                            navigate("/profile/favoriteMovies");
+                <Tabs
+                    value={value}
+                    onChange={handleChange}
+                    variant="fullWidth"
+                    textColor="primary"
+                    orientation="horizontal"
+                >
+                    <Tab
+                        label="Favorite Movies"
+                        style={{
+                            backgroundColor: colors.blueAccent[400],
+                            color: colors.primary[600],
+                            fontWeight: "700",
                         }}
-                    >
-                        Favorite Movies
-                    </ListItem>
-                    <ListItem
-                        onClick={() => {
-                            navigate("/profile/aboutUs");
+                        disableRipple={true}
+                        disableFocusRipple={true}
+                    />
+                    <Tab
+                        label="About me"
+                        style={{
+                            backgroundColor: colors.blueAccent[400],
+                            color: colors.primary[600],
+                            fontWeight: "700",
                         }}
-                    >
-                        About Channel
-                    </ListItem>
-                </List>
-                <Outlet />
+                        disableRipple={true}
+                        disableFocusRipple={true}
+                    />
+                </Tabs>
+                <TabPanel value={value} index={0}>
+                    <FavoriteMoviesTab />
+                </TabPanel>
+                <TabPanel value={value} index={1}>
+                    <AboutUsTab />
+                </TabPanel>
             </Box>
         </Box>
     );
