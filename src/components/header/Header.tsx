@@ -464,6 +464,14 @@ export const Header = (): React.JSX.Element => {
                                     onMouseLeave: closeMenuGenresMobile,
                                     style: { padding: 10 },
                                 }}
+                                anchorOrigin={{
+                                    vertical: "top",
+                                    horizontal: "right",
+                                }}
+                                transformOrigin={{
+                                    vertical: "top",
+                                    horizontal: "right",
+                                }}
                             >
                                 {genres.map((genre) => (
                                     <MenuItem
