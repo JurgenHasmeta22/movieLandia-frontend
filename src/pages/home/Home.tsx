@@ -34,16 +34,17 @@ const images = [
 ];
 
 export default function Home() {
-    const [moviesCount, setMoviesCount] = useState<IMoviesCount | null>(null);
-    const [moviesCountSearch, setMoviesCountSearch] = useState<number | null>(null);
     const [movies, setMovies] = useState<IMovie[]>([]);
     const [latestMovies, setLatestMovies] = useState<IMovie[]>([]);
-
-    let pageCount;
+    const [moviesCount, setMoviesCount] = useState<IMoviesCount | null>(null);
+    const [moviesCountSearch, setMoviesCountSearch] = useState<number | null>(null);
 
     const [searchParams, setSearchParams] = useSearchParams();
+
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
+
+    let pageCount;
 
     if (searchParams.get("search")) {
         pageCount = Math.ceil(moviesCountSearch! / 20);
@@ -89,7 +90,6 @@ export default function Home() {
     async function getMovies(): Promise<void> {
         let moviesResponse: IMovie[] = [];
 
-        console.log(searchParams.get("sortBy"));
         if (searchParams.get("search")) {
             if (searchParams.get("page")) {
                 const responseSearch: IMoviesSearchResponse =
@@ -150,9 +150,16 @@ export default function Home() {
         fetchData();
     }, [searchParams]);
 
-    if (!movies) {
+    if (movies?.length === 0 && !searchParams?.get("search")) {
         return (
-            <Box>
+            <Box
+                sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "100vh",
+                }}
+            >
                 <CircularProgress size={80} thickness={4} />
             </Box>
         );

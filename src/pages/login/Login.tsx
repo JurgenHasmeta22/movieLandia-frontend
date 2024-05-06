@@ -72,6 +72,7 @@ export default function Login() {
                                         onChange={function (e) {
                                             setEmail(e.target.value);
                                         }}
+                                        InputProps={{ color: "secondary" }}
                                     />
                                     <TextField
                                         type="password"
@@ -80,6 +81,7 @@ export default function Login() {
                                         onChange={function (e) {
                                             setPassword(e.target.value);
                                         }}
+                                        InputProps={{ color: "secondary" }}
                                     />
                                     <Button
                                         type="submit"

@@ -1,6 +1,7 @@
 import { Box, CircularProgress, List, ListItem, Typography } from "@mui/material";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useStore } from "~/store/zustand/store";
+import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 
 export default function Profile() {
     const navigate = useNavigate();
@@ -8,41 +9,46 @@ export default function Profile() {
 
     if (!user) {
         return (
-            <Box>
+            <Box
+                sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "100vh",
+                }}
+            >
                 <CircularProgress size={80} thickness={4} />
             </Box>
         );
     }
 
     return (
-        <main>
-            <section>
+        <Box>
+            <Box>
                 <Box>
-                    <Box>
-                        <img src="/assets/avatars/blankavatar.jpg" />
-                        <Typography>{user.userName}</Typography>
-                    </Box>
+                    <PersonOutlinedIcon color="action" fontSize="large" />
+                    <Typography>{user.userName}</Typography>
                 </Box>
-                <Box>
-                    <List>
-                        <ListItem
-                            onClick={() => {
-                                navigate("/profile/favoriteMovies");
-                            }}
-                        >
-                            Favorite Movies
-                        </ListItem>
-                        <ListItem
-                            onClick={() => {
-                                navigate("/profile/aboutUs");
-                            }}
-                        >
-                            About Channel
-                        </ListItem>
-                    </List>
-                    <Outlet />
-                </Box>
-            </section>
-        </main>
+            </Box>
+            <Box>
+                <List>
+                    <ListItem
+                        onClick={() => {
+                            navigate("/profile/favoriteMovies");
+                        }}
+                    >
+                        Favorite Movies
+                    </ListItem>
+                    <ListItem
+                        onClick={() => {
+                            navigate("/profile/aboutUs");
+                        }}
+                    >
+                        About Channel
+                    </ListItem>
+                </List>
+                <Outlet />
+            </Box>
+        </Box>
     );
 }

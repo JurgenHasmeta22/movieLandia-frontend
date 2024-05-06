@@ -48,9 +48,16 @@ export default function Genre(): React.JSX.Element {
         getMoviesOnGenre();
     }, [params.name, searchParams.get("page")]);
 
-    if (!moviesOfGenre) {
+    if (moviesOfGenre?.length === 0) {
         return (
-            <Box>
+            <Box
+                sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "100vh",
+                }}
+            >
                 <CircularProgress size={80} thickness={4} />
             </Box>
         );

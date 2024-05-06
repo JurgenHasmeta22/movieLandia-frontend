@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate, NavLink, useLocation, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, NavLink, useSearchParams } from "react-router-dom";
 import { useStore } from "~/store/zustand/store";
 import type IGenre from "~/interfaces/IGenre";
 import movieService from "~/services/movieService";
@@ -7,6 +7,7 @@ import {
     AppBar,
     Box,
     Button,
+    IconButton,
     InputAdornment,
     List,
     ListItem,
@@ -21,11 +22,13 @@ import { tokens } from "~/utils/theme";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import { Clear, Search } from "@mui/icons-material";
+import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 
 export const Header = (): React.JSX.Element => {
     const [options, setOptions] = useState<any>([]);
     const [genres, setGenres] = useState<IGenre[]>([]);
-    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const [anchorElProfile, setAnchorElProfile] = useState<null | HTMLElement>(null);
+    const [anchorElGenres, setAnchorElGenres] = useState<null | HTMLElement>(null);
 
     const { user, setUser } = useStore();
 
@@ -62,12 +65,20 @@ export const Header = (): React.JSX.Element => {
         }
     }
 
-    const handleGenreMouseEnter = (event: React.MouseEvent<HTMLLIElement>) => {
-        setAnchorEl(event.currentTarget);
+    const openMenuGenres = (event: any) => {
+        setAnchorElGenres(event.currentTarget);
     };
 
-    const handleGenreMouseLeave = () => {
-        setAnchorEl(null);
+    const closeMenuGenres = () => {
+        setAnchorElGenres(null);
+    };
+
+    const openMenuProfile = (event: any) => {
+        setAnchorElProfile(event.currentTarget);
+    };
+
+    const closeMenuProfile = () => {
+        setAnchorElProfile(null);
     };
 
     useEffect(() => {
@@ -135,8 +146,8 @@ export const Header = (): React.JSX.Element => {
                             </NavLink>
                         </ListItem>
                         <ListItem
-                            onMouseEnter={handleGenreMouseEnter}
-                            onMouseLeave={handleGenreMouseLeave}
+                            onMouseEnter={openMenuGenres}
+                            onMouseLeave={closeMenuGenres}
                             // onClick={() => {
                             //     navigate(`/genres`);
                             // }}
@@ -154,11 +165,11 @@ export const Header = (): React.JSX.Element => {
                                 Genres
                             </Typography>
                             <Menu
-                                anchorEl={anchorEl}
-                                open={Boolean(anchorEl)}
-                                onClose={handleGenreMouseLeave}
+                                anchorEl={anchorElGenres}
+                                open={Boolean(anchorElGenres)}
+                                onClose={closeMenuGenres}
                                 MenuListProps={{
-                                    onMouseLeave: handleGenreMouseLeave,
+                                    onMouseLeave: closeMenuGenres,
                                     style: { padding: 10 },
                                 }}
                             >
@@ -166,7 +177,7 @@ export const Header = (): React.JSX.Element => {
                                     <MenuItem
                                         key={genre.id}
                                         onClick={() => {
-                                            handleGenreMouseLeave();
+                                            closeMenuGenres();
                                             navigate(`/genres/${genre.name}`);
                                         }}
                                     >
@@ -242,25 +253,40 @@ export const Header = (): React.JSX.Element => {
                     />
                     {user !== null ? (
                         <Box>
-                            <Box
-                                onClick={function () {
-                                    redirectToProfile(user);
+                            <IconButton
+                                id="buttonProfile"
+                                aria-controls={Boolean(anchorElProfile) ? "menuProfile" : undefined}
+                                aria-haspopup="true"
+                                aria-expanded={Boolean(anchorElProfile) ? "true" : undefined}
+                                onClick={openMenuProfile}
+                                sx={{ display: "flex", flexDirection: "row", gap: "10px" }}
+                                disableRipple={true}
+                            >
+                                <PersonOutlinedIcon color="action" fontSize="large" />
+                                {user?.userName}
+                            </IconButton>
+                            <Menu
+                                id="menuProfile"
+                                anchorEl={anchorElProfile}
+                                open={Boolean(anchorElProfile)}
+                                onClose={closeMenuProfile}
+                                MenuListProps={{
+                                    "aria-labelledby": "buttonProfile",
                                 }}
                             >
-                                <img src="/assets/avatars/blankavatar.jpg" />
-                                {user.userName}
-                            </Box>
-                            <Box>
-                                <Button
-                                    color="secondary"
-                                    variant="outlined"
-                                    onClick={function (e: any) {
-                                        handleLogout();
-                                    }}
+                                <MenuItem
+                                    onClick={redirectToProfile}
+                                    style={{ color: colors.primary[100] }}
                                 >
-                                    <Typography>Log Out</Typography>
-                                </Button>
-                            </Box>
+                                    Profili im
+                                </MenuItem>
+                                <MenuItem
+                                    onClick={handleLogout}
+                                    style={{ color: colors.primary[100] }}
+                                >
+                                    Log Out
+                                </MenuItem>
+                            </Menu>
                         </Box>
                     ) : (
                         <>
