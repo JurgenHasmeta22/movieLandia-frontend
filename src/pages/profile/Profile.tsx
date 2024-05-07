@@ -1,6 +1,6 @@
 import { Box, CircularProgress, Tab, Tabs, Typography, useTheme } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { useStore } from "~/store/zustand/store";
+import { useStore } from "~/store/store";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import { tokens } from "~/utils/theme";
 import TabPanel from "~/components/tab/Tab";

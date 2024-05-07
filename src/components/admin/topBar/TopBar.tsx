@@ -5,7 +5,7 @@ import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import { tokens, ColorModeContext } from "~/utils/theme";
 import { Link, useNavigate } from "react-router-dom";
-import { useStore } from "~/store/zustand/store";
+import { useStore } from "~/store/store";
 import { useLocalStorage } from "~/hooks/useLocalStorage";
 import MenuIcon from "@mui/icons-material/Menu";
 
