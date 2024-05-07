@@ -38,12 +38,10 @@ export default function Home() {
     const [latestMovies, setLatestMovies] = useState<IMovie[]>([]);
     const [moviesCount, setMoviesCount] = useState<IMoviesCount | null>(null);
     const [moviesCountSearch, setMoviesCountSearch] = useState<number | null>(null);
-
     const [searchParams, setSearchParams] = useSearchParams();
 
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-
     let pageCount;
 
     if (searchParams.get("search")) {
@@ -173,118 +171,103 @@ export default function Home() {
                 rowGap: 4,
                 backgroundColor: `${colors.blueAccent[700]}`,
             }}
+            component={"main"}
         >
             {!searchParams.get("search") && (
-                <Box mt={4} mb={2}>
+                <Box mt={4} mb={2} component={"section"}>
                     <HomeCarousel images={images} />{" "}
                 </Box>
             )}
-            <Box>
+            {!searchParams.get("search") && (
                 <Box
                     sx={{
                         display: "flex",
                         flexDirection: "row",
-                        columnGap: 4,
-                        placeContent: "center",
+                        justifyContent: "end",
                         placeItems: "center",
+                        gap: 4,
+                        marginRight: 4,
                         marginBottom: 4,
                     }}
+                    component={"section"}
                 >
-                    {searchParams.get("search") ? (
-                        <Box mt={4}>
-                            <Typography component={"h3"} fontWeight={600} fontSize={22}>
-                                Total movies: {moviesCountSearch}
-                            </Typography>
-                        </Box>
-                    ) : (
-                        <Box>
-                            <Typography component={"h3"} fontWeight={600} fontSize={22}>
-                                Total movies: {moviesCount?.count}
-                            </Typography>
-                        </Box>
-                    )}
-                    {!searchParams.get("search") && (
-                        <Box
-                            sx={{
-                                display: "flex",
-                                flexDirection: "row",
-                                placeItems: "center",
-                                placeContent: "center",
-                                gap: 2,
-                            }}
+                    <Typography color={"secondary"} fontSize={18}>
+                        Sort By:{" "}
+                    </Typography>
+                    <Box sx={{ display: "flex", flexDirection: "row", gap: 4 }}>
+                        <Select
+                            defaultValue={"none"}
+                            value={
+                                searchParams.get("sortBy") && searchParams.get("ascOrDesc")
+                                    ? searchParams.get("sortBy")! +
+                                      toFirstWordUpperCase(searchParams.get("ascOrDesc")!)
+                                    : "none"
+                            }
+                            onChange={handleChangeSorting}
                         >
-                            <Typography>Sort By: </Typography>
-                            <Box sx={{ display: "flex", flexDirection: "row", gap: 3 }}>
-                                <Select
-                                    defaultValue={"none"}
-                                    value={
-                                        searchParams.get("sortBy") && searchParams.get("ascOrDesc")
-                                            ? searchParams.get("sortBy")! +
-                                              toFirstWordUpperCase(searchParams.get("ascOrDesc")!)
-                                            : "none"
-                                    }
-                                    onChange={handleChangeSorting}
-                                >
-                                    <MenuItem value={"none"}>None</MenuItem>
-                                    <MenuItem value={"viewsAsc"}>Most viewed (Asc)</MenuItem>
-                                    <MenuItem value={"viewsDesc"}>Most viewed (Desc)</MenuItem>
-                                    <MenuItem value={"ratingImdbAsc"}>Imdb rating (Asc)</MenuItem>
-                                    <MenuItem value={"ratingImdbDesc"}>Imdb rating (Desc)</MenuItem>
-                                    <MenuItem value={"titleAsc"}>Title (Asc)</MenuItem>
-                                    <MenuItem value={"titleDesc"}>Title (Desc)</MenuItem>
-                                </Select>
-                            </Box>
-                        </Box>
-                    )}
-                </Box>
-                {movies.length !== 0 ? (
-                    <Stack
-                        direction="row"
-                        flexWrap="wrap"
-                        justifyContent={"center"}
-                        alignContent={"center"}
-                        rowGap={8}
-                        columnGap={4}
-                    >
-                        {movies.map((movie: any) => (
-                            <MovieItem movie={movie} type="homeMovie" key={movie.id} />
-                        ))}
-                    </Stack>
-                ) : (
-                    <Box
-                        sx={{
-                            height: "50vh",
-                            display: "flex",
-                            placeItems: "center",
-                            placeContent: "center",
-                        }}
-                    >
-                        <Typography
-                            component={"h2"}
-                            fontWeight={500}
-                            fontSize={30}
-                            textAlign={"center"}
-                        >
-                            No Search Result, no movie found with that criteria.
-                        </Typography>
+                            <MenuItem value={"none"}>None</MenuItem>
+                            <MenuItem value={"viewsAsc"}>Most viewed (Asc)</MenuItem>
+                            <MenuItem value={"viewsDesc"}>Most viewed (Desc)</MenuItem>
+                            <MenuItem value={"ratingImdbAsc"}>Imdb rating (Asc)</MenuItem>
+                            <MenuItem value={"ratingImdbDesc"}>Imdb rating (Desc)</MenuItem>
+                            <MenuItem value={"titleAsc"}>Title (Asc)</MenuItem>
+                            <MenuItem value={"titleDesc"}>Title (Desc)</MenuItem>
+                        </Select>
                     </Box>
-                )}
+                </Box>
+            )}
+            {movies.length !== 0 ? (
                 <Stack
-                    spacing={2}
-                    sx={{ display: "flex", placeItems: "center", marginTop: 4, marginBottom: 4 }}
+                    direction="row"
+                    flexWrap="wrap"
+                    justifyContent={"center"}
+                    alignContent={"center"}
+                    rowGap={8}
+                    columnGap={4}
                 >
-                    <Pagination
-                        page={searchParams.get("page") ? Number(searchParams.get("page")) : 1}
-                        size="large"
-                        count={pageCount}
-                        showFirstButton
-                        showLastButton
-                        onChange={handlePageChange}
-                    />
+                    {movies.map((movie: any) => (
+                        <MovieItem movie={movie} type="homeMovie" key={movie.id} />
+                    ))}
                 </Stack>
-            </Box>
+            ) : (
+                <Box
+                    sx={{
+                        height: "50vh",
+                        display: "flex",
+                        placeItems: "center",
+                        placeContent: "center",
+                    }}
+                    component={"section"}
+                >
+                    <Typography
+                        component={"h2"}
+                        fontWeight={500}
+                        fontSize={30}
+                        textAlign={"center"}
+                    >
+                        No Search Result, no movie found with that criteria.
+                    </Typography>
+                </Box>
+            )}
+            <Stack
+                spacing={2}
+                sx={{ display: "flex", placeItems: "center", marginTop: 4, marginBottom: 4 }}
+            >
+                <Pagination
+                    page={searchParams.get("page") ? Number(searchParams.get("page")) : 1}
+                    size="large"
+                    count={pageCount}
+                    showFirstButton
+                    showLastButton
+                    onChange={handlePageChange}
+                    color="secondary"
+                />
+            </Stack>
             {!searchParams.get("search") && (
-                <Box sx={{ display: "flex", flexDirection: "column", rowGap: 4, marginBottom: 6 }}>
+                <Box
+                    component={"section"}
+                    sx={{ display: "flex", flexDirection: "column", rowGap: 4, marginBottom: 6 }}
+                >
                     <Box sx={{ display: "flex", placeContent: "center" }}>
                         <Typography fontSize={22} color={"secondary"}>
                             Latest Movies

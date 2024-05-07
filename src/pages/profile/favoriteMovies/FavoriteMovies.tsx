@@ -7,7 +7,7 @@ export default function FavoriteMoviesTab() {
     const { user } = useStore();
 
     return (
-        <>
+        <Box component={"section"}>
             <h3>Bookmarked movies</h3>
             <Box>
                 <List>
@@ -31,6 +31,6 @@ export default function FavoriteMoviesTab() {
                     ))}
                 </List>
             </Box>
-        </>
+        </Box>
     );
 }

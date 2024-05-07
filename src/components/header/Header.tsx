@@ -173,12 +173,10 @@ export const Header = (): React.JSX.Element => {
                                 </Link>
                                 <List sx={{ display: "flex", flexDirection: "row" }}>
                                     <ListItem>
-                                        <img src="/assets/logos/ico_filma_blu.png" alt="" />
                                         <NavLink
                                             style={{
                                                 textDecoration: "none",
                                                 fontSize: "20px",
-                                                paddingLeft: 8,
                                                 color: colors.primary[100],
                                                 cursor: "pointer",
                                             }}
@@ -195,13 +193,11 @@ export const Header = (): React.JSX.Element => {
                                         // }}
                                         sx={{ cursor: "pointer" }}
                                     >
-                                        <img src="/assets/logos/ico_filma_blu.png" alt="" />
                                         <Typography
                                             style={{
                                                 textDecoration: "none",
                                                 fontSize: 20,
                                                 color: colors.primary[100],
-                                                paddingLeft: 8,
                                             }}
                                         >
                                             Genres
@@ -229,12 +225,10 @@ export const Header = (): React.JSX.Element => {
                                         </Menu>
                                     </ListItem>
                                     <ListItem>
-                                        <img src="/assets/logos/ico_filma_blu.png" alt="" />
                                         <NavLink
                                             style={{
                                                 textDecoration: "none",
                                                 fontSize: "20px",
-                                                paddingLeft: 8,
                                                 color: colors.primary[100],
                                                 cursor: "pointer",
                                             }}
@@ -244,12 +238,10 @@ export const Header = (): React.JSX.Element => {
                                         </NavLink>
                                     </ListItem>
                                     <ListItem>
-                                        <img src="/assets/logos/netflix-red.png" alt="" />
                                         <NavLink
                                             style={{
                                                 textDecoration: "none",
                                                 fontSize: 20,
-                                                paddingLeft: 8,
                                                 color: colors.primary[100],
                                                 cursor: "pointer",
                                             }}
@@ -428,12 +420,10 @@ export const Header = (): React.JSX.Element => {
                             </Link>
                         </ListItem>
                         <ListItem>
-                            <img src="/assets/logos/ico_filma_blu.png" alt="" />
                             <NavLink
                                 style={{
                                     textDecoration: "none",
                                     fontSize: "20px",
-                                    paddingLeft: 8,
                                     color: colors.primary[100],
                                     cursor: "pointer",
                                 }}
@@ -446,13 +436,11 @@ export const Header = (): React.JSX.Element => {
                             onMouseEnter={openMenuGenresMobile}
                             onMouseLeave={closeMenuGenresMobile}
                         >
-                            <img src="/assets/logos/ico_filma_blu.png" alt="" />
                             <Typography
                                 style={{
                                     textDecoration: "none",
                                     fontSize: 20,
                                     color: colors.primary[100],
-                                    paddingLeft: 8,
                                 }}
                             >
                                 Genres
@@ -488,12 +476,10 @@ export const Header = (): React.JSX.Element => {
                             </Menu>
                         </ListItem>
                         <ListItem>
-                            <img src="/assets/logos/ico_filma_blu.png" alt="" />
                             <NavLink
                                 style={{
                                     textDecoration: "none",
                                     fontSize: "20px",
-                                    paddingLeft: 8,
                                     color: colors.primary[100],
                                     cursor: "pointer",
                                 }}
@@ -503,12 +489,10 @@ export const Header = (): React.JSX.Element => {
                             </NavLink>
                         </ListItem>
                         <ListItem>
-                            <img src="/assets/logos/netflix-red.png" alt="" />
                             <NavLink
                                 style={{
                                     textDecoration: "none",
                                     fontSize: 20,
-                                    paddingLeft: 8,
                                     color: colors.primary[100],
                                     cursor: "pointer",
                                 }}

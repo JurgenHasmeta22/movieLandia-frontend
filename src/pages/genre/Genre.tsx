@@ -71,48 +71,34 @@ export default function Genre(): React.JSX.Element {
                 rowGap: 4,
                 backgroundColor: `${colors.blueAccent[700]}`,
             }}
+            component={"main"}
         >
-            <Box>
-                <Box
-                    sx={{
-                        display: "flex",
-                        flexDirection: "column",
-                        placeContent: "center",
-                        placeItems: "center",
-                    }}
-                    mb={4}
-                    mt={4}
-                >
-                    <Typography variant="h3" color={"secondary"}>
-                        Total movies in this genre: {moviesCountGenre}
-                    </Typography>
-                </Box>
-                <Stack
-                    direction="row"
-                    flexWrap="wrap"
-                    justifyContent={"center"}
-                    alignContent={"center"}
-                    rowGap={4}
-                    columnGap={4}
-                >
-                    {moviesOfGenre.map((movie: any) => (
-                        <MovieItem movie={movie} type="genreMovie" key={movie.id} />
-                    ))}
-                </Stack>
-                <Stack
-                    spacing={2}
-                    sx={{ display: "flex", placeItems: "center", marginTop: 4, marginBottom: 4 }}
-                >
-                    <Pagination
-                        page={searchParams.get("page") ? Number(searchParams.get("page")) : 1}
-                        size="large"
-                        count={pageCount}
-                        showFirstButton
-                        showLastButton
-                        onChange={handlePageChange}
-                    />
-                </Stack>
-            </Box>
+            <Stack
+                direction="row"
+                flexWrap="wrap"
+                justifyContent={"center"}
+                alignContent={"center"}
+                rowGap={4}
+                columnGap={4}
+                marginTop={4}
+            >
+                {moviesOfGenre.map((movie: any) => (
+                    <MovieItem movie={movie} type="genreMovie" key={movie.id} />
+                ))}
+            </Stack>
+            <Stack
+                spacing={2}
+                sx={{ display: "flex", placeItems: "center", marginTop: 4, marginBottom: 4 }}
+            >
+                <Pagination
+                    page={searchParams.get("page") ? Number(searchParams.get("page")) : 1}
+                    size="large"
+                    count={pageCount}
+                    showFirstButton
+                    showLastButton
+                    onChange={handlePageChange}
+                />
+            </Stack>
         </Box>
     );
 }
