@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import authenticationService from "~/services/authenticationService";
 import { useStore } from "~/store/zustand/store";
-import type IResponseLogin from "~/interfaces/IResponseLogin";
+import type IResponseLogin from "~/types/IResponseLogin";
 import { Box, Button, Paper, TextField, Typography } from "@mui/material";
 import { Form, Formik } from "formik";
 

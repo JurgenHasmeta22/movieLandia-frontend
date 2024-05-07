@@ -1,8 +1,8 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useStore } from "~/store/zustand/store";
-import type IMovie from "~/interfaces/IMovie";
-import type IUser from "~/interfaces/IUser";
+import type IMovie from "~/types/IMovie";
+import type IUser from "~/types/IUser";
 import movieService from "~/services/movieService";
 import MovieItemLatest from "~/pages/movie/movieItemLatest/MovieItemLatest";
 import {

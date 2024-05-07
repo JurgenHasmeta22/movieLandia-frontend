@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import movieService from "~/services/movieService";
-import type IGenreResponse from "~/interfaces/IGenreResponse";
+import type IGenreResponse from "~/types/IGenreResponse";
 import MovieItem from "~/components/movieItem/MovieItem";
-import type IMovie from "~/interfaces/IMovie";
+import type IMovie from "~/types/IMovie";
 import { Box, CircularProgress, Pagination, Stack, Typography, useTheme } from "@mui/material";
 import { tokens } from "~/utils/theme";
 

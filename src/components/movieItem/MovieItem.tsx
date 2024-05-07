@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import type IMovie from "~/interfaces/IMovie";
+import type IMovie from "~/types/IMovie";
 
 interface IMovieItemProps {
     movie: IMovie;
