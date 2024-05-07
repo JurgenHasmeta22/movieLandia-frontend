@@ -15,19 +15,11 @@ const Carousel = ({ images }: any) => {
     };
 
     return (
-        <Box
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            overflow="hidden"
-        >
+        <Box display="flex" alignItems="center" justifyContent="center" overflow="hidden">
             <IconButton onClick={handlePrev}>
                 <NavigateBeforeIcon />
             </IconButton>
-            <img
-                src={images[index].source}
-                alt={`Slide ${index}`}
-            />
+            <img src={images[index].source} alt={`Slide ${index}`} />
             <IconButton onClick={handleNext}>
                 <NavigateNextIcon />
             </IconButton>
