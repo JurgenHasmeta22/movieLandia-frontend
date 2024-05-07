@@ -3,14 +3,20 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useStore } from "~/store/zustand/store";
 import type IUser from "~/types/IUser";
-import authenticationService from "~/services/authenticationService";
+import authenticationService from "~/services/api/authenticationService";
 import PrivateRoutes from "~/utils/PrivateRoutes";
-import { Grid, CircularProgress, Box, ThemeProvider } from "@mui/material";
+import { Grid, CircularProgress, Box, ThemeProvider, CssBaseline } from "@mui/material";
 import { Header } from "~/components/header/Header";
 import { Footer } from "~/components/footer/Footer";
 import { ColorModeContext, useMode } from "~/utils/theme";
 import ScrollToTop from "~/components/scrollToTop/scrollToTop";
+import Sidebar from "~/components/admin/sidebar/Sidebar";
+import TopBar from "~/components/admin/topBar/TopBar";
+import { ModalProvider } from "~/services/providers/ModalContext";
+import { RightPanelProvider } from "~/services/providers/RightPanelContext";
+import { sidebarItems } from "~/utils/sidebarItems";
 
+// main
 const Series = React.lazy(async () => await import("~/pages/series/Series"));
 const Error404 = React.lazy(async () => await import("~/pages/error/Error"));
 const Genre = React.lazy(async () => await import("~/pages/genre/Genre"));
@@ -20,9 +26,14 @@ const Movie = React.lazy(async () => await import("~/pages/movie/Movie"));
 const Profile = React.lazy(async () => await import("~/pages/profile/Profile"));
 const Register = React.lazy(async () => await import("~/pages/register/Register"));
 
+// admin
+const Dashboard = React.lazy(() => import("~/pages/admin/dashboard/Dashboard"));
+
+// main HOC
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
     return (
         <React.Fragment>
+            <CssBaseline />
             <Grid container>
                 <Grid item xs={12}>
                     <Header />
@@ -74,6 +85,72 @@ const withMainLayout = (Component: React.ComponentType) => {
     };
 };
 
+// admin HOC
+const MainLayoutAdmin = ({ children }: { children: React.ReactNode }) => {
+    const { isOpenSidebarAdmin } = useStore();
+
+    return (
+        <React.Fragment>
+            <CssBaseline />
+            <RightPanelProvider>
+                <ModalProvider>
+                    <div className="app">
+                        <Grid container>
+                            <Grid item xs={12} md={isOpenSidebarAdmin ? 2 : 0}>
+                                <Sidebar sidebarItems={sidebarItems} />
+                            </Grid>
+                            <Grid item xs={12} md={isOpenSidebarAdmin ? 10 : 12}>
+                                <TopBar />
+                                <React.Suspense
+                                    fallback={
+                                        <Box
+                                            sx={{
+                                                display: "flex",
+                                                placeItems: "center",
+                                                height: "100vh",
+                                            }}
+                                        >
+                                            <CircularProgress size={80} thickness={4} />
+                                        </Box>
+                                    }
+                                >
+                                    <Box ml={4}>{children}</Box>
+                                </React.Suspense>
+                            </Grid>
+                        </Grid>
+                    </div>
+                </ModalProvider>
+            </RightPanelProvider>
+        </React.Fragment>
+    );
+};
+
+const withMainLayoutAdmin = (Component: React.ComponentType) => {
+    return (props: any) => {
+        return (
+            <MainLayoutAdmin>
+                <React.Suspense
+                    fallback={
+                        <Box
+                            sx={{
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                height: "100vh",
+                            }}
+                        >
+                            <CircularProgress size={80} thickness={4} />
+                        </Box>
+                    }
+                >
+                    <Component {...props} />
+                </React.Suspense>
+            </MainLayoutAdmin>
+        );
+    };
+};
+
+//main
 export const HomePage = withMainLayout(Home);
 export const MoviePage = withMainLayout(Movie);
 export const GenrePage = withMainLayout(Genre);
@@ -82,6 +159,9 @@ export const ProfilePage = withMainLayout(Profile);
 export const ErrorPage = withMainLayout(Error404);
 export const LoginPage = withMainLayout(Login);
 export const RegisterPage = withMainLayout(Register);
+
+// admin routes
+export const DashboardPage = withMainLayoutAdmin(Dashboard);
 
 function App() {
     const { setUser } = useStore();
@@ -112,6 +192,7 @@ function App() {
                     <Route path="/series" element={<SeriesPage />} />
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/register" element={<RegisterPage />} />
+                    <Route path="/admin" element={<DashboardPage />}></Route>
                 </Routes>
             </ThemeProvider>
         </ColorModeContext.Provider>

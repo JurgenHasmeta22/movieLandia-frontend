@@ -5,15 +5,13 @@ import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import { tokens, ColorModeContext } from "~/utils/theme";
 import { Link, useNavigate } from "react-router-dom";
-import { useStore } from "~/store/store";
+import { useStore } from "~/store/zustand/store";
 import { useLocalStorage } from "~/hooks/useLocalStorage";
 import MenuIcon from "@mui/icons-material/Menu";
 
 const TopBar = () => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-
-    const { user, unsetUser, openSidebar, setOpenSidebar } = useStore();
-
+    const { user, isOpenSidebarAdmin } = useStore();
     const navigate = useNavigate();
 
     const colorMode = useContext(ColorModeContext);
@@ -21,7 +19,6 @@ const TopBar = () => {
     const colors = tokens(theme.palette.mode);
 
     const open = Boolean(anchorEl);
-
     const { removeItem } = useLocalStorage("user");
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -34,14 +31,14 @@ const TopBar = () => {
 
     const handleLogout = () => {
         removeItem();
-        unsetUser();
+        // unsetUser();
         navigate("/login");
     };
 
     const handleRedirectToProfile = () => {
         navigate("/profile", {
             state: {
-                userId: user?.userId,
+                userId: user?.id,
                 from: "Perdoruesit",
             },
         });
@@ -57,10 +54,10 @@ const TopBar = () => {
                 }}
             >
                 <Box display={"flex"} justifyContent={"start"}>
-                    {!openSidebar && (
+                    {!isOpenSidebarAdmin && (
                         <IconButton
                             onClick={() => {
-                                setOpenSidebar(true);
+                                isOpenSidebarAdmin(true);
                             }}
                         >
                             <MenuIcon fontSize="medium" />
@@ -85,7 +82,7 @@ const TopBar = () => {
                         disableRipple={true}
                     >
                         <PersonOutlinedIcon color="action" fontSize="medium" />
-                        {user?.username}
+                        {user?.userName}
                     </IconButton>
                     <Menu
                         id="menuProfile"
@@ -100,18 +97,18 @@ const TopBar = () => {
                             onClick={handleRedirectToProfile}
                             style={{ color: colors.primary[100] }}
                         >
-                            Profili im
+                            My profile
                         </MenuItem>
                         <MenuItem>
                             <Link
                                 to="/changePassword"
                                 style={{ color: colors.primary[100], textDecoration: "none" }}
                             >
-                                Ndrysho passwordin
+                                Change password
                             </Link>
                         </MenuItem>
                         <MenuItem onClick={handleLogout} style={{ color: colors.primary[100] }}>
-                            Logohu jasht
+                            Log out
                         </MenuItem>
                     </Menu>
                 </Box>
