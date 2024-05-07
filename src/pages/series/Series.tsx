@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import type ISerie from "~/interfaces/ISerie";
+import type ISerie from "~/types/ISerie";
 import movieService from "~/services/movieService";
-import type ISeriesResponse from "~/interfaces/ISeriesResponse";
+import type ISeriesResponse from "~/types/ISeriesResponse";
 import MovieItem from "~/components/movieItem/MovieItem";
 import { Box, CircularProgress, Pagination, Stack, Typography, useTheme } from "@mui/material";
 import { tokens } from "~/utils/theme";

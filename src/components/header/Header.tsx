@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, NavLink, useSearchParams } from "react-router-dom";
 import { useStore } from "~/store/zustand/store";
-import type IGenre from "~/interfaces/IGenre";
+import type IGenre from "~/types/IGenre";
 import movieService from "~/services/movieService";
 import {
     AppBar,

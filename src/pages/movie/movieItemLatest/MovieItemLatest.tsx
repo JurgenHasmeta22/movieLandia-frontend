@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 import { useNavigate } from "react-router";
-import type IMovie from "~/interfaces/IMovie";
+import type IMovie from "~/types/IMovie";
 
 interface IMovieItemLatestProps {
     latestMovie: IMovie;

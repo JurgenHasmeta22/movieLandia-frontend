@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import movieService from "~/services/movieService";
-import type IMovie from "~/interfaces/IMovie";
-import type IMoviesCount from "~/interfaces/IMoviesCount";
-import type IMoviesSearchResponse from "~/interfaces/IMovieSearchResponse";
-import type IMoviesResponse from "~/interfaces/IMoviesResponse";
+import type IMovie from "~/types/IMovie";
+import type IMoviesCount from "~/types/IMoviesCount";
+import type IMoviesSearchResponse from "~/types/IMovieSearchResponse";
+import type IMoviesResponse from "~/types/IMoviesResponse";
 import HomeCarousel from "~/pages/home/homeCarousel/HomeCarousel";
 import MovieItem from "~/components/movieItem/MovieItem";
 import {

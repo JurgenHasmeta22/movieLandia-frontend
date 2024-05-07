@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import movieService from "~/services/movieService";
-import type IGenre from "~/interfaces/IGenre";
+import type IGenre from "~/types/IGenre";
 import { Box, Card, Stack, Typography } from "@mui/material";
 
 export default function Genres() {

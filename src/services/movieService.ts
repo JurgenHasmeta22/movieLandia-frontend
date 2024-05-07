@@ -1,11 +1,11 @@
 import axios from "axios";
-import type IGenre from "~/interfaces/IGenre";
-import type IGenreResponse from "~/interfaces/IGenreResponse";
-import type IMovie from "~/interfaces/IMovie";
-import type IMoviesCount from "~/interfaces/IMoviesCount";
-import type IMoviesResponse from "~/interfaces/IMoviesResponse";
-import type IUser from "~/interfaces/IUser";
-import type ISerie from "../interfaces/ISerie";
+import type IGenre from "~/types/IGenre";
+import type IGenreResponse from "~/types/IGenreResponse";
+import type IMovie from "~/types/IMovie";
+import type IMoviesCount from "~/types/IMoviesCount";
+import type IMoviesResponse from "~/types/IMoviesResponse";
+import type IUser from "~/types/IUser";
+import type ISerie from "../types/ISerie";
 
 const api = {
     url: import.meta.env.VITE_API_URL,
