@@ -42,7 +42,7 @@ export default function Profile() {
     }
 
     return (
-        <Box height={"70vh"}>
+        <Box height={"70vh"} component={"main"}>
             <Box
                 display={"flex"}
                 flexDirection={"row"}
@@ -51,13 +51,14 @@ export default function Profile() {
                 alignItems={"center"}
                 mt={4}
                 mb={4}
+                component={"section"}
             >
                 <PersonOutlinedIcon color="secondary" fontSize="large" />
                 <Typography color={"primary"} fontWeight={500} fontSize={22}>
                     {user.userName}
                 </Typography>
             </Box>
-            <Box>
+            <Box component={"section"}>
                 <Tabs
                     value={value}
                     onChange={handleChange}

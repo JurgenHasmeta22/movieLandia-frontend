@@ -14,7 +14,6 @@ import ScrollToTop from "~/components/scrollToTop/scrollToTop";
 const Series = React.lazy(async () => await import("~/pages/series/Series"));
 const Error404 = React.lazy(async () => await import("~/pages/error/Error"));
 const Genre = React.lazy(async () => await import("~/pages/genre/Genre"));
-// const Genres = React.lazy(async () => await import("~/pages/genres/Genres"));
 const Home = React.lazy(async () => await import("~/pages/home/Home"));
 const Login = React.lazy(async () => await import("~/pages/login/Login"));
 const Movie = React.lazy(async () => await import("~/pages/movie/Movie"));
@@ -77,7 +76,6 @@ const withMainLayout = (Component: React.ComponentType) => {
 
 export const HomePage = withMainLayout(Home);
 export const MoviePage = withMainLayout(Movie);
-// export const GenresPage = withMainLayout(Genres);
 export const GenrePage = withMainLayout(Genre);
 export const SeriesPage = withMainLayout(Series);
 export const ProfilePage = withMainLayout(Profile);
@@ -110,7 +108,6 @@ function App() {
                     </Route>
                     <Route path="/movies" element={<HomePage />} />
                     <Route path="/movies/:title" element={<MoviePage />} />
-                    {/* <Route path="/genres" element={<GenresPage />} /> */}
                     <Route path="/genres/:name" element={<GenrePage />} />
                     <Route path="/series" element={<SeriesPage />} />
                     <Route path="/login" element={<LoginPage />} />

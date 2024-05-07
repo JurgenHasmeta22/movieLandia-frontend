@@ -10,7 +10,6 @@ import { tokens } from "~/utils/theme";
 export default function Series() {
     const [series, setSeries] = useState<ISerie[]>([]);
     const [seriesCount, setSeriesCount] = useState<number>(0);
-
     const [searchParams, setSearchParams] = useSearchParams();
 
     const pageCount = Math.ceil(seriesCount / 20);
@@ -81,14 +80,19 @@ export default function Series() {
                     rowGap: 4,
                 }}
             >
-                <Typography color={"secondary"} fontSize={24} mt={4}>
-                    Total series: {seriesCount}
-                </Typography>
-                <Box>
+                <Stack
+                    direction="row"
+                    flexWrap="wrap"
+                    justifyContent={"center"}
+                    alignContent={"center"}
+                    rowGap={4}
+                    columnGap={4}
+                    marginTop={4}
+                >
                     {series.map((serie: any) => (
                         <MovieItem movie={serie} type="serie" key={serie.id} />
                     ))}
-                </Box>
+                </Stack>
                 <Stack
                     spacing={2}
                     sx={{ display: "flex", placeItems: "center", marginTop: 4, marginBottom: 4 }}

@@ -32,7 +32,7 @@ const MovieItem = ({ movie, type }: IMovieItemProps): React.JSX.Element => {
                 src={movie.photoSrc}
                 style={{
                     height: "300px",
-                    width: "220px",
+                    width: "200px",
                 }}
             />
             <Typography
