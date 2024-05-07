@@ -9,5 +9,5 @@ export default interface AppStoreState {
     setMobileOpen: (data: any) => void;
     setOpenDrawer: (data: any) => void;
     setIsPageShrunk: (data: any) => void;
-    setOpenSidebarAdmin: (data: any) => void;
+    setIsOpenSidebarAdmin: (data: any) => void;
 }

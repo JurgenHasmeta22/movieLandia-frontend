@@ -11,7 +11,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 
 const TopBar = () => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const { user, isOpenSidebarAdmin } = useStore();
+    const { user, isOpenSidebarAdmin, setIsOpenSidebarAdmin } = useStore();
     const navigate = useNavigate();
 
     const colorMode = useContext(ColorModeContext);
@@ -57,7 +57,7 @@ const TopBar = () => {
                     {!isOpenSidebarAdmin && (
                         <IconButton
                             onClick={() => {
-                                isOpenSidebarAdmin(true);
+                                setIsOpenSidebarAdmin(true);
                             }}
                         >
                             <MenuIcon fontSize="medium" />

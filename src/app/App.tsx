@@ -94,31 +94,29 @@ const MainLayoutAdmin = ({ children }: { children: React.ReactNode }) => {
             <CssBaseline />
             <RightPanelProvider>
                 <ModalProvider>
-                    <div className="app">
-                        <Grid container>
-                            <Grid item xs={12} md={isOpenSidebarAdmin ? 2 : 0}>
-                                <Sidebar sidebarItems={sidebarItems} />
-                            </Grid>
-                            <Grid item xs={12} md={isOpenSidebarAdmin ? 10 : 12}>
-                                <TopBar />
-                                <React.Suspense
-                                    fallback={
-                                        <Box
-                                            sx={{
-                                                display: "flex",
-                                                placeItems: "center",
-                                                height: "100vh",
-                                            }}
-                                        >
-                                            <CircularProgress size={80} thickness={4} />
-                                        </Box>
-                                    }
-                                >
-                                    <Box ml={4}>{children}</Box>
-                                </React.Suspense>
-                            </Grid>
+                    <Grid container>
+                        <Grid item xs={12} md={isOpenSidebarAdmin ? 2 : 0}>
+                            <Sidebar sidebarItems={sidebarItems} />
                         </Grid>
-                    </div>
+                        <Grid item xs={12} md={isOpenSidebarAdmin ? 10 : 12}>
+                            <TopBar />
+                            <React.Suspense
+                                fallback={
+                                    <Box
+                                        sx={{
+                                            display: "flex",
+                                            placeItems: "center",
+                                            height: "100vh",
+                                        }}
+                                    >
+                                        <CircularProgress size={80} thickness={4} />
+                                    </Box>
+                                }
+                            >
+                                <Box ml={4}>{children}</Box>
+                            </React.Suspense>
+                        </Grid>
+                    </Grid>
                 </ModalProvider>
             </RightPanelProvider>
         </React.Fragment>

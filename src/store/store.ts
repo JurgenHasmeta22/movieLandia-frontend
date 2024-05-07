@@ -7,6 +7,7 @@ export const useStore = create<AppStoreState>(
         mobileOpen: window.innerWidth < 768 ? true : false,
         openDrawer: false,
         isPageShrunk: window.innerWidth < 768 ? true : false,
+        isOpenSidebarAdmin: true,
         setUser: (data) => {
             set({ user: data });
         },
@@ -18,6 +19,9 @@ export const useStore = create<AppStoreState>(
         },
         setIsPageShrunk: (data) => {
             set({ isPageShrunk: data });
+        },
+        setIsOpenSidebarAdmin: (data) => {
+            set({ isOpenSidebarAdmin: data });
         },
     }),
 );

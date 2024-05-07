@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate, NavLink, useSearchParams } from "react-router-dom";
 import { useStore } from "~/store/store";
 import type IGenre from "~/types/IGenre";
@@ -19,13 +19,15 @@ import {
     Typography,
     useTheme,
 } from "@mui/material";
-import { tokens } from "~/utils/theme";
+import { ColorModeContext, tokens } from "~/utils/theme";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import { Clear, CloseOutlined, Search } from "@mui/icons-material";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useResizeWindow } from "~/hooks/useResizeWindow";
+import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
+import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 
 export const Header = (): React.JSX.Element => {
     const [options, setOptions] = useState<any>([]);
@@ -33,13 +35,13 @@ export const Header = (): React.JSX.Element => {
     const [anchorElProfile, setAnchorElProfile] = useState<null | HTMLElement>(null);
     const [anchorElGenres, setAnchorElGenres] = useState<null | HTMLElement>(null);
     const [anchorElGenresMobile, setAnchorElGenresMobile] = useState<null | HTMLElement>(null);
-
     const isPageShrunk = useResizeWindow(); // Custom hook for handling resize logic state and useEffect
 
     const { user, setUser, openDrawer, mobileOpen, setMobileOpen, setOpenDrawer } = useStore();
     const navigate = useNavigate();
     const [searchParams, setSearchParams] = useSearchParams();
 
+    const colorMode = useContext(ColorModeContext);
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
@@ -188,9 +190,6 @@ export const Header = (): React.JSX.Element => {
                                     <ListItem
                                         onMouseEnter={openMenuGenres}
                                         onMouseLeave={closeMenuGenres}
-                                        // onClick={() => {
-                                        //     navigate(`/genres`);
-                                        // }}
                                         sx={{ cursor: "pointer" }}
                                     >
                                         <Typography
@@ -254,7 +253,7 @@ export const Header = (): React.JSX.Element => {
                             </Box>
                             <Box sx={{ display: "flex", placeItems: "center", columnGap: 4 }}>
                                 <TextField
-                                    placeholder="Search for movies..."
+                                    placeholder="Search for Movies..."
                                     value={
                                         searchParams.get("search") ? searchParams.get("search") : ""
                                     }
@@ -288,6 +287,13 @@ export const Header = (): React.JSX.Element => {
                                         ),
                                     }}
                                 />
+                                <IconButton onClick={colorMode.toggleColorMode}>
+                                    {theme.palette.mode === "dark" ? (
+                                        <DarkModeOutlinedIcon />
+                                    ) : (
+                                        <LightModeOutlinedIcon />
+                                    )}
+                                </IconButton>
                                 {user !== null ? (
                                     <Box>
                                         <IconButton
