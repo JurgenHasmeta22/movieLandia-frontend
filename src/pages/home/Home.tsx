@@ -183,11 +183,10 @@ export default function Home() {
                     sx={{
                         display: "flex",
                         flexDirection: "row",
-                        justifyContent: "end",
-                        placeItems: "center",
-                        gap: 4,
-                        marginRight: 4,
-                        marginBottom: 4,
+                        justifyContent: "center",
+                        alignItems: "center",
+                        gap: 2,
+                        // marginRight: 10,
                     }}
                     component={"section"}
                 >

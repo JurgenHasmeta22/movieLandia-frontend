@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /movies
+Allow: /profile
+Allow: /login
+Allow: /register
+
