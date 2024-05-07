@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import movieService from "~/services/movieService";
+import movieService from "~/services/api/movieService";
 import type IMovie from "~/types/IMovie";
 import type IMoviesCount from "~/types/IMoviesCount";
 import type IMoviesSearchResponse from "~/types/IMovieSearchResponse";

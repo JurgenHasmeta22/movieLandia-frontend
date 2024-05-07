@@ -1,7 +1,7 @@
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useEffect } from "react";
-import { useStore } from "~/store/zustand/store";
+import { useStore } from "~/store/store";
 import type IUser from "~/types/IUser";
 import authenticationService from "~/services/api/authenticationService";
 import PrivateRoutes from "~/utils/PrivateRoutes";

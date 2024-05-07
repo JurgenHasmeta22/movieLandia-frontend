@@ -1,6 +1,6 @@
 import { Box, List, ListItem, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { useStore } from "~/store/zustand/store";
+import { useStore } from "~/store/store";
 
 export default function FavoriteMoviesTab() {
     const navigate = useNavigate();

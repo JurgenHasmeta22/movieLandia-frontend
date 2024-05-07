@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
-import movieService from "~/services/movieService";
+import movieService from "~/services/api/movieService";
 import type IGenreResponse from "~/types/IGenreResponse";
 import MovieItem from "~/components/movieItem/MovieItem";
 import type IMovie from "~/types/IMovie";
