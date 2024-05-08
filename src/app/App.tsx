@@ -160,6 +160,10 @@ export const RegisterPage = withMainLayout(Register);
 
 // admin routes
 export const DashboardPage = withMainLayoutAdmin(Dashboard);
+export const UsersAdminPage = withMainLayoutAdmin(Dashboard);
+export const SeriesAdminPage = withMainLayoutAdmin(Dashboard);
+export const MoviesAdminPage = withMainLayoutAdmin(Dashboard);
+export const GenresAdminPage = withMainLayoutAdmin(Dashboard);
 
 function App() {
     const { setUser } = useStore();
@@ -183,6 +187,12 @@ function App() {
                     <Route path="*" element={<ErrorPage />} />
                     <Route element={<PrivateRoutes />}>
                         <Route path="/profile" element={<ProfilePage />} />
+                        <Route path="/admin" element={<DashboardPage />}>
+                            <Route path="/users" element={<UsersAdminPage />} />
+                            <Route path="/movies" element={<MoviesAdminPage />} />
+                            <Route path="/series" element={<SeriesAdminPage />} />
+                            <Route path="/genres" element={<GenresAdminPage />} />
+                        </Route>
                     </Route>
                     <Route path="/movies" element={<HomePage />} />
                     <Route path="/movies/:title" element={<MoviePage />} />
@@ -190,7 +200,6 @@ function App() {
                     <Route path="/series" element={<SeriesPage />} />
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/register" element={<RegisterPage />} />
-                    <Route path="/admin" element={<DashboardPage />}></Route>
                 </Routes>
             </ThemeProvider>
         </ColorModeContext.Provider>

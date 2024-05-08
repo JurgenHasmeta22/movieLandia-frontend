@@ -17,7 +17,6 @@ const TopBar = () => {
     const colorMode = useContext(ColorModeContext);
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-
     const open = Boolean(anchorEl);
     const { removeItem } = useLocalStorage("user");
 
@@ -31,7 +30,6 @@ const TopBar = () => {
 
     const handleLogout = () => {
         removeItem();
-        // unsetUser();
         navigate("/login");
     };
 
