@@ -42,6 +42,7 @@ export default function Home() {
 
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
+
     let pageCount;
 
     if (searchParams.get("search")) {
@@ -169,7 +170,7 @@ export default function Home() {
                 display: "flex",
                 flexDirection: "column",
                 rowGap: 4,
-                backgroundColor: `${colors.blueAccent[700]}`,
+                backgroundColor: `${colors.primary[700]}`,
             }}
             component={"main"}
         >
