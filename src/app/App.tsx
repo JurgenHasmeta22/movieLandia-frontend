@@ -31,7 +31,6 @@ const Register = React.lazy(async () => await import("~/pages/register/Register"
 // admin pages
 const Dashboard = React.lazy(() => import("~/pages/admin/dashboard/Dashboard"));
 const MoviesAdmin = React.lazy(() => import("~/pages/admin/movies/MoviesAdmin"));
-
 // #endregion
 
 // #region "HOC components wrapper for layout"
@@ -200,7 +199,8 @@ function App() {
                     <Route path="*" element={<ErrorPage />} />
                     <Route element={<PrivateRoutes />}>
                         <Route path="profile" element={<ProfilePage />} />
-                        <Route path="admin" element={<DashboardPage />}>
+                        <Route path="admin" element={<Outlet />}>
+                            <Route index element={<Navigate to="dashboard" />} />
                             <Route path="dashboard" element={<DashboardPage />} />
                             <Route path="users" element={<UsersAdminPage />} />
                             <Route path="movies" element={<MoviesAdminPage />} />
