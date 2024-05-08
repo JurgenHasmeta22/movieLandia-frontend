@@ -5,7 +5,7 @@ import type IMovie from "~/types/IMovie";
 import type IMoviesCount from "~/types/IMoviesCount";
 import type IMoviesResponse from "~/types/IMoviesResponse";
 import type IUser from "~/types/IUser";
-import type ISerie from "../types/ISerie";
+import type ISerie from "~/types/ISerie";
 
 const api = {
     url: import.meta.env.VITE_API_URL,

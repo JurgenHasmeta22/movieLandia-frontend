@@ -31,6 +31,8 @@ const Register = React.lazy(async () => await import("~/pages/register/Register"
 // admin pages
 const Dashboard = React.lazy(() => import("~/pages/admin/dashboard/Dashboard"));
 const MoviesAdmin = React.lazy(() => import("~/pages/admin/movies/MoviesAdmin"));
+const UsersAdmin = React.lazy(() => import("~/pages/admin/users/UsersAdmin"));
+const SeriesAdmin = React.lazy(() => import("~/pages/admin/series/SeriesAdmin"));
 // #endregion
 
 // #region "HOC components wrapper for layout"
@@ -170,8 +172,8 @@ export const RegisterPage = withMainLayout(Register);
 
 // admin layout wrapper uses
 export const DashboardPage = withMainLayoutAdmin(Dashboard);
-export const UsersAdminPage = withMainLayoutAdmin(Dashboard);
-export const SeriesAdminPage = withMainLayoutAdmin(Dashboard);
+export const UsersAdminPage = withMainLayoutAdmin(UsersAdmin);
+export const SeriesAdminPage = withMainLayoutAdmin(SeriesAdmin);
 export const MoviesAdminPage = withMainLayoutAdmin(MoviesAdmin);
 export const GenresAdminPage = withMainLayoutAdmin(Dashboard);
 
