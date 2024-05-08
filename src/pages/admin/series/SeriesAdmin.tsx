@@ -16,10 +16,10 @@ import { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { Edit, Delete, Add } from "@mui/icons-material";
 import movieService from "~/services/api/movieService";
-import IMovie from "~/types/IMovie";
+import ISerie from "~/types/ISerie";
 
-const MoviesAdmin = () => {
-    const [movies, setMovies] = useState<IMovie[]>([]);
+const SeriesAdmin = () => {
+    const [series, setSeries] = useState<ISerie[]>([]);
     const [rowSelection, setRowSelection] = useState<any>({});
     const [isError, setIsError] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -33,24 +33,12 @@ const MoviesAdmin = () => {
     });
     const navigate = useNavigate();
 
-    const columns = useMemo<MRT_ColumnDef<IMovie>[]>(
+    const columns = useMemo<MRT_ColumnDef<ISerie>[]>(
         () => [
             { accessorKey: "id", header: "Id", enableHiding: true },
             {
                 header: "Title",
                 accessorKey: "title",
-            },
-            {
-                accessorKey: "videoSrc",
-                header: "VideoSrc",
-            },
-            {
-                header: "TrailerSrc",
-                accessorKey: "trailerSrc",
-            },
-            {
-                header: "Duration",
-                accessorKey: "duration",
             },
             {
                 accessorKey: "ratingImdb",
@@ -60,32 +48,24 @@ const MoviesAdmin = () => {
                 accessorKey: "releaseYear",
                 header: "ReleaseYear",
             },
-            {
-                accessorKey: "description",
-                header: "Description",
-            },
-            {
-                accessorKey: "views",
-                header: "Views",
-            },
         ],
         [],
     );
 
-    function handleAddMovie() {
-        navigate("/admin/movies/add");
+    function handleAddSerie() {
+        navigate("/admin/series/add");
     }
 
-    async function getMovies(): Promise<void> {
-        if (!movies.length) {
+    async function getSeries(): Promise<void> {
+        if (!series.length) {
             setIsLoading(true);
         } else {
             setIsRefetching(true);
         }
 
         try {
-            const response: IMovie[] = await movieService.getMoviesDefault();
-            setMovies(response);
+            const response: ISerie[] = await movieService.getSerieEpisodesNoPagination();
+            setSeries(response);
         } catch (error) {
             setIsError(true);
             console.error(error);
@@ -98,13 +78,13 @@ const MoviesAdmin = () => {
     }
 
     useEffect(() => {
-        getMovies();
+        getSeries();
     }, [columnFilters, globalFilter, pagination.pageIndex, pagination.pageSize, sorting]);
 
     // #region React Material Table logic
     const table = useMaterialReactTable({
         columns,
-        data: movies,
+        data: series,
         getRowId: (row) => String(row.id),
         enableColumnOrdering: true,
         enableRowSelection: true,
@@ -186,10 +166,10 @@ const MoviesAdmin = () => {
             <MenuItem
                 key={1}
                 onClick={() => {
-                    navigate(`/admin/movies/${row.original.id}`, {
+                    navigate(`/admin/series/${row.original.id}`, {
                         state: {
                             userId: row.original.id,
-                            from: "Movies",
+                            from: "Series",
                         },
                     });
 
@@ -205,14 +185,14 @@ const MoviesAdmin = () => {
             <MenuItem
                 key={1}
                 onClick={async () => {
-                    // const response = await movieService.updateMovie(row.original, {
+                    // const response = await movieService.updateSerie(row.original, {
                     //     ...row.original,
                     //     userIsActive: false,
                     // });
 
                     // if (response) {
                     //     toast.success(CONSTANTS.UPDATE__SUCCESS);
-                    //     getMovies();
+                    //     getSeries();
                     // } else {
                     //     toast.error(CONSTANTS.UPDATE__FAILURE);
                     // }
@@ -251,7 +231,7 @@ const MoviesAdmin = () => {
                             gap: "1rem",
                         }}
                     >
-                        <Button color="success" onClick={handleAddMovie} variant="contained">
+                        <Button color="success" onClick={handleAddSerie} variant="contained">
                             <Add />
                             <Typography>Add</Typography>
                         </Button>
@@ -273,10 +253,10 @@ const MoviesAdmin = () => {
 
     return (
         <Box m="20px">
-            <HeaderDashboard title="Movies" subtitle="List of Movies" />
+            <HeaderDashboard title="Series" subtitle="List of Series" />
             <MaterialReactTable table={table} />
         </Box>
     );
 };
 
-export default MoviesAdmin;
+export default SeriesAdmin;
