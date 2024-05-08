@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, Outlet } from "react-router-dom";
 import { useEffect } from "react";
 import { useStore } from "~/store/store";
 import type IUser from "~/types/IUser";
@@ -16,6 +16,8 @@ import { ModalProvider } from "~/services/providers/ModalContext";
 import { RightPanelProvider } from "~/services/providers/RightPanelContext";
 import { sidebarItems } from "~/utils/sidebarItems";
 
+// #region "Importing pages components"
+
 // main pages
 const Series = React.lazy(async () => await import("~/pages/series/Series"));
 const Error404 = React.lazy(async () => await import("~/pages/error/Error"));
@@ -29,6 +31,8 @@ const Register = React.lazy(async () => await import("~/pages/register/Register"
 // admin pages
 const Dashboard = React.lazy(() => import("~/pages/admin/dashboard/Dashboard"));
 const MoviesAdmin = React.lazy(() => import("~/pages/admin/movies/MoviesAdmin"));
+
+// #endregion
 
 // #region "HOC components wrapper for layout"
 
@@ -153,6 +157,8 @@ const withMainLayoutAdmin = (Component: React.ComponentType) => {
 
 // #endregion
 
+// #region "Wrapping pages with HOC Layout"
+
 //main layout wrapper uses
 export const HomePage = withMainLayout(Home);
 export const MoviePage = withMainLayout(Movie);
@@ -169,6 +175,8 @@ export const UsersAdminPage = withMainLayoutAdmin(Dashboard);
 export const SeriesAdminPage = withMainLayoutAdmin(Dashboard);
 export const MoviesAdminPage = withMainLayoutAdmin(MoviesAdmin);
 export const GenresAdminPage = withMainLayoutAdmin(Dashboard);
+
+// #endregion
 
 function App() {
     const { setUser } = useStore();
@@ -191,21 +199,21 @@ function App() {
                     <Route index element={<Navigate replace to="/movies" />} />
                     <Route path="*" element={<ErrorPage />} />
                     <Route element={<PrivateRoutes />}>
-                        <Route path="/profile" element={<ProfilePage />} />
-                        <Route path="/admin" element={<DashboardPage />}>
-                            <Route path="/admin/dashboard" element={<DashboardPage />} />
-                            <Route path="/admin/users" element={<UsersAdminPage />} />
-                            <Route path="/admin/movies" element={<MoviesAdminPage />} />
-                            <Route path="/admin/series" element={<SeriesAdminPage />} />
-                            <Route path="/admin/genres" element={<GenresAdminPage />} />
+                        <Route path="profile" element={<ProfilePage />} />
+                        <Route path="admin" element={<DashboardPage />}>
+                            <Route path="dashboard" element={<DashboardPage />} />
+                            <Route path="users" element={<UsersAdminPage />} />
+                            <Route path="movies" element={<MoviesAdminPage />} />
+                            <Route path="series" element={<SeriesAdminPage />} />
+                            <Route path="genres" element={<GenresAdminPage />} />
                         </Route>
                     </Route>
-                    <Route path="/movies" element={<HomePage />} />
-                    <Route path="/movies/:title" element={<MoviePage />} />
-                    <Route path="/genres/:name" element={<GenrePage />} />
-                    <Route path="/series" element={<SeriesPage />} />
-                    <Route path="/login" element={<LoginPage />} />
-                    <Route path="/register" element={<RegisterPage />} />
+                    <Route path="movies" element={<HomePage />} />
+                    <Route path="movies/:title" element={<MoviePage />} />
+                    <Route path="genres/:name" element={<GenrePage />} />
+                    <Route path="series" element={<SeriesPage />} />
+                    <Route path="login" element={<LoginPage />} />
+                    <Route path="register" element={<RegisterPage />} />
                 </Routes>
             </ThemeProvider>
         </ColorModeContext.Provider>
