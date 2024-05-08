@@ -1,4 +1,4 @@
-import { Box, Button, ListItemIcon, MenuItem, Typography } from "@mui/material";
+import { Box, Button, ListItemIcon, MenuItem } from "@mui/material";
 import {
     MaterialReactTable,
     useMaterialReactTable,
@@ -13,13 +13,13 @@ import {
 } from "material-react-table";
 import HeaderDashboard from "~/components/admin/headerDashboard/HeaderDashboard";
 import { useState, useEffect, useMemo } from "react";
-import IUser from "~/types/IUser";
 import { useNavigate } from "react-router-dom";
 import { Edit, Delete, Add } from "@mui/icons-material";
 import movieService from "~/services/api/movieService";
+import IMovie from "~/types/IMovie";
 
-const Movies = () => {
-    const [movies, setMovies] = useState<IUser[]>([]);
+const MoviesAdmin = () => {
+    const [movies, setMovies] = useState<IMovie[]>([]);
     const [rowSelection, setRowSelection] = useState<any>({});
     const [isError, setIsError] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -33,7 +33,7 @@ const Movies = () => {
     });
     const navigate = useNavigate();
 
-    const columns = useMemo<MRT_ColumnDef<IUser>[]>(
+    const columns = useMemo<MRT_ColumnDef<IMovie>[]>(
         () => [
             { accessorKey: "id", header: "Id", enableHiding: true },
             {
@@ -72,8 +72,8 @@ const Movies = () => {
         [],
     );
 
-    function handleAddUser() {
-        navigate("/addUser");
+    function handleAddMovie() {
+        navigate("/admin/movies/add");
     }
 
     async function getMovies(): Promise<void> {
@@ -84,7 +84,7 @@ const Movies = () => {
         }
 
         try {
-            const response: IUser[] = await movieService.getMoviesDefault();
+            const response: IMovie[] = await movieService.getMoviesDefault();
             setMovies(response);
         } catch (error) {
             setIsError(true);
@@ -105,7 +105,7 @@ const Movies = () => {
     const table = useMaterialReactTable({
         columns,
         data: movies,
-        // getRowId: (row) => row.userId,
+        getRowId: (row) => String(row.id),
         enableColumnOrdering: true,
         enableRowSelection: true,
         enablePagination: true,
@@ -226,7 +226,7 @@ const Movies = () => {
                     </Box>
                     <Box>
                         <Box sx={{ display: "flex", gap: "1rem" }}>
-                            <Button color="success" onClick={handleAddUser} variant="contained">
+                            <Button color="success" onClick={handleAddMovie} variant="contained">
                                 <Add />
                                 Add
                             </Button>
@@ -255,4 +255,4 @@ const Movies = () => {
     );
 };
 
-export default Movies;
+export default MoviesAdmin;
