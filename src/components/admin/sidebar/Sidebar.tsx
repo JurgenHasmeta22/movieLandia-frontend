@@ -35,7 +35,7 @@ const Sidebar = ({ sidebarItems }: any) => {
             anchor={"left"}
             open={isOpenSidebarAdmin}
             onClose={onClose}
-            PaperProps={{ sx: { backgroundColor: colors.grey[1000], width: "220px" } }}
+            PaperProps={{ sx: { backgroundColor: colors.grey[1000], paddingRight: 4 } }}
         >
             <Box mt={2}>
                 <Box display="flex" justifyContent="end" alignItems="center" mb={2}>

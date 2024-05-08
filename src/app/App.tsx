@@ -16,7 +16,7 @@ import { ModalProvider } from "~/services/providers/ModalContext";
 import { RightPanelProvider } from "~/services/providers/RightPanelContext";
 import { sidebarItems } from "~/utils/sidebarItems";
 
-// main
+// main pages
 const Series = React.lazy(async () => await import("~/pages/series/Series"));
 const Error404 = React.lazy(async () => await import("~/pages/error/Error"));
 const Genre = React.lazy(async () => await import("~/pages/genre/Genre"));
@@ -26,8 +26,11 @@ const Movie = React.lazy(async () => await import("~/pages/movie/Movie"));
 const Profile = React.lazy(async () => await import("~/pages/profile/Profile"));
 const Register = React.lazy(async () => await import("~/pages/register/Register"));
 
-// admin
+// admin pages
 const Dashboard = React.lazy(() => import("~/pages/admin/dashboard/Dashboard"));
+const MoviesAdmin = React.lazy(() => import("~/pages/admin/movies/MoviesAdmin"));
+
+// #region "HOC components wrapper for layout"
 
 // main HOC
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
@@ -148,7 +151,9 @@ const withMainLayoutAdmin = (Component: React.ComponentType) => {
     };
 };
 
-//main
+// #endregion
+
+//main layout wrapper uses
 export const HomePage = withMainLayout(Home);
 export const MoviePage = withMainLayout(Movie);
 export const GenrePage = withMainLayout(Genre);
@@ -158,11 +163,11 @@ export const ErrorPage = withMainLayout(Error404);
 export const LoginPage = withMainLayout(Login);
 export const RegisterPage = withMainLayout(Register);
 
-// admin routes
+// admin layout wrapper uses
 export const DashboardPage = withMainLayoutAdmin(Dashboard);
 export const UsersAdminPage = withMainLayoutAdmin(Dashboard);
 export const SeriesAdminPage = withMainLayoutAdmin(Dashboard);
-export const MoviesAdminPage = withMainLayoutAdmin(Dashboard);
+export const MoviesAdminPage = withMainLayoutAdmin(MoviesAdmin);
 export const GenresAdminPage = withMainLayoutAdmin(Dashboard);
 
 function App() {
@@ -188,10 +193,11 @@ function App() {
                     <Route element={<PrivateRoutes />}>
                         <Route path="/profile" element={<ProfilePage />} />
                         <Route path="/admin" element={<DashboardPage />}>
-                            <Route path="/users" element={<UsersAdminPage />} />
-                            <Route path="/movies" element={<MoviesAdminPage />} />
-                            <Route path="/series" element={<SeriesAdminPage />} />
-                            <Route path="/genres" element={<GenresAdminPage />} />
+                            <Route path="/admin/dashboard" element={<DashboardPage />} />
+                            <Route path="/admin/users" element={<UsersAdminPage />} />
+                            <Route path="/admin/movies" element={<MoviesAdminPage />} />
+                            <Route path="/admin/series" element={<SeriesAdminPage />} />
+                            <Route path="/admin/genres" element={<GenresAdminPage />} />
                         </Route>
                     </Route>
                     <Route path="/movies" element={<HomePage />} />
