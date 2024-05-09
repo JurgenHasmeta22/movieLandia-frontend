@@ -187,7 +187,6 @@ export default function Home() {
                         justifyContent: "center",
                         alignItems: "center",
                         gap: 2,
-                        // marginRight: 10,
                     }}
                     component={"section"}
                 >
@@ -224,6 +223,7 @@ export default function Home() {
                     alignContent={"center"}
                     rowGap={8}
                     columnGap={4}
+                    mt={4}
                 >
                     {movies.map((movie: any) => (
                         <MovieItem movie={movie} type="homeMovie" key={movie.id} />
@@ -239,19 +239,14 @@ export default function Home() {
                     }}
                     component={"section"}
                 >
-                    <Typography
-                        component={"h2"}
-                        fontWeight={500}
-                        fontSize={30}
-                        textAlign={"center"}
-                    >
+                    <Typography component={"h2"} fontSize={24} textAlign={"center"}>
                         No Search Result, no movie found with that criteria.
                     </Typography>
                 </Box>
             )}
             <Stack
                 spacing={2}
-                sx={{ display: "flex", placeItems: "center", marginTop: 4, marginBottom: 4 }}
+                sx={{ display: "flex", placeItems: "center", marginTop: 2, marginBottom: 2 }}
             >
                 <Pagination
                     page={searchParams.get("page") ? Number(searchParams.get("page")) : 1}

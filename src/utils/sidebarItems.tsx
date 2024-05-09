@@ -1,7 +1,9 @@
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
-import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
+import LocalMoviesIcon from '@mui/icons-material/LocalMovies';
+import LiveTvIcon from '@mui/icons-material/LiveTv';
+import MovieIcon from '@mui/icons-material/Movie';
 
 export const sidebarItems = [
     {
@@ -19,19 +21,19 @@ export const sidebarItems = [
     {
         label: "Movies",
         to: "/admin/movies",
-        icon: <ReceiptOutlinedIcon />,
+        icon: <LocalMoviesIcon />,
         index: 2,
     },
     {
         label: "Genres",
         to: "/admin/genres",
-        icon: <PersonOutlinedIcon />,
+        icon: <MovieIcon />,
         index: 3,
     },
     {
         label: "Series",
         to: "/admin/series",
-        icon: <PersonOutlinedIcon />,
+        icon: <LiveTvIcon />,
         index: 4,
     },
 ];
