@@ -6,7 +6,6 @@ import { Box, Card, Stack, Typography } from "@mui/material";
 
 export default function Genres() {
     const [genres, setGenres] = useState<IGenre[]>([]);
-
     const navigate = useNavigate();
 
     async function getGenres(): Promise<void> {

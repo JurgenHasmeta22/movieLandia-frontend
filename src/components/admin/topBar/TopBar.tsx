@@ -33,14 +33,14 @@ const TopBar = () => {
         navigate("/login");
     };
 
-    const handleRedirectToProfile = () => {
-        navigate("/profile", {
-            state: {
-                userId: user?.id,
-                from: "Perdoruesit",
-            },
-        });
-    };
+    // const handleRedirectToProfile = () => {
+    //     navigate("/profile", {
+    //         state: {
+    //             userId: user?.id,
+    //             from: "Perdoruesit",
+    //         },
+    //     });
+    // };
 
     return (
         <AppBar position="static">
@@ -77,7 +77,6 @@ const TopBar = () => {
                         aria-expanded={open ? "true" : undefined}
                         onClick={handleClick}
                         sx={{ display: "flex", flexDirection: "row", gap: "10px" }}
-                        disableRipple={true}
                     >
                         <PersonOutlinedIcon color="action" fontSize="medium" />
                         {user?.userName}
@@ -91,7 +90,7 @@ const TopBar = () => {
                             "aria-labelledby": "buttonProfile",
                         }}
                     >
-                        <MenuItem
+                        {/* <MenuItem
                             onClick={handleRedirectToProfile}
                             style={{ color: colors.primary[100] }}
                         >
@@ -104,7 +103,7 @@ const TopBar = () => {
                             >
                                 Change password
                             </Link>
-                        </MenuItem>
+                        </MenuItem> */}
                         <MenuItem onClick={handleLogout} style={{ color: colors.primary[100] }}>
                             Log out
                         </MenuItem>

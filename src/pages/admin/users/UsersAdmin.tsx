@@ -110,7 +110,7 @@ const UsersAdmin = () => {
             : undefined,
         initialState: {
             columnVisibility: { id: false },
-            showColumnFilters: true,
+            showColumnFilters: false,
             showGlobalFilter: true,
             showLoadingOverlay: false,
             density: "compact",
@@ -135,7 +135,7 @@ const UsersAdmin = () => {
         paginationDisplayMode: "pages",
         positionToolbarAlertBanner: "bottom",
         muiSearchTextFieldProps: {
-            size: "medium",
+            size: "small",
             variant: "outlined",
         },
         muiTablePaperProps: {
@@ -157,7 +157,7 @@ const UsersAdmin = () => {
             color: "secondary",
             rowsPerPageOptions: [5, 10, 15, 20],
             shape: "rounded",
-            size: "medium",
+            size: "small",
             variant: "outlined",
             style: {
                 paddingTop: 6,

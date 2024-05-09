@@ -254,6 +254,7 @@ export const Header = (): React.JSX.Element => {
                             <Box sx={{ display: "flex", placeItems: "center", columnGap: 4 }}>
                                 <TextField
                                     placeholder="Search for Movies..."
+                                    size="medium"
                                     value={
                                         searchParams.get("search") ? searchParams.get("search") : ""
                                     }
@@ -311,9 +312,8 @@ export const Header = (): React.JSX.Element => {
                                                 flexDirection: "row",
                                                 gap: "10px",
                                             }}
-                                            disableRipple={true}
                                         >
-                                            <PersonOutlinedIcon color="action" fontSize="large" />
+                                            <PersonOutlinedIcon color="action" fontSize="medium" />
                                             {user?.userName}
                                         </IconButton>
                                         <Menu
@@ -329,7 +329,7 @@ export const Header = (): React.JSX.Element => {
                                                 onClick={redirectToProfile}
                                                 style={{ color: colors.primary[100] }}
                                             >
-                                                Profili im
+                                                My Profile
                                             </MenuItem>
                                             <MenuItem
                                                 onClick={handleLogout}
@@ -344,7 +344,6 @@ export const Header = (): React.JSX.Element => {
                                         <Button
                                             color="secondary"
                                             variant="outlined"
-                                            size="large"
                                             onClick={function () {
                                                 navigate("/login");
                                             }}
@@ -352,7 +351,7 @@ export const Header = (): React.JSX.Element => {
                                                 display: "flex",
                                                 flexDirection: "row",
                                                 columnGap: 1,
-                                                padding: 2,
+                                                p: 1,
                                             }}
                                         >
                                             <LockOpenIcon />
@@ -361,12 +360,11 @@ export const Header = (): React.JSX.Element => {
                                         <Button
                                             color="secondary"
                                             variant="outlined"
-                                            size="large"
                                             sx={{
                                                 display: "flex",
                                                 flexDirection: "row",
                                                 columnGap: 1,
-                                                padding: 2,
+                                                p: 1,
                                             }}
                                             onClick={function () {
                                                 navigate("/register");
@@ -565,9 +563,8 @@ export const Header = (): React.JSX.Element => {
                                             flexDirection: "row",
                                             gap: "10px",
                                         }}
-                                        disableRipple={true}
                                     >
-                                        <PersonOutlinedIcon color="action" fontSize="large" />
+                                        <PersonOutlinedIcon color="action" fontSize="medium" />
                                         {user?.userName}
                                     </IconButton>
                                     <Menu
@@ -583,7 +580,7 @@ export const Header = (): React.JSX.Element => {
                                             onClick={redirectToProfile}
                                             style={{ color: colors.primary[100] }}
                                         >
-                                            Profili im
+                                            My Profile
                                         </MenuItem>
                                         <MenuItem
                                             onClick={handleLogout}

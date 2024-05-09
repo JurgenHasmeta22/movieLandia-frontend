@@ -10,7 +10,6 @@ export const SidebarItem = ({ index, item, selectedLabel, handleItemClick, isEmp
         <React.Fragment key={index}>
             <ListItem value={item.label}>
                 <ListItemButton
-                    disableRipple={true}
                     disabled={isEmployee && item.label === "Perdoruesit"}
                     sx={{
                         color: colors.grey[1500],

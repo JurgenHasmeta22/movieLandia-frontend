@@ -73,8 +73,6 @@ export default function Profile() {
                             color: colors.primary[600],
                             fontWeight: "700",
                         }}
-                        disableRipple={true}
-                        disableFocusRipple={true}
                     />
                     <Tab
                         label="About me"
@@ -83,8 +81,6 @@ export default function Profile() {
                             color: colors.primary[600],
                             fontWeight: "700",
                         }}
-                        disableRipple={true}
-                        disableFocusRipple={true}
                     />
                 </Tabs>
                 <TabPanel value={value} index={0}>
