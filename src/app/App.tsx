@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route, Navigate, Outlet } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useStore } from "~/store/store";
 import type IUser from "~/types/IUser";
@@ -10,6 +10,7 @@ import { ColorModeContext, useMode } from "~/utils/theme";
 import MainLayout from "~/layouts/MainLayout";
 import AdminLayout from "~/layouts/AdminLayout";
 
+// main pages
 const Series = React.lazy(async () => await import("~/pages/series/Series"));
 const Error404 = React.lazy(async () => await import("~/pages/error/Error"));
 const Genre = React.lazy(async () => await import("~/pages/genre/Genre"));
@@ -19,6 +20,7 @@ const Movie = React.lazy(async () => await import("~/pages/movie/Movie"));
 const Profile = React.lazy(async () => await import("~/pages/profile/Profile"));
 const Register = React.lazy(async () => await import("~/pages/register/Register"));
 
+// admin pages
 const Dashboard = React.lazy(() => import("~/pages/admin/dashboard/Dashboard"));
 const MoviesAdmin = React.lazy(() => import("~/pages/admin/movies/MoviesAdmin"));
 const UsersAdmin = React.lazy(() => import("~/pages/admin/users/UsersAdmin"));
@@ -28,6 +30,8 @@ const AddUserAdmin = React.lazy(() => import("~/pages/admin/addUser/AddUser"));
 const AddGenreAdmin = React.lazy(() => import("~/pages/admin/addGenre/AddGenre"));
 const AddSerieAdmin = React.lazy(() => import("~/pages/admin/addSerie/AddSerie"));
 const AddMovieAdmin = React.lazy(() => import("~/pages/admin/addMovie/AddMovie"));
+const UserAdmin = React.lazy(() => import("~/pages/admin/user/UserAdmin"));
+const MovieAdmin = React.lazy(() => import("~/pages/admin/movie/MovieAdmin"));
 
 function App() {
     const { setUser } = useStore();
@@ -64,8 +68,10 @@ function App() {
                             <Route path="admin/dashboard" element={<Dashboard />} />
                             <Route path="admin/users" element={<UsersAdmin />} />
                             <Route path="admin/users/add" element={<AddUserAdmin />} />
+                            <Route path="admin/users/:id" element={<UserAdmin />} />
                             <Route path="admin/movies" element={<MoviesAdmin />} />
                             <Route path="admin/movies/add" element={<AddMovieAdmin />} />
+                            <Route path="admin/movies/:id" element={<MovieAdmin />} />
                             <Route path="admin/series" element={<SeriesAdmin />} />
                             <Route path="admin/series/add" element={<AddSerieAdmin />} />
                             <Route path="admin/genres" element={<GenresAdmin />} />

@@ -10,7 +10,7 @@ export default interface IMovie {
     duration: string;
     ratingImdb: number;
     releaseYear: number;
-    description: number;
+    description: string;
     views: number;
     genres?: IGenre[];
     userWhoBookmarkedIt?: IFavoriteMovie[];

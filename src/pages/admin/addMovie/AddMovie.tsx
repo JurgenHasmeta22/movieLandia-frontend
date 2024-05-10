@@ -12,9 +12,14 @@ import ClearAllIcon from "@mui/icons-material/ClearAll";
 import * as CONSTANTS from "~/constants/Constants";
 
 const movieSchema = yup.object().shape({
-    moviename: yup.string().required("required"),
-    email: yup.string().required("required"),
-    password: yup.string().required("required"),
+    title: yup.string().required("required"),
+    photoSrc: yup.string().required("required"),
+    videoSrc: yup.string().required("required"),
+    trailerSrc: yup.string().required("required"),
+    duration: yup.string().required("required"),
+    releaseYear: yup.string().required("required"),
+    ratingImdb: yup.string().required("required"),
+    description: yup.string().required("required"),
 });
 
 const AddMovie = () => {
@@ -46,7 +51,7 @@ const AddMovie = () => {
 
     return (
         <Box m="20px">
-            <Header title={CONSTANTS.USERS__ADD__TITLE} subtitle={CONSTANTS.USERS__ADD__SUBTITLE} />
+            <Header title={CONSTANTS.MOVIE__ADD__TITLE} subtitle={CONSTANTS.MOVIE__ADD__SUBTITLE} />
             <FormAdvanced
                 initialValues={{
                     title: "",
