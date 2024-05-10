@@ -277,7 +277,7 @@ const FormAdvanced: React.FC<FormProps> = ({
                                     })}
                                 </Stack>
                             </Grid>
-                            <Grid container item justifyContent={"end"}>
+                            <Grid container item justifyContent={"end"} mt={2}>
                                 <Stack
                                     columnGap={2}
                                     flexDirection={"row"}
