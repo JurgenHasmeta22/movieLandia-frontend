@@ -28,6 +28,7 @@ const AdminLayout = () => {
                                         sx={{
                                             display: "flex",
                                             placeItems: "center",
+                                            placeContent: "center",
                                             height: "100vh",
                                         }}
                                     >

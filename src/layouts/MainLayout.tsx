@@ -18,6 +18,7 @@ const MainLayout = () => {
                                 sx={{
                                     display: "flex",
                                     placeItems: "center",
+                                    placeContent: "center",
                                     height: "100vh",
                                 }}
                             >
