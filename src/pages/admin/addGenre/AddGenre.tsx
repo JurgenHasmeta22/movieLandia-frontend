@@ -3,7 +3,6 @@ import Header from "~/components/admin/headerDashboard/HeaderDashboard";
 import { useNavigate } from "react-router";
 import * as yup from "yup";
 import { toast } from "react-toastify";
-import authenticationService from "~/services/api/authenticationService";
 import FormAdvanced from "~/components/admin/form/Form";
 import { FormikProps } from "formik";
 import { useState, useRef } from "react";
@@ -11,13 +10,13 @@ import SaveAsIcon from "@mui/icons-material/SaveAs";
 import ClearAllIcon from "@mui/icons-material/ClearAll";
 import * as CONSTANTS from "~/constants/Constants";
 
-const userSchema = yup.object().shape({
-    username: yup.string().required("required"),
+const genreSchema = yup.object().shape({
+    genrename: yup.string().required("required"),
     email: yup.string().required("required"),
     password: yup.string().required("required"),
 });
 
-const AddUser = () => {
+const AddGenre = () => {
     const [formData, setFormData] = useState({});
     const navigate = useNavigate();
     const formikRef = useRef<FormikProps<any>>(null);
@@ -31,45 +30,29 @@ const AddUser = () => {
     };
 
     const handleFormSubmit = async (values: any) => {
-        const response = await authenticationService.onRegister(
-            values.username,
-            values.email,
-            values.password,
-        );
-
-        if (response) {
-            toast.success(CONSTANTS.ADD__SUCCESS);
-            navigate("/admin/users");
-        } else {
-            toast.error(CONSTANTS.ADD__FAILURE);
-        }
+        // const response = await authenticationService.onRegister(
+        //     values.genrename,
+        //     values.password,
+        // );
+        // if (response) {
+        //     toast.success(CONSTANTS.ADD__SUCCESS);
+        //     navigate("/admin/genres");
+        // } else {
+        //     toast.error(CONSTANTS.ADD__FAILURE);
+        // }
     };
 
     return (
         <Box m="20px">
-            <Header title={CONSTANTS.USER__ADD__TITLE} subtitle={CONSTANTS.USER__ADD__SUBTITLE} />
+            <Header title={CONSTANTS.USERS__ADD__TITLE} subtitle={CONSTANTS.USERS__ADD__SUBTITLE} />
             <FormAdvanced
                 initialValues={{
-                    username: "",
-                    email: "",
-                    password: "",
+                    name: "",
                 }}
                 fields={[
                     {
-                        name: "username",
-                        label: "Username",
-                        variant: "filled",
-                        type: "text",
-                    },
-                    {
-                        name: "email",
-                        label: "Email",
-                        variant: "filled",
-                        type: "text",
-                    },
-                    {
-                        name: "password",
-                        label: "Password",
+                        name: "name",
+                        label: "Name",
                         variant: "filled",
                         type: "text",
                     },
@@ -109,11 +92,11 @@ const AddUser = () => {
                     handleDataChange(values);
                 }}
                 onSubmit={handleFormSubmit}
-                validationSchema={userSchema}
+                validationSchema={genreSchema}
                 formRef={formikRef}
             />
         </Box>
     );
 };
 
-export default AddUser;
+export default AddGenre;

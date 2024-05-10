@@ -18,12 +18,16 @@ const Login = React.lazy(async () => await import("~/pages/login/Login"));
 const Movie = React.lazy(async () => await import("~/pages/movie/Movie"));
 const Profile = React.lazy(async () => await import("~/pages/profile/Profile"));
 const Register = React.lazy(async () => await import("~/pages/register/Register"));
+
 const Dashboard = React.lazy(() => import("~/pages/admin/dashboard/Dashboard"));
 const MoviesAdmin = React.lazy(() => import("~/pages/admin/movies/MoviesAdmin"));
 const UsersAdmin = React.lazy(() => import("~/pages/admin/users/UsersAdmin"));
 const SeriesAdmin = React.lazy(() => import("~/pages/admin/series/SeriesAdmin"));
 const GenresAdmin = React.lazy(() => import("~/pages/admin/genres/GenresAdmin"));
 const AddUserAdmin = React.lazy(() => import("~/pages/admin/addUser/AddUser"));
+const AddGenreAdmin = React.lazy(() => import("~/pages/admin/addGenre/AddGenre"));
+const AddSerieAdmin = React.lazy(() => import("~/pages/admin/addSerie/AddSerie"));
+const AddMovieAdmin = React.lazy(() => import("~/pages/admin/addMovie/AddMovie"));
 
 function App() {
     const { setUser } = useStore();
@@ -43,7 +47,7 @@ function App() {
         <ColorModeContext.Provider value={colorMode}>
             <ThemeProvider theme={theme}>
                 <Routes>
-                    <Route index element={<Navigate replace to="/movies" />} />
+                    <Route index element={<Navigate replace to="movies" />} />
                     <Route element={<MainLayout />}>
                         <Route path="*" element={<Error404 />} />
                         <Route path="movies" element={<Home />} />
@@ -55,14 +59,17 @@ function App() {
                         <Route path="register" element={<Register />} />
                     </Route>
                     <Route element={<PrivateRoutes />}>
-                        <Route path="admin" element={<AdminLayout />}>
-                            <Route index element={<Navigate replace to="/admin/dashboard" />} />
-                            <Route path="dashboard" element={<Dashboard />} />
-                            <Route path="users" element={<UsersAdmin />} />
-                            <Route path="users/add" element={<AddUserAdmin />} />
-                            <Route path="movies" element={<MoviesAdmin />} />
-                            <Route path="series" element={<SeriesAdmin />} />
-                            <Route path="genres" element={<GenresAdmin />} />
+                        <Route element={<AdminLayout />}>
+                            <Route path="admin" element={<Dashboard />} />
+                            <Route path="admin/dashboard" element={<Dashboard />} />
+                            <Route path="admin/users" element={<UsersAdmin />} />
+                            <Route path="admin/users/add" element={<AddUserAdmin />} />
+                            <Route path="admin/movies" element={<MoviesAdmin />} />
+                            <Route path="admin/movies/add" element={<AddMovieAdmin />} />
+                            <Route path="admin/series" element={<SeriesAdmin />} />
+                            <Route path="admin/series/add" element={<AddSerieAdmin />} />
+                            <Route path="admin/genres" element={<GenresAdmin />} />
+                            <Route path="admin/genres/add" element={<AddGenreAdmin />} />
                         </Route>
                     </Route>
                 </Routes>

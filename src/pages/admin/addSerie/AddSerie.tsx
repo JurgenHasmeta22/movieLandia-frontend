@@ -11,13 +11,13 @@ import SaveAsIcon from "@mui/icons-material/SaveAs";
 import ClearAllIcon from "@mui/icons-material/ClearAll";
 import * as CONSTANTS from "~/constants/Constants";
 
-const userSchema = yup.object().shape({
-    username: yup.string().required("required"),
+const serieSchema = yup.object().shape({
+    seriename: yup.string().required("required"),
     email: yup.string().required("required"),
     password: yup.string().required("required"),
 });
 
-const AddUser = () => {
+const AddSerie = () => {
     const [formData, setFormData] = useState({});
     const navigate = useNavigate();
     const formikRef = useRef<FormikProps<any>>(null);
@@ -31,45 +31,51 @@ const AddUser = () => {
     };
 
     const handleFormSubmit = async (values: any) => {
-        const response = await authenticationService.onRegister(
-            values.username,
-            values.email,
-            values.password,
-        );
-
-        if (response) {
-            toast.success(CONSTANTS.ADD__SUCCESS);
-            navigate("/admin/users");
-        } else {
-            toast.error(CONSTANTS.ADD__FAILURE);
-        }
+        // const response = await authenticationService.onRegister(
+        //     values.title,
+        //     values.email,
+        //     values.password,
+        // );
+        // if (response) {
+        //     toast.success(CONSTANTS.ADD__SUCCESS);
+        //     navigate("/admin/series");
+        // } else {
+        //     toast.error(CONSTANTS.ADD__FAILURE);
+        // }
     };
 
     return (
         <Box m="20px">
-            <Header title={CONSTANTS.USER__ADD__TITLE} subtitle={CONSTANTS.USER__ADD__SUBTITLE} />
+            <Header title={CONSTANTS.USERS__ADD__TITLE} subtitle={CONSTANTS.USERS__ADD__SUBTITLE} />
             <FormAdvanced
                 initialValues={{
-                    username: "",
-                    email: "",
-                    password: "",
+                    title: "",
+                    photoSrc: "",
+                    releaseYear: "",
+                    ratingImdb: "",
                 }}
                 fields={[
                     {
-                        name: "username",
-                        label: "Username",
+                        name: "title",
+                        label: "Title",
                         variant: "filled",
                         type: "text",
                     },
                     {
-                        name: "email",
-                        label: "Email",
+                        name: "photoSrc",
+                        label: "Photo src",
                         variant: "filled",
                         type: "text",
                     },
                     {
-                        name: "password",
-                        label: "Password",
+                        name: "releaseYear",
+                        label: "Release year",
+                        variant: "filled",
+                        type: "text",
+                    },
+                    {
+                        name: "ratingImdb",
+                        label: "Rating imdb",
                         variant: "filled",
                         type: "text",
                     },
@@ -109,11 +115,11 @@ const AddUser = () => {
                     handleDataChange(values);
                 }}
                 onSubmit={handleFormSubmit}
-                validationSchema={userSchema}
+                validationSchema={serieSchema}
                 formRef={formikRef}
             />
         </Box>
     );
 };
 
-export default AddUser;
+export default AddSerie;
