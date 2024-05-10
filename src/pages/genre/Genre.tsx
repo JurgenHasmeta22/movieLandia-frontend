@@ -14,7 +14,6 @@ export default function Genre(): React.JSX.Element {
 
     const params = useParams();
     const [searchParams, setSearchParams] = useSearchParams();
-
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 

@@ -169,14 +169,15 @@ export default function Home() {
             sx={{
                 display: "flex",
                 flexDirection: "column",
+                justifyContent: "center",
                 rowGap: 4,
-                backgroundColor: `${colors.primary[700]}`,
+                backgroundColor: `${colors.blueAccent[700]}`,
             }}
             component={"main"}
         >
             {!searchParams.get("search") && (
                 <Box mt={4} mb={2} component={"section"}>
-                    <HomeCarousel images={images} />{" "}
+                    <HomeCarousel images={images} />
                 </Box>
             )}
             {!searchParams.get("search") && (
@@ -184,14 +185,15 @@ export default function Home() {
                     sx={{
                         display: "flex",
                         flexDirection: "row",
-                        justifyContent: "center",
+                        justifyContent: "flex-end",
                         alignItems: "center",
                         gap: 2,
+                        mr: 4,
                     }}
                     component={"section"}
                 >
                     <Typography color={"secondary"} fontSize={18}>
-                        Sort By:{" "}
+                        Sort By:
                     </Typography>
                     <Box sx={{ display: "flex", flexDirection: "row", gap: 4 }}>
                         <Select
