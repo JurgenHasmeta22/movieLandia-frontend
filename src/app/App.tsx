@@ -22,6 +22,7 @@ const Dashboard = React.lazy(() => import("~/pages/admin/dashboard/Dashboard"));
 const MoviesAdmin = React.lazy(() => import("~/pages/admin/movies/MoviesAdmin"));
 const UsersAdmin = React.lazy(() => import("~/pages/admin/users/UsersAdmin"));
 const SeriesAdmin = React.lazy(() => import("~/pages/admin/series/SeriesAdmin"));
+const GenresAdmin = React.lazy(() => import("~/pages/admin/genres/GenresAdmin"));
 
 function App() {
     const { setUser } = useStore();
@@ -53,14 +54,13 @@ function App() {
                         <Route path="register" element={<Register />} />
                     </Route>
                     <Route element={<PrivateRoutes />}>
-                        <Route element={<AdminLayout />}>
-                            <Route path="admin" element={<Navigate to="dashboard" />}>
-                                <Route path="dashboard" element={<Dashboard />} />
-                                <Route path="users" element={<UsersAdmin />} />
-                                <Route path="movies" element={<MoviesAdmin />} />
-                                <Route path="series" element={<SeriesAdmin />} />
-                                {/* <Route path="genres" element={<GenresAdmin />} /> */}
-                            </Route>
+                        <Route path="admin" element={<AdminLayout />}>
+                            <Route index element={<Navigate replace to="/admin/dashboard" />} />
+                            <Route path="dashboard" element={<Dashboard />} />
+                            <Route path="users" element={<UsersAdmin />} />
+                            <Route path="movies" element={<MoviesAdmin />} />
+                            <Route path="series" element={<SeriesAdmin />} />
+                            <Route path="genres" element={<GenresAdmin />} />
                         </Route>
                     </Route>
                 </Routes>
