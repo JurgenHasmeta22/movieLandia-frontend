@@ -13,7 +13,7 @@ import {
 } from "material-react-table";
 import HeaderDashboard from "~/components/admin/headerDashboard/HeaderDashboard";
 import { useState, useEffect, useMemo } from "react";
-import { useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { Edit, Delete, Add } from "@mui/icons-material";
 import movieService from "~/services/api/movieService";
 import IUser from "~/types/IUser";
