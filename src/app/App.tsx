@@ -23,6 +23,7 @@ const MoviesAdmin = React.lazy(() => import("~/pages/admin/movies/MoviesAdmin"))
 const UsersAdmin = React.lazy(() => import("~/pages/admin/users/UsersAdmin"));
 const SeriesAdmin = React.lazy(() => import("~/pages/admin/series/SeriesAdmin"));
 const GenresAdmin = React.lazy(() => import("~/pages/admin/genres/GenresAdmin"));
+const AddUserAdmin = React.lazy(() => import("~/pages/admin/addUser/AddUser"));
 
 function App() {
     const { setUser } = useStore();
@@ -58,6 +59,7 @@ function App() {
                             <Route index element={<Navigate replace to="/admin/dashboard" />} />
                             <Route path="dashboard" element={<Dashboard />} />
                             <Route path="users" element={<UsersAdmin />} />
+                            <Route path="users/add" element={<AddUserAdmin />} />
                             <Route path="movies" element={<MoviesAdmin />} />
                             <Route path="series" element={<SeriesAdmin />} />
                             <Route path="genres" element={<GenresAdmin />} />

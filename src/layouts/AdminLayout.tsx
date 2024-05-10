@@ -35,7 +35,9 @@ const AdminLayout = () => {
                                     </Box>
                                 }
                             >
-                                <Outlet />
+                                <Box ml={4}>
+                                    <Outlet />
+                                </Box>
                             </React.Suspense>
                         </Grid>
                     </Grid>
