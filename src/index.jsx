@@ -12,8 +12,6 @@ const root = createRoot(container);
 root.render(
     <BrowserRouter>
         <ToastContainer
-            autoClose={3000}
-            hideProgressBar={false}
             newestOnTop={true}
             closeOnClick
             draggable

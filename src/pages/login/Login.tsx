@@ -25,11 +25,11 @@ const loginSchema = yup.object().shape({
     password: yup
         .string()
         .required("Password is a required field")
-        .min(8, "Password must be at least 8 characters")
-        .matches(
-            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-            "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character",
-        ),
+        .min(8, "Password must be at least 8 characters"),
+    // .matches(
+    //     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+    //     "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character",
+    // ),
 });
 
 export default function Login() {
@@ -112,11 +112,10 @@ export default function Login() {
                                             size="small"
                                             InputProps={{ color: "secondary" }}
                                             InputLabelProps={{ color: "secondary" }}
+                                            // @ts-ignore
+                                            helperText={touched["email"] && errors["email"]}
+                                            error={touched["email"] && !!errors["email"]}
                                         />
-                                        {errors.email && touched.email && (
-                                            // @ts-ignore //
-                                            <Typography>{errors.email}</Typography>
-                                        )}
                                     </Box>
                                     <Box display={"flex"} flexDirection={"column"} rowGap={1}>
                                         <FormLabel>Password</FormLabel>
@@ -148,13 +147,10 @@ export default function Login() {
                                             }}
                                             size="small"
                                             InputLabelProps={{ color: "secondary" }}
+                                            // @ts-ignore
+                                            helperText={touched["password"] && errors["password"]}
+                                            error={touched["password"] && !!errors["password"]}
                                         />
-                                        {errors.password && touched.password && (
-                                            <Typography height={"5rem"} width={"30ch"}>
-                                                {/* @ts-ignore */}
-                                                {errors.password}
-                                            </Typography>
-                                        )}
                                     </Box>
                                     <Button
                                         type="submit"

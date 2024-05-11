@@ -87,7 +87,9 @@ const FormAdvanced: React.FC<FormProps> = ({
             innerRef={formRef}
             initialValues={initialValues}
             validationSchema={validationSchema}
-            onSubmit={onSubmit}
+            onSubmit={(values: any) => {
+                onSubmit(values);
+            }}
             enableReinitialize
         >
             {({ values, errors, touched, handleBlur, handleChange, handleSubmit }) => {
@@ -204,7 +206,6 @@ const FormAdvanced: React.FC<FormProps> = ({
                                                         <TextField
                                                             key={field.name}
                                                             name={field.name}
-                                                            // label={field.label}
                                                             variant={field.variant}
                                                             onBlur={handleBlur}
                                                             onChange={handleChange}
@@ -224,11 +225,7 @@ const FormAdvanced: React.FC<FormProps> = ({
                                                                 touched[field.name] &&
                                                                 !!errors[field.name]
                                                             }
-                                                            InputLabelProps={{
-                                                                style: { color: "#000" },
-                                                            }}
                                                             InputProps={{
-                                                                style: { color: "#000" },
                                                                 endAdornment: (
                                                                     <InputAdornment position="end">
                                                                         <IconButton
@@ -264,7 +261,6 @@ const FormAdvanced: React.FC<FormProps> = ({
                                                             key={field.name}
                                                             name={field.name}
                                                             type={field.type}
-                                                            // label={field.label}
                                                             onBlur={handleBlur}
                                                             onChange={handleChange}
                                                             value={values[field.name]}
@@ -281,12 +277,6 @@ const FormAdvanced: React.FC<FormProps> = ({
                                                                 touched[field.name] &&
                                                                 !!errors[field.name]
                                                             }
-                                                            InputLabelProps={{
-                                                                style: { color: "#000" },
-                                                            }}
-                                                            InputProps={{
-                                                                style: { color: "#000" },
-                                                            }}
                                                         />
                                                     </Box>
                                                 );
@@ -310,7 +300,7 @@ const FormAdvanced: React.FC<FormProps> = ({
                                             variant={action.variant || "text"}
                                             sx={action.sx}
                                             type={action.type}
-                                            endIcon={action.icon} 
+                                            endIcon={action.icon}
                                         >
                                             {action.label}
                                         </Button>
