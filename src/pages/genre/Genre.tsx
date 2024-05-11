@@ -6,6 +6,7 @@ import MovieItem from "~/components/movieItem/MovieItem";
 import type IMovie from "~/types/IMovie";
 import { Box, CircularProgress, Pagination, Stack, useTheme } from "@mui/material";
 import { tokens } from "~/utils/theme";
+import genreService from "~/services/api/genreService";
 
 export default function Genre(): React.JSX.Element {
     const [itemsPerPage, setItemsPerPage] = useState<number>(20);
@@ -25,16 +26,18 @@ export default function Genre(): React.JSX.Element {
 
     async function getMoviesOnGenre(): Promise<void> {
         if (!searchParams.get("page") && params.name) {
-            const response: IGenreResponse = await movieService.getGenreMoviesNoPagination(
-                params.name,
-            );
+            const response: IGenreResponse = await genreService.getGenreByName(params.name, {});
 
             setMoviesOfGenre(response.movies);
             setMoviesCountGenres(response.count);
-        } else {
-            const response: IGenreResponse = await movieService.getGenreMoviesWithPagination(
+        } else if (searchParams.get("page") && params.name) {
+            const queryParams = {
+                page: searchParams.get("page")!,
+            };
+
+            const response: IGenreResponse = await genreService.getGenreByName(
                 params.name,
-                searchParams.get("page"),
+                queryParams,
             );
 
             setMoviesOfGenre(response.movies);
