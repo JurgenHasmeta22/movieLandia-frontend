@@ -31,20 +31,29 @@ const registerSchema = yup.object().shape({
     password: yup
         .string()
         .required("Password is a required field")
-        .min(8, "Password must be at least 8 characters")
-        .matches(
-            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-            "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character",
-        ),
+        .min(8, "Password must be at least 8 characters"),
+    // .matches(
+    //     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+    //     "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character",
+    // ),
+    confirmPassword: yup
+        .string()
+        .required("Please confirm your password")
+        .oneOf([yup.ref("password")], "Passwords must match"),
 });
 
 export default function Register() {
     const [showPassword, setShowPassword] = useState(false);
+    const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
+
     const { user, setUser } = useStore();
     const navigate = useNavigate();
 
     const handleClickShowPassword = () => setShowPassword(!showPassword);
     const handleMouseDownPassword = () => setShowPassword(!showPassword);
+
+    const handleClickShowPasswordConfirm = () => setShowPasswordConfirm(!showPasswordConfirm);
+    const handleMouseDownPasswordConfirm = () => setShowPasswordConfirm(!showPasswordConfirm);
 
     async function onSubmitRegister(values: any) {
         const response: IResponseLogin = await authenticationService.onRegister(
@@ -89,6 +98,7 @@ export default function Register() {
                         username: "",
                         email: "",
                         password: "",
+                        confirmPassword: "",
                     }}
                     validationSchema={registerSchema}
                     onSubmit={(values: any) => {
@@ -120,11 +130,10 @@ export default function Register() {
                                             size="small"
                                             InputProps={{ color: "secondary" }}
                                             InputLabelProps={{ color: "secondary" }}
+                                            // @ts-ignore
+                                            helperText={touched["username"] && errors["username"]}
+                                            error={touched["username"] && !!errors["username"]}
                                         />
-                                        {errors.username && touched.username && (
-                                            // @ts-ignore //
-                                            <Typography>{errors.username}</Typography>
-                                        )}
                                     </Box>
                                     <Box display={"flex"} flexDirection={"column"} rowGap={1}>
                                         <FormLabel>Email</FormLabel>
@@ -139,11 +148,10 @@ export default function Register() {
                                             size="small"
                                             InputProps={{ color: "secondary" }}
                                             InputLabelProps={{ color: "secondary" }}
+                                            // @ts-ignore
+                                            helperText={touched["email"] && errors["email"]}
+                                            error={touched["email"] && !!errors["email"]}
                                         />
-                                        {errors.email && touched.email && (
-                                            // @ts-ignore //
-                                            <Typography height={"1rem"}>{errors.email}</Typography>
-                                        )}
                                     </Box>
                                     <Box display={"flex"} flexDirection={"column"} rowGap={1}>
                                         <FormLabel>Password</FormLabel>
@@ -175,13 +183,53 @@ export default function Register() {
                                             }}
                                             size="small"
                                             InputLabelProps={{ color: "secondary" }}
+                                            // @ts-ignore
+                                            helperText={touched["password"] && errors["password"]}
+                                            error={touched["password"] && !!errors["password"]}
                                         />
-                                        {errors.password && touched.password && (
-                                            <Typography height={"5rem"} width={"30ch"}>
-                                                {/* @ts-ignore */}
-                                                {errors.password}
-                                            </Typography>
-                                        )}
+                                    </Box>
+                                    <Box display={"flex"} flexDirection={"column"} rowGap={1}>
+                                        <FormLabel>Confirm password</FormLabel>
+                                        <TextField
+                                            type={showPasswordConfirm ? "text" : "password"}
+                                            name="confirmPassword"
+                                            required
+                                            placeholder="Repeat again password"
+                                            value={values.confirmPassword}
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            InputProps={{
+                                                color: "secondary",
+                                                endAdornment: (
+                                                    <InputAdornment position="end">
+                                                        <IconButton
+                                                            aria-label="toggle password visibility"
+                                                            onClick={handleClickShowPasswordConfirm}
+                                                            onMouseDown={
+                                                                handleMouseDownPasswordConfirm
+                                                            }
+                                                        >
+                                                            {showPasswordConfirm ? (
+                                                                <Visibility color="secondary" />
+                                                            ) : (
+                                                                <VisibilityOff color="secondary" />
+                                                            )}
+                                                        </IconButton>
+                                                    </InputAdornment>
+                                                ),
+                                            }}
+                                            size="small"
+                                            InputLabelProps={{ color: "secondary" }}
+                                            // @ts-ignore
+                                            helperText={
+                                                touched["confirmPassword"] &&
+                                                errors["confirmPassword"]
+                                            }
+                                            error={
+                                                touched["confirmPassword"] &&
+                                                !!errors["confirmPassword"]
+                                            }
+                                        />
                                     </Box>
                                     <Button
                                         type="submit"
