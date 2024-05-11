@@ -41,7 +41,7 @@ export default function Movie() {
     }
 
     async function addToFavorites() {
-        const response: IUser = await movieService.addToFavorites(movie?.id);
+        const response: IUser = await movieService.addToFavorites(movie?.id, user?.id);
         setUser(response);
     }
 

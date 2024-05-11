@@ -24,23 +24,23 @@ const api = {
     url: import.meta.env.VITE_API_URL,
 };
 
-const images = [
-    { source: `${api.url}/images/movies/1gxZrx9gL9ov2c1NpXimEUzMTmh.jpg` },
-    { source: `${api.url}/images/movies/1RjyfPLsZTq3lUdJY7pTzcmpPKl.jpg` },
-    { source: `${api.url}/images/movies/1TkkTo8UiRl5lWM5qkAISHXg0fU.jpg` },
-    { source: `${api.url}/images/movies/1ZiZ3eVUWPxJROTkYbH8FBC9UuB.jpg` },
-    { source: `${api.url}/images/movies/4kiVg3QJQghjtRupyfWYI3T1R0O-1.jpg` },
-];
-
 export default function Home() {
     const [movies, setMovies] = useState<IMovie[]>([]);
     const [latestMovies, setLatestMovies] = useState<IMovie[]>([]);
     const [moviesCount, setMoviesCount] = useState<number | null>(null);
     const [moviesCountSearch, setMoviesCountSearch] = useState<number | null>(null);
+    const [moviesCarouselImages, setMoviesCarouselImages] = useState<any[]>([
+        { source: `${api.url}/images/movies/1gxZrx9gL9ov2c1NpXimEUzMTmh.jpg` },
+        { source: `${api.url}/images/movies/1RjyfPLsZTq3lUdJY7pTzcmpPKl.jpg` },
+        { source: `${api.url}/images/movies/1TkkTo8UiRl5lWM5qkAISHXg0fU.jpg` },
+        { source: `${api.url}/images/movies/1ZiZ3eVUWPxJROTkYbH8FBC9UuB.jpg` },
+        { source: `${api.url}/images/movies/4kiVg3QJQghjtRupyfWYI3T1R0O-1.jpg` },
+    ]);
 
     const [searchParams, setSearchParams] = useSearchParams();
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
+
     let pageCount;
 
     if (searchParams.get("search")) {
@@ -175,7 +175,7 @@ export default function Home() {
         >
             {!searchParams.get("search") && (
                 <Box mt={4} mb={2} component={"section"}>
-                    <HomeCarousel images={images} />
+                    <HomeCarousel images={moviesCarouselImages} />
                 </Box>
             )}
             {!searchParams.get("search") && (
