@@ -1,149 +1,81 @@
 import axios from "axios";
-import type IGenre from "~/types/IGenre";
-import type IGenreResponse from "~/types/IGenreResponse";
 import type IMovie from "~/types/IMovie";
-import type IMoviesCount from "~/types/IMoviesCount";
 import type IMoviesResponse from "~/types/IMoviesResponse";
 import type IUser from "~/types/IUser";
-import type ISerie from "~/types/ISerie";
 
 const api = {
     url: import.meta.env.VITE_API_URL,
 };
 
 const movieService = {
-    getMovieCount: async (): Promise<any> => {
-        const moviesCount: IMoviesCount = await axios
-            .get(`${api.url}/movie-count`)
-            .then((x) => x.data);
+    getMovies: async (
+        sortBy?: string,
+        ascOrDesc?: string,
+        page?: string,
+        pageSize?: string,
+        title?: string,
+        filterValue?: string,
+        filterName?: string,
+        filterOperator?: string,
+    ): Promise<any> => {
+        let url = `${api.url}/getMovies`;
 
-        return moviesCount;
+        const queryParams = [
+            sortBy && `sortBy=${sortBy}`,
+            ascOrDesc && `ascOrDesc=${ascOrDesc}`,
+            page && `page=${page}`,
+            pageSize && `pageSize=${pageSize}`,
+            title && `title=${title}`,
+            filterValue && `filterValue=${filterValue}`,
+            filterName && `filterName=${filterName}`,
+            filterOperator && `filterOperator=${filterOperator}`,
+        ]
+            .filter(Boolean)
+            .join("&");
+
+        if (queryParams) {
+            url += `?${queryParams}`;
+        }
+
+        const moviesResponse: IMoviesResponse = await axios.get(url).then((res) => res.data);
+        return moviesResponse;
     },
     getMovie: async (title: string | undefined): Promise<any> => {
-        const movie: IMovie = await axios.get(`${api.url}/movie/${title}`).then((x) => x.data);
+        const movie: IMovie = await axios
+            .get(`${api.url}/getMovieByTitle/${title}`)
+            .then((x) => x.data);
+
         return movie;
     },
     getLatestMovies: async (): Promise<any> => {
-        const latestMovies: IMovie[] = await axios.get(`${api.url}/latest`).then((x) => x.data);
+        const latestMovies: IMovie[] = await axios
+            .get(`${api.url}/getLatestMovies`)
+            .then((x) => x.data);
+            
         return latestMovies;
     },
-    getMoviesDefault: async (): Promise<any> => {
-        const moviesResponse: IMoviesResponse = await axios
-            .get(`${api.url}/movies/page/1`)
-            .then((x) => x.data);
-
-        return moviesResponse.rows;
-    },
-    getMoviesPagination: async (page: string | null): Promise<any> => {
-        const moviesResponse: IMoviesResponse = await axios
-            .get(`${api.url}/movies/page/${page}`)
-            .then((x) => x.data);
-
-        return moviesResponse.rows;
-    },
-    getMoviesSearchWithPagination: async (
-        query: string | null,
-        page: string | null,
+    addToFavorites: async (
+        movieId: number | undefined,
+        userId: number | undefined,
     ): Promise<any> => {
-        const payload = {
-            title: query,
-            page,
-        };
-        const responseSearch = await axios.post(`${api.url}/search`, payload).then((x) => x.data);
-
-        return responseSearch;
-    },
-    getMoviesSearchNoPagination: async (query: string | null): Promise<any> => {
-        const payload = {
-            title: query,
-            page: 1,
-        };
-        const responseSearch = await axios.post(`${api.url}/search`, payload).then((x) => x.data);
-        return responseSearch;
-    },
-    getMoviesSortingWithPagination: async (
-        sort: string | null,
-        page: string | null,
-        sortDirection: string | null,
-    ): Promise<any> => {
-        const moviesResponse: IMoviesResponse = await axios
-            .get(`${api.url}/movies/page/${page}?sortBy=${sort}&ascOrDesc=${sortDirection}`)
-            .then((x) => x.data);
-
-        return moviesResponse;
-    },
-    getMoviesSortingNoPagination: async (
-        sort: string | null,
-        sortDirection: string | null,
-    ): Promise<any> => {
-        const moviesResponse: IMoviesResponse = await axios
-            .get(`${api.url}/movies/page/1?sortBy=${sort}&ascOrDesc=${sortDirection}`)
-            .then((x) => x.data);
-
-        return moviesResponse;
-    },
-    addToFavorites: async (movieId: number | undefined): Promise<any> => {
         if (localStorage.token) {
             const config = {
                 headers: {
                     Authorization: localStorage.token,
                 },
             };
+
             const payload = {
                 movieId,
+                userId,
             };
+
             const user: IUser = await axios
-                .post(`${api.url}/favorites`, payload, config)
+                .post(`${api.url}/bookmarkMovie`, payload, config)
                 .then((x) => x.data);
 
             return user;
         }
-    },
-    getGenreMoviesNoPagination: async (name: string): Promise<any> => {
-        const responseGenre: IGenreResponse = await axios
-            .get(`${api.url}/genres/${name}?page=1`)
-            .then((x) => x.data);
-
-        return responseGenre;
-    },
-    getGenreMoviesWithPagination: async (
-        name: string | undefined,
-        page: string | undefined | null,
-    ): Promise<any> => {
-        const responseGenre: IGenreResponse = await axios
-            .get(`${api.url}/genres/${name}?page=${page}`)
-            .then((x) => x.data);
-
-        return responseGenre;
-    },
-    getGenresWithNoPagination: async (): Promise<any> => {
-        const genres: IGenre[] = await axios.get(`${api.url}/genres`).then((x) => x.data);
-        return genres;
-    },
-    getSerieEpisodesNoPagination: async (): Promise<any> => {
-        const responseGenre: IGenreResponse = await axios
-            .get(`${api.url}/series/page/1`)
-            .then((x) => x.data);
-
-        return responseGenre;
-    },
-    getSerieEpisodesWithPagination: async (page: string | undefined | null): Promise<any> => {
-        const responseGenre: ISerie = await axios
-            .get(`${api.url}/series/page/${page}`)
-            .then((x) => x.data);
-
-        return responseGenre;
-    },
-    getSerieCount: async (): Promise<any> => {
-        const seriesCount: any = await axios.get(`${api.url}/series-count`).then((x) => x.data);
-        return seriesCount;
-    },
-    getSerieMovie: async (slug: string | undefined): Promise<any> => {
-        const responseGenre: ISerie = await axios
-            .get(`${api.url}/series/${slug}`)
-            .then((x) => x.data);
-
-        return responseGenre;
     },
 };
 
