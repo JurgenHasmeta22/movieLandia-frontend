@@ -89,10 +89,10 @@ export default function Movie() {
                 component={"section"}
             >
                 <Typography mt={4} fontSize={22} color={"secondary"} textAlign={"center"}>
-                    Movie Server
+                    Watch Movie
                 </Typography>
                 <Box>
-                    {/* For some weird reason wrapping this iframe in a div (Box) fixed the responsive bug which moved */}
+                    {/* Wwrapping this iframe in a div (Box) fixed the responsive bug which moved */}
                     <iframe
                         style={{
                             width: `${isPageShrunk ? "250px" : "650px"}`,
@@ -101,7 +101,6 @@ export default function Movie() {
                         src={movie.videoSrc}
                         title={movie.title}
                         allowFullScreen
-                        // loading="lazy"
                     ></iframe>
                 </Box>
                 <Box
