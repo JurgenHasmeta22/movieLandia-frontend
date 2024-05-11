@@ -183,7 +183,7 @@ export default function Movie() {
                     justifyContent="center"
                     alignContent="center"
                 >
-                    {latestMoviesRelated.slice(14, 19).map((latestMovie: any) => (
+                    {latestMoviesRelated.slice(5, 10).map((latestMovie: any) => (
                         <MovieItemLatest latestMovie={latestMovie} key={latestMovie.id} />
                     ))}
                 </Stack>

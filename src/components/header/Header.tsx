@@ -35,8 +35,8 @@ export const Header = (): React.JSX.Element => {
     const [anchorElProfile, setAnchorElProfile] = useState<null | HTMLElement>(null);
     const [anchorElGenres, setAnchorElGenres] = useState<null | HTMLElement>(null);
     const [anchorElGenresMobile, setAnchorElGenresMobile] = useState<null | HTMLElement>(null);
+    
     const isPageShrunk = useResizeWindow(); // Custom hook for handling resize logic state and useEffect
-
     const { user, setUser, openDrawer, mobileOpen, setMobileOpen, setOpenDrawer } = useStore();
     const navigate = useNavigate();
     const [searchParams, setSearchParams] = useSearchParams();
