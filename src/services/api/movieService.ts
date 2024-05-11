@@ -8,16 +8,25 @@ const api = {
 };
 
 const movieService = {
-    getMovies: async (
-        sortBy?: string,
-        ascOrDesc?: string,
-        page?: string,
-        pageSize?: string,
-        title?: string,
-        filterValue?: string,
-        filterName?: string,
-        filterOperator?: string,
-    ): Promise<any> => {
+    getMovies: async ({
+        sortBy,
+        ascOrDesc,
+        page,
+        pageSize,
+        title,
+        filterValue,
+        filterName,
+        filterOperator,
+    }: {
+        sortBy?: string;
+        ascOrDesc?: string;
+        page?: string;
+        pageSize?: string;
+        title?: string;
+        filterValue?: string;
+        filterName?: string;
+        filterOperator?: string;
+    }): Promise<any> => {
         let url = `${api.url}/getMovies`;
 
         const queryParams = [
@@ -40,6 +49,16 @@ const movieService = {
         const moviesResponse: IMoviesResponse = await axios.get(url).then((res) => res.data);
         return moviesResponse;
     },
+    searchMoviesByTitle: async (title: string, page?: string): Promise<any> => {
+        let url = `${api.url}/searchMoviesByTitle?title=${title}`;
+
+        if (page) {
+            url += `&page=${page}`;
+        }
+
+        const moviesResponse: IMoviesResponse = await axios.get(url).then((res) => res.data);
+        return moviesResponse;
+    },
     getMovie: async (title: string | undefined): Promise<any> => {
         const movie: IMovie = await axios
             .get(`${api.url}/getMovieByTitle/${title}`)
@@ -51,7 +70,7 @@ const movieService = {
         const latestMovies: IMovie[] = await axios
             .get(`${api.url}/getLatestMovies`)
             .then((x) => x.data);
-            
+
         return latestMovies;
     },
     addToFavorites: async (

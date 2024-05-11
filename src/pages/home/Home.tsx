@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import movieService from "~/services/api/movieService";
 import type IMovie from "~/types/IMovie";
-import type IMoviesCount from "~/types/IMoviesCount";
 import type IMoviesSearchResponse from "~/types/IMovieSearchResponse";
 import type IMoviesResponse from "~/types/IMoviesResponse";
 import HomeCarousel from "~/pages/home/homeCarousel/HomeCarousel";
@@ -26,27 +25,28 @@ const api = {
 };
 
 const images = [
-    { source: `${api.url}/images/rsz_fistful_of_vengeance.png` },
-    { source: `${api.url}/images/rsz_texas.png` },
-    { source: `${api.url}/images/rsz_movieposter_en.png` },
-    { source: `${api.url}/images/rsz_wyihsxwyqn8ejsdut2p1p0o97n0.png` },
-    { source: `${api.url}/images/rsz_elevjj3yg279mmpwuygyrhbjbbq.png` },
+    { source: `${api.url}/images/movies/1gxZrx9gL9ov2c1NpXimEUzMTmh.jpg` },
+    { source: `${api.url}/images/movies/1RjyfPLsZTq3lUdJY7pTzcmpPKl.jpg` },
+    { source: `${api.url}/images/movies/1TkkTo8UiRl5lWM5qkAISHXg0fU.jpg` },
+    { source: `${api.url}/images/movies/1ZiZ3eVUWPxJROTkYbH8FBC9UuB.jpg` },
+    { source: `${api.url}/images/movies/4kiVg3QJQghjtRupyfWYI3T1R0O-1.jpg` },
 ];
 
 export default function Home() {
     const [movies, setMovies] = useState<IMovie[]>([]);
     const [latestMovies, setLatestMovies] = useState<IMovie[]>([]);
-    const [moviesCount, setMoviesCount] = useState<IMoviesCount | null>(null);
+    const [moviesCount, setMoviesCount] = useState<number | null>(null);
     const [moviesCountSearch, setMoviesCountSearch] = useState<number | null>(null);
+
     const [searchParams, setSearchParams] = useSearchParams();
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     let pageCount;
 
     if (searchParams.get("search")) {
-        pageCount = Math.ceil(moviesCountSearch! / 20);
+        pageCount = Math.ceil(moviesCountSearch! / 10);
     } else {
-        pageCount = Math.ceil(moviesCount?.count! / 20);
+        pageCount = Math.ceil(moviesCount! / 10);
     }
 
     const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
@@ -84,17 +84,17 @@ export default function Home() {
 
         if (searchParams.get("search")) {
             if (searchParams.get("page")) {
-                const responseSearch: IMoviesSearchResponse = await movieService.getMovies(
-                    searchParams.get("search")!,
-                    searchParams.get("page")!,
-                );
+                const responseSearch: IMoviesSearchResponse =
+                    await movieService.searchMoviesByTitle(
+                        searchParams.get("search")!,
+                        searchParams.get("page")!,
+                    );
 
                 moviesResponse = responseSearch.movies;
                 setMoviesCountSearch(responseSearch.count);
             } else {
-                const responseSearch: IMoviesSearchResponse = await movieService.getMovies(
-                    searchParams.get("search")!,
-                );
+                const responseSearch: IMoviesSearchResponse =
+                    await movieService.searchMoviesByTitle(searchParams.get("search")!);
 
                 moviesResponse = responseSearch.movies;
                 setMoviesCountSearch(responseSearch.count);
@@ -102,29 +102,37 @@ export default function Home() {
         } else {
             if (searchParams.get("sortBy") && searchParams.get("ascOrDesc")) {
                 if (searchParams.get("page")) {
-                    const responseMovies: IMoviesResponse = await movieService.getMovies(
-                        searchParams.get("sortBy")!,
-                        searchParams.get("page")!,
-                        searchParams.get("ascOrDesc")!,
-                    );
+                    const queryParams = {
+                        sortBy: searchParams.get("sortBy")!,
+                        page: searchParams.get("page")!,
+                        ascOrDesc: searchParams.get("ascOrDesc")!,
+                    };
 
+                    const responseMovies: IMoviesResponse =
+                        await movieService.getMovies(queryParams);
                     moviesResponse = responseMovies.rows;
                 } else {
-                    const responseMovies: IMoviesResponse = await movieService.getMovies(
-                        searchParams.get("sortBy")!,
-                        searchParams.get("ascOrDesc")!,
-                    );
+                    const queryParams = {
+                        sortBy: searchParams.get("sortBy")!,
+                        ascOrDesc: searchParams.get("ascOrDesc")!,
+                    };
 
+                    const responseMovies: IMoviesResponse =
+                        await movieService.getMovies(queryParams);
                     moviesResponse = responseMovies.rows;
                 }
             } else if (searchParams.get("page")) {
-                const response: IMoviesSearchResponse = await movieService.getMovies(
-                    searchParams.get("page")!,
-                );
+                const queryParams = {
+                    page: searchParams.get("page")!,
+                };
+
+                const response: IMoviesSearchResponse = await movieService.getMovies(queryParams);
                 moviesResponse = response.movies;
+                setMoviesCount(response.count);
             } else {
-                const response: IMoviesSearchResponse = await movieService.getMovies();
+                const response: IMoviesSearchResponse = await movieService.getMovies({});
                 moviesResponse = response.movies;
+                setMoviesCount(response.count);
             }
         }
 
