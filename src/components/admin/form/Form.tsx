@@ -11,6 +11,8 @@ import {
     IconButton,
     Stack,
     Grid,
+    Box,
+    FormLabel,
 } from "@mui/material";
 import { Formik, FormikProps, Form } from "formik";
 import * as yup from "yup";
@@ -166,7 +168,6 @@ const FormAdvanced: React.FC<FormProps> = ({
                                                 return (
                                                     <TextField
                                                         key={field.name}
-                                                        as={TextField}
                                                         name={field.name}
                                                         label={field.label}
                                                         variant={field.variant}
@@ -194,84 +195,100 @@ const FormAdvanced: React.FC<FormProps> = ({
                                                 );
                                             case "password":
                                                 return (
-                                                    <TextField
-                                                        key={field.name}
-                                                        name={field.name}
-                                                        label={field.label}
-                                                        variant={field.variant}
-                                                        onBlur={handleBlur}
-                                                        onChange={handleChange}
-                                                        size="small"
-                                                        sx={field.sx}
-                                                        value={values[field.name]}
-                                                        type={showPassword ? "text" : "password"}
-                                                        autoComplete={"on"}
-                                                        // @ts-ignore
-                                                        helperText={
-                                                            touched[field.name] &&
-                                                            errors[field.name]
-                                                        }
-                                                        error={
-                                                            touched[field.name] &&
-                                                            !!errors[field.name]
-                                                        }
-                                                        InputLabelProps={{
-                                                            style: { color: "#000" },
-                                                        }}
-                                                        InputProps={{
-                                                            style: { color: "#000" },
-                                                            endAdornment: (
-                                                                <InputAdornment position="end">
-                                                                    <IconButton
-                                                                        aria-label="toggle password visibility"
-                                                                        onClick={
-                                                                            handleClickShowPassword
-                                                                        }
-                                                                        onMouseDown={
-                                                                            handleMouseDownPassword
-                                                                        }
-                                                                    >
-                                                                        {showPassword ? (
-                                                                            <Visibility color="primary" />
-                                                                        ) : (
-                                                                            <VisibilityOff color="primary" />
-                                                                        )}
-                                                                    </IconButton>
-                                                                </InputAdornment>
-                                                            ),
-                                                        }}
-                                                    />
+                                                    <Box
+                                                        display={"flex"}
+                                                        flexDirection={"column"}
+                                                        rowGap={1}
+                                                    >
+                                                        <FormLabel>{field.label}</FormLabel>
+                                                        <TextField
+                                                            key={field.name}
+                                                            name={field.name}
+                                                            // label={field.label}
+                                                            variant={field.variant}
+                                                            onBlur={handleBlur}
+                                                            onChange={handleChange}
+                                                            size="small"
+                                                            sx={field.sx}
+                                                            value={values[field.name]}
+                                                            type={
+                                                                showPassword ? "text" : "password"
+                                                            }
+                                                            autoComplete={"on"}
+                                                            // @ts-ignore
+                                                            helperText={
+                                                                touched[field.name] &&
+                                                                errors[field.name]
+                                                            }
+                                                            error={
+                                                                touched[field.name] &&
+                                                                !!errors[field.name]
+                                                            }
+                                                            InputLabelProps={{
+                                                                style: { color: "#000" },
+                                                            }}
+                                                            InputProps={{
+                                                                style: { color: "#000" },
+                                                                endAdornment: (
+                                                                    <InputAdornment position="end">
+                                                                        <IconButton
+                                                                            aria-label="toggle password visibility"
+                                                                            onClick={
+                                                                                handleClickShowPassword
+                                                                            }
+                                                                            onMouseDown={
+                                                                                handleMouseDownPassword
+                                                                            }
+                                                                        >
+                                                                            {showPassword ? (
+                                                                                <Visibility color="primary" />
+                                                                            ) : (
+                                                                                <VisibilityOff color="primary" />
+                                                                            )}
+                                                                        </IconButton>
+                                                                    </InputAdornment>
+                                                                ),
+                                                            }}
+                                                        />
+                                                    </Box>
                                                 );
                                             default:
                                                 return (
-                                                    <TextField
-                                                        key={field.name}
-                                                        name={field.name}
-                                                        type={field.type}
-                                                        label={field.label}
-                                                        onBlur={handleBlur}
-                                                        onChange={handleChange}
-                                                        value={values[field.name]}
-                                                        variant={field.variant}
-                                                        disabled={field.disabled}
-                                                        sx={{ ...field.sx }}
-                                                        size="small"
-                                                        // @ts-ignore
-                                                        helperText={
-                                                            touched[field.name] &&
-                                                            errors[field.name]
-                                                        }
-                                                        error={
-                                                            touched[field.name] &&
-                                                            !!errors[field.name]
-                                                        }
-                                                        InputLabelProps={{
-                                                            style: { color: "#000" },
-                                                        }}
-                                                        InputProps={{
-                                                            style: { color: "#000" },
-                                                        }}
-                                                    />
+                                                    <Box
+                                                        display={"flex"}
+                                                        flexDirection={"column"}
+                                                        rowGap={1}
+                                                    >
+                                                        <FormLabel>{field.label}</FormLabel>
+                                                        <TextField
+                                                            key={field.name}
+                                                            name={field.name}
+                                                            type={field.type}
+                                                            // label={field.label}
+                                                            onBlur={handleBlur}
+                                                            onChange={handleChange}
+                                                            value={values[field.name]}
+                                                            variant={field.variant}
+                                                            disabled={field.disabled}
+                                                            sx={{ ...field.sx }}
+                                                            size="small"
+                                                            // @ts-ignore
+                                                            helperText={
+                                                                touched[field.name] &&
+                                                                errors[field.name]
+                                                            }
+                                                            error={
+                                                                touched[field.name] &&
+                                                                !!errors[field.name]
+                                                            }
+                                                            InputLabelProps={{
+                                                                style: { color: "#000" },
+                                                            }}
+                                                            InputProps={{
+                                                                style: { color: "#000" },
+                                                            }}
+                                                        />
+                                                    </Box>
                                                 );
                                         }
                                     })}
@@ -293,7 +310,7 @@ const FormAdvanced: React.FC<FormProps> = ({
                                             variant={action.variant || "text"}
                                             sx={action.sx}
                                             type={action.type}
-                                            endIcon={action.icon}
+                                            endIcon={action.icon} 
                                         >
                                             {action.label}
                                         </Button>

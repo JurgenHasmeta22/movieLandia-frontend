@@ -3,25 +3,35 @@ import { Link, useNavigate } from "react-router-dom";
 import authenticationService from "~/services/api/authenticationService";
 import { useStore } from "~/store/store";
 import type IResponseLogin from "~/types/IResponseLogin";
-import { Box, Button, Paper, TextField, Typography } from "@mui/material";
+import { Box, Button, FormLabel, Paper, TextField, Typography } from "@mui/material";
 import { Form, Formik } from "formik";
+import * as yup from "yup";
+import { toast } from "react-toastify";
+import * as CONSTANTS from "~/constants/Constants";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 
-// const loginSchema = yup.object().shape({
-//     userName: yup.string().required("required"),
-//     password: yup.string().required("required"),
-// });
+const loginSchema = yup.object().shape({
+    email: yup.string().required("required"),
+    password: yup.string().required("required"),
+});
 
 export default function Login() {
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
-
     const { user, setUser } = useStore();
     const navigate = useNavigate();
 
     async function onSubmit() {
         const response: IResponseLogin = await authenticationService.onLogin(email, password);
-        localStorage.setItem("token", response.token);
-        setUser(response.user);
+
+        if (response) {
+            localStorage.setItem("token", response.token);
+            setUser(response.user);
+            toast.success(CONSTANTS.LOGIN__SUCCESS);
+            navigate("/movies");
+        } else {
+            toast.error(CONSTANTS.LOGIN__FAILURE);
+        }
     }
 
     if (user) {
@@ -41,7 +51,7 @@ export default function Login() {
             <Paper
                 sx={{
                     backgroundColor: "rgb(0 0 0 / 85%)",
-                    padding: 10,
+                    padding: 8,
                 }}
             >
                 <Formik
@@ -50,7 +60,7 @@ export default function Login() {
                         email: "",
                         password: "",
                     }}
-                    // validationSchema={validationSchema}
+                    validationSchema={loginSchema}
                     onSubmit={onSubmit}
                     enableReinitialize
                 >
@@ -64,42 +74,56 @@ export default function Login() {
                                         rowGap: 2,
                                     }}
                                 >
-                                    <Typography variant="h1">Sign In</Typography>
-                                    <TextField
-                                        type="text"
-                                        placeholder="Enter your email"
-                                        label="Email"
-                                        required
-                                        onChange={function (e) {
-                                            setEmail(e.target.value);
-                                        }}
-                                        InputProps={{ color: "secondary" }}
-                                        InputLabelProps={{ color: "secondary" }}
-                                    />
-                                    <TextField
-                                        type="password"
-                                        label="Password"
-                                        placeholder="Enter your password"
-                                        required
-                                        onChange={function (e) {
-                                            setPassword(e.target.value);
-                                        }}
-                                        InputProps={{ color: "secondary" }}
-                                        InputLabelProps={{ color: "secondary" }}
-                                    />
+                                    <Typography variant="h2">Sign In</Typography>
+                                    <Box display={"flex"} flexDirection={"column"} rowGap={1}>
+                                        <FormLabel>Email</FormLabel>
+                                        <TextField
+                                            type="text"
+                                            placeholder="Enter your email"
+                                            name="email"
+                                            // label="Email"
+                                            required
+                                            onChange={function (e) {
+                                                setEmail(e.target.value);
+                                            }}
+                                            size="small"
+                                            InputProps={{ color: "secondary" }}
+                                            InputLabelProps={{ color: "secondary" }}
+                                        />
+                                    </Box>
+                                    <Box display={"flex"} flexDirection={"column"} rowGap={1}>
+                                        <FormLabel>Password</FormLabel>
+                                        <TextField
+                                            type="password"
+                                            // label="Password"
+                                            name="password"
+                                            placeholder="Enter your password"
+                                            required
+                                            onChange={function (e) {
+                                                setPassword(e.target.value);
+                                            }}
+                                            InputProps={{ color: "secondary" }}
+                                            size="small"
+                                            InputLabelProps={{ color: "secondary" }}
+                                        />
+                                    </Box>
                                     <Button
                                         type="submit"
                                         color="secondary"
                                         variant="outlined"
-                                        size="large"
+                                        size="medium"
                                     >
-                                        Sign In
+                                        <LockOutlinedIcon />
+                                        <span style={{ paddingLeft: 4 }}>Sign In</span>
                                     </Button>
                                     <Box>
                                         <Typography variant="overline">
-                                            Don't have an account?{" "}
+                                            Don't have an account ?
                                         </Typography>
-                                        <Link style={{ textDecoration: "none" }} to={"/register"}>
+                                        <Link
+                                            style={{ textDecoration: "none", paddingLeft: 4 }}
+                                            to={"/register"}
+                                        >
                                             Sign Up
                                         </Link>
                                     </Box>
