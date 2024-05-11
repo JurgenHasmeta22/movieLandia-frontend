@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate, NavLink, useSearchParams } from "react-router-dom";
 import { useStore } from "~/store/store";
 import type IGenre from "~/types/IGenre";
-import movieService from "~/services/api/movieService";
 import {
     AppBar,
     Box,
@@ -28,6 +27,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { useResizeWindow } from "~/hooks/useResizeWindow";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
+import genreService from "~/services/api/genreService";
 
 export const Header = (): React.JSX.Element => {
     const [options, setOptions] = useState<any>([]);
@@ -61,7 +61,7 @@ export const Header = (): React.JSX.Element => {
 
     async function getGenres(): Promise<void> {
         try {
-            const response: IGenre[] = await movieService.getGenresWithNoPagination();
+            const response: IGenre[] = await genreService.getGenres();
             setGenres(response);
         } catch (error) {
             console.log(error);

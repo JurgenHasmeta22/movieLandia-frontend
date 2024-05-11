@@ -39,10 +39,8 @@ export default function Home() {
     const [moviesCount, setMoviesCount] = useState<IMoviesCount | null>(null);
     const [moviesCountSearch, setMoviesCountSearch] = useState<number | null>(null);
     const [searchParams, setSearchParams] = useSearchParams();
-
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-
     let pageCount;
 
     if (searchParams.get("search")) {
@@ -76,11 +74,6 @@ export default function Home() {
         }
     };
 
-    async function getMoviesCount(): Promise<void> {
-        const moviesCount: IMoviesCount = await movieService.getMovieCount();
-        setMoviesCount(moviesCount);
-    }
-
     async function getLatestMovies(): Promise<void> {
         const latestMovies: IMovie[] = await movieService.getLatestMovies();
         setLatestMovies(latestMovies);
@@ -91,17 +84,17 @@ export default function Home() {
 
         if (searchParams.get("search")) {
             if (searchParams.get("page")) {
-                const responseSearch: IMoviesSearchResponse =
-                    await movieService.getMoviesSearchWithPagination(
-                        searchParams.get("search"),
-                        searchParams.get("page"),
-                    );
+                const responseSearch: IMoviesSearchResponse = await movieService.getMovies(
+                    searchParams.get("search")!,
+                    searchParams.get("page")!,
+                );
 
                 moviesResponse = responseSearch.movies;
                 setMoviesCountSearch(responseSearch.count);
             } else {
-                const responseSearch: IMoviesSearchResponse =
-                    await movieService.getMoviesSearchNoPagination(searchParams.get("search"));
+                const responseSearch: IMoviesSearchResponse = await movieService.getMovies(
+                    searchParams.get("search")!,
+                );
 
                 moviesResponse = responseSearch.movies;
                 setMoviesCountSearch(responseSearch.count);
@@ -109,32 +102,29 @@ export default function Home() {
         } else {
             if (searchParams.get("sortBy") && searchParams.get("ascOrDesc")) {
                 if (searchParams.get("page")) {
-                    const responseMovies: IMoviesResponse =
-                        await movieService.getMoviesSortingWithPagination(
-                            searchParams.get("sortBy"),
-                            searchParams.get("page"),
-                            searchParams.get("ascOrDesc"),
-                        );
+                    const responseMovies: IMoviesResponse = await movieService.getMovies(
+                        searchParams.get("sortBy")!,
+                        searchParams.get("page")!,
+                        searchParams.get("ascOrDesc")!,
+                    );
 
                     moviesResponse = responseMovies.rows;
                 } else {
-                    const responseMovies: IMoviesResponse =
-                        await movieService.getMoviesSortingNoPagination(
-                            searchParams.get("sortBy"),
-                            searchParams.get("ascOrDesc"),
-                        );
+                    const responseMovies: IMoviesResponse = await movieService.getMovies(
+                        searchParams.get("sortBy")!,
+                        searchParams.get("ascOrDesc")!,
+                    );
 
                     moviesResponse = responseMovies.rows;
                 }
             } else if (searchParams.get("page")) {
-                const movies: IMovie[] = await movieService.getMoviesPagination(
-                    searchParams.get("page"),
+                const response: IMoviesSearchResponse = await movieService.getMovies(
+                    searchParams.get("page")!,
                 );
-
-                moviesResponse = movies;
+                moviesResponse = response.movies;
             } else {
-                const movies: IMovie[] = await movieService.getMoviesDefault();
-                moviesResponse = movies;
+                const response: IMoviesSearchResponse = await movieService.getMovies();
+                moviesResponse = response.movies;
             }
         }
 
@@ -143,7 +133,7 @@ export default function Home() {
 
     useEffect(() => {
         const fetchData = async () => {
-            await Promise.all([getMovies(), getMoviesCount(), getLatestMovies()]);
+            await Promise.all([getMovies(), getLatestMovies()]);
         };
 
         fetchData();
