@@ -3,13 +3,14 @@ import { useNavigate } from "react-router-dom";
 import movieService from "~/services/api/movieService";
 import type IGenre from "~/types/IGenre";
 import { Box, Card, Stack, Typography } from "@mui/material";
+import genreService from "~/services/api/genreService";
 
 export default function Genres() {
     const [genres, setGenres] = useState<IGenre[]>([]);
     const navigate = useNavigate();
 
     async function getGenres(): Promise<void> {
-        const response: IGenre[] = await movieService.getGenresWithNoPagination();
+        const response: IGenre[] = await genreService.getGenres();
         setGenres(response);
     }
 

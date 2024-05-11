@@ -4,7 +4,7 @@ import movieService from "~/services/api/movieService";
 import type IGenreResponse from "~/types/IGenreResponse";
 import MovieItem from "~/components/movieItem/MovieItem";
 import type IMovie from "~/types/IMovie";
-import { Box, CircularProgress, Pagination, Stack, Typography, useTheme } from "@mui/material";
+import { Box, CircularProgress, Pagination, Stack, useTheme } from "@mui/material";
 import { tokens } from "~/utils/theme";
 
 export default function Genre(): React.JSX.Element {
@@ -16,7 +16,6 @@ export default function Genre(): React.JSX.Element {
     const [searchParams, setSearchParams] = useSearchParams();
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-
     const pageCount: number = Math.ceil(moviesCountGenre / itemsPerPage);
 
     const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
