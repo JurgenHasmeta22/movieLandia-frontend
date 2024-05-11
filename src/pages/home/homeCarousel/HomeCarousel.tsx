@@ -27,10 +27,11 @@ const Carousel = ({ images }: any) => {
             display="flex"
             alignItems="center"
             justifyContent="center"
+            flexWrap={"wrap"}
             overflow="hidden"
             style={{ gap: "20px" }}
         >
-            <IconButton onClick={handlePrev}>
+            <IconButton onClick={handlePrev} size="large">
                 <NavigateBeforeIcon />
             </IconButton>
             {images.slice(startIndex, startIndex + 3).map((image: any, index: number) => (
@@ -38,10 +39,10 @@ const Carousel = ({ images }: any) => {
                     key={index}
                     src={image.source}
                     alt={`Slide ${startIndex + index}`}
-                    style={{ marginRight: index === 2 ? 0 : "20px" }}
+                    style={{ marginRight: index === 2 ? 0 : "30px" }}
                 />
             ))}
-            <IconButton onClick={handleNext}>
+            <IconButton onClick={handleNext} size="large">
                 <NavigateNextIcon />
             </IconButton>
         </Box>
