@@ -22,9 +22,6 @@ const userSchema = yup.object().shape({
 
 const UserAdmin = () => {
     const [user, setUser] = useState<IUser | null>(null);
-    const [id, setId] = useState<number | undefined>(0);
-    const [userName, setUserName] = useState<string>("");
-    const [email, setEmail] = useState<string>("");
     const [loading, setLoading] = useState(true);
     const [formData, setFormData] = useState({});
 
@@ -70,11 +67,7 @@ const UserAdmin = () => {
 
     async function getUser(): Promise<void> {
         const response: IUser = await userService.getUserById(params.id);
-
         setUser(response);
-        setId(response.id!);
-        setUserName(response.userName);
-        setEmail(response.email);
     }
 
     useEffect(() => {
@@ -97,9 +90,9 @@ const UserAdmin = () => {
             />
             <FormAdvanced
                 initialValues={{
-                    id,
-                    userName,
-                    email,
+                    id: user?.id,
+                    userName: user?.userName,
+                    email: user?.email,
                 }}
                 fields={[
                     {

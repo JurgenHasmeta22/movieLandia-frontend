@@ -2,10 +2,10 @@ import { Box, CircularProgress, Typography } from "@mui/material";
 import HeaderDashboard from "~/components/admin/headerDashboard/HeaderDashboard";
 import { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router";
-import movieService from "~/services/api/movieService";
+import genreService from "~/services/api/genreService";
 import { FormikProps } from "formik";
 import * as yup from "yup";
-import IMovie from "~/types/IMovie";
+import IGenre from "~/types/IGenre";
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
 import SaveAsIcon from "@mui/icons-material/SaveAs";
 import { Link, useParams } from "react-router-dom";
@@ -15,19 +15,12 @@ import { toast } from "react-toastify";
 import * as CONSTANTS from "~/constants/Constants";
 import Breadcrumb from "~/components/admin/breadcrumb/Breadcrumb";
 
-const movieSchema = yup.object().shape({
-    title: yup.string().required("required"),
-    photoSrc: yup.string().required("required"),
-    videoSrc: yup.string().required("required"),
-    trailerSrc: yup.string().required("required"),
-    duration: yup.string().required("required"),
-    releaseYear: yup.string().required("required"),
-    ratingImdb: yup.string().required("required"),
-    description: yup.string().required("required"),
+const genreSchema = yup.object().shape({
+    name: yup.string().required("required"),
 });
 
-const MovieAdmin = () => {
-    const [movie, setMovie] = useState<IMovie | null>(null);
+const GenreAdmin = () => {
+    const [genre, setGenre] = useState<IGenre | null>(null);
     const [loading, setLoading] = useState(true);
     const [formData, setFormData] = useState({});
 
@@ -37,11 +30,11 @@ const MovieAdmin = () => {
     const formikRef = useRef<FormikProps<any>>(null);
 
     const breadcrumbs = [
-        <Link key="1" to={`${location.state?.from!}`} style={{ textDecoration: "none" }}>
+        <Link key="1" to={"/genres"} style={{ textDecoration: "none" }}>
             {location.state?.from!}
         </Link>,
         <Typography key="2" color="text.primary">
-            Movie details
+            Genre details
         </Typography>,
     ];
 
@@ -55,30 +48,30 @@ const MovieAdmin = () => {
 
     const handleFormSubmit = async (values: any) => {
         // const payload = {
-        //     movieName: values.movieName,
-        //     movieFirstname: values.movieFirstname,
-        //     movieLastname: values.movieLastname,
-        //     movieEmail: values.movieEmail,
+        //     name: values.name,
+        //     genreFirstname: values.genreFirstname,
+        //     genreLastname: values.genreLastname,
+        //     genreEmail: values.genreEmail,
         //     balancaLeje: values.balancaLeje,
-        //     movieIsActive: values.movieIsActive,
+        //     genreIsActive: values.genreIsActive,
         // };
-        // const response = await movieService.updateMovie(movie?.movieId, payload);
+        // const response = await genreService.updateGenre(genre?.genreId, payload);
         // if (response) {
         //     toast.success(CONSTANTS.UPDATE__SUCCESS);
-        //     getMovie();
+        //     getGenre();
         // } else {
         //     toast.error(CONSTANTS.UPDATE__FAILURE);
         // }
     };
 
-    async function getMovie(): Promise<void> {
-        const response: IMovie = await movieService.getMovieById(params.id);
-        setMovie(response);
+    async function getGenre(): Promise<void> {
+        const response: IGenre = await genreService.getGenreById(params.id);
+        setGenre(response);
     }
 
     useEffect(() => {
         async function fetchData() {
-            await getMovie();
+            await getGenre();
             setLoading(false);
         }
 
@@ -89,69 +82,27 @@ const MovieAdmin = () => {
 
     return (
         <Box m="20px">
-            <Breadcrumb breadcrumbs={breadcrumbs} navigateTo={"/admin/movies"} />
+            <Breadcrumb breadcrumbs={breadcrumbs} navigateTo={"/genres"} />
             <HeaderDashboard
-                title={CONSTANTS.MOVIE__EDIT__TITLE}
-                subtitle={CONSTANTS.MOVIE__EDIT__SUBTITLE}
+                title={CONSTANTS.USER__EDIT__TITLE}
+                subtitle={CONSTANTS.USER__EDIT__SUBTITLE}
             />
             <FormAdvanced
                 initialValues={{
-                    id: movie?.id,
-                    title: movie?.title,
-                    trailerSrc: movie?.trailerSrc,
-                    photoSrc: movie?.photoSrc,
-                    description: movie?.description,
-                    releaseYear: movie?.releaseYear,
-                    ratingImdb: movie?.ratingImdb,
-                    duration: movie?.duration,
+                    id: genre?.id,
+                    name: genre?.name,
                 }}
                 fields={[
                     {
                         name: "id",
-                        label: "Id",
+                        label: "Genre id",
                         disabled: true,
                         variant: "filled",
                         type: "text",
                     },
                     {
-                        name: "title",
-                        label: "Title",
-                        variant: "filled",
-                        type: "text",
-                    },
-                    {
-                        name: "photoSrc",
-                        label: "Photo src",
-                        variant: "filled",
-                        type: "text",
-                    },
-                    {
-                        name: "description",
-                        label: "Description",
-                        variant: "filled",
-                        type: "text",
-                    },
-                    {
-                        name: "trailerSrc",
-                        label: "Trailer src",
-                        variant: "filled",
-                        type: "text",
-                    },
-                    {
-                        name: "releaseYear",
-                        label: "Release year",
-                        variant: "filled",
-                        type: "text",
-                    },
-                    {
-                        name: "ratingImdb",
-                        label: "Rating imdb",
-                        variant: "filled",
-                        type: "text",
-                    },
-                    {
-                        name: "duration",
-                        label: "Duration",
+                        name: "name",
+                        label: "Genrename",
                         variant: "filled",
                         type: "text",
                     },
@@ -160,7 +111,7 @@ const MovieAdmin = () => {
                     handleDataChange(values);
                 }}
                 onSubmit={handleFormSubmit}
-                validationSchema={movieSchema}
+                validationSchema={genreSchema}
                 formRef={formikRef}
                 actions={[
                     {
@@ -179,13 +130,13 @@ const MovieAdmin = () => {
                     {
                         label: "Elemino",
                         onClick: async () => {
-                            // const response = await movieService.updateMovie(movieId, {
-                            //     ...movie,
-                            //     movieIsActive: false,
+                            // const response = await genreService.updateGenre(genreId, {
+                            //     ...genre,
+                            //     genreIsActive: false,
                             // });
                             // if (response) {
                             //     toast.success(CONSTANTS.GLOBAL__DELETE__SUCCESS);
-                            //     navigate("/movies");
+                            //     navigate("/genres");
                             // } else {
                             //     toast.error(CONSTANTS.GLOBAL__DELETE__FAILURE);
                             // }
@@ -222,4 +173,4 @@ const MovieAdmin = () => {
     );
 };
 
-export default MovieAdmin;
+export default GenreAdmin;

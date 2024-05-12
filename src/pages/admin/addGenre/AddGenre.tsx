@@ -11,9 +11,7 @@ import ClearAllIcon from "@mui/icons-material/ClearAll";
 import * as CONSTANTS from "~/constants/Constants";
 
 const genreSchema = yup.object().shape({
-    genrename: yup.string().required("required"),
-    email: yup.string().required("required"),
-    password: yup.string().required("required"),
+    name: yup.string().required("required"),
 });
 
 const AddGenre = () => {
@@ -44,7 +42,7 @@ const AddGenre = () => {
 
     return (
         <Box m="20px">
-            <Header title={CONSTANTS.USERS__ADD__TITLE} subtitle={CONSTANTS.USERS__ADD__SUBTITLE} />
+            <Header title={CONSTANTS.GENRE__ADD__TITLE} subtitle={CONSTANTS.GENRE__ADD__SUBTITLE} />
             <FormAdvanced
                 initialValues={{
                     name: "",

@@ -3,7 +3,6 @@ import Header from "~/components/admin/headerDashboard/HeaderDashboard";
 import { useNavigate } from "react-router";
 import * as yup from "yup";
 import { toast } from "react-toastify";
-import authenticationService from "~/services/api/authenticationService";
 import FormAdvanced from "~/components/admin/form/Form";
 import { FormikProps } from "formik";
 import { useState, useRef } from "react";
@@ -12,9 +11,10 @@ import ClearAllIcon from "@mui/icons-material/ClearAll";
 import * as CONSTANTS from "~/constants/Constants";
 
 const serieSchema = yup.object().shape({
-    seriename: yup.string().required("required"),
-    email: yup.string().required("required"),
-    password: yup.string().required("required"),
+    title: yup.string().required("required"),
+    photoSrc: yup.string().required("required"),
+    releaseYear: yup.string().required("required"),
+    ratingImdb: yup.string().required("required"),
 });
 
 const AddSerie = () => {
@@ -46,7 +46,7 @@ const AddSerie = () => {
 
     return (
         <Box m="20px">
-            <Header title={CONSTANTS.USERS__ADD__TITLE} subtitle={CONSTANTS.USERS__ADD__SUBTITLE} />
+            <Header title={CONSTANTS.SERIE__ADD__TITLE} subtitle={CONSTANTS.SERIE__ADD__SUBTITLE} />
             <FormAdvanced
                 initialValues={{
                     title: "",

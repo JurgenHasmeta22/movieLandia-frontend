@@ -89,6 +89,12 @@ const serieService = {
         const serie: ISerie = await axios.get(url).then((res) => res.data);
         return serie;
     },
+    getSerieById: async (id: any): Promise<any> => {
+        let url = `${api.url}/getSerieById/${id}`;
+        const serie: ISerie = await axios.get(url).then((res) => res.data);
+
+        return serie;
+    },
 };
 
 export default serieService;

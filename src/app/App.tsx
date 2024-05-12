@@ -32,6 +32,8 @@ const AddSerieAdmin = React.lazy(async () => await import("~/pages/admin/addSeri
 const AddMovieAdmin = React.lazy(async () => await import("~/pages/admin/addMovie/AddMovie"));
 const UserAdmin = React.lazy(async () => await import("~/pages/admin/user/UserAdmin"));
 const MovieAdmin = React.lazy(async () => await import("~/pages/admin/movie/MovieAdmin"));
+const SerieAdmin = React.lazy(async () => await import("~/pages/admin/serie/SerieAdmin"));
+const GenreAdmin = React.lazy(async () => await import("~/pages/admin/genre/GenreAdmin"));
 
 function App() {
     const { setUser } = useStore();
@@ -75,8 +77,10 @@ function App() {
                             <Route path="admin/movies/:id" element={<MovieAdmin />} />
                             <Route path="admin/series" element={<SeriesAdmin />} />
                             <Route path="admin/series/add" element={<AddSerieAdmin />} />
+                            <Route path="admin/series/:id" element={<SerieAdmin />} />
                             <Route path="admin/genres" element={<GenresAdmin />} />
                             <Route path="admin/genres/add" element={<AddGenreAdmin />} />
+                            <Route path="admin/genres/:id" element={<GenreAdmin />} />
                         </Route>
                     </Route>
                 </Routes>
