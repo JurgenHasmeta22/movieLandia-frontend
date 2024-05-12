@@ -1,6 +1,6 @@
-import type IMovie from "./IMovie";
+import IGenre from "./IGenre";
 
 export default interface IGenreResponse {
     count: number;
-    movies: IMovie[];
+    rows: IGenre[];
 }
