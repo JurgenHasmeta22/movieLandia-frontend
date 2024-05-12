@@ -29,6 +29,7 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
     const openModal = (props: any) => {
         setModalProps(props);
     };
+    
     const closeModal = () => {
         setModalProps(null);
     };

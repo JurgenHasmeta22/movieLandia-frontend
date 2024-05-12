@@ -60,6 +60,7 @@ type ActionConfig = {
 
 const Modal: React.FC<ModalProps> = ({
     onClose,
+    // open,
     initialValues,
     fields,
     validationSchema,
@@ -167,7 +168,7 @@ const Modal: React.FC<ModalProps> = ({
                                                 color={action.color || "secondary"}
                                                 variant={action.variant || "text"}
                                                 sx={action.sx}
-                                                type={action.type ? "submit" : ""}
+                                                type={action.type}
                                                 endIcon={action.icon}
                                             >
                                                 <Typography
@@ -189,12 +190,22 @@ const Modal: React.FC<ModalProps> = ({
                         {actions!.map((action, index) => (
                             <Button
                                 key={index}
-                                onClick={action.onClick}
+                                onClick={
+                                    action.type === "submit" || action.type === "reset"
+                                        ? action.onClick
+                                        : onClose
+                                          ? onClose
+                                          : () => {}
+                                }
                                 //@ts-ignore
                                 color={action.color || "secondary"}
                                 variant={action.variant || "text"}
                                 sx={action.sx}
-                                type={action.type}
+                                type={
+                                    action.type === "submit" || action.type === "reset"
+                                        ? action.type
+                                        : ""
+                                }
                                 endIcon={action.icon}
                             >
                                 {action.label}
