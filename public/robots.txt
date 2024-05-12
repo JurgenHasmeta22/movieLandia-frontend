@@ -1,6 +1,8 @@
 User-agent: *
-Allow: /movies
-Allow: /profile
+Allow: /movies/
+Allow: /genres/
+Allow: /series/
 Allow: /login
 Allow: /register
-
+Disallow: /admin/
+Disallow: /profile/

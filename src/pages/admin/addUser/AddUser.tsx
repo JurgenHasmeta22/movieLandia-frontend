@@ -12,7 +12,7 @@ import ClearAllIcon from "@mui/icons-material/ClearAll";
 import * as CONSTANTS from "~/constants/Constants";
 
 const userSchema = yup.object().shape({
-    username: yup.string().required("required"),
+    userName: yup.string().required("required"),
     email: yup.string().required("required"),
     password: yup.string().required("required"),
 });
@@ -32,7 +32,7 @@ const AddUser = () => {
 
     const handleFormSubmit = async (values: any) => {
         const response = await authenticationService.onRegister(
-            values.username,
+            values.userName,
             values.email,
             values.password,
         );
@@ -50,13 +50,13 @@ const AddUser = () => {
             <Header title={CONSTANTS.USER__ADD__TITLE} subtitle={CONSTANTS.USER__ADD__SUBTITLE} />
             <FormAdvanced
                 initialValues={{
-                    username: "",
+                    userName: "",
                     email: "",
                     password: "",
                 }}
                 fields={[
                     {
-                        name: "username",
+                        name: "userName",
                         label: "Username",
                         variant: "filled",
                         type: "text",
