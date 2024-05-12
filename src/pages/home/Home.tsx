@@ -25,10 +25,11 @@ const api = {
 };
 
 export default function Home() {
-    const [movies, setMovies] = useState<IMovie[]>([]);
+    const [movies, setMovies] = useState<IMovie[] | undefined>(undefined);
     const [latestMovies, setLatestMovies] = useState<IMovie[]>([]);
     const [moviesCount, setMoviesCount] = useState<number | null>(null);
     const [moviesCountSearch, setMoviesCountSearch] = useState<number | null>(null);
+
     const [moviesCarouselImages, setMoviesCarouselImages] = useState<any[]>([
         { source: `${api.url}/images/movies/1gxZrx9gL9ov2c1NpXimEUzMTmh.jpg` },
         { source: `${api.url}/images/movies/1RjyfPLsZTq3lUdJY7pTzcmpPKl.jpg` },
@@ -147,7 +148,7 @@ export default function Home() {
         fetchData();
     }, [searchParams]);
 
-    if (movies?.length === 0 && !searchParams?.get("search")) {
+    if (!movies) {
         return (
             <Box
                 sx={{
@@ -158,6 +159,23 @@ export default function Home() {
                 }}
             >
                 <CircularProgress size={80} thickness={4} />
+            </Box>
+        );
+    }
+
+    if (movies && movies?.length === 0 && !searchParams?.get("search")) {
+        return (
+            <Box
+                sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "100vh",
+                }}
+            >
+                <Typography fontSize={40} color={"secondary"}>
+                    There are no movies
+                </Typography>
             </Box>
         );
     }

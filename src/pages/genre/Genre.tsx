@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
-import movieService from "~/services/api/movieService";
 import type IGenreResponse from "~/types/IGenreResponse";
 import MovieItem from "~/components/movieItem/MovieItem";
 import type IMovie from "~/types/IMovie";
-import { Box, CircularProgress, Pagination, Stack, useTheme } from "@mui/material";
+import { Box, CircularProgress, Pagination, Stack, Typography, useTheme } from "@mui/material";
 import { tokens } from "~/utils/theme";
 import genreService from "~/services/api/genreService";
 
 export default function Genre(): React.JSX.Element {
     const [itemsPerPage, setItemsPerPage] = useState<number>(20);
     const [moviesCountGenre, setMoviesCountGenres] = useState<number>(0);
-    const [moviesOfGenre, setMoviesOfGenre] = useState<IMovie[]>([]);
+    const [moviesOfGenre, setMoviesOfGenre] = useState<IMovie[] | undefined>(undefined);
 
     const params = useParams();
     const [searchParams, setSearchParams] = useSearchParams();
     const theme = useTheme();
+
     const colors = tokens(theme.palette.mode);
     const pageCount: number = Math.ceil(moviesCountGenre / itemsPerPage);
 
@@ -49,7 +49,7 @@ export default function Genre(): React.JSX.Element {
         getMoviesOnGenre();
     }, [params.name, searchParams.get("page")]);
 
-    if (moviesOfGenre?.length === 0) {
+    if (!moviesOfGenre) {
         return (
             <Box
                 sx={{
@@ -60,6 +60,23 @@ export default function Genre(): React.JSX.Element {
                 }}
             >
                 <CircularProgress size={80} thickness={4} />
+            </Box>
+        );
+    }
+
+    if (moviesOfGenre && moviesOfGenre?.length === 0) {
+        return (
+            <Box
+                sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "100vh",
+                }}
+            >
+                <Typography fontSize={40} color={"secondary"}>
+                    There are no movies with this genre
+                </Typography>
             </Box>
         );
     }
