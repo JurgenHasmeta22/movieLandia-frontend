@@ -24,12 +24,13 @@ const authenticationService = {
 
     onRegister: async (username: string, email: string, password: string): Promise<any> => {
         const payload: IRegister = {
-            username,
+            userName: username,
             email,
             password,
         };
+        
         const responseLogin: IResponseLogin = await axios
-            .post(`${api.url}/sign-up`, payload)
+            .post(`${api.url}/register`, payload)
             .then((x) => x.data);
 
         return responseLogin;
@@ -42,8 +43,9 @@ const authenticationService = {
                     Authorization: localStorage.token,
                 },
             };
+
             const response: IUser = await axios
-                .get(`${api.url}/validate`, config)
+                .get(`${api.url}/validateUser`, config)
                 .then((x) => x.data);
 
             return response;

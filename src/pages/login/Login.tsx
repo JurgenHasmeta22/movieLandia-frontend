@@ -159,7 +159,7 @@ export default function Login() {
                                         size="medium"
                                     >
                                         <LockOutlinedIcon />
-                                        <span style={{ paddingLeft: 4 }}>Sign In</span>
+                                        <span style={{ paddingLeft: 4 }}>Login</span>
                                     </Button>
                                     <Box>
                                         <Typography variant="overline">

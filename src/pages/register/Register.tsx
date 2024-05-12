@@ -21,7 +21,7 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useState } from "react";
 
 const registerSchema = yup.object().shape({
-    username: yup
+    userName: yup
         .string()
         .required("Username is a required field")
         .min(3, "Username must be at least 3 characters")
@@ -57,7 +57,7 @@ export default function Register() {
 
     async function onSubmitRegister(values: any) {
         const response: IResponseLogin = await authenticationService.onRegister(
-            values.username,
+            values.userName,
             values.email,
             values.password,
         );
@@ -95,7 +95,7 @@ export default function Register() {
             >
                 <Formik
                     initialValues={{
-                        username: "",
+                        userName: "",
                         email: "",
                         password: "",
                         confirmPassword: "",
@@ -121,18 +121,18 @@ export default function Register() {
                                         <FormLabel>Username</FormLabel>
                                         <TextField
                                             type="text"
-                                            name="username"
+                                            name="userName"
                                             required
                                             placeholder="Example22"
-                                            value={values.username}
+                                            value={values.userName}
                                             onChange={handleChange}
                                             onBlur={handleBlur}
                                             size="small"
                                             InputProps={{ color: "secondary" }}
                                             InputLabelProps={{ color: "secondary" }}
                                             // @ts-ignore
-                                            helperText={touched["username"] && errors["username"]}
-                                            error={touched["username"] && !!errors["username"]}
+                                            helperText={touched["userName"] && errors["userName"]}
+                                            error={touched["userName"] && !!errors["userName"]}
                                         />
                                     </Box>
                                     <Box display={"flex"} flexDirection={"column"} rowGap={1}>
@@ -238,7 +238,7 @@ export default function Register() {
                                         size="medium"
                                     >
                                         <LockOutlinedIcon />
-                                        <span style={{ paddingLeft: 4 }}>Sign In</span>
+                                        <span style={{ paddingLeft: 4 }}>Register</span>
                                     </Button>
                                     <Box>
                                         <Typography variant="overline">
