@@ -85,20 +85,20 @@ export default function Home() {
 
         if (searchParams.get("search")) {
             if (searchParams.get("page")) {
-                const responseSearch: IMoviesSearchResponse =
-                    await movieService.searchMoviesByTitle(
-                        searchParams.get("search")!,
-                        searchParams.get("page")!,
-                    );
+                const response: IMoviesResponse = await movieService.searchMoviesByTitle(
+                    searchParams.get("search")!,
+                    searchParams.get("page")!,
+                );
 
-                moviesResponse = responseSearch.movies;
-                setMoviesCountSearch(responseSearch.count);
+                moviesResponse = response.movies;
+                setMoviesCountSearch(response.count);
             } else {
-                const responseSearch: IMoviesSearchResponse =
-                    await movieService.searchMoviesByTitle(searchParams.get("search")!);
+                const response: IMoviesResponse = await movieService.searchMoviesByTitle(
+                    searchParams.get("search")!,
+                );
 
-                moviesResponse = responseSearch.movies;
-                setMoviesCountSearch(responseSearch.count);
+                moviesResponse = response.movies;
+                setMoviesCountSearch(response.count);
             }
         } else {
             if (searchParams.get("sortBy") && searchParams.get("ascOrDesc")) {
@@ -111,7 +111,9 @@ export default function Home() {
 
                     const responseMovies: IMoviesResponse =
                         await movieService.getMovies(queryParams);
-                    moviesResponse = responseMovies.rows;
+
+                    moviesResponse = responseMovies.movies;
+                    setMoviesCount(responseMovies.count);
                 } else {
                     const queryParams = {
                         sortBy: searchParams.get("sortBy")!,
@@ -120,7 +122,9 @@ export default function Home() {
 
                     const responseMovies: IMoviesResponse =
                         await movieService.getMovies(queryParams);
-                    moviesResponse = responseMovies.rows;
+
+                    moviesResponse = responseMovies.movies;
+                    setMoviesCount(responseMovies.count);
                 }
             } else if (searchParams.get("page")) {
                 const queryParams = {
@@ -223,8 +227,6 @@ export default function Home() {
                             onChange={handleChangeSorting}
                         >
                             <MenuItem value={"none"}>None</MenuItem>
-                            <MenuItem value={"viewsAsc"}>Most viewed (Asc)</MenuItem>
-                            <MenuItem value={"viewsDesc"}>Most viewed (Desc)</MenuItem>
                             <MenuItem value={"ratingImdbAsc"}>Imdb rating (Asc)</MenuItem>
                             <MenuItem value={"ratingImdbDesc"}>Imdb rating (Desc)</MenuItem>
                             <MenuItem value={"titleAsc"}>Title (Asc)</MenuItem>

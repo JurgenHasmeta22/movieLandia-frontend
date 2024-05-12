@@ -65,7 +65,7 @@ function App() {
                     </Route>
                     <Route element={<PrivateRoutes />}>
                         <Route element={<AdminLayout />}>
-                            {/* <Route path="admin" element={<Dashboard />} /> */}
+                            <Route path="admin" element={<Dashboard />} />
                             <Route path="admin/dashboard" element={<Dashboard />} />
                             <Route path="admin/users" element={<UsersAdmin />} />
                             <Route path="admin/users/add" element={<AddUserAdmin />} />

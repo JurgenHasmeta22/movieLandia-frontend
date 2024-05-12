@@ -14,12 +14,14 @@ const MovieItem = ({ movie, type }: IMovieItemProps): React.JSX.Element => {
     return (
         <Box
             onClick={function (e) {
-                navigate(
-                    `/movies/${movie.title
-                        .split("")
-                        .map((char: any) => (char === " " ? "-" : char))
-                        .join("")}`,
-                );
+                if (type !== "serie") {
+                    navigate(
+                        `/movies/${movie.title
+                            .split("")
+                            .map((char: any) => (char === " " ? "-" : char))
+                            .join("")}`,
+                    );
+                }
             }}
             sx={{
                 cursor: "pointer",
