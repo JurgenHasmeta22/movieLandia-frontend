@@ -103,8 +103,8 @@ const Modal: React.FC<ModalProps> = ({
                                 <Form>
                                     <Grid container spacing={4} mt={"15px"}>
                                         {fields &&
-                                            fields!.map((field) => (
-                                                <Grid item xs={6} key={field.name}>
+                                            fields!.map((field, index: number) => (
+                                                <Grid item xs={6} key={index}>
                                                     {field.type === "select" ? (
                                                         <FormControl fullWidth size="medium">
                                                             <InputLabel id={`${field.name}-label`}>
@@ -116,9 +116,9 @@ const Modal: React.FC<ModalProps> = ({
                                                                 labelId={`${field.name}-label`}
                                                                 as={Select}
                                                             >
-                                                                {field.options?.map((option) => (
+                                                                {field.options?.map((option, index: number) => (
                                                                     <MenuItem
-                                                                        key={option.value}
+                                                                        key={index}
                                                                         value={option.value}
                                                                     >
                                                                         {option.label}

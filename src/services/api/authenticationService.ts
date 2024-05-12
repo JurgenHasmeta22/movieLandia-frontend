@@ -14,7 +14,7 @@ const authenticationService = {
             email,
             password,
         };
-        
+
         const responseLogin: IResponseLogin = await axios
             .post(`${api.url}/login`, payload)
             .then((x) => x.data);
@@ -28,7 +28,7 @@ const authenticationService = {
             email,
             password,
         };
-        
+
         const responseLogin: IResponseLogin = await axios
             .post(`${api.url}/register`, payload)
             .then((x) => x.data);
@@ -40,7 +40,7 @@ const authenticationService = {
         if (localStorage.token) {
             const config = {
                 headers: {
-                    Authorization: localStorage.token,
+                    Authorization: `Bearer ${localStorage.token}`,
                 },
             };
 

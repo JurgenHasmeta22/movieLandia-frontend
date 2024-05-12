@@ -84,7 +84,7 @@ const MoviesAdmin = () => {
         }
 
         try {
-            const response: IMovie[] = await movieService.getMoviesDefault();
+            const response: IMovie[] = await movieService.getMovies({});
             setMovies(response);
         } catch (error) {
             setIsError(true);
@@ -184,7 +184,7 @@ const MoviesAdmin = () => {
         },
         renderRowActionMenuItems: ({ closeMenu, row }) => [
             <MenuItem
-                key={1}
+                key={0}
                 onClick={() => {
                     navigate(`/admin/movies/${row.original.id}`, {
                         state: {

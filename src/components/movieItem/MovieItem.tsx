@@ -13,7 +13,6 @@ const MovieItem = ({ movie, type }: IMovieItemProps): React.JSX.Element => {
 
     return (
         <Box
-            key={movie.id}
             onClick={function (e) {
                 navigate(
                     `/movies/${movie.title

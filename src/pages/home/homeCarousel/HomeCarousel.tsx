@@ -6,13 +6,13 @@ import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 const Carousel = ({ images }: any) => {
     const [startIndex, setStartIndex] = useState(0);
 
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setStartIndex((prevIndex) => (prevIndex === images.length - 3 ? 0 : prevIndex + 1));
-        }, 3000);
+    // useEffect(() => {
+    //     const interval = setInterval(() => {
+    //         setStartIndex((prevIndex) => (prevIndex === images.length - 3 ? 0 : prevIndex + 1));
+    //     }, 3000);
 
-        return () => clearInterval(interval);
-    }, [images]);
+    //     return () => clearInterval(interval);
+    // }, [images]);
 
     const handleNext = () => {
         setStartIndex((prevIndex) => (prevIndex === images.length - 3 ? 0 : prevIndex + 1));

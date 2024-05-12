@@ -1,4 +1,4 @@
-import { Box, CircularProgress, CssBaseline, Grid } from "@mui/material";
+import { Box, CircularProgress, Grid } from "@mui/material";
 import React from "react";
 import { Outlet } from "react-router-dom";
 import Sidebar from "~/components/admin/sidebar/Sidebar";
@@ -12,39 +12,36 @@ const AdminLayout = () => {
     const { isOpenSidebarAdmin } = useStore();
 
     return (
-        <React.Fragment>
-            <CssBaseline />
-            <RightPanelProvider>
-                <ModalProvider>
-                    <Grid container>
-                        <Grid item xs={12} md={isOpenSidebarAdmin ? 2 : 0}>
-                            <Sidebar sidebarItems={sidebarItems} />
-                        </Grid>
-                        <Grid item xs={12} md={isOpenSidebarAdmin ? 10 : 12}>
-                            <TopBar />
-                            <React.Suspense
-                                fallback={
-                                    <Box
-                                        sx={{
-                                            display: "flex",
-                                            placeItems: "center",
-                                            placeContent: "center",
-                                            height: "100vh",
-                                        }}
-                                    >
-                                        <CircularProgress size={80} thickness={4} />
-                                    </Box>
-                                }
-                            >
-                                <Box ml={4}>
-                                    <Outlet />
-                                </Box>
-                            </React.Suspense>
-                        </Grid>
+        <RightPanelProvider>
+            <ModalProvider>
+                <Grid container>
+                    <Grid item xs={12} md={isOpenSidebarAdmin ? 2 : 0}>
+                        <Sidebar sidebarItems={sidebarItems} />
                     </Grid>
-                </ModalProvider>
-            </RightPanelProvider>
-        </React.Fragment>
+                    <Grid item xs={12} md={isOpenSidebarAdmin ? 10 : 12}>
+                        <TopBar />
+                        <React.Suspense
+                            fallback={
+                                <Box
+                                    sx={{
+                                        display: "flex",
+                                        placeItems: "center",
+                                        placeContent: "center",
+                                        height: "100vh",
+                                    }}
+                                >
+                                    <CircularProgress size={80} thickness={4} />
+                                </Box>
+                            }
+                        >
+                            <Box ml={4}>
+                                <Outlet />
+                            </Box>
+                        </React.Suspense>
+                    </Grid>
+                </Grid>
+            </ModalProvider>
+        </RightPanelProvider>
     );
 };
 

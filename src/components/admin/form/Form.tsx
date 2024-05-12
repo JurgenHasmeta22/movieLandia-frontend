@@ -16,7 +16,7 @@ import {
 } from "@mui/material";
 import { Formik, FormikProps, Form } from "formik";
 import * as yup from "yup";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { IndeterminateCheckBox, Visibility, VisibilityOff } from "@mui/icons-material";
 
 type FieldOption = {
     label: string;
@@ -107,7 +107,7 @@ const FormAdvanced: React.FC<FormProps> = ({
                                     flexDirection={"row"}
                                     flexWrap={"wrap"}
                                 >
-                                    {fields.map((field: FieldConfig) => {
+                                    {fields.map((field: FieldConfig, index: number) => {
                                         switch (field.type) {
                                             case "select":
                                                 return (
@@ -116,7 +116,7 @@ const FormAdvanced: React.FC<FormProps> = ({
                                                             {field.label}
                                                         </InputLabel>
                                                         <Select
-                                                            key={field.name}
+                                                            key={index}
                                                             name={field.name}
                                                             labelId={`${field.name}-label`}
                                                             variant={field.variant}
@@ -126,14 +126,16 @@ const FormAdvanced: React.FC<FormProps> = ({
                                                             value={values[field.name]}
                                                             sx={field.sx}
                                                         >
-                                                            {field.options?.map((option) => (
-                                                                <MenuItem
-                                                                    key={option.value}
-                                                                    value={option.value}
-                                                                >
-                                                                    {option.label}
-                                                                </MenuItem>
-                                                            ))}
+                                                            {field.options?.map(
+                                                                (option, index: number) => (
+                                                                    <MenuItem
+                                                                        key={index}
+                                                                        value={option.value}
+                                                                    >
+                                                                        {option.label}
+                                                                    </MenuItem>
+                                                                ),
+                                                            )}
                                                         </Select>
                                                     </FormControl>
                                                 );
@@ -144,7 +146,7 @@ const FormAdvanced: React.FC<FormProps> = ({
                                                             {field.label}
                                                         </InputLabel>
                                                         <Select
-                                                            key={field.name}
+                                                            key={index}
                                                             name={field.name}
                                                             labelId={`${field.name}-label`}
                                                             variant={field.variant}
@@ -155,21 +157,23 @@ const FormAdvanced: React.FC<FormProps> = ({
                                                             multiple
                                                             sx={field.sx}
                                                         >
-                                                            {field.options?.map((option) => (
-                                                                <MenuItem
-                                                                    key={option.value}
-                                                                    value={option.value}
-                                                                >
-                                                                    {option.label}
-                                                                </MenuItem>
-                                                            ))}
+                                                            {field.options?.map(
+                                                                (option, index: number) => (
+                                                                    <MenuItem
+                                                                        key={index}
+                                                                        value={option.value}
+                                                                    >
+                                                                        {option.label}
+                                                                    </MenuItem>
+                                                                ),
+                                                            )}
                                                         </Select>
                                                     </FormControl>
                                                 );
                                             case "date":
                                                 return (
                                                     <TextField
-                                                        key={field.name}
+                                                        key={index}
                                                         name={field.name}
                                                         label={field.label}
                                                         variant={field.variant}
@@ -204,7 +208,7 @@ const FormAdvanced: React.FC<FormProps> = ({
                                                     >
                                                         <FormLabel>{field.label}</FormLabel>
                                                         <TextField
-                                                            key={field.name}
+                                                            key={index}
                                                             name={field.name}
                                                             variant={field.variant}
                                                             onBlur={handleBlur}
@@ -258,7 +262,7 @@ const FormAdvanced: React.FC<FormProps> = ({
                                                     >
                                                         <FormLabel>{field.label}</FormLabel>
                                                         <TextField
-                                                            key={field.name}
+                                                            key={index}
                                                             name={field.name}
                                                             type={field.type}
                                                             onBlur={handleBlur}
