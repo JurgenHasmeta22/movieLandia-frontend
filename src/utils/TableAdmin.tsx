@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import {
     MRT_ColumnDef,
@@ -20,13 +20,16 @@ import {
     Tooltip,
     Typography,
 } from "@mui/material";
-import { Edit, Delete, Add } from "@mui/icons-material";
+import { Edit, Delete, Add, CheckOutlined, WarningOutlined } from "@mui/icons-material";
 import serieService from "~/services/api/serieService";
 import movieService from "~/services/api/movieService";
 import userService from "~/services/api/userService";
 import genreService from "~/services/api/genreService";
 import { toFirstWordUpperCase } from "./utils";
 import RefreshIcon from "@mui/icons-material/Refresh";
+import { FormikProps } from "formik";
+import { useModal } from "~/services/providers/ModalContext";
+import * as CONSTANTS from "~/constants/Constants";
 
 type props = {
     columns: MRT_ColumnDef<any>[];
@@ -50,6 +53,9 @@ const TableAdmin = ({ columns, page, handleAddItem, handleDeleteItem }: props) =
         pageSize: 10,
     });
     const navigate = useNavigate();
+    const { openModal } = useModal();
+    const formikRef = useRef<FormikProps<any>>(null);
+    const [open, setOpen] = useState(false);
 
     console.log(
         rowSelection,
@@ -62,6 +68,41 @@ const TableAdmin = ({ columns, page, handleAddItem, handleDeleteItem }: props) =
         sorting,
         pagination,
     );
+
+    function handleMassiveDeleteMovies() {
+        const keysArray = Object.keys(rowSelection);
+
+        openModal({
+            formRef: formikRef,
+            onClose: () => setOpen(false),
+            title: `Delete selected ${page}`,
+            actions: [
+                {
+                    label: CONSTANTS.MODAL__DELETE__NO,
+                    onClick: () => setOpen(false),
+                    color: "secondary",
+                    variant: "contained",
+                    type: "submit",
+                    sx: {
+                        bgcolor: "#ff5252",
+                    },
+                    icon: <WarningOutlined />,
+                },
+                {
+                    label: CONSTANTS.MODAL__DELETE__YES,
+                    onClick: () => {},
+                    type: "submit",
+                    color: "secondary",
+                    variant: "contained",
+                    sx: {
+                        bgcolor: "#30969f",
+                    },
+                    icon: <CheckOutlined />,
+                },
+            ],
+            subTitle: "Do you want to delete selected rows ?",
+        });
+    }
 
     const fetchData = async () => {
         if (!rows.length) {
@@ -221,6 +262,7 @@ const TableAdmin = ({ columns, page, handleAddItem, handleDeleteItem }: props) =
             <MenuItem
                 key={1}
                 onClick={async () => {
+                    handleDeleteItem();
                     closeMenu();
                 }}
                 sx={{ m: 0 }}
@@ -267,16 +309,30 @@ const TableAdmin = ({ columns, page, handleAddItem, handleDeleteItem }: props) =
                     >
                         <Button color="success" onClick={handleAddItem} variant="contained">
                             <Add />
-                            <Typography>Add</Typography>
+                            <Typography
+                                sx={{
+                                    textTransform: "capitalize",
+                                }}
+                            >
+                                Add
+                            </Typography>
                         </Button>
                         <Button
                             color="error"
                             disabled={!table.getIsSomeRowsSelected()}
-                            onClick={handleDeleteItem}
+                            onClick={() => {
+                                handleMassiveDeleteMovies();
+                            }}
                             variant="contained"
                         >
                             <Delete />
-                            <Typography>Delete</Typography>
+                            <Typography
+                                sx={{
+                                    textTransform: "capitalize",
+                                }}
+                            >
+                                Delete
+                            </Typography>
                         </Button>
                     </Box>
                 </Box>
