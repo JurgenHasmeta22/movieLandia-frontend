@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
+    MRT_ColumnDef,
     MRT_ColumnFiltersState,
     MRT_GlobalFilterTextField,
     MRT_ShowHideColumnsButton,
@@ -12,8 +13,19 @@ import {
 import { Box, Button, ListItemIcon, MenuItem, Typography } from "@mui/material";
 import { Edit, Delete, Add } from "@mui/icons-material";
 import serieService from "~/services/api/serieService";
+import movieService from "~/services/api/movieService";
+import userService from "~/services/api/userService";
+import genreService from "~/services/api/genreService";
+import { toCamelCase } from "./utils";
 
-const Table = ({ columns, url, handleAddItem, handleDeleteItem }: any) => {
+type props = {
+    columns: MRT_ColumnDef<any>[];
+    page: string;
+    handleAddItem: () => void;
+    handleDeleteItem: () => void;
+};
+
+const TableAdmin = ({ columns, page, handleAddItem, handleDeleteItem }: props) => {
     const [rows, setRows] = useState<any[]>([]);
     const [rowsCount, setRowsCount] = useState<number>(0);
     const [rowSelection, setRowSelection] = useState<any>({});
@@ -37,9 +49,32 @@ const Table = ({ columns, url, handleAddItem, handleDeleteItem }: any) => {
         }
 
         try {
-            const response = await serieService.getSeries({});
-            setRows(response.rows);
-            setRowsCount(response.count);
+            let response: any;
+
+            switch (page) {
+                case "series":
+                    response = await serieService.getSeries({});
+                    setRows(response.rows);
+                    setRowsCount(response.count);
+                    break;
+                case "movies":
+                    response = await movieService.getMovies({});
+                    setRows(response.movies);
+                    setRowsCount(response.count);
+                    break;
+                case "genres":
+                    response = await genreService.getGenres({});
+                    setRows(response.rows);
+                    setRowsCount(response.count);
+                    break;
+                case "users":
+                    response = await userService.getUsers({});
+                    setRows(response.rows);
+                    setRowsCount(response.count);
+                    break;
+                default:
+                    response = { rows: [], count: 0 };
+            }
         } catch (error) {
             setIsError(true);
             console.error(error);
@@ -128,10 +163,10 @@ const Table = ({ columns, url, handleAddItem, handleDeleteItem }: any) => {
             <MenuItem
                 key={0}
                 onClick={() => {
-                    navigate(`/admin/series/${row.original.id}`, {
+                    navigate(`/admin/${page}/${row.original.id}`, {
                         state: {
                             userId: row.original.id,
-                            from: "Series",
+                            from: toCamelCase(page),
                         },
                     });
 
@@ -205,4 +240,4 @@ const Table = ({ columns, url, handleAddItem, handleDeleteItem }: any) => {
     };
 };
 
-export default Table;
+export default TableAdmin;

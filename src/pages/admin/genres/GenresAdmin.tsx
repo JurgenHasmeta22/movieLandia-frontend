@@ -4,11 +4,11 @@ import HeaderDashboard from "~/components/admin/headerDashboard/HeaderDashboard"
 import { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import IGenre from "~/types/IGenre";
-import Table from "~/components/admin/table/Table";
+import TableAdmin from "~/utils/TableAdmin";
 
 const GenresAdmin = () => {
     const navigate = useNavigate();
-    const columns = useMemo<MRT_ColumnDef<IGenre>[]>(
+    const columns = useMemo<MRT_ColumnDef<any>[]>(
         () => [
             { accessorKey: "id", header: "Id", enableHiding: true },
             {
@@ -27,9 +27,9 @@ const GenresAdmin = () => {
         navigate("/admin/genres/add");
     }
 
-    const { table } = Table({
+    const { table } = TableAdmin({
         columns,
-        url: "",
+        page: "genres",
         handleAddItem: handleAddGenre,
         handleDeleteItem: handleDeleteGenre,
     });

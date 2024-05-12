@@ -7,12 +7,12 @@ import HeaderDashboard from "~/components/admin/headerDashboard/HeaderDashboard"
 import { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import ISerie from "~/types/ISerie";
-import Table from "~/components/admin/table/Table";
+import TableAdmin from "~/utils/TableAdmin";
 
 const SeriesAdmin = () => {
     const navigate = useNavigate();
 
-    const columns = useMemo<MRT_ColumnDef<ISerie>[]>(
+    const columns = useMemo<MRT_ColumnDef<any>[]>(
         () => [
             { accessorKey: "id", header: "Id", enableHiding: true },
             {
@@ -39,9 +39,9 @@ const SeriesAdmin = () => {
         // navigate("/admin/series/add");
     }
 
-    const { table } = Table({
+    const { table } = TableAdmin({
         columns,
-        url: "",
+        page: "series",
         handleAddItem: handleAddSerie,
         handleDeleteItem: handleDeleteSerie,
     });

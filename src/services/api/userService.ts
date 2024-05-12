@@ -48,45 +48,16 @@ const userService = {
         const response: IUserResponse = await axios.get(url).then((res) => res.data);
         return response;
     },
-    getUserByName: async ({
-        sortBy,
-        ascOrDesc,
-        page,
-        pageSize,
-        title,
-        filterValue,
-        filterName,
-        filterOperator,
-    }: {
-        sortBy?: string;
-        ascOrDesc?: string;
-        page?: string;
-        pageSize?: string;
-        title?: string;
-        filterValue?: string;
-        filterName?: string;
-        filterOperator?: string;
-    }): Promise<any> => {
-        let url = `${api.url}/getUserByTitle/${title}`;
-
-        const queryParams = [
-            sortBy && `sortBy=${sortBy}`,
-            ascOrDesc && `ascOrDesc=${ascOrDesc}`,
-            page && `page=${page}`,
-            pageSize && `pageSize=${pageSize}`,
-            title && `title=${title}`,
-            filterValue && `filterValue=${filterValue}`,
-            filterName && `filterName=${filterName}`,
-            filterOperator && `filterOperator=${filterOperator}`,
-        ]
-            .filter(Boolean)
-            .join("&");
-
-        if (queryParams) {
-            url += `?${queryParams}`;
-        }
-
+    getUserByUserName: async (userName: string): Promise<any> => {
+        let url = `${api.url}/getUserByUserName/${userName}`;
         const user: IUser = await axios.get(url).then((res) => res.data);
+
+        return user;
+    },
+    getUserById: async (id: any) => {
+        let url = `${api.url}/getUserById/${id}`;
+        const user: IUser = await axios.get(url).then((res) => res.data);
+
         return user;
     },
 };
