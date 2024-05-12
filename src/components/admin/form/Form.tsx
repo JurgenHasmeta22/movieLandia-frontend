@@ -13,6 +13,7 @@ import {
     Grid,
     Box,
     FormLabel,
+    Typography,
 } from "@mui/material";
 import { Formik, FormikProps, Form } from "formik";
 import * as yup from "yup";
@@ -99,7 +100,7 @@ const FormAdvanced: React.FC<FormProps> = ({
 
                 return (
                     <Form onSubmit={handleSubmit}>
-                        <Grid container direction="column" rowSpacing={{ xs: 4, md: 10, lg: 32 }}>
+                        <Grid container direction="column" rowSpacing={{ xs: 4, md: 8, lg: 14 }}>
                             <Grid container item alignItems={"center"}>
                                 <Stack
                                     rowGap={4}
@@ -306,7 +307,13 @@ const FormAdvanced: React.FC<FormProps> = ({
                                             type={action.type}
                                             endIcon={action.icon}
                                         >
-                                            {action.label}
+                                            <Typography
+                                                fontSize={16}
+                                                fontWeight={500}
+                                                sx={{ textTransform: "capitalize" }}
+                                            >
+                                                {action.label}
+                                            </Typography>
                                         </Button>
                                     ))}
                                 </Stack>

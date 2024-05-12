@@ -115,20 +115,7 @@ const GenreAdmin = () => {
                 formRef={formikRef}
                 actions={[
                     {
-                        label: CONSTANTS.FORM__UPDATE__BUTTON,
-                        type: "submit",
-                        color: "secondary",
-                        variant: "contained",
-                        sx: {
-                            border: "1px solid #000",
-                            bgcolor: "#30969f",
-                            fontSize: "15px",
-                            fontWeight: "700",
-                        },
-                        icon: <SaveAsIcon sx={{ ml: "10px" }} color="action" />,
-                    },
-                    {
-                        label: "Elemino",
+                        label: CONSTANTS.FORM__DELETE__BUTTON,
                         onClick: async () => {
                             // const response = await genreService.updateGenre(genreId, {
                             //     ...genre,
@@ -144,10 +131,7 @@ const GenreAdmin = () => {
                         color: "secondary",
                         variant: "contained",
                         sx: {
-                            border: "1px solid #000",
                             bgcolor: "#ff5252",
-                            fontSize: "15px",
-                            fontWeight: "700",
                         },
                         icon: <ClearOutlinedIcon color="action" sx={{ ml: "10px" }} />,
                     },
@@ -160,12 +144,19 @@ const GenreAdmin = () => {
                         color: "secondary",
                         variant: "contained",
                         sx: {
-                            border: "1px solid #000",
-                            bgcolor: "#ff5252",
-                            fontSize: "15px",
-                            fontWeight: "700",
+                            bgcolor: "#00bfff",
                         },
                         icon: <ClearAllIcon color="action" sx={{ ml: "10px" }} />,
+                    },
+                    {
+                        label: CONSTANTS.FORM__UPDATE__BUTTON,
+                        type: "submit",
+                        color: "secondary",
+                        variant: "contained",
+                        sx: {
+                            bgcolor: "#30969f",
+                        },
+                        icon: <SaveAsIcon sx={{ ml: "10px" }} color="action" />,
                     },
                 ]}
             />

@@ -16,7 +16,7 @@ import serieService from "~/services/api/serieService";
 import movieService from "~/services/api/movieService";
 import userService from "~/services/api/userService";
 import genreService from "~/services/api/genreService";
-import { toCamelCase } from "./utils";
+import { toFirstWordUpperCase } from "./utils";
 
 type props = {
     columns: MRT_ColumnDef<any>[];
@@ -166,7 +166,7 @@ const TableAdmin = ({ columns, page, handleAddItem, handleDeleteItem }: props) =
                     navigate(`/admin/${page}/${row.original.id}`, {
                         state: {
                             userId: row.original.id,
-                            from: toCamelCase(page),
+                            from: toFirstWordUpperCase(page),
                         },
                     });
 
