@@ -164,7 +164,7 @@ const SeriesAdmin = () => {
         },
         renderRowActionMenuItems: ({ closeMenu, row }) => [
             <MenuItem
-                key={1}
+                key={0}
                 onClick={() => {
                     navigate(`/admin/series/${row.original.id}`, {
                         state: {

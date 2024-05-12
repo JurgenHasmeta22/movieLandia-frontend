@@ -125,7 +125,7 @@ const RightPanel: React.FC<DrawerProps> = ({
                 {steps && (
                     <Stepper activeStep={activeStep} alternativeLabel>
                         {steps.map((stepConfig, index) => (
-                            <Step key={stepConfig.title}>
+                            <Step key={index}>
                                 <StepButton onClick={handleStep(index)}>
                                     <StepLabel>{stepConfig.title}</StepLabel>
                                 </StepButton>
@@ -154,8 +154,8 @@ const RightPanel: React.FC<DrawerProps> = ({
                         return (
                             <Form>
                                 <Grid container spacing={3} mt={3}>
-                                    {(steps! ? steps[activeStep].fields : fields!).map((field) => (
-                                        <Grid item xs={6} key={field.name}>
+                                    {(steps! ? steps[activeStep].fields : fields!).map((field, index: number) => (
+                                        <Grid item xs={6} key={index}>
                                             {field.type === "select" ? (
                                                 <FormControl fullWidth size="medium">
                                                     <InputLabel id={`${field.name}-label`}>
@@ -166,9 +166,9 @@ const RightPanel: React.FC<DrawerProps> = ({
                                                         labelId={`${field.name}-label`}
                                                         as={Select}
                                                     >
-                                                        {field.options?.map((option) => (
+                                                        {field.options?.map((option, index: number) => (
                                                             <MenuItem
-                                                                key={option.value}
+                                                                key={index}
                                                                 value={option.value}
                                                             >
                                                                 {option.label}

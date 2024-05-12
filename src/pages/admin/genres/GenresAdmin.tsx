@@ -17,6 +17,7 @@ import { useNavigate } from "react-router-dom";
 import { Edit, Delete, Add } from "@mui/icons-material";
 import movieService from "~/services/api/movieService";
 import IGenre from "~/types/IGenre";
+import genreService from "~/services/api/genreService";
 
 const GenresAdmin = () => {
     const [genres, setGenres] = useState<IGenre[]>([]);
@@ -56,7 +57,7 @@ const GenresAdmin = () => {
         }
 
         try {
-            const response: IGenre[] = await movieService.getGenresWithNoPagination();
+            const response: IGenre[] = await genreService.getGenres({});
             setGenres(response);
         } catch (error) {
             setIsError(true);
@@ -149,7 +150,7 @@ const GenresAdmin = () => {
         },
         renderRowActionMenuItems: ({ closeMenu, row }) => [
             <MenuItem
-                key={1}
+                key={0}
                 onClick={() => {
                     navigate(`/admin/genres/${row.original.id}`, {
                         state: {

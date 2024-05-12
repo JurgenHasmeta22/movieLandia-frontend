@@ -61,7 +61,7 @@ export const Header = (): React.JSX.Element => {
 
     async function getGenres(): Promise<void> {
         try {
-            const response: IGenre[] = await genreService.getGenres();
+            const response: IGenre[] = await genreService.getGenres({});
             setGenres(response);
         } catch (error) {
             console.log(error);

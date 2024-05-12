@@ -56,7 +56,7 @@ const Sidebar = ({ sidebarItems }: any) => {
                 <List disablePadding>
                     {sidebarItems?.map((item: any, index: number) => (
                         <SidebarItem
-                            key={item.label}
+                            key={index}
                             item={item}
                             index={index}
                             selectedLabel={selectedLabel}

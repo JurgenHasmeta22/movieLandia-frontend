@@ -165,7 +165,7 @@ const UsersAdmin = () => {
         },
         renderRowActionMenuItems: ({ closeMenu, row }) => [
             <MenuItem
-                key={1}
+                key={0}
                 onClick={() => {
                     navigate(`/admin/users/${row.original.id}`, {
                         state: {

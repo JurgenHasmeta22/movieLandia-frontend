@@ -5,7 +5,7 @@ import { useStore } from "~/store/store";
 import type IUser from "~/types/IUser";
 import authenticationService from "~/services/api/authenticationService";
 import PrivateRoutes from "~/utils/PrivateRoutes";
-import { ThemeProvider } from "@mui/material";
+import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "~/utils/theme";
 import MainLayout from "~/layouts/MainLayout";
 import AdminLayout from "~/layouts/AdminLayout";
@@ -21,17 +21,17 @@ const Profile = React.lazy(async () => await import("~/pages/profile/Profile"));
 const Register = React.lazy(async () => await import("~/pages/register/Register"));
 
 // admin pages
-const Dashboard = React.lazy(() => import("~/pages/admin/dashboard/Dashboard"));
-const MoviesAdmin = React.lazy(() => import("~/pages/admin/movies/MoviesAdmin"));
-const UsersAdmin = React.lazy(() => import("~/pages/admin/users/UsersAdmin"));
-const SeriesAdmin = React.lazy(() => import("~/pages/admin/series/SeriesAdmin"));
-const GenresAdmin = React.lazy(() => import("~/pages/admin/genres/GenresAdmin"));
-const AddUserAdmin = React.lazy(() => import("~/pages/admin/addUser/AddUser"));
-const AddGenreAdmin = React.lazy(() => import("~/pages/admin/addGenre/AddGenre"));
-const AddSerieAdmin = React.lazy(() => import("~/pages/admin/addSerie/AddSerie"));
-const AddMovieAdmin = React.lazy(() => import("~/pages/admin/addMovie/AddMovie"));
-const UserAdmin = React.lazy(() => import("~/pages/admin/user/UserAdmin"));
-const MovieAdmin = React.lazy(() => import("~/pages/admin/movie/MovieAdmin"));
+const Dashboard = React.lazy(async () => await import("~/pages/admin/dashboard/Dashboard"));
+const MoviesAdmin = React.lazy(async () => await import("~/pages/admin/movies/MoviesAdmin"));
+const UsersAdmin = React.lazy(async () => await import("~/pages/admin/users/UsersAdmin"));
+const SeriesAdmin = React.lazy(async () => await import("~/pages/admin/series/SeriesAdmin"));
+const GenresAdmin = React.lazy(async () => await import("~/pages/admin/genres/GenresAdmin"));
+const AddUserAdmin = React.lazy(async () => await import("~/pages/admin/addUser/AddUser"));
+const AddGenreAdmin = React.lazy(async () => await import("~/pages/admin/addGenre/AddGenre"));
+const AddSerieAdmin = React.lazy(async () => await import("~/pages/admin/addSerie/AddSerie"));
+const AddMovieAdmin = React.lazy(async () => await import("~/pages/admin/addMovie/AddMovie"));
+const UserAdmin = React.lazy(async () => await import("~/pages/admin/user/UserAdmin"));
+const MovieAdmin = React.lazy(async () => await import("~/pages/admin/movie/MovieAdmin"));
 
 function App() {
     const { setUser } = useStore();
@@ -50,6 +50,7 @@ function App() {
     return (
         <ColorModeContext.Provider value={colorMode}>
             <ThemeProvider theme={theme}>
+                <CssBaseline />
                 <Routes>
                     <Route index element={<Navigate replace to="movies" />} />
                     <Route element={<MainLayout />}>
@@ -64,7 +65,7 @@ function App() {
                     </Route>
                     <Route element={<PrivateRoutes />}>
                         <Route element={<AdminLayout />}>
-                            <Route path="admin" element={<Dashboard />} />
+                            {/* <Route path="admin" element={<Dashboard />} /> */}
                             <Route path="admin/dashboard" element={<Dashboard />} />
                             <Route path="admin/users" element={<UsersAdmin />} />
                             <Route path="admin/users/add" element={<AddUserAdmin />} />
