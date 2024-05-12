@@ -277,7 +277,7 @@ export default function Home() {
                         alignContent={"center"}
                     >
                         {latestMovies?.map((latestMovie: any) => (
-                            <MovieItem type="homeLatest" movie={latestMovie} key={latestMovie} />
+                            <MovieItem type="homeLatest" movie={latestMovie} key={latestMovie.id} />
                         ))}
                     </Stack>
                 </Box>
