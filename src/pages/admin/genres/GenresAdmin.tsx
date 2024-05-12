@@ -15,12 +15,13 @@ import HeaderDashboard from "~/components/admin/headerDashboard/HeaderDashboard"
 import { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { Edit, Delete, Add } from "@mui/icons-material";
-import movieService from "~/services/api/movieService";
 import IGenre from "~/types/IGenre";
 import genreService from "~/services/api/genreService";
+import IGenreResponse from "~/types/IGenreResponse";
 
 const GenresAdmin = () => {
-    const [genres, setGenres] = useState<IGenre[]>([]);
+    const [rows, setRows] = useState<IGenre[]>([]);
+    const [rowsCount, setRowsCount] = useState<number>(0);
     const [rowSelection, setRowSelection] = useState<any>({});
     const [isError, setIsError] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -32,8 +33,8 @@ const GenresAdmin = () => {
         pageIndex: 0,
         pageSize: 5,
     });
-    const navigate = useNavigate();
 
+    const navigate = useNavigate();
     const columns = useMemo<MRT_ColumnDef<IGenre>[]>(
         () => [
             { accessorKey: "id", header: "Id", enableHiding: true },
@@ -50,15 +51,16 @@ const GenresAdmin = () => {
     }
 
     async function getGenres(): Promise<void> {
-        if (!genres.length) {
+        if (!rows.length) {
             setIsLoading(true);
         } else {
             setIsRefetching(true);
         }
 
         try {
-            const response: IGenre[] = await genreService.getGenres({});
-            setGenres(response);
+            const response: IGenreResponse = await genreService.getGenres({});
+            setRows(response.rows);
+            setRowsCount(response.count);
         } catch (error) {
             setIsError(true);
             console.error(error);
@@ -77,7 +79,7 @@ const GenresAdmin = () => {
     // #region React Material Table logic
     const table = useMaterialReactTable({
         columns,
-        data: genres,
+        data: rows,
         getRowId: (row) => String(row.id),
         enableColumnOrdering: true,
         enableRowSelection: true,
@@ -135,9 +137,6 @@ const GenresAdmin = () => {
                 padding: 18,
             },
         },
-        // muiTableBodyRowProps: {
-
-        // },
         muiPaginationProps: {
             color: "secondary",
             rowsPerPageOptions: [5, 10, 15, 20],
@@ -171,18 +170,6 @@ const GenresAdmin = () => {
             <MenuItem
                 key={1}
                 onClick={async () => {
-                    // const response = await movieService.updateGenre(row.original, {
-                    //     ...row.original,
-                    //     userIsActive: false,
-                    // });
-
-                    // if (response) {
-                    //     toast.success(CONSTANTS.UPDATE__SUCCESS);
-                    //     getGenres();
-                    // } else {
-                    //     toast.error(CONSTANTS.UPDATE__FAILURE);
-                    // }
-
                     closeMenu();
                 }}
                 sx={{ m: 0 }}
@@ -224,7 +211,6 @@ const GenresAdmin = () => {
                         <Button
                             color="error"
                             disabled={!table.getIsSomeRowsSelected()}
-                            // onClick={handleDeleteUser}
                             variant="contained"
                         >
                             <Delete />

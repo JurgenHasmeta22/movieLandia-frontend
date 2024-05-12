@@ -15,11 +15,13 @@ import HeaderDashboard from "~/components/admin/headerDashboard/HeaderDashboard"
 import { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { Edit, Delete, Add } from "@mui/icons-material";
-import movieService from "~/services/api/movieService";
 import ISerie from "~/types/ISerie";
+import serieService from "~/services/api/serieService";
+import ISeriesResponse from "~/types/ISeriesResponse";
 
 const SeriesAdmin = () => {
-    const [series, setSeries] = useState<ISerie[]>([]);
+    const [rows, setRows] = useState<ISerie[]>([]);
+    const [rowsCount, setRowsCount] = useState<number>(0);
     const [rowSelection, setRowSelection] = useState<any>({});
     const [isError, setIsError] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -31,8 +33,8 @@ const SeriesAdmin = () => {
         pageIndex: 0,
         pageSize: 5,
     });
-    const navigate = useNavigate();
 
+    const navigate = useNavigate();
     const columns = useMemo<MRT_ColumnDef<ISerie>[]>(
         () => [
             { accessorKey: "id", header: "Id", enableHiding: true },
@@ -57,15 +59,16 @@ const SeriesAdmin = () => {
     }
 
     async function getSeries(): Promise<void> {
-        if (!series.length) {
+        if (!rows.length) {
             setIsLoading(true);
         } else {
             setIsRefetching(true);
         }
 
         try {
-            const response: ISerie[] = await movieService.getSerieEpisodesNoPagination();
-            setSeries(response);
+            const response: ISeriesResponse = await serieService.getSeries({});
+            setRows(response.rows);
+            setRowsCount(response.count);
         } catch (error) {
             setIsError(true);
             console.error(error);
@@ -84,7 +87,7 @@ const SeriesAdmin = () => {
     // #region React Material Table logic
     const table = useMaterialReactTable({
         columns,
-        data: series,
+        data: rows,
         getRowId: (row) => String(row.id),
         enableColumnOrdering: true,
         enableRowSelection: true,

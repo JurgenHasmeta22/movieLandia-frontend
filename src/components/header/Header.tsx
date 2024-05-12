@@ -28,6 +28,7 @@ import { useResizeWindow } from "~/hooks/useResizeWindow";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import genreService from "~/services/api/genreService";
+import IGenreResponse from "~/types/IGenreResponse";
 
 export const Header = (): React.JSX.Element => {
     const [options, setOptions] = useState<any>([]);
@@ -35,7 +36,7 @@ export const Header = (): React.JSX.Element => {
     const [anchorElProfile, setAnchorElProfile] = useState<null | HTMLElement>(null);
     const [anchorElGenres, setAnchorElGenres] = useState<null | HTMLElement>(null);
     const [anchorElGenresMobile, setAnchorElGenresMobile] = useState<null | HTMLElement>(null);
-    
+
     const isPageShrunk = useResizeWindow(); // Custom hook for handling resize logic state and useEffect
     const { user, setUser, openDrawer, mobileOpen, setMobileOpen, setOpenDrawer } = useStore();
     const navigate = useNavigate();
@@ -61,8 +62,8 @@ export const Header = (): React.JSX.Element => {
 
     async function getGenres(): Promise<void> {
         try {
-            const response: IGenre[] = await genreService.getGenres({});
-            setGenres(response);
+            const response: IGenreResponse = await genreService.getGenres({});
+            setGenres(response.rows);
         } catch (error) {
             console.log(error);
         }

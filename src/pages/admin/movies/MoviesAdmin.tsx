@@ -17,9 +17,11 @@ import { useNavigate } from "react-router-dom";
 import { Edit, Delete, Add } from "@mui/icons-material";
 import movieService from "~/services/api/movieService";
 import IMovie from "~/types/IMovie";
+import IMoviesResponse from "~/types/IMoviesResponse";
 
 const MoviesAdmin = () => {
-    const [movies, setMovies] = useState<IMovie[]>([]);
+    const [rows, setRows] = useState<IMovie[]>([]);
+    const [rowsCount, setRowsCount] = useState<number>(0);
     const [rowSelection, setRowSelection] = useState<any>({});
     const [isError, setIsError] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -31,8 +33,8 @@ const MoviesAdmin = () => {
         pageIndex: 0,
         pageSize: 5,
     });
-    const navigate = useNavigate();
 
+    const navigate = useNavigate();
     const columns = useMemo<MRT_ColumnDef<IMovie>[]>(
         () => [
             { accessorKey: "id", header: "Id", enableHiding: true },
@@ -77,15 +79,16 @@ const MoviesAdmin = () => {
     }
 
     async function getMovies(): Promise<void> {
-        if (!movies.length) {
+        if (!rows.length) {
             setIsLoading(true);
         } else {
             setIsRefetching(true);
         }
 
         try {
-            const response: IMovie[] = await movieService.getMovies({});
-            setMovies(response);
+            const response: IMoviesResponse = await movieService.getMovies({});
+            setRows(response.movies);
+            setRowsCount(response.count);
         } catch (error) {
             setIsError(true);
             console.error(error);
@@ -104,7 +107,7 @@ const MoviesAdmin = () => {
     // #region React Material Table logic
     const table = useMaterialReactTable({
         columns,
-        data: movies,
+        data: rows,
         getRowId: (row) => String(row.id),
         enableColumnOrdering: true,
         enableRowSelection: true,
@@ -162,16 +165,6 @@ const MoviesAdmin = () => {
                 padding: 18,
             },
         },
-        // muiTableProps: {
-        //     style: {
-        //         padding: 2
-        //     }
-        // },
-        // muiTableBodyRowProps: {
-        //     style: {
-        //         height: "1rem"
-        //     }
-        // },
         muiPaginationProps: {
             color: "secondary",
             rowsPerPageOptions: [5, 10, 15, 20],
@@ -205,18 +198,6 @@ const MoviesAdmin = () => {
             <MenuItem
                 key={1}
                 onClick={async () => {
-                    // const response = await movieService.updateMovie(row.original, {
-                    //     ...row.original,
-                    //     userIsActive: false,
-                    // });
-
-                    // if (response) {
-                    //     toast.success(CONSTANTS.UPDATE__SUCCESS);
-                    //     getMovies();
-                    // } else {
-                    //     toast.error(CONSTANTS.UPDATE__FAILURE);
-                    // }
-
                     closeMenu();
                 }}
                 sx={{ m: 0 }}
@@ -258,7 +239,6 @@ const MoviesAdmin = () => {
                         <Button
                             color="error"
                             disabled={!table.getIsSomeRowsSelected()}
-                            // onClick={handleDeleteUser}
                             variant="contained"
                         >
                             <Delete />
