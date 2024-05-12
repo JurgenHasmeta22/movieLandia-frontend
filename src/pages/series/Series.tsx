@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import type ISerie from "~/types/ISerie";
-import movieService from "~/services/api/movieService";
 import type ISeriesResponse from "~/types/ISeriesResponse";
 import MovieItem from "~/components/movieItem/MovieItem";
 import { Box, CircularProgress, Pagination, Stack, Typography, useTheme } from "@mui/material";
 import { tokens } from "~/utils/theme";
+import serieService from "~/services/api/serieService";
+import IMoviesResponse from "~/types/IMoviesResponse";
 
 export default function Series() {
-    const [series, setSeries] = useState<ISerie[]>([]);
+    const [series, setSeries] = useState<ISerie[] | undefined>(undefined);
     const [seriesCount, setSeriesCount] = useState<number>(0);
     const [searchParams, setSearchParams] = useSearchParams();
 
@@ -21,34 +22,27 @@ export default function Series() {
         setSearchParams(searchParams);
     };
 
-    async function getSeriesCount(): Promise<void> {
-        const seriesCount: any = await movieService.getSerieCount();
-        setSeriesCount(seriesCount.count);
-    }
-
     async function getSeries(): Promise<void> {
         if (searchParams.get("page")) {
-            const responseSeries: ISeriesResponse =
-                await movieService.getSerieEpisodesWithPagination(searchParams.get("page"));
+            const queryParams = {
+                page: searchParams.get("page")!,
+            };
 
+            const responseSeries: ISeriesResponse = await serieService.getSeries(queryParams);
             setSeries(responseSeries.rows);
+            setSeriesCount(responseSeries.count);
         } else {
-            const responseSeries: ISeriesResponse =
-                await movieService.getSerieEpisodesNoPagination();
-
+            const responseSeries: ISeriesResponse = await serieService.getSeries({});
             setSeries(responseSeries.rows);
+            setSeriesCount(responseSeries.count);
         }
     }
 
     useEffect(() => {
         getSeries();
-    }, [searchParams.get("page")]);
+    }, [searchParams]);
 
-    useEffect(() => {
-        getSeriesCount();
-    }, []);
-
-    if (series?.length === 0) {
+    if (!series) {
         return (
             <Box
                 sx={{
@@ -59,6 +53,23 @@ export default function Series() {
                 }}
             >
                 <CircularProgress size={80} thickness={4} />
+            </Box>
+        );
+    }
+
+    if (series && series?.length === 0) {
+        return (
+            <Box
+                sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "100vh",
+                }}
+            >
+                <Typography fontSize={40} color={"secondary"}>
+                    There are no series
+                </Typography>
             </Box>
         );
     }

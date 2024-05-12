@@ -71,7 +71,7 @@ const genreService = {
             filterOperator?: string;
         },
     ): Promise<any> => {
-        let url = `${api.url}/getGenresByName/${name}`;
+        let url = `${api.url}/getGenreByName/${name}`;
 
         const queryParams = [
             sortBy && `sortBy=${sortBy}`,
