@@ -54,26 +54,25 @@ const TableAdmin = ({ columns, page, handleAddItem, handleDeleteItem }: props) =
     });
     const navigate = useNavigate();
     const { openModal } = useModal();
-    const formikRef = useRef<FormikProps<any>>(null);
+    // const formikRef = useRef<FormikProps<any>>(null);
     const [open, setOpen] = useState(false);
 
-    console.log(
-        rowSelection,
-        isError,
-        isLoading,
-        setIsLoading,
-        isRefetching,
-        columnFilters,
-        globalFilter,
-        sorting,
-        pagination,
-    );
+    // console.log(
+    //     rowSelection,
+    //     isError,
+    //     isLoading,
+    //     setIsLoading,
+    //     isRefetching,
+    //     columnFilters,
+    //     globalFilter,
+    //     sorting,
+    //     pagination,
+    // );
 
     function handleMassiveDeleteMovies() {
         const keysArray = Object.keys(rowSelection);
 
         openModal({
-            formRef: formikRef,
             onClose: () => setOpen(false),
             title: `Delete selected ${page}`,
             actions: [
@@ -82,7 +81,6 @@ const TableAdmin = ({ columns, page, handleAddItem, handleDeleteItem }: props) =
                     onClick: () => setOpen(false),
                     color: "secondary",
                     variant: "contained",
-                    type: "submit",
                     sx: {
                         bgcolor: "#ff5252",
                     },
