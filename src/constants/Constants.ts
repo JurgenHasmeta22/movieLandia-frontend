@@ -17,5 +17,6 @@ export const SERIE__ADD__SUBTITLE = "Add a Serie";
 export const GENRE__ADD__TITLE = "Genre";
 export const GENRE__ADD__SUBTITLE = "Add a Genre";
 export const GLOBAL__ERROR = "An error occurred:";
-export const FORM__UPDATE__BUTTON = "Save changes";
+export const FORM__UPDATE__BUTTON = "Save";
+export const FORM__DELETE__BUTTON = "Delete";
 export const FORM__RESET__BUTTON = "Reset";
