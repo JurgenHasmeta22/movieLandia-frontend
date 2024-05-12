@@ -36,7 +36,7 @@ export default function Movie() {
     }
 
     async function getMovie(): Promise<void> {
-        const response: IMovie = await movieService.getMovie(params.title);
+        const response: IMovie = await movieService.getMovieByTitle(params.title);
         setMovie(response);
     }
 

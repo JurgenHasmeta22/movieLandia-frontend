@@ -81,7 +81,7 @@ const MovieAdmin = () => {
     };
 
     async function getMovie(): Promise<void> {
-        const response: IMovie = await movieService.getMovie(params.id);
+        const response: IMovie = await movieService.getMovieById(params.id);
 
         setMovie(response);
         setId(response.id!);
@@ -118,7 +118,6 @@ const MovieAdmin = () => {
                     id,
                     title,
                     trailerSrc,
-                    videoSrc,
                     photoSrc,
                     description,
                     releaseYear,
@@ -142,12 +141,6 @@ const MovieAdmin = () => {
                     {
                         name: "photoSrc",
                         label: "Photo src",
-                        variant: "filled",
-                        type: "text",
-                    },
-                    {
-                        name: "videoSrc",
-                        label: "Video src",
                         variant: "filled",
                         type: "text",
                     },

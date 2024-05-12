@@ -59,11 +59,15 @@ const movieService = {
         const moviesResponse: IMoviesResponse = await axios.get(url).then((res) => res.data);
         return moviesResponse;
     },
-    getMovie: async (title: string | undefined): Promise<any> => {
+    getMovieByTitle: async (title: string | undefined): Promise<any> => {
         const movie: IMovie = await axios
             .get(`${api.url}/getMovieByTitle/${title}`)
             .then((x) => x.data);
 
+        return movie;
+    },
+    getMovieById: async (id: any | undefined): Promise<any> => {
+        const movie: IMovie = await axios.get(`${api.url}/getMovieById/${id}`).then((x) => x.data);
         return movie;
     },
     getLatestMovies: async (): Promise<any> => {
