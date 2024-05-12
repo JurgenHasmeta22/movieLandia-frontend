@@ -1,4 +1,5 @@
 import axios from "axios";
+import IGenre from "~/types/IGenre";
 import type IMovie from "~/types/IMovie";
 import type IMoviesResponse from "~/types/IMoviesResponse";
 import type IUser from "~/types/IUser";
@@ -92,6 +93,12 @@ const genreService = {
 
         const moviesResponse: IMoviesResponse = await axios.get(url).then((res) => res.data);
         return moviesResponse;
+    },
+    getGenreById: async (id: any): Promise<any> => {
+        let url = `${api.url}/getGenreById/${id}`;
+        const genre: IGenre = await axios.get(url).then((res) => res.data);
+
+        return genre;
     },
 };
 

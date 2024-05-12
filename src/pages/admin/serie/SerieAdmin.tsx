@@ -2,10 +2,10 @@ import { Box, CircularProgress, Typography } from "@mui/material";
 import HeaderDashboard from "~/components/admin/headerDashboard/HeaderDashboard";
 import { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router";
-import movieService from "~/services/api/movieService";
+import serieService from "~/services/api/serieService";
 import { FormikProps } from "formik";
 import * as yup from "yup";
-import IMovie from "~/types/IMovie";
+import ISerie from "~/types/ISerie";
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
 import SaveAsIcon from "@mui/icons-material/SaveAs";
 import { Link, useParams } from "react-router-dom";
@@ -15,19 +15,13 @@ import { toast } from "react-toastify";
 import * as CONSTANTS from "~/constants/Constants";
 import Breadcrumb from "~/components/admin/breadcrumb/Breadcrumb";
 
-const movieSchema = yup.object().shape({
-    title: yup.string().required("required"),
-    photoSrc: yup.string().required("required"),
-    videoSrc: yup.string().required("required"),
-    trailerSrc: yup.string().required("required"),
-    duration: yup.string().required("required"),
-    releaseYear: yup.string().required("required"),
-    ratingImdb: yup.string().required("required"),
-    description: yup.string().required("required"),
+const serieSchema = yup.object().shape({
+    serieName: yup.string().required("required"),
+    email: yup.string().required("required"),
 });
 
-const MovieAdmin = () => {
-    const [movie, setMovie] = useState<IMovie | null>(null);
+const SerieAdmin = () => {
+    const [serie, setSerie] = useState<ISerie | null>(null);
     const [loading, setLoading] = useState(true);
     const [formData, setFormData] = useState({});
 
@@ -37,11 +31,11 @@ const MovieAdmin = () => {
     const formikRef = useRef<FormikProps<any>>(null);
 
     const breadcrumbs = [
-        <Link key="1" to={`${location.state?.from!}`} style={{ textDecoration: "none" }}>
+        <Link key="1" to={"/series"} style={{ textDecoration: "none" }}>
             {location.state?.from!}
         </Link>,
         <Typography key="2" color="text.primary">
-            Movie details
+            Serie details
         </Typography>,
     ];
 
@@ -55,30 +49,30 @@ const MovieAdmin = () => {
 
     const handleFormSubmit = async (values: any) => {
         // const payload = {
-        //     movieName: values.movieName,
-        //     movieFirstname: values.movieFirstname,
-        //     movieLastname: values.movieLastname,
-        //     movieEmail: values.movieEmail,
+        //     serieName: values.serieName,
+        //     serieFirstname: values.serieFirstname,
+        //     serieLastname: values.serieLastname,
+        //     serieEmail: values.serieEmail,
         //     balancaLeje: values.balancaLeje,
-        //     movieIsActive: values.movieIsActive,
+        //     serieIsActive: values.serieIsActive,
         // };
-        // const response = await movieService.updateMovie(movie?.movieId, payload);
+        // const response = await serieService.updateSerie(serie?.serieId, payload);
         // if (response) {
         //     toast.success(CONSTANTS.UPDATE__SUCCESS);
-        //     getMovie();
+        //     getSerie();
         // } else {
         //     toast.error(CONSTANTS.UPDATE__FAILURE);
         // }
     };
 
-    async function getMovie(): Promise<void> {
-        const response: IMovie = await movieService.getMovieById(params.id);
-        setMovie(response);
+    async function getSerie(): Promise<void> {
+        const response: ISerie = await serieService.getSerieById(params.id);
+        setSerie(response);
     }
 
     useEffect(() => {
         async function fetchData() {
-            await getMovie();
+            await getSerie();
             setLoading(false);
         }
 
@@ -89,26 +83,23 @@ const MovieAdmin = () => {
 
     return (
         <Box m="20px">
-            <Breadcrumb breadcrumbs={breadcrumbs} navigateTo={"/admin/movies"} />
+            <Breadcrumb breadcrumbs={breadcrumbs} navigateTo={"/series"} />
             <HeaderDashboard
-                title={CONSTANTS.MOVIE__EDIT__TITLE}
-                subtitle={CONSTANTS.MOVIE__EDIT__SUBTITLE}
+                title={CONSTANTS.USER__EDIT__TITLE}
+                subtitle={CONSTANTS.USER__EDIT__SUBTITLE}
             />
             <FormAdvanced
                 initialValues={{
-                    id: movie?.id,
-                    title: movie?.title,
-                    trailerSrc: movie?.trailerSrc,
-                    photoSrc: movie?.photoSrc,
-                    description: movie?.description,
-                    releaseYear: movie?.releaseYear,
-                    ratingImdb: movie?.ratingImdb,
-                    duration: movie?.duration,
+                    id: serie?.id,
+                    title: serie?.title,
+                    photoSrc: serie?.photoSrc,
+                    releaseYear: serie?.releaseYear,
+                    ratingImdb: serie?.ratingImdb,
                 }}
                 fields={[
                     {
                         name: "id",
-                        label: "Id",
+                        label: "Serie id",
                         disabled: true,
                         variant: "filled",
                         type: "text",
@@ -126,18 +117,6 @@ const MovieAdmin = () => {
                         type: "text",
                     },
                     {
-                        name: "description",
-                        label: "Description",
-                        variant: "filled",
-                        type: "text",
-                    },
-                    {
-                        name: "trailerSrc",
-                        label: "Trailer src",
-                        variant: "filled",
-                        type: "text",
-                    },
-                    {
                         name: "releaseYear",
                         label: "Release year",
                         variant: "filled",
@@ -145,13 +124,7 @@ const MovieAdmin = () => {
                     },
                     {
                         name: "ratingImdb",
-                        label: "Rating imdb",
-                        variant: "filled",
-                        type: "text",
-                    },
-                    {
-                        name: "duration",
-                        label: "Duration",
+                        label: "RatingImdb",
                         variant: "filled",
                         type: "text",
                     },
@@ -160,7 +133,7 @@ const MovieAdmin = () => {
                     handleDataChange(values);
                 }}
                 onSubmit={handleFormSubmit}
-                validationSchema={movieSchema}
+                validationSchema={serieSchema}
                 formRef={formikRef}
                 actions={[
                     {
@@ -179,13 +152,13 @@ const MovieAdmin = () => {
                     {
                         label: "Elemino",
                         onClick: async () => {
-                            // const response = await movieService.updateMovie(movieId, {
-                            //     ...movie,
-                            //     movieIsActive: false,
+                            // const response = await serieService.updateSerie(serieId, {
+                            //     ...serie,
+                            //     serieIsActive: false,
                             // });
                             // if (response) {
                             //     toast.success(CONSTANTS.GLOBAL__DELETE__SUCCESS);
-                            //     navigate("/movies");
+                            //     navigate("/series");
                             // } else {
                             //     toast.error(CONSTANTS.GLOBAL__DELETE__FAILURE);
                             // }
@@ -222,4 +195,4 @@ const MovieAdmin = () => {
     );
 };
 
-export default MovieAdmin;
+export default SerieAdmin;
