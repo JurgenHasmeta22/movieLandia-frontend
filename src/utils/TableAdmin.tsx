@@ -8,15 +8,25 @@ import {
     MRT_SortingState,
     MRT_ToggleDensePaddingButton,
     MRT_ToggleFiltersButton,
+    MRT_ToggleFullScreenButton,
     useMaterialReactTable,
 } from "material-react-table";
-import { Box, Button, ListItemIcon, MenuItem, Typography } from "@mui/material";
+import {
+    Box,
+    Button,
+    IconButton,
+    ListItemIcon,
+    MenuItem,
+    Tooltip,
+    Typography,
+} from "@mui/material";
 import { Edit, Delete, Add } from "@mui/icons-material";
 import serieService from "~/services/api/serieService";
 import movieService from "~/services/api/movieService";
 import userService from "~/services/api/userService";
 import genreService from "~/services/api/genreService";
 import { toFirstWordUpperCase } from "./utils";
+import RefreshIcon from "@mui/icons-material/Refresh";
 
 type props = {
     columns: MRT_ColumnDef<any>[];
@@ -37,9 +47,21 @@ const TableAdmin = ({ columns, page, handleAddItem, handleDeleteItem }: props) =
     const [sorting, setSorting] = useState<MRT_SortingState>([]);
     const [pagination, setPagination] = useState({
         pageIndex: 0,
-        pageSize: 5,
+        pageSize: 10,
     });
     const navigate = useNavigate();
+
+    console.log(
+        rowSelection,
+        isError,
+        isLoading,
+        setIsLoading,
+        isRefetching,
+        columnFilters,
+        globalFilter,
+        sorting,
+        pagination,
+    );
 
     const fetchData = async () => {
         if (!rows.length) {
@@ -51,24 +73,29 @@ const TableAdmin = ({ columns, page, handleAddItem, handleDeleteItem }: props) =
         try {
             let response: any;
 
+            const queryParams = {
+                page: String(pagination.pageIndex + 1),
+                pageSize: String(pagination.pageSize),
+            };
+
             switch (page) {
                 case "series":
-                    response = await serieService.getSeries({});
+                    response = await serieService.getSeries(queryParams);
                     setRows(response.rows);
                     setRowsCount(response.count);
                     break;
                 case "movies":
-                    response = await movieService.getMovies({});
+                    response = await movieService.getMovies(queryParams);
                     setRows(response.movies);
                     setRowsCount(response.count);
                     break;
                 case "genres":
-                    response = await genreService.getGenres({});
+                    response = await genreService.getGenres(queryParams);
                     setRows(response.rows);
                     setRowsCount(response.count);
                     break;
                 case "users":
-                    response = await userService.getUsers({});
+                    response = await userService.getUsers(queryParams);
                     setRows(response.rows);
                     setRowsCount(response.count);
                     break;
@@ -92,9 +119,11 @@ const TableAdmin = ({ columns, page, handleAddItem, handleDeleteItem }: props) =
     const table = useMaterialReactTable({
         columns,
         data: rows,
+        rowCount: rowsCount,
         getRowId: (row) => String(row.id),
         enableColumnOrdering: true,
         enableRowSelection: true,
+        enableFullScreenToggle: true,
         enablePagination: true,
         enableRowActions: true,
         enablePinning: true,
@@ -119,6 +148,7 @@ const TableAdmin = ({ columns, page, handleAddItem, handleDeleteItem }: props) =
             showColumnFilters: false,
             showGlobalFilter: true,
             showLoadingOverlay: false,
+            isFullScreen: false,
             density: "compact",
             columnPinning: {
                 left: ["mrt-row-expand", "mrt-row-select"],
@@ -137,7 +167,16 @@ const TableAdmin = ({ columns, page, handleAddItem, handleDeleteItem }: props) =
         onPaginationChange: setPagination,
         onSortingChange: setSorting,
         onRowSelectionChange: setRowSelection,
-        state: { rowSelection },
+        state: {
+            rowSelection,
+            columnFilters,
+            globalFilter,
+            isLoading,
+            pagination,
+            showAlertBanner: isError,
+            showProgressBars: isRefetching,
+            sorting,
+        },
         paginationDisplayMode: "pages",
         positionToolbarAlertBanner: "bottom",
         muiSearchTextFieldProps: {
@@ -203,10 +242,20 @@ const TableAdmin = ({ columns, page, handleAddItem, handleDeleteItem }: props) =
                     })}
                 >
                     <Box sx={{ display: "flex", gap: "1rem", alignItems: "center" }}>
+                        <Tooltip arrow title="Refresh Data">
+                            <IconButton
+                                onClick={() => {
+                                    // refetch()
+                                }}
+                            >
+                                <RefreshIcon />
+                            </IconButton>
+                        </Tooltip>
                         <MRT_GlobalFilterTextField table={table} />
                         <MRT_ToggleFiltersButton table={table} />
                         <MRT_ShowHideColumnsButton table={table} />
                         <MRT_ToggleDensePaddingButton table={table} />
+                        <MRT_ToggleFullScreenButton table={table} />
                     </Box>
                     <Box
                         sx={{
