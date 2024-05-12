@@ -20,3 +20,5 @@ export const GLOBAL__ERROR = "An error occurred:";
 export const FORM__UPDATE__BUTTON = "Save";
 export const FORM__DELETE__BUTTON = "Delete";
 export const FORM__RESET__BUTTON = "Reset";
+export const MODAL__DELETE__YES = "Yes";
+export const MODAL__DELETE__NO = "No";

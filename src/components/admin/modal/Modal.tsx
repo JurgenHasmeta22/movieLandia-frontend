@@ -14,6 +14,7 @@ import {
     FormControl,
     InputLabel,
     SxProps,
+    Typography,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { Formik, Form, Field, FormikProps } from "formik";
@@ -116,14 +117,16 @@ const Modal: React.FC<ModalProps> = ({
                                                                 labelId={`${field.name}-label`}
                                                                 as={Select}
                                                             >
-                                                                {field.options?.map((option, index: number) => (
-                                                                    <MenuItem
-                                                                        key={index}
-                                                                        value={option.value}
-                                                                    >
-                                                                        {option.label}
-                                                                    </MenuItem>
-                                                                ))}
+                                                                {field.options?.map(
+                                                                    (option, index: number) => (
+                                                                        <MenuItem
+                                                                            key={index}
+                                                                            value={option.value}
+                                                                        >
+                                                                            {option.label}
+                                                                        </MenuItem>
+                                                                    ),
+                                                                )}
                                                             </Field>
                                                         </FormControl>
                                                     ) : (
@@ -164,10 +167,16 @@ const Modal: React.FC<ModalProps> = ({
                                                 color={action.color || "secondary"}
                                                 variant={action.variant || "text"}
                                                 sx={action.sx}
-                                                type={action.type}
+                                                type={action.type ? "submit" : ""}
                                                 endIcon={action.icon}
                                             >
-                                                {action.label}
+                                                <Typography
+                                                    sx={{
+                                                        textTransform: "capitalize",
+                                                    }}
+                                                >
+                                                    {action.label}
+                                                </Typography>
                                             </Button>
                                         ))}
                                     </DialogActions>
