@@ -43,10 +43,13 @@ const UsersAdmin = () => {
     });
 
     return (
-        <Box m="20px">
-            <HeaderDashboard title="Users" subtitle="List of Users" />
-            <MaterialReactTable table={table} />
-        </Box>
+        <>
+            {/* <SEOHelmet noIndex /> */}
+            <Box m="20px" component={"main"}>
+                <HeaderDashboard title="Users" subtitle="List of Users" />
+                <MaterialReactTable table={table} />
+            </Box>
+        </>
     );
 };
 

@@ -6,16 +6,15 @@ import type IMovie from "~/types/IMovie";
 import { Box, CircularProgress, Pagination, Stack, Typography, useTheme } from "@mui/material";
 import { tokens } from "~/utils/theme";
 import genreService from "~/services/api/genreService";
+import SEOHelmet from "~/components/seoHelmet/SEOHelmet";
 
 export default function Genre(): React.JSX.Element {
     const [itemsPerPage, setItemsPerPage] = useState<number>(20);
     const [moviesCountGenre, setMoviesCountGenres] = useState<number>(0);
     const [moviesOfGenre, setMoviesOfGenre] = useState<IMovie[] | undefined>(undefined);
-
     const params = useParams();
     const [searchParams, setSearchParams] = useSearchParams();
     const theme = useTheme();
-
     const colors = tokens(theme.palette.mode);
     const pageCount: number = Math.ceil(moviesCountGenre / itemsPerPage);
 
@@ -28,7 +27,7 @@ export default function Genre(): React.JSX.Element {
         if (!searchParams.get("page") && params.name) {
             const response: IGenreResponse = await genreService.getGenreByName(params.name, {});
 
-            setMoviesOfGenre(response.movies);
+            setMoviesOfGenre(response.rows);
             setMoviesCountGenres(response.count);
         } else if (searchParams.get("page") && params.name) {
             const queryParams = {
@@ -40,7 +39,7 @@ export default function Genre(): React.JSX.Element {
                 queryParams,
             );
 
-            setMoviesOfGenre(response.movies);
+            setMoviesOfGenre(response.rows);
             setMoviesCountGenres(response.count);
         }
     }
@@ -82,41 +81,50 @@ export default function Genre(): React.JSX.Element {
     }
 
     return (
-        <Box
-            sx={{
-                display: "flex",
-                flexDirection: "column",
-                rowGap: 4,
-                backgroundColor: `${colors.blueAccent[700]}`,
-            }}
-            component={"main"}
-        >
-            <Stack
-                direction="row"
-                flexWrap="wrap"
-                justifyContent={"center"}
-                alignContent={"center"}
-                rowGap={4}
-                columnGap={4}
-                marginTop={4}
+        <>
+            <SEOHelmet
+                title={`Watch movies of genre ${params?.name} on MovieLand24`}
+                description={`Watch all movies related to this genres in high quality and including the latest movies and series to this genre  ${params?.name}`}
+                name="MovieLand24"
+                type="article"
+                canonicalUrl={`https://example.com/genre/${params?.name}`}
+            />
+            <Box
+                sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    rowGap: 4,
+                    backgroundColor: `${colors.blueAccent[700]}`,
+                }}
+                component={"main"}
             >
-                {moviesOfGenre.map((movie: any) => (
-                    <MovieItem movie={movie} type="genreMovie" key={movie.id} />
-                ))}
-            </Stack>
-            <Stack
-                spacing={2}
-                sx={{ display: "flex", placeItems: "center", marginTop: 4, marginBottom: 4 }}
-            >
-                <Pagination
-                    page={searchParams.get("page") ? Number(searchParams.get("page")) : 1}
-                    size="large"
-                    count={pageCount}
-                    showFirstButton
-                    showLastButton
-                    onChange={handlePageChange}
-                />
-            </Stack>
-        </Box>
+                <Stack
+                    direction="row"
+                    flexWrap="wrap"
+                    justifyContent={"center"}
+                    alignContent={"center"}
+                    rowGap={4}
+                    columnGap={4}
+                    marginTop={4}
+                >
+                    {moviesOfGenre.map((movie: any) => (
+                        <MovieItem movie={movie} type="genreMovie" key={movie.id} />
+                    ))}
+                </Stack>
+                <Stack
+                    spacing={2}
+                    sx={{ display: "flex", placeItems: "center", marginTop: 4, marginBottom: 4 }}
+                >
+                    <Pagination
+                        page={searchParams.get("page") ? Number(searchParams.get("page")) : 1}
+                        size="large"
+                        count={pageCount}
+                        showFirstButton
+                        showLastButton
+                        onChange={handlePageChange}
+                    />
+                </Stack>
+            </Box>
+        </>
     );
 }

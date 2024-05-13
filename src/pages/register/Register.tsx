@@ -19,6 +19,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import * as yup from "yup";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useState } from "react";
+import SEOHelmet from "~/components/seoHelmet/SEOHelmet";
 
 const registerSchema = yup.object().shape({
     userName: yup
@@ -45,13 +46,11 @@ const registerSchema = yup.object().shape({
 export default function Register() {
     const [showPassword, setShowPassword] = useState(false);
     const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
-
     const { user, setUser } = useStore();
     const navigate = useNavigate();
 
     const handleClickShowPassword = () => setShowPassword(!showPassword);
     const handleMouseDownPassword = () => setShowPassword(!showPassword);
-
     const handleClickShowPasswordConfirm = () => setShowPasswordConfirm(!showPasswordConfirm);
     const handleMouseDownPasswordConfirm = () => setShowPasswordConfirm(!showPasswordConfirm);
 
@@ -77,186 +76,204 @@ export default function Register() {
     }
 
     return (
-        <Box
-            sx={{
-                backgroundImage: "url('/src/assets/images/netflix.png')",
-                display: "flex",
-                placeContent: "center",
-                placeItems: "center",
-                padding: 5,
-            }}
-        >
-            <Paper
+        <>
+            <SEOHelmet
+                title="Register to MovieLand24"
+                description="Register to MovieLand24 to create your account and enjoy exclusive features."
+                name="MovieLand24"
+                type="website"
+                canonicalUrl="https://example.com/register"
+            />
+            <Box
                 sx={{
-                    backgroundColor: "rgb(0 0 0 / 85%)",
-                    px: 14,
-                    py: 6,
+                    backgroundImage: "url('/src/assets/images/netflix.png')",
+                    display: "flex",
+                    placeContent: "center",
+                    placeItems: "center",
+                    padding: 5,
                 }}
+                component={"main"}
             >
-                <Formik
-                    initialValues={{
-                        userName: "",
-                        email: "",
-                        password: "",
-                        confirmPassword: "",
+                <Paper
+                    sx={{
+                        backgroundColor: "rgb(0 0 0 / 85%)",
+                        px: 14,
+                        py: 6,
                     }}
-                    validationSchema={registerSchema}
-                    onSubmit={(values: any) => {
-                        onSubmitRegister(values);
-                    }}
-                    enableReinitialize
                 >
-                    {({ values, errors, touched, handleBlur, handleChange, handleSubmit }) => {
-                        return (
-                            <Form onSubmit={handleSubmit}>
-                                <Box
-                                    sx={{
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        rowGap: 2,
-                                    }}
-                                >
-                                    <Typography variant="h2">Sign Up</Typography>
-                                    <Box display={"flex"} flexDirection={"column"} rowGap={1}>
-                                        <FormLabel>Username</FormLabel>
-                                        <TextField
-                                            type="text"
-                                            name="userName"
-                                            required
-                                            placeholder="Example22"
-                                            value={values.userName}
-                                            onChange={handleChange}
-                                            onBlur={handleBlur}
-                                            size="small"
-                                            InputProps={{ color: "secondary" }}
-                                            InputLabelProps={{ color: "secondary" }}
-                                            // @ts-ignore
-                                            helperText={touched["userName"] && errors["userName"]}
-                                            error={touched["userName"] && !!errors["userName"]}
-                                        />
-                                    </Box>
-                                    <Box display={"flex"} flexDirection={"column"} rowGap={1}>
-                                        <FormLabel>Email</FormLabel>
-                                        <TextField
-                                            type="text"
-                                            name="email"
-                                            required
-                                            placeholder="example@email.com"
-                                            value={values.email}
-                                            onChange={handleChange}
-                                            onBlur={handleBlur}
-                                            size="small"
-                                            InputProps={{ color: "secondary" }}
-                                            InputLabelProps={{ color: "secondary" }}
-                                            // @ts-ignore
-                                            helperText={touched["email"] && errors["email"]}
-                                            error={touched["email"] && !!errors["email"]}
-                                        />
-                                    </Box>
-                                    <Box display={"flex"} flexDirection={"column"} rowGap={1}>
-                                        <FormLabel>Password</FormLabel>
-                                        <TextField
-                                            type={showPassword ? "text" : "password"}
-                                            name="password"
-                                            required
-                                            placeholder="Example1#"
-                                            value={values.password}
-                                            onChange={handleChange}
-                                            onBlur={handleBlur}
-                                            InputProps={{
-                                                color: "secondary",
-                                                endAdornment: (
-                                                    <InputAdornment position="end">
-                                                        <IconButton
-                                                            aria-label="toggle password visibility"
-                                                            onClick={handleClickShowPassword}
-                                                            onMouseDown={handleMouseDownPassword}
-                                                        >
-                                                            {showPassword ? (
-                                                                <Visibility color="secondary" />
-                                                            ) : (
-                                                                <VisibilityOff color="secondary" />
-                                                            )}
-                                                        </IconButton>
-                                                    </InputAdornment>
-                                                ),
-                                            }}
-                                            size="small"
-                                            InputLabelProps={{ color: "secondary" }}
-                                            // @ts-ignore
-                                            helperText={touched["password"] && errors["password"]}
-                                            error={touched["password"] && !!errors["password"]}
-                                        />
-                                    </Box>
-                                    <Box display={"flex"} flexDirection={"column"} rowGap={1}>
-                                        <FormLabel>Confirm password</FormLabel>
-                                        <TextField
-                                            type={showPasswordConfirm ? "text" : "password"}
-                                            name="confirmPassword"
-                                            required
-                                            placeholder="Repeat again password"
-                                            value={values.confirmPassword}
-                                            onChange={handleChange}
-                                            onBlur={handleBlur}
-                                            InputProps={{
-                                                color: "secondary",
-                                                endAdornment: (
-                                                    <InputAdornment position="end">
-                                                        <IconButton
-                                                            aria-label="toggle password visibility"
-                                                            onClick={handleClickShowPasswordConfirm}
-                                                            onMouseDown={
-                                                                handleMouseDownPasswordConfirm
-                                                            }
-                                                        >
-                                                            {showPasswordConfirm ? (
-                                                                <Visibility color="secondary" />
-                                                            ) : (
-                                                                <VisibilityOff color="secondary" />
-                                                            )}
-                                                        </IconButton>
-                                                    </InputAdornment>
-                                                ),
-                                            }}
-                                            size="small"
-                                            InputLabelProps={{ color: "secondary" }}
-                                            // @ts-ignore
-                                            helperText={
-                                                touched["confirmPassword"] &&
-                                                errors["confirmPassword"]
-                                            }
-                                            error={
-                                                touched["confirmPassword"] &&
-                                                !!errors["confirmPassword"]
-                                            }
-                                        />
-                                    </Box>
-                                    <Button
-                                        type="submit"
-                                        color="secondary"
-                                        variant="outlined"
-                                        size="medium"
+                    <Formik
+                        initialValues={{
+                            userName: "",
+                            email: "",
+                            password: "",
+                            confirmPassword: "",
+                        }}
+                        validationSchema={registerSchema}
+                        onSubmit={(values: any) => {
+                            onSubmitRegister(values);
+                        }}
+                        enableReinitialize
+                    >
+                        {({ values, errors, touched, handleBlur, handleChange, handleSubmit }) => {
+                            return (
+                                <Form onSubmit={handleSubmit}>
+                                    <Box
+                                        sx={{
+                                            display: "flex",
+                                            flexDirection: "column",
+                                            rowGap: 2,
+                                        }}
                                     >
-                                        <LockOutlinedIcon />
-                                        <span style={{ paddingLeft: 4 }}>Register</span>
-                                    </Button>
-                                    <Box>
-                                        <Typography variant="overline">
-                                            Already have an account ?
-                                        </Typography>
-                                        <Link
-                                            style={{ textDecoration: "none", paddingLeft: 4 }}
-                                            to={"/login"}
+                                        <Typography variant="h2">Sign Up</Typography>
+                                        <Box display={"flex"} flexDirection={"column"} rowGap={1}>
+                                            <FormLabel>Username</FormLabel>
+                                            <TextField
+                                                type="text"
+                                                name="userName"
+                                                required
+                                                placeholder="Example22"
+                                                value={values.userName}
+                                                onChange={handleChange}
+                                                onBlur={handleBlur}
+                                                size="small"
+                                                InputProps={{ color: "secondary" }}
+                                                InputLabelProps={{ color: "secondary" }}
+                                                // @ts-ignore
+                                                helperText={
+                                                    touched["userName"] && errors["userName"]
+                                                }
+                                                error={touched["userName"] && !!errors["userName"]}
+                                            />
+                                        </Box>
+                                        <Box display={"flex"} flexDirection={"column"} rowGap={1}>
+                                            <FormLabel>Email</FormLabel>
+                                            <TextField
+                                                type="text"
+                                                name="email"
+                                                required
+                                                placeholder="example@email.com"
+                                                value={values.email}
+                                                onChange={handleChange}
+                                                onBlur={handleBlur}
+                                                size="small"
+                                                InputProps={{ color: "secondary" }}
+                                                InputLabelProps={{ color: "secondary" }}
+                                                // @ts-ignore
+                                                helperText={touched["email"] && errors["email"]}
+                                                error={touched["email"] && !!errors["email"]}
+                                            />
+                                        </Box>
+                                        <Box display={"flex"} flexDirection={"column"} rowGap={1}>
+                                            <FormLabel>Password</FormLabel>
+                                            <TextField
+                                                type={showPassword ? "text" : "password"}
+                                                name="password"
+                                                required
+                                                placeholder="Example1#"
+                                                value={values.password}
+                                                onChange={handleChange}
+                                                onBlur={handleBlur}
+                                                InputProps={{
+                                                    color: "secondary",
+                                                    endAdornment: (
+                                                        <InputAdornment position="end">
+                                                            <IconButton
+                                                                aria-label="toggle password visibility"
+                                                                onClick={handleClickShowPassword}
+                                                                onMouseDown={
+                                                                    handleMouseDownPassword
+                                                                }
+                                                            >
+                                                                {showPassword ? (
+                                                                    <Visibility color="secondary" />
+                                                                ) : (
+                                                                    <VisibilityOff color="secondary" />
+                                                                )}
+                                                            </IconButton>
+                                                        </InputAdornment>
+                                                    ),
+                                                }}
+                                                size="small"
+                                                InputLabelProps={{ color: "secondary" }}
+                                                // @ts-ignore
+                                                helperText={
+                                                    touched["password"] && errors["password"]
+                                                }
+                                                error={touched["password"] && !!errors["password"]}
+                                            />
+                                        </Box>
+                                        <Box display={"flex"} flexDirection={"column"} rowGap={1}>
+                                            <FormLabel>Confirm password</FormLabel>
+                                            <TextField
+                                                type={showPasswordConfirm ? "text" : "password"}
+                                                name="confirmPassword"
+                                                required
+                                                placeholder="Repeat again password"
+                                                value={values.confirmPassword}
+                                                onChange={handleChange}
+                                                onBlur={handleBlur}
+                                                InputProps={{
+                                                    color: "secondary",
+                                                    endAdornment: (
+                                                        <InputAdornment position="end">
+                                                            <IconButton
+                                                                aria-label="toggle password visibility"
+                                                                onClick={
+                                                                    handleClickShowPasswordConfirm
+                                                                }
+                                                                onMouseDown={
+                                                                    handleMouseDownPasswordConfirm
+                                                                }
+                                                            >
+                                                                {showPasswordConfirm ? (
+                                                                    <Visibility color="secondary" />
+                                                                ) : (
+                                                                    <VisibilityOff color="secondary" />
+                                                                )}
+                                                            </IconButton>
+                                                        </InputAdornment>
+                                                    ),
+                                                }}
+                                                size="small"
+                                                InputLabelProps={{ color: "secondary" }}
+                                                // @ts-ignore
+                                                helperText={
+                                                    touched["confirmPassword"] &&
+                                                    errors["confirmPassword"]
+                                                }
+                                                error={
+                                                    touched["confirmPassword"] &&
+                                                    !!errors["confirmPassword"]
+                                                }
+                                            />
+                                        </Box>
+                                        <Button
+                                            type="submit"
+                                            color="secondary"
+                                            variant="outlined"
+                                            size="medium"
                                         >
-                                            Sign In
-                                        </Link>
+                                            <LockOutlinedIcon />
+                                            <span style={{ paddingLeft: 4 }}>Register</span>
+                                        </Button>
+                                        <Box>
+                                            <Typography variant="overline">
+                                                Already have an account ?
+                                            </Typography>
+                                            <Link
+                                                style={{ textDecoration: "none", paddingLeft: 4 }}
+                                                to={"/login"}
+                                            >
+                                                Sign In
+                                            </Link>
+                                        </Box>
                                     </Box>
-                                </Box>
-                            </Form>
-                        );
-                    }}
-                </Formik>
-            </Paper>
-        </Box>
+                                </Form>
+                            );
+                        }}
+                    </Formik>
+                </Paper>
+            </Box>
+        </>
     );
 }

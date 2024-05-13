@@ -7,6 +7,7 @@ import { Box, CircularProgress, Pagination, Stack, Typography, useTheme } from "
 import { tokens } from "~/utils/theme";
 import serieService from "~/services/api/serieService";
 import IMoviesResponse from "~/types/IMoviesResponse";
+import SEOHelmet from "~/components/seoHelmet/SEOHelmet";
 
 export default function Series() {
     const [series, setSeries] = useState<ISerie[] | undefined>(undefined);
@@ -75,49 +76,63 @@ export default function Series() {
     }
 
     return (
-        <Box
-            component={"main"}
-            sx={{
-                backgroundColor: `${colors.blueAccent[700]}`,
-            }}
-        >
+        <>
+            <SEOHelmet
+                title="Watch the Latest Series | High-Quality and Always Updated"
+                description="Discover and watch the latest and most amazing series in high quality. Our collection is always updated with the newest episodes and releases."
+                name="MovieLand24"
+                type="website"
+                canonicalUrl="https://example.com/series"
+            />
             <Box
-                component={"section"}
+                component={"main"}
                 sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    placeItems: "center",
-                    placeContent: "center",
-                    rowGap: 4,
+                    backgroundColor: `${colors.blueAccent[700]}`,
                 }}
             >
-                <Stack
-                    direction="row"
-                    flexWrap="wrap"
-                    justifyContent={"center"}
-                    alignContent={"center"}
-                    rowGap={4}
-                    columnGap={4}
-                    marginTop={4}
+                <Box
+                    component={"section"}
+                    sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        placeItems: "center",
+                        placeContent: "center",
+                        rowGap: 4,
+                    }}
                 >
-                    {series.map((serie: any) => (
-                        <MovieItem movie={serie} type="serie" key={serie.id} />
-                    ))}
-                </Stack>
-                <Stack
-                    spacing={2}
-                    sx={{ display: "flex", placeItems: "center", marginTop: 4, marginBottom: 4 }}
-                >
-                    <Pagination
-                        page={searchParams.get("page") ? Number(searchParams.get("page")) : 1}
-                        size="large"
-                        count={pageCount}
-                        showFirstButton
-                        showLastButton
-                        onChange={handlePageChange}
-                    />
-                </Stack>
+                    <Stack
+                        direction="row"
+                        flexWrap="wrap"
+                        justifyContent={"center"}
+                        alignContent={"center"}
+                        rowGap={4}
+                        columnGap={4}
+                        marginTop={4}
+                    >
+                        {series.map((serie: any) => (
+                            <MovieItem movie={serie} type="serie" key={serie.id} />
+                        ))}
+                    </Stack>
+                    <Stack
+                        spacing={2}
+                        sx={{
+                            display: "flex",
+                            placeItems: "center",
+                            marginTop: 4,
+                            marginBottom: 4,
+                        }}
+                    >
+                        <Pagination
+                            page={searchParams.get("page") ? Number(searchParams.get("page")) : 1}
+                            size="large"
+                            count={pageCount}
+                            showFirstButton
+                            showLastButton
+                            onChange={handlePageChange}
+                        />
+                    </Stack>
+                </Box>
             </Box>
-        </Box>
+        </>
     );
 }

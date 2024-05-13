@@ -14,7 +14,7 @@ const AdminLayout = () => {
     return (
         <RightPanelProvider>
             <ModalProvider>
-                <Grid container>
+                <Grid container component={"main"}>
                     <Grid item xs={12} md={isOpenSidebarAdmin ? 2 : 0}>
                         <Sidebar sidebarItems={sidebarItems} />
                     </Grid>

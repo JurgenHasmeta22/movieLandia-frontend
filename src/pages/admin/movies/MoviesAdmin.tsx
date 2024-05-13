@@ -66,10 +66,13 @@ const MoviesAdmin = () => {
     });
 
     return (
-        <Box m="20px">
-            <HeaderDashboard title="Movies" subtitle="List of Movies" />
-            <MaterialReactTable table={table} />
-        </Box>
+        <>
+            {/* <SEOHelmet noIndex /> */}
+            <Box m="20px" component={"main"}>
+                <HeaderDashboard title="Movies" subtitle="List of Movies" />
+                <MaterialReactTable table={table} />
+            </Box>
+        </>
     );
 };
 

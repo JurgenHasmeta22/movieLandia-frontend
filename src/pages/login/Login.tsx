@@ -19,6 +19,7 @@ import * as CONSTANTS from "~/constants/Constants";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useState } from "react";
+import SEOHelmet from "~/components/seoHelmet/SEOHelmet";
 
 const loginSchema = yup.object().shape({
     email: yup.string().required("Email is a required field").email("Invalid email format"),
@@ -61,123 +62,137 @@ export default function Login() {
     }
 
     return (
-        <Box
-            sx={{
-                backgroundImage: "url('/src/assets/images/netflix.png')",
-                display: "flex",
-                placeContent: "center",
-                placeItems: "center",
-                padding: 5, // fixes layout no need for fixed height
-            }}
-        >
-            <Paper
+        <>
+            <SEOHelmet
+                title="Login to MovieLand24"
+                description="Login to MovieLand24 to access your account and enjoy exclusive features."
+                name="MovieLand24"
+                type="website"
+                canonicalUrl="https://example.com/login"
+            />
+            <Box
                 sx={{
-                    backgroundColor: "rgb(0 0 0 / 85%)",
-                    px: 14,
-                    py: 6,
+                    backgroundImage: "url('/src/assets/images/netflix.png')",
+                    display: "flex",
+                    placeContent: "center",
+                    placeItems: "center",
+                    padding: 5, // fixes layout no need for fixed height
                 }}
+                component={"main"}
             >
-                <Formik
-                    initialValues={{
-                        email: "",
-                        password: "",
+                <Paper
+                    sx={{
+                        backgroundColor: "rgb(0 0 0 / 85%)",
+                        px: 14,
+                        py: 6,
                     }}
-                    validationSchema={loginSchema}
-                    onSubmit={(values: any) => {
-                        onSubmitLogin(values);
-                    }}
-                    enableReinitialize
                 >
-                    {({ values, errors, touched, handleBlur, handleChange, handleSubmit }) => {
-                        return (
-                            <Form onSubmit={handleSubmit}>
-                                <Box
-                                    sx={{
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        rowGap: 2,
-                                    }}
-                                >
-                                    <Typography variant="h2">Sign In</Typography>
-                                    <Box display={"flex"} flexDirection={"column"} rowGap={1}>
-                                        <FormLabel>Email</FormLabel>
-                                        <TextField
-                                            type="text"
-                                            placeholder="example@email.com"
-                                            name="email"
-                                            required
-                                            value={values.email}
-                                            onChange={handleChange}
-                                            onBlur={handleBlur}
-                                            size="small"
-                                            InputProps={{ color: "secondary" }}
-                                            InputLabelProps={{ color: "secondary" }}
-                                            // @ts-ignore
-                                            helperText={touched["email"] && errors["email"]}
-                                            error={touched["email"] && !!errors["email"]}
-                                        />
-                                    </Box>
-                                    <Box display={"flex"} flexDirection={"column"} rowGap={1}>
-                                        <FormLabel>Password</FormLabel>
-                                        <TextField
-                                            type={showPassword ? "text" : "password"}
-                                            name="password"
-                                            placeholder="Example1#"
-                                            required
-                                            value={values.password}
-                                            onChange={handleChange}
-                                            onBlur={handleBlur}
-                                            InputProps={{
-                                                color: "secondary",
-                                                endAdornment: (
-                                                    <InputAdornment position="end">
-                                                        <IconButton
-                                                            aria-label="toggle password visibility"
-                                                            onClick={handleClickShowPassword}
-                                                            onMouseDown={handleMouseDownPassword}
-                                                        >
-                                                            {showPassword ? (
-                                                                <Visibility color="secondary" />
-                                                            ) : (
-                                                                <VisibilityOff color="secondary" />
-                                                            )}
-                                                        </IconButton>
-                                                    </InputAdornment>
-                                                ),
-                                            }}
-                                            size="small"
-                                            InputLabelProps={{ color: "secondary" }}
-                                            // @ts-ignore
-                                            helperText={touched["password"] && errors["password"]}
-                                            error={touched["password"] && !!errors["password"]}
-                                        />
-                                    </Box>
-                                    <Button
-                                        type="submit"
-                                        color="secondary"
-                                        variant="outlined"
-                                        size="medium"
+                    <Formik
+                        initialValues={{
+                            email: "",
+                            password: "",
+                        }}
+                        validationSchema={loginSchema}
+                        onSubmit={(values: any) => {
+                            onSubmitLogin(values);
+                        }}
+                        enableReinitialize
+                    >
+                        {({ values, errors, touched, handleBlur, handleChange, handleSubmit }) => {
+                            return (
+                                <Form onSubmit={handleSubmit}>
+                                    <Box
+                                        sx={{
+                                            display: "flex",
+                                            flexDirection: "column",
+                                            rowGap: 2,
+                                        }}
                                     >
-                                        <LockOutlinedIcon />
-                                        <span style={{ paddingLeft: 4 }}>Login</span>
-                                    </Button>
-                                    <Box>
-                                        <Typography variant="overline">
-                                            Don't have an account ?
-                                        </Typography>
-                                        <Link
-                                            style={{ textDecoration: "none", paddingLeft: 4 }}
-                                            to={"/register"}
+                                        <Typography variant="h2">Sign In</Typography>
+                                        <Box display={"flex"} flexDirection={"column"} rowGap={1}>
+                                            <FormLabel>Email</FormLabel>
+                                            <TextField
+                                                type="text"
+                                                placeholder="example@email.com"
+                                                name="email"
+                                                required
+                                                value={values.email}
+                                                onChange={handleChange}
+                                                onBlur={handleBlur}
+                                                size="small"
+                                                InputProps={{ color: "secondary" }}
+                                                InputLabelProps={{ color: "secondary" }}
+                                                // @ts-ignore
+                                                helperText={touched["email"] && errors["email"]}
+                                                error={touched["email"] && !!errors["email"]}
+                                            />
+                                        </Box>
+                                        <Box display={"flex"} flexDirection={"column"} rowGap={1}>
+                                            <FormLabel>Password</FormLabel>
+                                            <TextField
+                                                type={showPassword ? "text" : "password"}
+                                                name="password"
+                                                placeholder="Example1#"
+                                                required
+                                                value={values.password}
+                                                onChange={handleChange}
+                                                onBlur={handleBlur}
+                                                InputProps={{
+                                                    color: "secondary",
+                                                    endAdornment: (
+                                                        <InputAdornment position="end">
+                                                            <IconButton
+                                                                aria-label="toggle password visibility"
+                                                                onClick={handleClickShowPassword}
+                                                                onMouseDown={
+                                                                    handleMouseDownPassword
+                                                                }
+                                                            >
+                                                                {showPassword ? (
+                                                                    <Visibility color="secondary" />
+                                                                ) : (
+                                                                    <VisibilityOff color="secondary" />
+                                                                )}
+                                                            </IconButton>
+                                                        </InputAdornment>
+                                                    ),
+                                                }}
+                                                size="small"
+                                                InputLabelProps={{ color: "secondary" }}
+                                                // @ts-ignore
+                                                helperText={
+                                                    touched["password"] && errors["password"]
+                                                }
+                                                error={touched["password"] && !!errors["password"]}
+                                            />
+                                        </Box>
+                                        <Button
+                                            type="submit"
+                                            color="secondary"
+                                            variant="outlined"
+                                            size="medium"
                                         >
-                                            Sign Up
-                                        </Link>
+                                            <LockOutlinedIcon />
+                                            <span style={{ paddingLeft: 4 }}>Login</span>
+                                        </Button>
+                                        <Box>
+                                            <Typography variant="overline">
+                                                Don't have an account ?
+                                            </Typography>
+                                            <Link
+                                                style={{ textDecoration: "none", paddingLeft: 4 }}
+                                                to={"/register"}
+                                            >
+                                                Sign Up
+                                            </Link>
+                                        </Box>
                                     </Box>
-                                </Box>
-                            </Form>
-                        );
-                    }}
-                </Formik>
-            </Paper>
-        </Box>
+                                </Form>
+                            );
+                        }}
+                    </Formik>
+                </Paper>
+            </Box>
+        </>
     );
 }
