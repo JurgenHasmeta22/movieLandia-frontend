@@ -11,29 +11,29 @@ import MainLayout from "~/layouts/MainLayout";
 import AdminLayout from "~/layouts/AdminLayout";
 
 // main pages
-const Series = React.lazy(async () => await import("~/pages/series/Series"));
-const Error404 = React.lazy(async () => await import("~/pages/error/Error"));
-const Genre = React.lazy(async () => await import("~/pages/genre/Genre"));
-const Home = React.lazy(async () => await import("~/pages/home/Home"));
-const Login = React.lazy(async () => await import("~/pages/login/Login"));
-const Movie = React.lazy(async () => await import("~/pages/movie/Movie"));
-const Profile = React.lazy(async () => await import("~/pages/profile/Profile"));
-const Register = React.lazy(async () => await import("~/pages/register/Register"));
+const Series = React.lazy(() => import("~/pages/series/Series"));
+const Error404 = React.lazy(() => import("~/pages/error/Error"));
+const Genre = React.lazy(() => import("~/pages/genre/Genre"));
+const Home = React.lazy(() => import("~/pages/home/Home"));
+const Login = React.lazy(() => import("~/pages/login/Login"));
+const Movie = React.lazy(() => import("~/pages/movie/Movie"));
+const Profile = React.lazy(() => import("~/pages/profile/Profile"));
+const Register = React.lazy(() => import("~/pages/register/Register"));
 
 // admin pages
-const Dashboard = React.lazy(async () => await import("~/pages/admin/dashboard/Dashboard"));
-const MoviesAdmin = React.lazy(async () => await import("~/pages/admin/movies/MoviesAdmin"));
-const UsersAdmin = React.lazy(async () => await import("~/pages/admin/users/UsersAdmin"));
-const SeriesAdmin = React.lazy(async () => await import("~/pages/admin/series/SeriesAdmin"));
-const GenresAdmin = React.lazy(async () => await import("~/pages/admin/genres/GenresAdmin"));
-const AddUserAdmin = React.lazy(async () => await import("~/pages/admin/addUser/AddUser"));
-const AddGenreAdmin = React.lazy(async () => await import("~/pages/admin/addGenre/AddGenre"));
-const AddSerieAdmin = React.lazy(async () => await import("~/pages/admin/addSerie/AddSerie"));
-const AddMovieAdmin = React.lazy(async () => await import("~/pages/admin/addMovie/AddMovie"));
-const UserAdmin = React.lazy(async () => await import("~/pages/admin/user/UserAdmin"));
-const MovieAdmin = React.lazy(async () => await import("~/pages/admin/movie/MovieAdmin"));
-const SerieAdmin = React.lazy(async () => await import("~/pages/admin/serie/SerieAdmin"));
-const GenreAdmin = React.lazy(async () => await import("~/pages/admin/genre/GenreAdmin"));
+const Dashboard = React.lazy(() => import("~/pages/admin/dashboard/Dashboard"));
+const MoviesAdmin = React.lazy(() => import("~/pages/admin/movies/MoviesAdmin"));
+const UsersAdmin = React.lazy(() => import("~/pages/admin/users/UsersAdmin"));
+const SeriesAdmin = React.lazy(() => import("~/pages/admin/series/SeriesAdmin"));
+const GenresAdmin = React.lazy(() => import("~/pages/admin/genres/GenresAdmin"));
+const AddUserAdmin = React.lazy(() => import("~/pages/admin/addUser/AddUser"));
+const AddGenreAdmin = React.lazy(() => import("~/pages/admin/addGenre/AddGenre"));
+const AddSerieAdmin = React.lazy(() => import("~/pages/admin/addSerie/AddSerie"));
+const AddMovieAdmin = React.lazy(() => import("~/pages/admin/addMovie/AddMovie"));
+const UserAdmin = React.lazy(() => import("~/pages/admin/user/UserAdmin"));
+const MovieAdmin = React.lazy(() => import("~/pages/admin/movie/MovieAdmin"));
+const SerieAdmin = React.lazy(() => import("~/pages/admin/serie/SerieAdmin"));
+const GenreAdmin = React.lazy(() => import("~/pages/admin/genre/GenreAdmin"));
 
 function App() {
     const { setUser } = useStore();
