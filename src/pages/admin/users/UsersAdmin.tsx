@@ -8,6 +8,7 @@ import TableAdmin from "~/utils/TableAdmin";
 
 const UsersAdmin = () => {
     const navigate = useNavigate();
+
     const columns = useMemo<MRT_ColumnDef<any>[]>(
         () => [
             { accessorKey: "id", header: "Id", enableHiding: true },
@@ -43,13 +44,10 @@ const UsersAdmin = () => {
     });
 
     return (
-        <>
-            {/* <SEOHelmet noIndex /> */}
-            <Box m="20px" component={"main"}>
-                <HeaderDashboard title="Users" subtitle="List of Users" />
-                <MaterialReactTable table={table} />
-            </Box>
-        </>
+        <Box m="20px" component={"main"}>
+            <HeaderDashboard title="Users" subtitle="List of Users" />
+            <MaterialReactTable table={table} />
+        </Box>
     );
 };
 

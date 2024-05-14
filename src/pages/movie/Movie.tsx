@@ -23,9 +23,11 @@ export default function Movie() {
     const [movie, setMovie] = useState<IMovie | null>(null);
     const [latestMoviesRelated, setLatestMoviesRelated] = useState<IMovie[]>([]);
     const { user, setUser } = useStore();
+
     const params = useParams();
     const navigate = useNavigate();
     const isPageShrunk = useResizeWindow();
+
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
@@ -71,7 +73,7 @@ export default function Movie() {
         <>
             <SEOHelmet
                 title={`Watch ${movie?.title} on MovieLand24`}
-                description={movie?.description}
+                description={`${movie?.description}`}
                 name="MovieLand24"
                 type="article"
                 canonicalUrl={`https://example.com/movies/${movie?.title}`}
