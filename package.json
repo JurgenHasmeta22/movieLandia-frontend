@@ -52,6 +52,8 @@
         "autoprefixer": "^10.4.19",
         "prettier": "3.2.5",
         "typescript": "^5.4.5",
-        "vite": "^5.2.11"
+        "vite": "^5.2.11",
+        "vite-plugin-pwa": "^0.20.0",
+        "workbox-window": "^7.1.0"
     }
 }
