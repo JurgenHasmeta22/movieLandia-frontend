@@ -3,6 +3,7 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import Sidebar from "~/components/admin/sidebar/Sidebar";
 import TopBar from "~/components/admin/topBar/TopBar";
+import SEOHelmet from "~/components/seoHelmet/SEOHelmet";
 import { ModalProvider } from "~/services/providers/ModalContext";
 import { RightPanelProvider } from "~/services/providers/RightPanelContext";
 import { useStore } from "~/store/store";
@@ -14,32 +15,35 @@ const AdminLayout = () => {
     return (
         <RightPanelProvider>
             <ModalProvider>
-                <Grid container component={"main"}>
-                    <Grid item xs={12} md={isOpenSidebarAdmin ? 2 : 0}>
-                        <Sidebar sidebarItems={sidebarItems} />
-                    </Grid>
-                    <Grid item xs={12} md={isOpenSidebarAdmin ? 10 : 12}>
-                        <TopBar />
-                        <React.Suspense
-                            fallback={
-                                <Box
-                                    sx={{
-                                        display: "flex",
-                                        placeItems: "center",
-                                        placeContent: "center",
-                                        height: "100vh",
-                                    }}
-                                >
-                                    <CircularProgress size={80} thickness={4} />
+                <>
+                    <SEOHelmet noIndex />
+                    <Grid container component={"main"}>
+                        <Grid item xs={12} md={isOpenSidebarAdmin ? 2 : 0}>
+                            <Sidebar sidebarItems={sidebarItems} />
+                        </Grid>
+                        <Grid item xs={12} md={isOpenSidebarAdmin ? 10 : 12}>
+                            <TopBar />
+                            <React.Suspense
+                                fallback={
+                                    <Box
+                                        sx={{
+                                            display: "flex",
+                                            placeItems: "center",
+                                            placeContent: "center",
+                                            height: "100vh",
+                                        }}
+                                    >
+                                        <CircularProgress size={80} thickness={4} />
+                                    </Box>
+                                }
+                            >
+                                <Box ml={4}>
+                                    <Outlet />
                                 </Box>
-                            }
-                        >
-                            <Box ml={4}>
-                                <Outlet />
-                            </Box>
-                        </React.Suspense>
+                            </React.Suspense>
+                        </Grid>
                     </Grid>
-                </Grid>
+                </>
             </ModalProvider>
         </RightPanelProvider>
     );

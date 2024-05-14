@@ -7,15 +7,19 @@ import { Box, CircularProgress, Pagination, Stack, Typography, useTheme } from "
 import { tokens } from "~/utils/theme";
 import genreService from "~/services/api/genreService";
 import SEOHelmet from "~/components/seoHelmet/SEOHelmet";
+import { Helmet } from "react-helmet-async";
 
 export default function Genre(): React.JSX.Element {
     const [itemsPerPage, setItemsPerPage] = useState<number>(20);
     const [moviesCountGenre, setMoviesCountGenres] = useState<number>(0);
     const [moviesOfGenre, setMoviesOfGenre] = useState<IMovie[] | undefined>(undefined);
+
     const params = useParams();
     const [searchParams, setSearchParams] = useSearchParams();
+
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
+
     const pageCount: number = Math.ceil(moviesCountGenre / itemsPerPage);
 
     const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
