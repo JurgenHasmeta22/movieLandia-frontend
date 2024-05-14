@@ -62,7 +62,7 @@ export const Header = (): React.JSX.Element => {
 
     async function getGenres(): Promise<void> {
         try {
-            const response: IGenreResponse = await genreService.getGenres({});
+            const response = await genreService.getGenres({});
             setGenres(response.rows);
         } catch (error) {
             console.log(error);
@@ -129,7 +129,7 @@ export const Header = (): React.JSX.Element => {
 
     return (
         <>
-            <AppBar position="static" component={"nav"}>
+            <AppBar position="static" component={"header"}>
                 <Toolbar
                     sx={{
                         display: "flex",
@@ -139,6 +139,7 @@ export const Header = (): React.JSX.Element => {
                         backgroundColor: colors.primary[900],
                         padding: 2,
                     }}
+                    component={"nav"}
                 >
                     {mobileOpen ? (
                         <Box>

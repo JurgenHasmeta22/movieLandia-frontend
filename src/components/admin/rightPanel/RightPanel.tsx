@@ -89,7 +89,6 @@ const RightPanel: React.FC<DrawerProps> = ({
     const theme = useTheme();
 
     const isLastStep = () => activeStep === (steps ? steps.length - 1 : 0);
-
     const handleNext = () => {
         setActiveStep((prevActiveStep: any) => prevActiveStep + 1);
     };
@@ -103,7 +102,7 @@ const RightPanel: React.FC<DrawerProps> = ({
     };
 
     return (
-        <Drawer variant={"temporary"} anchor={"right"} open={true} onClose={onClose}>
+        <Drawer variant={"temporary"} component={"aside"} anchor={"right"} open={true} onClose={onClose}>
             <Box
                 sx={{
                     width: 500,

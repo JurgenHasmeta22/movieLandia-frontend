@@ -15,10 +15,11 @@ const TopBar = () => {
     const navigate = useNavigate();
 
     const colorMode = useContext(ColorModeContext);
+    const { removeItem } = useLocalStorage("user");
+    const open = Boolean(anchorEl);
+
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-    const open = Boolean(anchorEl);
-    const { removeItem } = useLocalStorage("user");
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
@@ -43,13 +44,14 @@ const TopBar = () => {
     // };
 
     return (
-        <AppBar position="static">
+        <AppBar position="static" component={"header"}>
             <Toolbar
                 sx={{
                     display: "flex",
                     justifyContent: "space-between",
                     backgroundColor: colors.primary[900],
                 }}
+                component={"nav"}
             >
                 <Box display={"flex"} justifyContent={"start"}>
                     {!isOpenSidebarAdmin && (

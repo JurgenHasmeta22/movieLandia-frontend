@@ -34,6 +34,7 @@ const Sidebar = ({ sidebarItems }: any) => {
             variant={"persistent"}
             anchor={"left"}
             open={isOpenSidebarAdmin}
+            component={"aside"}
             onClose={onClose}
             PaperProps={{ sx: { backgroundColor: colors.grey[1000], paddingRight: 4 } }}
         >
