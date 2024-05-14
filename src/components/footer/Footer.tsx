@@ -17,6 +17,7 @@ export const Footer = (): React.JSX.Element => {
                 backgroundColor: colors.primary[900],
                 padding: 2,
             }}
+            component={"footer"}
         >
             <Typography color={colors.primary[100]}>
                 Copyright © 2024 | movielandia24.so - Filma dhe Seriale HD me titra shqip / NetFlix

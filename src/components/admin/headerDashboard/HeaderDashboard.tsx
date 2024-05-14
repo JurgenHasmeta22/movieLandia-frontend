@@ -6,7 +6,7 @@ const HeaderDashboard = ({ title, subtitle }: any) => {
     const colors = tokens(theme.palette.mode);
 
     return (
-        <Box mb="30px">
+        <Box mb="30px" component={"nav"}>
             <Typography
                 variant="h2"
                 color={colors.grey[100]}
