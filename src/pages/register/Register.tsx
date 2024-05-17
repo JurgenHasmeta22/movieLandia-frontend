@@ -124,14 +124,21 @@ export default function Register() {
                                             rowGap: 2,
                                         }}
                                     >
-                                        <Typography variant="h2">Sign Up</Typography>
+                                        <Typography
+                                            variant="h2"
+                                            sx={{
+                                                textTransform: "capitalize",
+                                            }}
+                                        >
+                                            Sign Up
+                                        </Typography>
                                         <Box display={"flex"} flexDirection={"column"} rowGap={1}>
                                             <FormLabel>Username</FormLabel>
                                             <TextField
                                                 type="text"
                                                 name="userName"
                                                 required
-                                                placeholder="Example22"
+                                                // placeholder="Example22"
                                                 value={values.userName}
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
@@ -151,7 +158,7 @@ export default function Register() {
                                                 type="text"
                                                 name="email"
                                                 required
-                                                placeholder="example@email.com"
+                                                // placeholder="example@email.com"
                                                 value={values.email}
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
@@ -169,7 +176,7 @@ export default function Register() {
                                                 type={showPassword ? "text" : "password"}
                                                 name="password"
                                                 required
-                                                placeholder="Example1#"
+                                                // placeholder="Example1#"
                                                 value={values.password}
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
@@ -208,7 +215,7 @@ export default function Register() {
                                                 type={showPasswordConfirm ? "text" : "password"}
                                                 name="confirmPassword"
                                                 required
-                                                placeholder="Repeat again password"
+                                                // placeholder="Repeat again password"
                                                 value={values.confirmPassword}
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
@@ -254,14 +261,32 @@ export default function Register() {
                                             size="medium"
                                         >
                                             <LockOutlinedIcon />
-                                            <span style={{ paddingLeft: 4 }}>Register</span>
+                                            <span
+                                                style={{
+                                                    paddingLeft: 4,
+                                                    textTransform: "capitalize",
+                                                    fontSize: 14,
+                                                }}
+                                            >
+                                                Register
+                                            </span>
                                         </Button>
                                         <Box>
-                                            <Typography variant="overline">
+                                            <Typography
+                                                variant="overline"
+                                                sx={{
+                                                    textTransform: "capitalize",
+                                                    fontWeight: 600
+                                                }}
+                                            >
                                                 Already have an account ?
                                             </Typography>
                                             <Link
-                                                style={{ textDecoration: "none", paddingLeft: 4 }}
+                                                style={{
+                                                    textDecoration: "none",
+                                                    paddingLeft: 4,
+                                                    textTransform: "capitalize",
+                                                }}
                                                 to={"/login"}
                                             >
                                                 Sign In

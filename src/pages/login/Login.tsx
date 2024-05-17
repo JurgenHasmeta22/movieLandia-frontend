@@ -113,7 +113,7 @@ export default function Login() {
                                             <FormLabel>Email</FormLabel>
                                             <TextField
                                                 type="text"
-                                                placeholder="example@email.com"
+                                                // placeholder="example@email.com"
                                                 name="email"
                                                 required
                                                 value={values.email}
@@ -132,7 +132,7 @@ export default function Login() {
                                             <TextField
                                                 type={showPassword ? "text" : "password"}
                                                 name="password"
-                                                placeholder="Example1#"
+                                                // placeholder="Example1#"
                                                 required
                                                 value={values.password}
                                                 onChange={handleChange}
@@ -173,17 +173,29 @@ export default function Login() {
                                             size="medium"
                                         >
                                             <LockOutlinedIcon />
-                                            <span style={{ paddingLeft: 4 }}>Login</span>
+                                            <span
+                                                style={{
+                                                    paddingLeft: 4,
+                                                    fontSize: 14,
+                                                    textTransform: "capitalize",
+                                                }}
+                                            >
+                                                Login
+                                            </span>
                                         </Button>
                                         <Box>
                                             <Typography variant="overline">
                                                 Don't have an account ?
                                             </Typography>
                                             <Link
-                                                style={{ textDecoration: "none", paddingLeft: 4 }}
+                                                style={{
+                                                    textDecoration: "none",
+                                                    paddingLeft: 4,
+                                                    textTransform: "capitalize",
+                                                }}
                                                 to={"/register"}
                                             >
-                                                Sign Up
+                                                Login
                                             </Link>
                                         </Box>
                                     </Box>
