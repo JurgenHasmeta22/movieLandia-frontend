@@ -136,8 +136,8 @@ export const themeSettings = (mode: any) => {
                 sharp: "cubic-bezier(0.4, 0, 0.6, 1)",
             },
             duration: {
-                enteringScreen: 200,
-                leavingScreen: 200,
+                enteringScreen: 700,
+                leavingScreen: 700,
             },
         },
         palette: {
@@ -204,6 +204,100 @@ export const themeSettings = (mode: any) => {
                 fontSize: 14,
             },
         },
+        components: {
+            MuiButton: {
+                styleOverrides: {
+                    root: {
+                        borderRadius: 12,
+                        padding: "10px 10px",
+                        fontWeight: "bold",
+                        cursor: "pointer",
+                        transition: "background-color 0.5s ease",
+                        boxShadow: "none",
+                        "&:hover": {
+                            backgroundColor: colors.primary[400],
+                        },
+                    },
+                    containedPrimary: {
+                        color: "#fff",
+                        backgroundColor: colors.primary[500],
+                        border: `2px solid ${colors.primary[700]}`,
+                        "&:hover": {
+                            backgroundColor: colors.primary[600],
+                        },
+                    },
+                    containedSecondary: {
+                        color: "#fff",
+                        backgroundColor: colors.greenAccent[500],
+                        border: `2px solid ${colors.greenAccent[700]}`,
+                        "&:hover": {
+                            backgroundColor: colors.greenAccent[600],
+                        },
+                    },
+                },
+                defaultProps: {
+                    disableRipple: true,
+                    disableFocusRipple: true,
+                    disableTouchRipple: true,
+                },
+            },
+            MuiIconButton: {
+                styleOverrides: {
+                    root: {
+                        borderRadius: 12,
+                        cursor: "pointer",
+                        transition: "background-color 0.5s ease",
+                        boxShadow: "none",
+                        "&:hover": {
+                            backgroundColor: colors.primary[400],
+                        },
+                    },
+                    containedPrimary: {
+                        color: "#fff",
+                        backgroundColor: colors.primary[500],
+                        border: `1px solid ${colors.primary[700]}`,
+                        "&:hover": {
+                            backgroundColor: colors.primary[600],
+                        },
+                    },
+                    containedSecondary: {
+                        color: "#fff",
+                        backgroundColor: colors.greenAccent[500],
+                        border: `1px solid ${colors.greenAccent[700]}`,
+                        "&:hover": {
+                            backgroundColor: colors.greenAccent[600],
+                        },
+                    },
+                },
+                defaultProps: {
+                    disableRipple: true,
+                    disableFocusRipple: true,
+                    disableTouchRipple: true,
+                },
+            },
+            MuiTextField: {
+                styleOverrides: {
+                    root: {
+                        color: mode === "dark" ? colors.grey[100] : colors.grey[800],
+                        transition: "background-color 0.5s ease",
+                        "&:hover": {
+                            backgroundColor: mode === "dark" ? colors.grey[700] : colors.grey[300],
+                        },
+                    },
+                    underline: {
+                        "&:before": {
+                            borderBottom: "none",
+                        },
+                        "&:after": {
+                            borderBottom: "none",
+                        },
+                        "&:hover:not(.Mui-disabled):before": {
+                            borderBottom: "none",
+                        },
+                    },
+                },
+            },
+        },
     };
 };
 
@@ -213,15 +307,12 @@ export const ColorModeContext = createContext({
 
 export const useMode = () => {
     const [mode, setMode] = useState<string>("dark");
-
     const colorMode = useMemo(
         () => ({
             toggleColorMode: () => setMode((prev) => (prev === "light" ? "dark" : "light")),
         }),
         [],
     );
-
     const theme: any = useMemo(() => createTheme(themeSettings(mode)), [mode]);
-
     return [theme, colorMode];
 };

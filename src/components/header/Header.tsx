@@ -28,7 +28,6 @@ import { useResizeWindow } from "~/hooks/useResizeWindow";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import genreService from "~/services/api/genreService";
-import IGenreResponse from "~/types/IGenreResponse";
 
 export const Header = (): React.JSX.Element => {
     const [options, setOptions] = useState<any>([]);
@@ -134,10 +133,10 @@ export const Header = (): React.JSX.Element => {
                     sx={{
                         display: "flex",
                         flexDirection: "row",
-                        justifyContent: "space-between",
+                        justifyContent: `${mobileOpen ? "justify-between" : "space-around"}`,
                         flexWrap: "wrap",
                         backgroundColor: colors.primary[900],
-                        padding: 2,
+                        py: 2,
                     }}
                     component={"nav"}
                 >
@@ -346,6 +345,7 @@ export const Header = (): React.JSX.Element => {
                                         <Button
                                             color="secondary"
                                             variant="outlined"
+                                            size="medium"
                                             onClick={function () {
                                                 navigate("/login");
                                             }}
@@ -353,27 +353,40 @@ export const Header = (): React.JSX.Element => {
                                                 display: "flex",
                                                 flexDirection: "row",
                                                 columnGap: 1,
-                                                p: 1,
+                                                px: 2,
                                             }}
                                         >
                                             <LockOpenIcon />
-                                            <Typography>Sign In</Typography>
+                                            <Typography
+                                                sx={{
+                                                    textTransform: "capitalize",
+                                                }}
+                                            >
+                                                Sign In
+                                            </Typography>
                                         </Button>
                                         <Button
                                             color="secondary"
                                             variant="outlined"
+                                            size="medium"
                                             sx={{
                                                 display: "flex",
                                                 flexDirection: "row",
                                                 columnGap: 1,
-                                                p: 1,
+                                                px: 2,
                                             }}
                                             onClick={function () {
                                                 navigate("/register");
                                             }}
                                         >
                                             <AppRegistrationIcon />
-                                            <Typography>Sign Up</Typography>
+                                            <Typography
+                                                sx={{
+                                                    textTransform: "capitalize",
+                                                }}
+                                            >
+                                                Sign Up
+                                            </Typography>
                                         </Button>
                                     </>
                                 )}
@@ -605,11 +618,17 @@ export const Header = (): React.JSX.Element => {
                                             display: "flex",
                                             flexDirection: "row",
                                             columnGap: 1,
-                                            padding: 1,
+                                            px: 2,
                                         }}
                                     >
                                         <LockOpenIcon />
-                                        <Typography>Sign In</Typography>
+                                        <Typography
+                                            sx={{
+                                                textTransform: "capitalize",
+                                            }}
+                                        >
+                                            Sign In
+                                        </Typography>
                                     </Button>
                                     <Button
                                         color="secondary"
@@ -619,14 +638,20 @@ export const Header = (): React.JSX.Element => {
                                             display: "flex",
                                             flexDirection: "row",
                                             columnGap: 1,
-                                            padding: 1,
+                                            px: 2,
                                         }}
                                         onClick={function () {
                                             navigate("/register");
                                         }}
                                     >
                                         <AppRegistrationIcon />
-                                        <Typography>Sign Up</Typography>
+                                        <Typography
+                                            sx={{
+                                                textTransform: "capitalize",
+                                            }}
+                                        >
+                                            Sign Up
+                                        </Typography>
                                     </Button>
                                 </>
                             )}
