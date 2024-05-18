@@ -18,6 +18,7 @@ import {
 import { tokens } from "~/utils/theme";
 import { useResizeWindow } from "~/hooks/useResizeWindow";
 import SEOHelmet from "~/components/seoHelmet/SEOHelmet";
+import ReviewsIcon from "@mui/icons-material/Reviews";
 
 export default function Movie() {
     const [movie, setMovie] = useState<IMovie | null>(null);
@@ -82,7 +83,7 @@ export default function Movie() {
                 sx={{
                     display: "flex",
                     flexDirection: "column",
-                    rowGap: 8,
+                    rowGap: 4,
                     backgroundColor: `${colors.blueAccent[700]}`,
                 }}
                 component={"main"}
@@ -91,23 +92,29 @@ export default function Movie() {
                     sx={{
                         display: "flex",
                         flexDirection: "column",
-                        placeItems: "center",
-                        placeContent: "center",
-                        rowGap: 4,
+                        alignItems: "center",
+                        justifyContent: "center",
+                        rowGap: 2,
                     }}
                     component={"section"}
                 >
-                    <Typography mt={4} fontSize={22} color={"secondary"} textAlign={"center"}>
-                        Watch Movie
+                    <Typography
+                        mt={4}
+                        mb={2}
+                        fontSize={18}
+                        color={"secondary"}
+                        textAlign={"center"}
+                        component={"h1"}
+                    >
+                        {movie.title}
                     </Typography>
                     <Box>
-                        {/* Wwrapping this iframe in a div (Box) fixed the responsive bug which moved */}
                         <iframe
                             style={{
                                 width: `${isPageShrunk ? "250px" : "650px"}`,
                                 height: `${isPageShrunk ? "300px" : "450px"}`,
                             }}
-                            src={movie.videoSrc}
+                            src={movie.trailerSrc}
                             title={movie.title}
                             allowFullScreen
                         ></iframe>
@@ -116,43 +123,37 @@ export default function Movie() {
                         sx={{
                             display: "flex",
                             flexDirection: "column",
-                            placeItems: "center",
-                            placeContent: "center",
+                            alignItems: "center",
                             rowGap: 2,
                         }}
                     >
-                        <Link
-                            to={movie.trailerSrc}
-                            style={{
-                                textDecoration: "none",
-                                fontSize: 20,
-                                color: colors.greenAccent[500],
+                        <List
+                            sx={{
+                                display: "flex",
+                                flexDirection: "row",
                             }}
                         >
-                            Youtube trailer
-                        </Link>
-                        <List>
                             <ListItem
                                 sx={{
                                     color: colors.greenAccent[200],
                                 }}
                             >
-                                Duration: {movie.duration}
+                                <span>Duration: {movie.duration}</span>
                             </ListItem>
                             <ListItem
                                 sx={{
                                     color: colors.greenAccent[200],
                                 }}
                             >
-                                Year: {movie.releaseYear}
+                                <span>Year: {movie.releaseYear}</span>
                             </ListItem>
                             <ListItem
                                 sx={{
                                     color: colors.greenAccent[200],
                                 }}
                             >
-                                Imdb Rating:
-                                {movie.ratingImdb === 0 ? "N/A" : movie.ratingImdb}
+                                <span>Imdb Rating:</span>
+                                <span>{movie.ratingImdb === 0 ? "N/A" : movie.ratingImdb}</span>
                             </ListItem>
                         </List>
                         <Typography textAlign={"center"} color={"secondary"} width={"60%"}>
@@ -176,9 +177,9 @@ export default function Movie() {
                     sx={{
                         display: "flex",
                         flexDirection: "column",
-                        rowGap: 4,
-                        marginBottom: 4,
-                        marginTop: 4,
+                        rowGap: 2,
+                        marginBottom: 2,
+                        marginTop: 2,
                     }}
                     component={"section"}
                 >

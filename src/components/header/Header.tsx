@@ -13,6 +13,7 @@ import {
     ListItem,
     Menu,
     MenuItem,
+    Stack,
     TextField,
     Toolbar,
     Typography,
@@ -28,6 +29,10 @@ import { useResizeWindow } from "~/hooks/useResizeWindow";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import genreService from "~/services/api/genreService";
+import MovieIcon from "@mui/icons-material/Movie";
+import LocalMoviesIcon from "@mui/icons-material/LocalMovies";
+import LiveTvIcon from "@mui/icons-material/LiveTv";
+import SubtitlesIcon from "@mui/icons-material/Subtitles";
 
 export const Header = (): React.JSX.Element => {
     const [options, setOptions] = useState<any>([]);
@@ -154,15 +159,14 @@ export const Header = (): React.JSX.Element => {
                             </IconButton>
                         </Box>
                     ) : (
-                        <>
-                            <Box
-                                sx={{
-                                    display: "flex",
-                                    flexDirection: "row",
-                                    placeItems: "center",
-                                    columnGap: 6,
-                                }}
-                            >
+                        <Stack
+                            flexDirection={"row"}
+                            alignItems={"center"}
+                            justifyContent={"space-around"}
+                            columnGap={6}
+                            flexWrap={"wrap"}
+                        >
+                            <Box>
                                 <Link
                                     style={{
                                         textDecoration: "none",
@@ -174,17 +178,24 @@ export const Header = (): React.JSX.Element => {
                                 >
                                     MovieLandia24
                                 </Link>
+                            </Box>
+                            <Box>
                                 <List sx={{ display: "flex", flexDirection: "row" }}>
                                     <ListItem>
                                         <NavLink
                                             style={{
                                                 textDecoration: "none",
-                                                fontSize: "20px",
+                                                fontSize: "16px",
                                                 color: colors.primary[100],
                                                 cursor: "pointer",
+                                                display: "flex",
+                                                flexDirection: "row",
+                                                columnGap: 2,
+                                                alignItems: "center",
                                             }}
                                             to="/movies"
                                         >
+                                            <MovieIcon fontSize={"large"} />
                                             Movies
                                         </NavLink>
                                     </ListItem>
@@ -196,10 +207,15 @@ export const Header = (): React.JSX.Element => {
                                         <Typography
                                             style={{
                                                 textDecoration: "none",
-                                                fontSize: 20,
+                                                fontSize: 16,
                                                 color: colors.primary[100],
+                                                display: "flex",
+                                                flexDirection: "row",
+                                                columnGap: 2,
+                                                alignItems: "center",
                                             }}
                                         >
+                                            <SubtitlesIcon fontSize={"large"} />
                                             Genres
                                         </Typography>
                                         <Menu
@@ -228,12 +244,17 @@ export const Header = (): React.JSX.Element => {
                                         <NavLink
                                             style={{
                                                 textDecoration: "none",
-                                                fontSize: "20px",
+                                                fontSize: "16px",
                                                 color: colors.primary[100],
                                                 cursor: "pointer",
+                                                display: "flex",
+                                                flexDirection: "row",
+                                                columnGap: 2,
+                                                alignItems: "center",
                                             }}
                                             to="/series"
                                         >
+                                            <LocalMoviesIcon fontSize={"large"} />
                                             Series
                                         </NavLink>
                                     </ListItem>
@@ -241,21 +262,28 @@ export const Header = (): React.JSX.Element => {
                                         <NavLink
                                             style={{
                                                 textDecoration: "none",
-                                                fontSize: 20,
+                                                fontSize: 16,
                                                 color: colors.primary[100],
                                                 cursor: "pointer",
+                                                display: "flex",
+                                                flexDirection: "row",
+                                                columnGap: 2,
+                                                alignItems: "center",
                                             }}
                                             to="/genres/NETFLIX"
                                         >
-                                            Netflix
+                                            <LiveTvIcon fontSize={"large"} />
+                                            <span style={{ paddingTop: 2, paddingLeft: 2 }}>
+                                                Netflix
+                                            </span>
                                         </NavLink>
                                     </ListItem>
                                 </List>
                             </Box>
-                            <Box sx={{ display: "flex", placeItems: "center", columnGap: 4 }}>
+                            <Box sx={{ display: "flex", placeItems: "center", columnGap: 1 }}>
                                 <TextField
-                                    placeholder="Search for Movies..."
-                                    size="medium"
+                                    placeholder="What are you going to watch today?"
+                                    size="small"
                                     value={
                                         searchParams.get("search") ? searchParams.get("search") : ""
                                     }
@@ -270,6 +298,7 @@ export const Header = (): React.JSX.Element => {
                                     }}
                                     InputProps={{
                                         color: "secondary",
+                                        sx: { py: 0.5 },
                                         startAdornment: (
                                             <InputAdornment position="start">
                                                 <Search />
@@ -391,7 +420,7 @@ export const Header = (): React.JSX.Element => {
                                     </>
                                 )}
                             </Box>
-                        </>
+                        </Stack>
                     )}
                 </Toolbar>
             </AppBar>
@@ -429,7 +458,7 @@ export const Header = (): React.JSX.Element => {
                             <Link
                                 style={{
                                     textDecoration: "none",
-                                    fontSize: "20px",
+                                    fontSize: "22px",
                                     color: colors.primary[100],
                                     cursor: "pointer",
                                 }}
@@ -442,12 +471,17 @@ export const Header = (): React.JSX.Element => {
                             <NavLink
                                 style={{
                                     textDecoration: "none",
-                                    fontSize: "20px",
+                                    fontSize: "16px",
                                     color: colors.primary[100],
                                     cursor: "pointer",
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    columnGap: 2,
+                                    alignItems: "center",
                                 }}
                                 to="/movies"
                             >
+                                <MovieIcon fontSize={"large"} />
                                 Movies
                             </NavLink>
                         </ListItem>
@@ -458,10 +492,15 @@ export const Header = (): React.JSX.Element => {
                             <Typography
                                 style={{
                                     textDecoration: "none",
-                                    fontSize: 20,
+                                    fontSize: 16,
                                     color: colors.primary[100],
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    columnGap: 2,
+                                    alignItems: "center",
                                 }}
                             >
+                                <SubtitlesIcon fontSize={"large"} />
                                 Genres
                             </Typography>
                             <Menu
@@ -498,12 +537,17 @@ export const Header = (): React.JSX.Element => {
                             <NavLink
                                 style={{
                                     textDecoration: "none",
-                                    fontSize: "20px",
+                                    fontSize: "16px",
                                     color: colors.primary[100],
                                     cursor: "pointer",
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    columnGap: 2,
+                                    alignItems: "center",
                                 }}
                                 to="/series"
                             >
+                                <LocalMoviesIcon fontSize={"large"} />
                                 Series
                             </NavLink>
                         </ListItem>
@@ -511,13 +555,18 @@ export const Header = (): React.JSX.Element => {
                             <NavLink
                                 style={{
                                     textDecoration: "none",
-                                    fontSize: 20,
+                                    fontSize: 16,
                                     color: colors.primary[100],
                                     cursor: "pointer",
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    columnGap: 2,
+                                    alignItems: "center",
                                 }}
                                 to="/genres/NETFLIX"
                             >
-                                Netflix
+                                <LiveTvIcon fontSize={"large"} />
+                                <span style={{ paddingTop: 2, paddingLeft: 2 }}>Netflix</span>
                             </NavLink>
                         </ListItem>
                         <ListItem
@@ -529,8 +578,9 @@ export const Header = (): React.JSX.Element => {
                             }}
                         >
                             <TextField
-                                placeholder="Search for movies..."
+                                placeholder="What are you going to watch today?"
                                 value={searchParams.get("search") ? searchParams.get("search") : ""}
+                                size="small"
                                 onChange={(e) => {
                                     const value = e.target.value;
 
@@ -542,6 +592,9 @@ export const Header = (): React.JSX.Element => {
                                 }}
                                 InputProps={{
                                     color: "secondary",
+                                    sx: {
+                                        py: 0.5,
+                                    },
                                     startAdornment: (
                                         <InputAdornment position="start">
                                             <Search />
@@ -606,7 +659,7 @@ export const Header = (): React.JSX.Element => {
                                     </Menu>
                                 </Box>
                             ) : (
-                                <>
+                                <Stack flexDirection={"row"} columnGap={2}>
                                     <Button
                                         color="secondary"
                                         variant="outlined"
@@ -653,7 +706,7 @@ export const Header = (): React.JSX.Element => {
                                             Sign Up
                                         </Typography>
                                     </Button>
-                                </>
+                                </Stack>
                             )}
                         </ListItem>
                     </List>
