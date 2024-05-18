@@ -224,19 +224,38 @@ export const Header = (): React.JSX.Element => {
                                             onClose={closeMenuGenres}
                                             MenuListProps={{
                                                 onMouseLeave: closeMenuGenres,
-                                                style: { padding: 10 },
+                                                sx: {
+                                                    height: "auto",
+                                                    padding: 2,
+                                                    width: "550px",
+                                                    display: "grid",
+                                                    rowGap: 2,
+                                                    columnGap: 2,
+                                                    gridTemplateRows: "1fr 1fr 1fr",
+                                                    gridTemplateColumns: "1fr 1fr 1fr 1fr 1fr",
+                                                },
                                             }}
                                         >
                                             {genres.map((genre) => (
-                                                <MenuItem
+                                                <Box
                                                     key={genre.id}
                                                     onClick={() => {
                                                         closeMenuGenres();
                                                         navigate(`/genres/${genre.name}`);
                                                     }}
+                                                    sx={{
+                                                        cursor: "pointer",
+                                                        padding: 2,
+                                                        transition: "background-color 0.3s",
+                                                        "&:hover": {
+                                                            backgroundColor: "rgba(0, 0, 0, 0.08)",
+                                                        },
+                                                    }}
                                                 >
-                                                    {genre.name}
-                                                </MenuItem>
+                                                    <Typography variant="body1">
+                                                        {genre.name}
+                                                    </Typography>
+                                                </Box>
                                             ))}
                                         </Menu>
                                     </ListItem>

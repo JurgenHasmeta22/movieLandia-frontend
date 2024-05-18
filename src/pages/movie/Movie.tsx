@@ -93,7 +93,7 @@ export default function Movie() {
                         display: "flex",
                         flexDirection: "column",
                         alignItems: "center",
-                        justifyContent: "center",
+                        // justifyContent: "center",
                         rowGap: 2,
                     }}
                     component={"section"}
@@ -111,8 +111,10 @@ export default function Movie() {
                     <Box>
                         <iframe
                             style={{
-                                width: `${isPageShrunk ? "250px" : "650px"}`,
+                                width: `${isPageShrunk ? "250px" : "750px"}`,
                                 height: `${isPageShrunk ? "300px" : "450px"}`,
+                                border: "none",
+                                outline: "none",
                             }}
                             src={movie.trailerSrc}
                             title={movie.title}
@@ -124,6 +126,7 @@ export default function Movie() {
                             display: "flex",
                             flexDirection: "column",
                             alignItems: "center",
+                            justifyContent: "center",
                             rowGap: 2,
                         }}
                     >
@@ -131,32 +134,37 @@ export default function Movie() {
                             sx={{
                                 display: "flex",
                                 flexDirection: "row",
+                                width: "40%",
                             }}
                         >
                             <ListItem
                                 sx={{
-                                    color: colors.greenAccent[200],
+                                    color: colors.greenAccent[500],
                                 }}
                             >
                                 <span>Duration: {movie.duration}</span>
                             </ListItem>
                             <ListItem
                                 sx={{
-                                    color: colors.greenAccent[200],
+                                    color: colors.greenAccent[500],
                                 }}
                             >
                                 <span>Year: {movie.releaseYear}</span>
                             </ListItem>
                             <ListItem
                                 sx={{
-                                    color: colors.greenAccent[200],
+                                    color: colors.greenAccent[500],
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    columnGap: 1,
                                 }}
                             >
+                                <ReviewsIcon />
                                 <span>Imdb Rating:</span>
                                 <span>{movie.ratingImdb === 0 ? "N/A" : movie.ratingImdb}</span>
                             </ListItem>
                         </List>
-                        <Typography textAlign={"center"} color={"secondary"} width={"60%"}>
+                        <Typography textAlign={"center"} color={"secondary"} width={"50%"}>
                             {movie.description}
                         </Typography>
                         {user?.userName && (
