@@ -118,6 +118,8 @@ export default function Login() {
                                                 required
                                                 value={values.email}
                                                 onChange={handleChange}
+                                                autoComplete="username"
+                                                aria-autocomplete="both"
                                                 onBlur={handleBlur}
                                                 size="small"
                                                 InputProps={{ color: "secondary" }}
@@ -134,6 +136,8 @@ export default function Login() {
                                                 name="password"
                                                 // placeholder="Example1#"
                                                 required
+                                                autoComplete="current-password"
+                                                aria-autocomplete="both"
                                                 value={values.password}
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}

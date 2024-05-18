@@ -140,6 +140,8 @@ export default function Register() {
                                                 required
                                                 // placeholder="Example22"
                                                 value={values.userName}
+                                                autoComplete="username"
+                                                aria-autocomplete="both"
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
                                                 size="small"
@@ -160,6 +162,8 @@ export default function Register() {
                                                 required
                                                 // placeholder="example@email.com"
                                                 value={values.email}
+                                                autoComplete="username"
+                                                aria-autocomplete="both"
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
                                                 size="small"
@@ -177,6 +181,8 @@ export default function Register() {
                                                 name="password"
                                                 required
                                                 // placeholder="Example1#"
+                                                autoComplete="current-password"
+                                                aria-autocomplete="both"
                                                 value={values.password}
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
@@ -215,6 +221,8 @@ export default function Register() {
                                                 type={showPasswordConfirm ? "text" : "password"}
                                                 name="confirmPassword"
                                                 required
+                                                autoComplete="current-password"
+                                                aria-autocomplete="both"
                                                 // placeholder="Repeat again password"
                                                 value={values.confirmPassword}
                                                 onChange={handleChange}
@@ -276,7 +284,7 @@ export default function Register() {
                                                 variant="overline"
                                                 sx={{
                                                     textTransform: "capitalize",
-                                                    fontWeight: 600
+                                                    fontWeight: 600,
                                                 }}
                                             >
                                                 Already have an account ?
