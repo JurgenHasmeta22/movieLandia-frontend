@@ -30,7 +30,6 @@ export default function Home() {
     const [latestMovies, setLatestMovies] = useState<IMovie[]>([]);
     const [moviesCount, setMoviesCount] = useState<number | null>(null);
     const [moviesCountSearch, setMoviesCountSearch] = useState<number | null>(null);
-
     const [moviesCarouselImages, setMoviesCarouselImages] = useState<any[]>([
         { source: `${api.url}/images/movies/1gxZrx9gL9ov2c1NpXimEUzMTmh.jpg` },
         { source: `${api.url}/images/movies/1RjyfPLsZTq3lUdJY7pTzcmpPKl.jpg` },
@@ -38,7 +37,6 @@ export default function Home() {
         { source: `${api.url}/images/movies/1ZiZ3eVUWPxJROTkYbH8FBC9UuB.jpg` },
         { source: `${api.url}/images/movies/4kiVg3QJQghjtRupyfWYI3T1R0O-1.jpg` },
     ]);
-
     const [searchParams, setSearchParams] = useSearchParams();
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -204,7 +202,7 @@ export default function Home() {
                 component={"main"}
             >
                 {!searchParams.get("search") && (
-                    <Box mt={4} mb={2} component={"section"}>
+                    <Box mt={4} component={"section"}>
                         <HomeCarousel images={moviesCarouselImages} />
                     </Box>
                 )}
@@ -215,15 +213,15 @@ export default function Home() {
                             flexDirection: "row",
                             justifyContent: "flex-end",
                             alignItems: "center",
-                            gap: 2,
+                            columnGap: 2,
                             mr: 4,
                         }}
                         component={"section"}
                     >
-                        <Typography color={"secondary"} fontSize={18}>
-                            Sort By:
+                        <Typography color={"secondary"} fontSize={16}>
+                            <span>Sort by:</span>
                         </Typography>
-                        <Box sx={{ display: "flex", flexDirection: "row", gap: 4 }}>
+                        <Box sx={{ display: "flex", flexDirection: "row", columnGap: 2 }}>
                             <Select
                                 defaultValue={"none"}
                                 value={
@@ -249,9 +247,8 @@ export default function Home() {
                         flexWrap="wrap"
                         justifyContent={"center"}
                         alignContent={"center"}
-                        rowGap={8}
+                        rowGap={4}
                         columnGap={4}
-                        mt={4}
                     >
                         {movies.map((movie: any) => (
                             <MovieItem movie={movie} type="homeMovie" key={movie.id} />
@@ -267,14 +264,14 @@ export default function Home() {
                         }}
                         component={"section"}
                     >
-                        <Typography component={"h2"} fontSize={24} textAlign={"center"}>
+                        <Typography component={"h1"} fontSize={20} textAlign={"center"}>
                             No Search Result, no movie found with that criteria.
                         </Typography>
                     </Box>
                 )}
                 <Stack
                     spacing={2}
-                    sx={{ display: "flex", placeItems: "center", marginTop: 2, marginBottom: 2 }}
+                    sx={{ display: "flex", placeItems: "center", marginTop: 1, marginBottom: 1 }}
                 >
                     <Pagination
                         page={searchParams.get("page") ? Number(searchParams.get("page")) : 1}
@@ -292,8 +289,8 @@ export default function Home() {
                         sx={{
                             display: "flex",
                             flexDirection: "column",
-                            rowGap: 4,
-                            marginBottom: 6,
+                            rowGap: 2,
+                            marginBottom: 4,
                         }}
                     >
                         <Box sx={{ display: "flex", placeContent: "center" }}>
@@ -304,7 +301,7 @@ export default function Home() {
                         <Stack
                             direction="row"
                             flexWrap="wrap"
-                            rowGap={8}
+                            rowGap={6}
                             columnGap={4}
                             justifyContent={"center"}
                             alignContent={"center"}
