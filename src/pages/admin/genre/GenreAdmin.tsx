@@ -14,6 +14,8 @@ import FormAdvanced from "~/components/admin/form/Form";
 import { toast } from "react-toastify";
 import * as CONSTANTS from "~/constants/Constants";
 import Breadcrumb from "~/components/admin/breadcrumb/Breadcrumb";
+import { useModal } from "~/services/providers/ModalContext";
+import { WarningOutlined, CheckOutlined } from "@mui/icons-material";
 
 const genreSchema = yup.object().shape({
     name: yup.string().required("required"),
@@ -22,12 +24,14 @@ const genreSchema = yup.object().shape({
 const GenreAdmin = () => {
     const [genre, setGenre] = useState<IGenre | null>(null);
     const [loading, setLoading] = useState(true);
-    const [formData, setFormData] = useState({});
+    const [formData, setFormData] = useState<any>({});
 
     const navigate = useNavigate();
     const params = useParams();
     const location = useLocation();
     const formikRef = useRef<FormikProps<any>>(null);
+    const { openModal } = useModal();
+    const [open, setOpen] = useState(false);
 
     const breadcrumbs = [
         <Link key="1" to={"/admin/genres"} style={{ textDecoration: "none" }}>
@@ -112,7 +116,47 @@ const GenreAdmin = () => {
                 actions={[
                     {
                         label: CONSTANTS.FORM__DELETE__BUTTON,
-                        onClick: async () => {},
+                        onClick: async () => {
+                            openModal({
+                                onClose: () => setOpen(false),
+                                title: `Delete selected genre ${formData.name}`,
+                                actions: [
+                                    {
+                                        label: CONSTANTS.MODAL__DELETE__NO,
+                                        onClick: () => setOpen(false),
+                                        color: "secondary",
+                                        variant: "contained",
+                                        sx: {
+                                            bgcolor: "#ff5252",
+                                        },
+                                        icon: <WarningOutlined />,
+                                    },
+                                    {
+                                        label: CONSTANTS.MODAL__DELETE__YES,
+                                        onClick: async () => {
+                                            const response = await genreService.deleteGenre(
+                                                genre?.id!,
+                                            );
+
+                                            if (response) {
+                                                toast.success(CONSTANTS.DELETE__SUCCESS);
+                                                navigate("/admin/genres");
+                                            } else {
+                                                toast.success(CONSTANTS.DELETE__FAILURE);
+                                            }
+                                        },
+                                        type: "submit",
+                                        color: "secondary",
+                                        variant: "contained",
+                                        sx: {
+                                            bgcolor: "#30969f",
+                                        },
+                                        icon: <CheckOutlined />,
+                                    },
+                                ],
+                                subTitle: "Do you want to delete selected record ?",
+                            });
+                        },
                         color: "secondary",
                         variant: "contained",
                         sx: {

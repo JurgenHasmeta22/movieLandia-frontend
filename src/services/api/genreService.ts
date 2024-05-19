@@ -106,6 +106,11 @@ const genreService = {
         const genre: IGenre = await axios.patch(url, payload).then((res) => res.data);
         return genre;
     },
+    addGenre: async (payload: IGenrePost): Promise<any> => {
+        let url = `${api.url}/addGenre`;
+        const genre: IGenre = await axios.post(url, payload).then((res) => res.data);
+        return genre;
+    },
     deleteGenre: async (id: number): Promise<any> => {
         let url = `${api.url}/deleteGenreById/${id}`;
         const genre: IGenre = await axios.delete(url).then((res) => res.data);

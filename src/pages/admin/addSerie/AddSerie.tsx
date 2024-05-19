@@ -9,6 +9,8 @@ import { useState, useRef } from "react";
 import SaveAsIcon from "@mui/icons-material/SaveAs";
 import ClearAllIcon from "@mui/icons-material/ClearAll";
 import * as CONSTANTS from "~/constants/Constants";
+import serieService from "~/services/api/serieService";
+import ISeriePost from "~/types/ISeriePost";
 
 const serieSchema = yup.object().shape({
     title: yup.string().required("required"),
@@ -31,17 +33,20 @@ const AddSerie = () => {
     };
 
     const handleFormSubmit = async (values: any) => {
-        // const response = await authenticationService.onRegister(
-        //     values.title,
-        //     values.email,
-        //     values.password,
-        // );
-        // if (response) {
-        //     toast.success(CONSTANTS.ADD__SUCCESS);
-        //     navigate("/admin/series");
-        // } else {
-        //     toast.error(CONSTANTS.ADD__FAILURE);
-        // }
+        const payload: ISeriePost = {
+            title: values.title,
+            photoSrc: values.photoSrc,
+            ratingImdb: Number(values.ratingImdb),
+            releaseYear: Number(values.releaseYear),
+        };
+        const response = await serieService.addSerie(payload);
+
+        if (response) {
+            toast.success(CONSTANTS.UPDATE__SUCCESS);
+            navigate(`/admin/series/${response.id}`);
+        } else {
+            toast.error(CONSTANTS.UPDATE__FAILURE);
+        }
     };
 
     return (

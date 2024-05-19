@@ -3,18 +3,18 @@ import Header from "~/components/admin/headerDashboard/HeaderDashboard";
 import { useNavigate } from "react-router";
 import * as yup from "yup";
 import { toast } from "react-toastify";
-import authenticationService from "~/services/api/authenticationService";
 import FormAdvanced from "~/components/admin/form/Form";
 import { FormikProps } from "formik";
 import { useState, useRef } from "react";
 import SaveAsIcon from "@mui/icons-material/SaveAs";
 import ClearAllIcon from "@mui/icons-material/ClearAll";
 import * as CONSTANTS from "~/constants/Constants";
+import IMoviePost from "~/types/IMoviePost";
+import movieService from "~/services/api/movieService";
 
 const movieSchema = yup.object().shape({
     title: yup.string().required("required"),
     photoSrc: yup.string().required("required"),
-    videoSrc: yup.string().required("required"),
     trailerSrc: yup.string().required("required"),
     duration: yup.string().required("required"),
     releaseYear: yup.string().required("required"),
@@ -36,17 +36,23 @@ const AddMovie = () => {
     };
 
     const handleFormSubmit = async (values: any) => {
-        // const response = await authenticationService.onRegister(
-        //     values.moviename,
-        //     values.email,
-        //     values.password,
-        // );
-        // if (response) {
-        //     toast.success(CONSTANTS.ADD__SUCCESS);
-        //     navigate("/admin/movies");
-        // } else {
-        //     toast.error(CONSTANTS.ADD__FAILURE);
-        // }
+        const payload: IMoviePost = {
+            title: values.title,
+            description: values.description,
+            duration: values.duration,
+            photoSrc: values.photoSrc,
+            trailerSrc: values.trailerSrc,
+            ratingImdb: Number(values.ratingImdb),
+            releaseYear: Number(values.releaseYear),
+        };
+        const response = await movieService.addMovie(payload);
+
+        if (response) {
+            toast.success(CONSTANTS.UPDATE__SUCCESS);
+            navigate(`/admin/movies/${response.id}`);
+        } else {
+            toast.error(CONSTANTS.UPDATE__FAILURE);
+        }
     };
 
     return (
@@ -55,25 +61,17 @@ const AddMovie = () => {
             <FormAdvanced
                 initialValues={{
                     title: "",
-                    videoSrc: "",
                     photoSrc: "",
                     trailerSrc: "",
                     duration: "",
                     ratingImdb: "",
                     releaseYear: "",
                     description: "",
-                    views: "",
                 }}
                 fields={[
                     {
                         name: "title",
                         label: "Title",
-                        variant: "filled",
-                        type: "text",
-                    },
-                    {
-                        name: "videoSrc",
-                        label: "Video src",
                         variant: "filled",
                         type: "text",
                     },
