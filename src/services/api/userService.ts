@@ -65,11 +65,6 @@ const userService = {
         const user: IUser = await axios.patch(url, payload).then((res) => res.data);
         return user;
     },
-    addUser: async (payload: IUserPost): Promise<any> => {
-        let url = `${api.url}/addUser`;
-        const user: IUser = await axios.post(url, payload).then((res) => res.data);
-        return user;
-    },
     deleteUser: async (id: number): Promise<any> => {
         let url = `${api.url}/deleteUserById/${id}`;
         const user: IUser = await axios.delete(url).then((res) => res.data);
