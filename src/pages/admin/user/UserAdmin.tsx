@@ -14,6 +14,7 @@ import FormAdvanced from "~/components/admin/form/Form";
 import { toast } from "react-toastify";
 import * as CONSTANTS from "~/constants/Constants";
 import Breadcrumb from "~/components/admin/breadcrumb/Breadcrumb";
+import IUserPatch from "~/types/IUserPatch";
 
 const userSchema = yup.object().shape({
     userName: yup.string().required("required"),
@@ -31,7 +32,7 @@ const UserAdmin = () => {
     const formikRef = useRef<FormikProps<any>>(null);
 
     const breadcrumbs = [
-        <Link key="1" to={"/users"} style={{ textDecoration: "none" }}>
+        <Link key="1" to={"/admin/users"} style={{ textDecoration: "none" }}>
             {location.state?.from!}
         </Link>,
         <Typography key="2" color="text.primary">
@@ -48,21 +49,19 @@ const UserAdmin = () => {
     };
 
     const handleFormSubmit = async (values: any) => {
-        // const payload = {
-        //     userName: values.userName,
-        //     userFirstname: values.userFirstname,
-        //     userLastname: values.userLastname,
-        //     userEmail: values.userEmail,
-        //     balancaLeje: values.balancaLeje,
-        //     userIsActive: values.userIsActive,
-        // };
-        // const response = await userService.updateUser(user?.userId, payload);
-        // if (response) {
-        //     toast.success(CONSTANTS.UPDATE__SUCCESS);
-        //     getUser();
-        // } else {
-        //     toast.error(CONSTANTS.UPDATE__FAILURE);
-        // }
+        const payload: IUserPatch = {
+            userName: values.userName,
+            email: values.email,
+            password: values.password,
+        };
+        const response = await userService.updateUser(payload, user?.id!);
+
+        if (response) {
+            toast.success(CONSTANTS.UPDATE__SUCCESS);
+            getUser();
+        } else {
+            toast.error(CONSTANTS.UPDATE__FAILURE);
+        }
     };
 
     async function getUser(): Promise<void> {
@@ -83,7 +82,7 @@ const UserAdmin = () => {
 
     return (
         <Box m="20px">
-            <Breadcrumb breadcrumbs={breadcrumbs} navigateTo={"/users"} />
+            <Breadcrumb breadcrumbs={breadcrumbs} navigateTo={"/admin/users"} />
             <HeaderDashboard
                 title={CONSTANTS.USER__EDIT__TITLE}
                 subtitle={CONSTANTS.USER__EDIT__SUBTITLE}
@@ -124,18 +123,7 @@ const UserAdmin = () => {
                 actions={[
                     {
                         label: CONSTANTS.FORM__DELETE__BUTTON,
-                        onClick: async () => {
-                            // const response = await userService.updateUser(userId, {
-                            //     ...user,
-                            //     userIsActive: false,
-                            // });
-                            // if (response) {
-                            //     toast.success(CONSTANTS.GLOBAL__DELETE__SUCCESS);
-                            //     navigate("/users");
-                            // } else {
-                            //     toast.error(CONSTANTS.GLOBAL__DELETE__FAILURE);
-                            // }
-                        },
+                        onClick: async () => {},
                         color: "secondary",
                         variant: "contained",
                         sx: {

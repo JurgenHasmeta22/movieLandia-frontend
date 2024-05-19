@@ -1,5 +1,7 @@
 import axios from "axios";
 import IGenre from "~/types/IGenre";
+import IGenrePatch from "~/types/IGenrePatch";
+import IGenrePost from "~/types/IGenrePost";
 import type IMovie from "~/types/IMovie";
 import type IMoviesResponse from "~/types/IMoviesResponse";
 import type IUser from "~/types/IUser";
@@ -97,7 +99,16 @@ const genreService = {
     getGenreById: async (id: any): Promise<any> => {
         let url = `${api.url}/getGenreById/${id}`;
         const genre: IGenre = await axios.get(url).then((res) => res.data);
-
+        return genre;
+    },
+    updateGenre: async (payload: IGenrePatch, id: number): Promise<any> => {
+        let url = `${api.url}/updateGenreById/${id}`;
+        const genre: IGenre = await axios.patch(url, payload).then((res) => res.data);
+        return genre;
+    },
+    deleteGenre: async (id: number): Promise<any> => {
+        let url = `${api.url}/deleteGenreById/${id}`;
+        const genre: IGenre = await axios.delete(url).then((res) => res.data);
         return genre;
     },
 };
