@@ -40,7 +40,7 @@ const AddUser = () => {
 
         if (response) {
             toast.success(CONSTANTS.ADD__SUCCESS);
-            navigate(`/admin/users/${response.id}`);
+            navigate(`/admin/users/${response.user.id}`);
         } else {
             toast.error(CONSTANTS.ADD__FAILURE);
         }
