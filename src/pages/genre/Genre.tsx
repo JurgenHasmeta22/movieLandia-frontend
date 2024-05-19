@@ -7,7 +7,6 @@ import { Box, CircularProgress, Pagination, Stack, Typography, useTheme } from "
 import { tokens } from "~/utils/theme";
 import genreService from "~/services/api/genreService";
 import SEOHelmet from "~/components/seoHelmet/SEOHelmet";
-import { Helmet } from "react-helmet-async";
 
 export default function Genre(): React.JSX.Element {
     const [itemsPerPage, setItemsPerPage] = useState<number>(20);
@@ -16,10 +15,8 @@ export default function Genre(): React.JSX.Element {
 
     const params = useParams();
     const [searchParams, setSearchParams] = useSearchParams();
-
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-
     const pageCount: number = Math.ceil(moviesCountGenre / itemsPerPage);
 
     const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
@@ -30,14 +27,12 @@ export default function Genre(): React.JSX.Element {
     async function getMoviesOnGenre(): Promise<void> {
         if (!searchParams.get("page") && params.name) {
             const response: IGenreResponse = await genreService.getGenreByName(params.name, {});
-
             setMoviesOfGenre(response.rows);
             setMoviesCountGenres(response.count);
         } else if (searchParams.get("page") && params.name) {
             const queryParams = {
                 page: searchParams.get("page")!,
             };
-
             const response: IGenreResponse = await genreService.getGenreByName(
                 params.name,
                 queryParams,
@@ -45,6 +40,50 @@ export default function Genre(): React.JSX.Element {
 
             setMoviesOfGenre(response.rows);
             setMoviesCountGenres(response.count);
+        } else {
+            if (searchParams.get("sortBy") && searchParams.get("ascOrDesc")) {
+                if (searchParams.get("page")) {
+                    const queryParams = {
+                        sortBy: searchParams.get("sortBy")!,
+                        page: searchParams.get("page")!,
+                        ascOrDesc: searchParams.get("ascOrDesc")!,
+                    };
+                    const response: IGenreResponse = await genreService.getGenreByName(
+                        params!.name!,
+                        queryParams,
+                    );
+                    setMoviesOfGenre(response.rows);
+                    setMoviesCountGenres(response.count);
+                } else {
+                    const queryParams = {
+                        sortBy: searchParams.get("sortBy")!,
+                        ascOrDesc: searchParams.get("ascOrDesc")!,
+                    };
+                    const response: IGenreResponse = await genreService.getGenreByName(
+                        params!.name!,
+                        queryParams,
+                    );
+                    setMoviesOfGenre(response.rows);
+                    setMoviesCountGenres(response.count);
+                }
+            } else if (searchParams.get("page")) {
+                const queryParams = {
+                    page: searchParams.get("page")!,
+                };
+                const response: IGenreResponse = await genreService.getGenreByName(
+                    params!.name!,
+                    queryParams,
+                );
+                setMoviesOfGenre(response.rows);
+                setMoviesCountGenres(response.count);
+            } else {
+                const response: IGenreResponse = await genreService.getGenreByName(
+                    params!.name!,
+                    {},
+                );
+                setMoviesOfGenre(response.rows);
+                setMoviesCountGenres(response.count);
+            }
         }
     }
 

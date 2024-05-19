@@ -95,6 +95,16 @@ const serieService = {
 
         return serie;
     },
+    searchSeriesByTitle: async (title: string, page?: string): Promise<any> => {
+        let url = `${api.url}/searchSeriesByTitle?title=${title}`;
+
+        if (page) {
+            url += `&page=${page}`;
+        }
+
+        const response: IMoviesResponse = await axios.get(url).then((res) => res.data);
+        return response;
+    },
 };
 
 export default serieService;

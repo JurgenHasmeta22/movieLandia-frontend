@@ -45,7 +45,6 @@ export const Header = (): React.JSX.Element => {
     const { user, setUser, openDrawer, mobileOpen, setMobileOpen, setOpenDrawer } = useStore();
     const navigate = useNavigate();
     const [searchParams, setSearchParams] = useSearchParams();
-
     const colorMode = useContext(ColorModeContext);
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -447,7 +446,10 @@ export const Header = (): React.JSX.Element => {
                 variant="persistent"
                 open={openDrawer}
                 onClose={handleDrawerToggle}
-                component={"nav"}
+                component={"aside"}
+                PaperProps={{
+                    sx: { width: "100vw", height: "100vh" },
+                }}
             >
                 <Box>
                     <Box
@@ -481,7 +483,10 @@ export const Header = (): React.JSX.Element => {
                                     color: colors.primary[100],
                                     cursor: "pointer",
                                 }}
-                                to="/movies"
+                                to={"/movies"}
+                                onClick={() => {
+                                    setOpenDrawer(false);
+                                }}
                             >
                                 MovieLandia24
                             </Link>
@@ -499,6 +504,9 @@ export const Header = (): React.JSX.Element => {
                                     alignItems: "center",
                                 }}
                                 to="/movies"
+                                onClick={() => {
+                                    setOpenDrawer(false);
+                                }}
                             >
                                 <MovieIcon fontSize={"large"} />
                                 Movies
@@ -545,6 +553,7 @@ export const Header = (): React.JSX.Element => {
                                         onClick={() => {
                                             closeMenuGenres();
                                             navigate(`/genres/${genre.name}`);
+                                            setOpenDrawer(false);
                                         }}
                                     >
                                         {genre.name}
@@ -565,6 +574,9 @@ export const Header = (): React.JSX.Element => {
                                     alignItems: "center",
                                 }}
                                 to="/series"
+                                onClick={() => {
+                                    setOpenDrawer(false);
+                                }}
                             >
                                 <LocalMoviesIcon fontSize={"large"} />
                                 Series
@@ -583,6 +595,9 @@ export const Header = (): React.JSX.Element => {
                                     alignItems: "center",
                                 }}
                                 to="/genres/NETFLIX"
+                                onClick={() => {
+                                    setOpenDrawer(false);
+                                }}
                             >
                                 <LiveTvIcon fontSize={"large"} />
                                 <span style={{ paddingTop: 2, paddingLeft: 2 }}>Netflix</span>
