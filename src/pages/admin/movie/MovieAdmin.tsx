@@ -19,7 +19,6 @@ import IMoviePatch from "~/types/IMoviePatch";
 const movieSchema = yup.object().shape({
     title: yup.string().required("required"),
     photoSrc: yup.string().required("required"),
-    videoSrc: yup.string().required("required"),
     trailerSrc: yup.string().required("required"),
     duration: yup.string().required("required"),
     releaseYear: yup.string().required("required"),
@@ -61,8 +60,8 @@ const MovieAdmin = () => {
             duration: values.duration,
             photoSrc: values.photoSrc,
             trailerSrc: values.trailerSrc,
-            ratingImdb: values.ratingImdb,
-            releaseYear: values.releaseYear,
+            ratingImdb: Number(values.ratingImdb),
+            releaseYear: Number(values.releaseYear),
         };
         const response = await movieService.updateMovie(payload, movie?.id!);
 

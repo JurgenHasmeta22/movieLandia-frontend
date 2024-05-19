@@ -98,7 +98,7 @@ const GenreAdmin = () => {
                     },
                     {
                         name: "name",
-                        label: "Genrename",
+                        label: "Name",
                         variant: "filled",
                         type: "text",
                     },

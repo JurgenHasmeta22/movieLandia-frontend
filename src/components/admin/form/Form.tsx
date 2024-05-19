@@ -17,7 +17,7 @@ import {
 } from "@mui/material";
 import { Formik, FormikProps, Form } from "formik";
 import * as yup from "yup";
-import { IndeterminateCheckBox, Visibility, VisibilityOff } from "@mui/icons-material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 type FieldOption = {
     label: string;
@@ -79,7 +79,6 @@ const FormAdvanced: React.FC<FormProps> = ({
     actions,
 }) => {
     const [showPassword, setShowPassword] = useState(false);
-
     const handleClickShowPassword = () => setShowPassword(!showPassword);
     const handleMouseDownPassword = () => setShowPassword(!showPassword);
 
@@ -93,13 +92,13 @@ const FormAdvanced: React.FC<FormProps> = ({
             }}
             enableReinitialize
         >
-            {({ values, errors, touched, handleBlur, handleChange, handleSubmit }) => {
+            {({ values, errors, touched, handleBlur, handleChange }) => {
                 useEffect(() => {
                     onDataChange(values);
                 }, [values]);
 
                 return (
-                    <Form onSubmit={handleSubmit}>
+                    <Form>
                         <Grid container direction="column" rowSpacing={{ xs: 4, md: 8, lg: 14 }}>
                             <Grid container item alignItems={"center"}>
                                 <Stack
