@@ -10,6 +10,7 @@ import SaveAsIcon from "@mui/icons-material/SaveAs";
 import ClearAllIcon from "@mui/icons-material/ClearAll";
 import * as CONSTANTS from "~/constants/Constants";
 import userService from "~/services/api/userService";
+import authenticationService from "~/services/api/authenticationService";
 
 const userSchema = yup.object().shape({
     userName: yup.string().required("required"),
@@ -31,12 +32,11 @@ const AddUser = () => {
     };
 
     const handleFormSubmit = async (values: any) => {
-        const payload = {
-            userName: values.userName,
-            email: values.email,
-            password: values.password,
-        };
-        const response = await userService.addUser(payload);
+        const response = await authenticationService.onRegister(
+            values.userName,
+            values.email,
+            values.password,
+        );
 
         if (response) {
             toast.success(CONSTANTS.ADD__SUCCESS);
