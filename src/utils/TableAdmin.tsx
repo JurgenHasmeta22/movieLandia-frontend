@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
     MRT_ColumnDef,
@@ -243,7 +243,6 @@ const TableAdmin = ({ columns, page, handleAddItem, handleDeleteItem }: props) =
                 onClick={() => {
                     navigate(`/admin/${page}/${row.original.id}`, {
                         state: {
-                            userId: row.original.id,
                             from: toFirstWordUpperCase(page),
                         },
                     });

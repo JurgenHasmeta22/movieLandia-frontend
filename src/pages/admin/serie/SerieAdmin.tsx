@@ -17,8 +17,10 @@ import Breadcrumb from "~/components/admin/breadcrumb/Breadcrumb";
 import ISeriePatch from "~/types/ISeriePatch";
 
 const serieSchema = yup.object().shape({
-    serieName: yup.string().required("required"),
-    email: yup.string().required("required"),
+    title: yup.string().required("required"),
+    photoSrc: yup.string().required("required"),
+    ratingImdb: yup.string().required("required"),
+    releaseYear: yup.string().required("required"),
 });
 
 const SerieAdmin = () => {
@@ -52,8 +54,8 @@ const SerieAdmin = () => {
         const payload: ISeriePatch = {
             title: values.title,
             photoSrc: values.photoSrc,
-            ratingImdb: values.ratingImdb,
-            releaseYear: values.releaseYear,
+            ratingImdb: Number(values.ratingImdb),
+            releaseYear: Number(values.releaseYear),
         };
         const response = await serieService.updateSerie(payload, serie?.id!);
 
