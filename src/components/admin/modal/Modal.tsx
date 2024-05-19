@@ -190,13 +190,10 @@ const Modal: React.FC<ModalProps> = ({
                         {actions!.map((action, index) => (
                             <Button
                                 key={index}
-                                onClick={
-                                    action.type === "submit" || action.type === "reset"
-                                        ? action.onClick
-                                        : onClose
-                                          ? onClose
-                                          : () => {}
-                                }
+                                onClick={() => {
+                                    action.onClick();
+                                    onClose!();
+                                }}
                                 //@ts-ignore
                                 color={action.color || "secondary"}
                                 variant={action.variant || "text"}

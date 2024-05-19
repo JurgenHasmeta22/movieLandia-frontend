@@ -145,16 +145,16 @@ const UserAdmin = () => {
                                     {
                                         label: CONSTANTS.MODAL__DELETE__YES,
                                         onClick: async () => {
+                                            setOpen(false);
+
                                             const response = await userService.deleteUser(
                                                 user?.id!,
                                             );
 
                                             if (response) {
-                                                setOpen(false);
                                                 toast.success(CONSTANTS.DELETE__SUCCESS);
                                                 navigate("/admin/users");
                                             } else {
-                                                setOpen(false);
                                                 toast.success(CONSTANTS.DELETE__FAILURE);
                                             }
                                         },
