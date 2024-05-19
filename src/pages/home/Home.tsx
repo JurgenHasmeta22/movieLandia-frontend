@@ -12,7 +12,6 @@ import {
     MenuItem,
     Pagination,
     Select,
-    SelectChangeEvent,
     Stack,
     Typography,
     useTheme,
@@ -20,6 +19,7 @@ import {
 import { tokens } from "~/utils/theme";
 import { toFirstWordUpperCase } from "~/utils/utils";
 import SEOHelmet from "~/components/seoHelmet/SEOHelmet";
+import { useSorting } from "~/hooks/useSorting";
 
 const api = {
     url: import.meta.env.VITE_API_URL,
@@ -31,15 +31,33 @@ export default function Home() {
     const [moviesCount, setMoviesCount] = useState<number | null>(null);
     const [moviesCountSearch, setMoviesCountSearch] = useState<number | null>(null);
     const [moviesCarouselImages, setMoviesCarouselImages] = useState<any[]>([
-        { source: `${api.url}/images/movies/1gxZrx9gL9ov2c1NpXimEUzMTmh.jpg` },
-        { source: `${api.url}/images/movies/1RjyfPLsZTq3lUdJY7pTzcmpPKl.jpg` },
-        { source: `${api.url}/images/movies/1TkkTo8UiRl5lWM5qkAISHXg0fU.jpg` },
-        { source: `${api.url}/images/movies/1ZiZ3eVUWPxJROTkYbH8FBC9UuB.jpg` },
-        { source: `${api.url}/images/movies/4kiVg3QJQghjtRupyfWYI3T1R0O-1.jpg` },
+        {
+            source: `${api.url}/images/movies/1gxZrx9gL9ov2c1NpXimEUzMTmh.jpg`,
+            title: "Spider-Man: No Way Home (2021)",
+        },
+        {
+            source: `${api.url}/images/movies/1RjyfPLsZTq3lUdJY7pTzcmpPKl.jpg`,
+            title: "Eternals (2021)",
+        },
+        {
+            source: `${api.url}/images/movies/1TkkTo8UiRl5lWM5qkAISHXg0fU.jpg`,
+            title: "Freaks Out (2021)",
+        },
+        {
+            source: `${api.url}/images/movies/1ZiZ3eVUWPxJROTkYbH8FBC9UuB.jpg`,
+            title: "The Girl on the Mountain (2022)",
+        },
+        {
+            source: `${api.url}/images/movies/4kiVg3QJQghjtRupyfWYI3T1R0O-1.jpg`,
+            title: "Money Trap (2019) a.k.a. Organize Isler: Sazan Sarmali",
+        },
     ]);
+
     const [searchParams, setSearchParams] = useSearchParams();
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
+    const handleChangeSorting = useSorting();
+
     let pageCount;
 
     if (searchParams.get("search")) {
@@ -51,26 +69,6 @@ export default function Home() {
     const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
         searchParams.set("page", String(value));
         setSearchParams(searchParams);
-    };
-
-    const handleChangeSorting = (event: SelectChangeEvent) => {
-        const selectedValue = event.target.value as string;
-
-        if (selectedValue === "none") {
-            if (searchParams.get("sortBy") && searchParams.get("ascOrDesc")) {
-                searchParams.delete("sortBy");
-                searchParams.delete("ascOrDesc");
-                setSearchParams(searchParams);
-            }
-        } else {
-            const [, sortByValue, ascOrDesc] = selectedValue.match(/(\w+)(Asc|Desc)/) || [];
-
-            if (sortByValue && ascOrDesc) {
-                searchParams.set("sortBy", sortByValue);
-                searchParams.set("ascOrDesc", ascOrDesc.toLowerCase());
-                setSearchParams(searchParams);
-            }
-        }
     };
 
     async function getLatestMovies(): Promise<void> {
