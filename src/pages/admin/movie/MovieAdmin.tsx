@@ -14,6 +14,7 @@ import FormAdvanced from "~/components/admin/form/Form";
 import { toast } from "react-toastify";
 import * as CONSTANTS from "~/constants/Constants";
 import Breadcrumb from "~/components/admin/breadcrumb/Breadcrumb";
+import IMoviePatch from "~/types/IMoviePatch";
 
 const movieSchema = yup.object().shape({
     title: yup.string().required("required"),
@@ -54,21 +55,23 @@ const MovieAdmin = () => {
     };
 
     const handleFormSubmit = async (values: any) => {
-        // const payload = {
-        //     movieName: values.movieName,
-        //     movieFirstname: values.movieFirstname,
-        //     movieLastname: values.movieLastname,
-        //     movieEmail: values.movieEmail,
-        //     balancaLeje: values.balancaLeje,
-        //     movieIsActive: values.movieIsActive,
-        // };
-        // const response = await movieService.updateMovie(movie?.movieId, payload);
-        // if (response) {
-        //     toast.success(CONSTANTS.UPDATE__SUCCESS);
-        //     getMovie();
-        // } else {
-        //     toast.error(CONSTANTS.UPDATE__FAILURE);
-        // }
+        const payload: IMoviePatch = {
+            title: values.title,
+            description: values.description,
+            duration: values.duration,
+            photoSrc: values.photoSrc,
+            trailerSrc: values.trailerSrc,
+            ratingImdb: values.ratingImdb,
+            releaseYear: values.releaseYear,
+        };
+        const response = await movieService.updateMovie(payload, movie?.id!);
+
+        if (response) {
+            toast.success(CONSTANTS.UPDATE__SUCCESS);
+            getMovie();
+        } else {
+            toast.error(CONSTANTS.UPDATE__FAILURE);
+        }
     };
 
     async function getMovie(): Promise<void> {
@@ -164,19 +167,8 @@ const MovieAdmin = () => {
                 formRef={formikRef}
                 actions={[
                     {
-                        label: CONSTANTS.FORM__RESET__BUTTON,
-                        onClick: async () => {
-                            // const response = await movieService.updateMovie(movieId, {
-                            //     ...movie,
-                            //     movieIsActive: false,
-                            // });
-                            // if (response) {
-                            //     toast.success(CONSTANTS.GLOBAL__DELETE__SUCCESS);
-                            //     navigate("/movies");
-                            // } else {
-                            //     toast.error(CONSTANTS.GLOBAL__DELETE__FAILURE);
-                            // }
-                        },
+                        label: CONSTANTS.FORM__DELETE__BUTTON,
+                        onClick: async () => {},
                         color: "secondary",
                         variant: "contained",
                         sx: {

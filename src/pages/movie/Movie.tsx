@@ -134,7 +134,8 @@ export default function Movie() {
                             sx={{
                                 display: "flex",
                                 flexDirection: "row",
-                                width: "40%",
+                                width: "50%",
+                                paddingLeft: 2,
                             }}
                         >
                             <ListItem

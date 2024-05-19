@@ -11,7 +11,7 @@ export default function FavoriteMoviesTab() {
             <h3>Bookmarked movies</h3>
             <Box>
                 <List>
-                    {user?.favMovies!.map((movie: any) => (
+                    {user?.favMovies?.map((movie: any) => (
                         <ListItem
                             key={movie.id}
                             onClick={function () {

@@ -30,7 +30,7 @@ const GenreAdmin = () => {
     const formikRef = useRef<FormikProps<any>>(null);
 
     const breadcrumbs = [
-        <Link key="1" to={"/genres"} style={{ textDecoration: "none" }}>
+        <Link key="1" to={"/admin/genres"} style={{ textDecoration: "none" }}>
             {location.state?.from!}
         </Link>,
         <Typography key="2" color="text.primary">
@@ -47,21 +47,17 @@ const GenreAdmin = () => {
     };
 
     const handleFormSubmit = async (values: any) => {
-        // const payload = {
-        //     name: values.name,
-        //     genreFirstname: values.genreFirstname,
-        //     genreLastname: values.genreLastname,
-        //     genreEmail: values.genreEmail,
-        //     balancaLeje: values.balancaLeje,
-        //     genreIsActive: values.genreIsActive,
-        // };
-        // const response = await genreService.updateGenre(genre?.genreId, payload);
-        // if (response) {
-        //     toast.success(CONSTANTS.UPDATE__SUCCESS);
-        //     getGenre();
-        // } else {
-        //     toast.error(CONSTANTS.UPDATE__FAILURE);
-        // }
+        const payload = {
+            name: values.name,
+        };
+        const response = await genreService.updateGenre(payload, genre?.id!);
+
+        if (response) {
+            toast.success(CONSTANTS.UPDATE__SUCCESS);
+            getGenre();
+        } else {
+            toast.error(CONSTANTS.UPDATE__FAILURE);
+        }
     };
 
     async function getGenre(): Promise<void> {
@@ -82,7 +78,7 @@ const GenreAdmin = () => {
 
     return (
         <Box m="20px">
-            <Breadcrumb breadcrumbs={breadcrumbs} navigateTo={"/genres"} />
+            <Breadcrumb breadcrumbs={breadcrumbs} navigateTo={"/admin/genres"} />
             <HeaderDashboard
                 title={CONSTANTS.USER__EDIT__TITLE}
                 subtitle={CONSTANTS.USER__EDIT__SUBTITLE}
@@ -116,18 +112,7 @@ const GenreAdmin = () => {
                 actions={[
                     {
                         label: CONSTANTS.FORM__DELETE__BUTTON,
-                        onClick: async () => {
-                            // const response = await genreService.updateGenre(genreId, {
-                            //     ...genre,
-                            //     genreIsActive: false,
-                            // });
-                            // if (response) {
-                            //     toast.success(CONSTANTS.GLOBAL__DELETE__SUCCESS);
-                            //     navigate("/genres");
-                            // } else {
-                            //     toast.error(CONSTANTS.GLOBAL__DELETE__FAILURE);
-                            // }
-                        },
+                        onClick: async () => {},
                         color: "secondary",
                         variant: "contained",
                         sx: {

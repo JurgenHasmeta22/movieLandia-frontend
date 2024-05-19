@@ -1,5 +1,6 @@
 import axios from "axios";
 import type IMovie from "~/types/IMovie";
+import IMoviePatch from "~/types/IMoviePatch";
 import type IMoviesResponse from "~/types/IMoviesResponse";
 import type IUser from "~/types/IUser";
 
@@ -99,6 +100,16 @@ const movieService = {
 
             return user;
         }
+    },
+    updateMovie: async (payload: IMoviePatch, id: number): Promise<any> => {
+        let url = `${api.url}/updateMovieById/${id}`;
+        const movie: IMovie = await axios.patch(url, payload).then((res) => res.data);
+        return movie;
+    },
+    deleteMovie: async (id: number): Promise<any> => {
+        let url = `${api.url}/deleteMovieById/${id}`;
+        const movie: IMovie = await axios.delete(url).then((res) => res.data);
+        return movie;
     },
 };
 

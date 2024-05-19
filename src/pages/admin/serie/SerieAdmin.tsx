@@ -14,6 +14,7 @@ import FormAdvanced from "~/components/admin/form/Form";
 import { toast } from "react-toastify";
 import * as CONSTANTS from "~/constants/Constants";
 import Breadcrumb from "~/components/admin/breadcrumb/Breadcrumb";
+import ISeriePatch from "~/types/ISeriePatch";
 
 const serieSchema = yup.object().shape({
     serieName: yup.string().required("required"),
@@ -31,7 +32,7 @@ const SerieAdmin = () => {
     const formikRef = useRef<FormikProps<any>>(null);
 
     const breadcrumbs = [
-        <Link key="1" to={"/series"} style={{ textDecoration: "none" }}>
+        <Link key="1" to={"/admin/series"} style={{ textDecoration: "none" }}>
             {location.state?.from!}
         </Link>,
         <Typography key="2" color="text.primary">
@@ -48,21 +49,20 @@ const SerieAdmin = () => {
     };
 
     const handleFormSubmit = async (values: any) => {
-        // const payload = {
-        //     serieName: values.serieName,
-        //     serieFirstname: values.serieFirstname,
-        //     serieLastname: values.serieLastname,
-        //     serieEmail: values.serieEmail,
-        //     balancaLeje: values.balancaLeje,
-        //     serieIsActive: values.serieIsActive,
-        // };
-        // const response = await serieService.updateSerie(serie?.serieId, payload);
-        // if (response) {
-        //     toast.success(CONSTANTS.UPDATE__SUCCESS);
-        //     getSerie();
-        // } else {
-        //     toast.error(CONSTANTS.UPDATE__FAILURE);
-        // }
+        const payload: ISeriePatch = {
+            title: values.title,
+            photoSrc: values.photoSrc,
+            ratingImdb: values.ratingImdb,
+            releaseYear: values.releaseYear,
+        };
+        const response = await serieService.updateSerie(payload, serie?.id!);
+
+        if (response) {
+            toast.success(CONSTANTS.UPDATE__SUCCESS);
+            getSerie();
+        } else {
+            toast.error(CONSTANTS.UPDATE__FAILURE);
+        }
     };
 
     async function getSerie(): Promise<void> {
@@ -83,7 +83,7 @@ const SerieAdmin = () => {
 
     return (
         <Box m="20px">
-            <Breadcrumb breadcrumbs={breadcrumbs} navigateTo={"/series"} />
+            <Breadcrumb breadcrumbs={breadcrumbs} navigateTo={"/admin/series"} />
             <HeaderDashboard
                 title={CONSTANTS.USER__EDIT__TITLE}
                 subtitle={CONSTANTS.USER__EDIT__SUBTITLE}
@@ -138,18 +138,7 @@ const SerieAdmin = () => {
                 actions={[
                     {
                         label: CONSTANTS.FORM__DELETE__BUTTON,
-                        onClick: async () => {
-                            // const response = await serieService.updateSerie(serieId, {
-                            //     ...serie,
-                            //     serieIsActive: false,
-                            // });
-                            // if (response) {
-                            //     toast.success(CONSTANTS.GLOBAL__DELETE__SUCCESS);
-                            //     navigate("/series");
-                            // } else {
-                            //     toast.error(CONSTANTS.GLOBAL__DELETE__FAILURE);
-                            // }
-                        },
+                        onClick: async () => {},
                         color: "secondary",
                         variant: "contained",
                         sx: {
