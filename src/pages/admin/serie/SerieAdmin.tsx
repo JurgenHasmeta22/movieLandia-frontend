@@ -15,6 +15,8 @@ import { toast } from "react-toastify";
 import * as CONSTANTS from "~/constants/Constants";
 import Breadcrumb from "~/components/admin/breadcrumb/Breadcrumb";
 import ISeriePatch from "~/types/ISeriePatch";
+import { useModal } from "~/services/providers/ModalContext";
+import { WarningOutlined, CheckOutlined } from "@mui/icons-material";
 
 const serieSchema = yup.object().shape({
     title: yup.string().required("required"),
@@ -26,12 +28,14 @@ const serieSchema = yup.object().shape({
 const SerieAdmin = () => {
     const [serie, setSerie] = useState<ISerie | null>(null);
     const [loading, setLoading] = useState(true);
-    const [formData, setFormData] = useState({});
+    const [formData, setFormData] = useState<any>({});
 
     const navigate = useNavigate();
     const params = useParams();
     const location = useLocation();
     const formikRef = useRef<FormikProps<any>>(null);
+    const { openModal } = useModal();
+    const [open, setOpen] = useState(false);
 
     const breadcrumbs = [
         <Link key="1" to={"/admin/series"} style={{ textDecoration: "none" }}>
@@ -140,7 +144,47 @@ const SerieAdmin = () => {
                 actions={[
                     {
                         label: CONSTANTS.FORM__DELETE__BUTTON,
-                        onClick: async () => {},
+                        onClick: async () => {
+                            openModal({
+                                onClose: () => setOpen(false),
+                                title: `Delete selected serie ${formData.title}`,
+                                actions: [
+                                    {
+                                        label: CONSTANTS.MODAL__DELETE__NO,
+                                        onClick: () => setOpen(false),
+                                        color: "secondary",
+                                        variant: "contained",
+                                        sx: {
+                                            bgcolor: "#ff5252",
+                                        },
+                                        icon: <WarningOutlined />,
+                                    },
+                                    {
+                                        label: CONSTANTS.MODAL__DELETE__YES,
+                                        onClick: async () => {
+                                            const response = await serieService.deleteSerie(
+                                                serie?.id!,
+                                            );
+
+                                            if (response) {
+                                                toast.success(CONSTANTS.DELETE__SUCCESS);
+                                                navigate("/admin/series");
+                                            } else {
+                                                toast.success(CONSTANTS.DELETE__FAILURE);
+                                            }
+                                        },
+                                        type: "submit",
+                                        color: "secondary",
+                                        variant: "contained",
+                                        sx: {
+                                            bgcolor: "#30969f",
+                                        },
+                                        icon: <CheckOutlined />,
+                                    },
+                                ],
+                                subTitle: "Do you want to delete selected record ?",
+                            });
+                        },
                         color: "secondary",
                         variant: "contained",
                         sx: {

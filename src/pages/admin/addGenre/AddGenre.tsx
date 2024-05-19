@@ -9,6 +9,8 @@ import { useState, useRef } from "react";
 import SaveAsIcon from "@mui/icons-material/SaveAs";
 import ClearAllIcon from "@mui/icons-material/ClearAll";
 import * as CONSTANTS from "~/constants/Constants";
+import genreService from "~/services/api/genreService";
+import IGenrePost from "~/types/IGenrePost";
 
 const genreSchema = yup.object().shape({
     name: yup.string().required("required"),
@@ -28,16 +30,17 @@ const AddGenre = () => {
     };
 
     const handleFormSubmit = async (values: any) => {
-        // const response = await authenticationService.onRegister(
-        //     values.genrename,
-        //     values.password,
-        // );
-        // if (response) {
-        //     toast.success(CONSTANTS.ADD__SUCCESS);
-        //     navigate("/admin/genres");
-        // } else {
-        //     toast.error(CONSTANTS.ADD__FAILURE);
-        // }
+        const payload: IGenrePost = {
+            name: values.name,
+        };
+        const response = await genreService.addGenre(payload);
+
+        if (response) {
+            toast.success(CONSTANTS.UPDATE__SUCCESS);
+            navigate(`/admin/genres/${response.id}`);
+        } else {
+            toast.error(CONSTANTS.UPDATE__FAILURE);
+        }
     };
 
     return (

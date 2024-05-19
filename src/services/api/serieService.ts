@@ -2,6 +2,7 @@ import axios from "axios";
 import type IMoviesResponse from "~/types/IMoviesResponse";
 import ISerie from "~/types/ISerie";
 import ISeriePatch from "~/types/ISeriePatch";
+import ISeriePost from "~/types/ISeriePost";
 
 const api = {
     url: import.meta.env.VITE_API_URL,
@@ -109,6 +110,11 @@ const serieService = {
     updateSerie: async (payload: ISeriePatch, id: number): Promise<any> => {
         let url = `${api.url}/updateSerieById/${id}`;
         const serie: ISerie = await axios.patch(url, payload).then((res) => res.data);
+        return serie;
+    },
+    addSerie: async (payload: ISeriePost): Promise<any> => {
+        let url = `${api.url}/addSerie`;
+        const serie: ISerie = await axios.post(url, payload).then((res) => res.data);
         return serie;
     },
     deleteSerie: async (id: number): Promise<any> => {

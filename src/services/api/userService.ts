@@ -1,6 +1,7 @@
 import axios from "axios";
 import IUser from "~/types/IUser";
 import IUserPatch from "~/types/IUserPatch";
+import IUserPost from "~/types/IUserPost";
 import IUserResponse from "~/types/IUserResponse";
 
 const api = {
@@ -62,6 +63,11 @@ const userService = {
     updateUser: async (payload: IUserPatch, id: number): Promise<any> => {
         let url = `${api.url}/updateUserById/${id}`;
         const user: IUser = await axios.patch(url, payload).then((res) => res.data);
+        return user;
+    },
+    addUser: async (payload: IUserPost): Promise<any> => {
+        let url = `${api.url}/addUser`;
+        const user: IUser = await axios.post(url, payload).then((res) => res.data);
         return user;
     },
     deleteUser: async (id: number): Promise<any> => {

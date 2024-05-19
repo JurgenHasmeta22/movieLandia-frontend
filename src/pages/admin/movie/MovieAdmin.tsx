@@ -15,6 +15,9 @@ import { toast } from "react-toastify";
 import * as CONSTANTS from "~/constants/Constants";
 import Breadcrumb from "~/components/admin/breadcrumb/Breadcrumb";
 import IMoviePatch from "~/types/IMoviePatch";
+import { useModal } from "~/services/providers/ModalContext";
+import { WarningOutlined, CheckOutlined } from "@mui/icons-material";
+import serieService from "~/services/api/serieService";
 
 const movieSchema = yup.object().shape({
     title: yup.string().required("required"),
@@ -29,12 +32,14 @@ const movieSchema = yup.object().shape({
 const MovieAdmin = () => {
     const [movie, setMovie] = useState<IMovie | null>(null);
     const [loading, setLoading] = useState(true);
-    const [formData, setFormData] = useState({});
+    const [formData, setFormData] = useState<any>({});
 
     const navigate = useNavigate();
     const params = useParams();
     const location = useLocation();
     const formikRef = useRef<FormikProps<any>>(null);
+    const { openModal } = useModal();
+    const [open, setOpen] = useState(false);
 
     const breadcrumbs = [
         <Link key="1" to={`${location.state?.from!}`} style={{ textDecoration: "none" }}>
@@ -167,7 +172,47 @@ const MovieAdmin = () => {
                 actions={[
                     {
                         label: CONSTANTS.FORM__DELETE__BUTTON,
-                        onClick: async () => {},
+                        onClick: async () => {
+                            openModal({
+                                onClose: () => setOpen(false),
+                                title: `Delete selected movie ${formData.title}`,
+                                actions: [
+                                    {
+                                        label: CONSTANTS.MODAL__DELETE__NO,
+                                        onClick: () => setOpen(false),
+                                        color: "secondary",
+                                        variant: "contained",
+                                        sx: {
+                                            bgcolor: "#ff5252",
+                                        },
+                                        icon: <WarningOutlined />,
+                                    },
+                                    {
+                                        label: CONSTANTS.MODAL__DELETE__YES,
+                                        onClick: async () => {
+                                            const response = await movieService.deleteMovie(
+                                                movie?.id!,
+                                            );
+
+                                            if (response) {
+                                                toast.success(CONSTANTS.DELETE__SUCCESS);
+                                                navigate("/admin/movies");
+                                            } else {
+                                                toast.success(CONSTANTS.DELETE__FAILURE);
+                                            }
+                                        },
+                                        type: "submit",
+                                        color: "secondary",
+                                        variant: "contained",
+                                        sx: {
+                                            bgcolor: "#30969f",
+                                        },
+                                        icon: <CheckOutlined />,
+                                    },
+                                ],
+                                subTitle: "Do you want to delete selected record ?",
+                            });
+                        },
                         color: "secondary",
                         variant: "contained",
                         sx: {

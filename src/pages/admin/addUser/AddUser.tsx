@@ -3,13 +3,13 @@ import Header from "~/components/admin/headerDashboard/HeaderDashboard";
 import { useNavigate } from "react-router";
 import * as yup from "yup";
 import { toast } from "react-toastify";
-import authenticationService from "~/services/api/authenticationService";
 import FormAdvanced from "~/components/admin/form/Form";
 import { FormikProps } from "formik";
 import { useState, useRef } from "react";
 import SaveAsIcon from "@mui/icons-material/SaveAs";
 import ClearAllIcon from "@mui/icons-material/ClearAll";
 import * as CONSTANTS from "~/constants/Constants";
+import userService from "~/services/api/userService";
 
 const userSchema = yup.object().shape({
     userName: yup.string().required("required"),
@@ -31,15 +31,16 @@ const AddUser = () => {
     };
 
     const handleFormSubmit = async (values: any) => {
-        const response = await authenticationService.onRegister(
-            values.userName,
-            values.email,
-            values.password,
-        );
+        const payload = {
+            userName: values.userName,
+            email: values.email,
+            password: values.password,
+        };
+        const response = await userService.addUser(payload);
 
         if (response) {
             toast.success(CONSTANTS.ADD__SUCCESS);
-            navigate("/admin/users");
+            navigate(`/admin/users/${response.id}`);
         } else {
             toast.error(CONSTANTS.ADD__FAILURE);
         }
