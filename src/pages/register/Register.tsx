@@ -32,11 +32,11 @@ const registerSchema = yup.object().shape({
     password: yup
         .string()
         .required("Password is a required field")
-        .min(8, "Password must be at least 8 characters"),
-    // .matches(
-    //     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-    //     "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character",
-    // ),
+        .min(8, "Password must be at least 8 characters")
+        .matches(
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+            "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character",
+        ),
     confirmPassword: yup
         .string()
         .required("Please confirm your password")
@@ -61,7 +61,7 @@ export default function Register() {
             values.password,
         );
 
-        if (response) {
+        if (response && !response.error) {
             localStorage.setItem("token", response.token);
             setUser(response.user);
             toast.success(CONSTANTS.LOGIN__SUCCESS);
@@ -266,7 +266,9 @@ export default function Register() {
                                             type="submit"
                                             color="secondary"
                                             variant="outlined"
-                                            size="medium"
+                                            sx={{
+                                                fontWeight: 600,
+                                            }}
                                         >
                                             <LockOutlinedIcon />
                                             <span
@@ -280,15 +282,14 @@ export default function Register() {
                                             </span>
                                         </Button>
                                         <Box>
-                                            <Typography
-                                                variant="overline"
-                                                sx={{
+                                            <span
+                                                style={{
                                                     textTransform: "capitalize",
-                                                    fontWeight: 600,
+                                                    fontSize: 12,
                                                 }}
                                             >
                                                 Already have an account ?
-                                            </Typography>
+                                            </span>
                                             <Link
                                                 style={{
                                                     textDecoration: "none",

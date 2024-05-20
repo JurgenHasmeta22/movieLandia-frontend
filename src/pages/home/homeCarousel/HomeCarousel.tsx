@@ -34,7 +34,7 @@ const Carousel = ({ images }: any) => {
             sx={{ gap: 2, px: 6 }}
             flexWrap={"wrap"}
         >
-            <IconButton onClick={handlePrev} size="large" sx={{ position: "absolute", left: 0 }}>
+            <IconButton onClick={handlePrev} size="large">
                 <NavigateBeforeIcon />
             </IconButton>
             {images.slice(startIndex, startIndex + 3).map((image: any, index: number) => (
@@ -42,10 +42,10 @@ const Carousel = ({ images }: any) => {
                     key={index}
                     position="relative"
                     sx={{
-                        mr: index === 2 ? 0 : 2,
+                        mr: index === 1 ? 0 : 1,
                         overflow: "hidden",
                         "&:hover img": {
-                            filter: "blur(5px)",
+                            filter: "blur(10px)",
                         },
                         "&:hover .carousel-button": {
                             display: "block",
@@ -55,7 +55,7 @@ const Carousel = ({ images }: any) => {
                     <img
                         src={image.source}
                         alt={`Slide ${startIndex + index}`}
-                        style={{ width: "300px", height: "auto", transition: "filter 0.5s ease" }}
+                        style={{ width: "290px", height: "auto", transition: "filter 1s ease" }}
                     />
                     <Link
                         to={
@@ -82,7 +82,7 @@ const Carousel = ({ images }: any) => {
                     </Link>
                 </Box>
             ))}
-            <IconButton onClick={handleNext} size="large" sx={{ position: "absolute", right: 0 }}>
+            <IconButton onClick={handleNext} size="large">
                 <NavigateNextIcon />
             </IconButton>
         </Box>

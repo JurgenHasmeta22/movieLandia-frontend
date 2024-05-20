@@ -41,7 +41,7 @@ export const Header = (): React.JSX.Element => {
     const [anchorElGenres, setAnchorElGenres] = useState<null | HTMLElement>(null);
     const [anchorElGenresMobile, setAnchorElGenresMobile] = useState<null | HTMLElement>(null);
 
-    const isPageShrunk = useResizeWindow(); // Custom hook for handling resize logic state and useEffect
+    const isPageShrunk = useResizeWindow();
     const { user, setUser, openDrawer, mobileOpen, setMobileOpen, setOpenDrawer } = useStore();
     const navigate = useNavigate();
     const [searchParams, setSearchParams] = useSearchParams();
@@ -56,6 +56,7 @@ export const Header = (): React.JSX.Element => {
     function handleLogout(): void {
         localStorage.removeItem("token");
         setUser(null);
+        closeMenuProfile();
         navigate("/login");
     }
 
@@ -362,7 +363,13 @@ export const Header = (): React.JSX.Element => {
                                             }}
                                         >
                                             <PersonOutlinedIcon color="action" fontSize="medium" />
-                                            {user?.userName}
+                                            <span
+                                                style={{
+                                                    fontSize: 16,
+                                                }}
+                                            >
+                                                {user?.userName}
+                                            </span>
                                         </IconButton>
                                         <Menu
                                             id="menuProfile"
@@ -392,7 +399,6 @@ export const Header = (): React.JSX.Element => {
                                         <Button
                                             color="secondary"
                                             variant="outlined"
-                                            size="medium"
                                             onClick={function () {
                                                 navigate("/login");
                                             }}
@@ -401,6 +407,7 @@ export const Header = (): React.JSX.Element => {
                                                 flexDirection: "row",
                                                 columnGap: 1,
                                                 px: 2,
+                                                py: 1,
                                             }}
                                         >
                                             <LockOpenIcon />
@@ -415,12 +422,12 @@ export const Header = (): React.JSX.Element => {
                                         <Button
                                             color="secondary"
                                             variant="outlined"
-                                            size="medium"
                                             sx={{
                                                 display: "flex",
                                                 flexDirection: "row",
                                                 columnGap: 1,
                                                 px: 2,
+                                                py: 1,
                                             }}
                                             onClick={function () {
                                                 navigate("/register");
@@ -706,6 +713,7 @@ export const Header = (): React.JSX.Element => {
                                             flexDirection: "row",
                                             columnGap: 1,
                                             px: 2,
+                                            py: 1,
                                         }}
                                     >
                                         <LockOpenIcon />
@@ -726,6 +734,7 @@ export const Header = (): React.JSX.Element => {
                                             flexDirection: "row",
                                             columnGap: 1,
                                             px: 2,
+                                            py: 1,
                                         }}
                                         onClick={function () {
                                             navigate("/register");
