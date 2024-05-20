@@ -26,11 +26,11 @@ const loginSchema = yup.object().shape({
     password: yup
         .string()
         .required("Password is a required field")
-        .min(8, "Password must be at least 8 characters"),
-    // .matches(
-    //     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-    //     "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character",
-    // ),
+        .min(8, "Password must be at least 8 characters")
+        .matches(
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+            "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character",
+        ),
 });
 
 export default function Login() {
@@ -47,7 +47,7 @@ export default function Login() {
             values.password,
         );
 
-        if (response) {
+        if (response && !response.error) {
             localStorage.setItem("token", response.token);
             setUser(response.user);
             toast.success(CONSTANTS.LOGIN__SUCCESS);
@@ -76,7 +76,7 @@ export default function Login() {
                     display: "flex",
                     placeContent: "center",
                     placeItems: "center",
-                    padding: 5, // fixes layout no need for fixed height
+                    padding: 5,
                 }}
                 component={"main"}
             >
@@ -174,13 +174,15 @@ export default function Login() {
                                             type="submit"
                                             color="secondary"
                                             variant="outlined"
-                                            size="medium"
+                                            sx={{
+                                                fontWeight: 600,
+                                            }}
                                         >
                                             <LockOutlinedIcon />
                                             <span
                                                 style={{
-                                                    paddingLeft: 4,
                                                     fontSize: 14,
+                                                    paddingLeft: 4,
                                                     textTransform: "capitalize",
                                                 }}
                                             >
@@ -188,9 +190,15 @@ export default function Login() {
                                             </span>
                                         </Button>
                                         <Box>
-                                            <Typography variant="overline">
+                                            <span
+                                                style={{
+                                                    fontSize: 12,
+                                                    paddingLeft: 4,
+                                                    textTransform: "capitalize",
+                                                }}
+                                            >
                                                 Don't have an account ?
-                                            </Typography>
+                                            </span>
                                             <Link
                                                 style={{
                                                     textDecoration: "none",

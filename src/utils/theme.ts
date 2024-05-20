@@ -208,9 +208,7 @@ export const themeSettings = (mode: any) => {
             MuiButton: {
                 styleOverrides: {
                     root: {
-                        borderRadius: 12,
-                        padding: "10px 10px",
-                        fontWeight: "bold",
+                        borderRadius: 8,
                         cursor: "pointer",
                         transition: "background-color 0.5s ease",
                         boxShadow: "none",

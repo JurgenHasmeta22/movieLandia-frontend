@@ -15,11 +15,16 @@ const authenticationService = {
             password,
         };
 
-        const responseLogin: IResponseLogin = await axios
-            .post(`${api.url}/login`, payload)
-            .then((x) => x.data);
+        try {
+            const responseLogin: IResponseLogin = await axios
+                .post(`${api.url}/login`, payload)
+                .then((x) => x.data);
 
-        return responseLogin;
+            return responseLogin;
+        } catch (error) {
+            console.log(error);
+            return { error };
+        }
     },
 
     onRegister: async (username: string, email: string, password: string): Promise<any> => {
@@ -29,11 +34,16 @@ const authenticationService = {
             password,
         };
 
-        const responseLogin: IResponseLogin = await axios
-            .post(`${api.url}/register`, payload)
-            .then((x) => x.data);
+        try {
+            const responseLogin: IResponseLogin = await axios
+                .post(`${api.url}/register`, payload)
+                .then((x) => x.data);
 
-        return responseLogin;
+            return responseLogin;
+        } catch (error) {
+            console.log(error);
+            return { error };
+        }
     },
 
     validateUser: async () => {
