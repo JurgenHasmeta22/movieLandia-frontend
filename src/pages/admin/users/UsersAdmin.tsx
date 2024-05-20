@@ -21,6 +21,8 @@ const UsersAdmin = () => {
             {
                 accessorKey: "password",
                 header: "Password",
+                enableSorting: false,
+                enableColumnFilter: false,
             },
         ],
         [],
