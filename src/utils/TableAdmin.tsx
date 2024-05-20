@@ -46,6 +46,7 @@ const TableAdmin = ({ columns, page, handleAddItem }: props) => {
     const [isLoading, setIsLoading] = useState(false);
     const [isRefetching, setIsRefetching] = useState(false);
     const [columnFilters, setColumnFilters] = useState<MRT_ColumnFiltersState>([]);
+    const [columnFiltersFns, setColumnFiltersFns] = useState<any>([]);
     const [globalFilter, setGlobalFilter] = useState("");
     const [sorting, setSorting] = useState<MRT_SortingState>([]);
     const [pagination, setPagination] = useState({
@@ -211,7 +212,8 @@ const TableAdmin = ({ columns, page, handleAddItem }: props) => {
             setIsRefetching(true);
         }
 
-        console.log(columnFilters);
+        console.log(columnFilters, columnFiltersFns);
+
         try {
             let response: any;
 
@@ -227,13 +229,16 @@ const TableAdmin = ({ columns, page, handleAddItem }: props) => {
                         page === "users" ? "userName" : page === "genres" ? "name" : "title",
                     filterValue: globalFilter,
                 }),
-                ...Object.fromEntries(
-                    columnFilters?.flatMap((filter, index) => [
-                        [`filterNameString${index + 1}`, filter.id],
-                        [`filterValue${index + 1}`, filter.value],
-                    ]),
-                ),
+                // ...(columnFilters?.length > 0 && {
+                //     filters: columnFilters?.map((filter) => ({
+                //         filterNameString: filter.id,
+                //         filterValue: filter.value,
+                //         filterOperatorString: columnFiltersFns[filter.id] || "equals",
+                //     })),
+                // }),
             };
+
+            console.log(queryParams);
 
             switch (page) {
                 case "series":
@@ -320,6 +325,7 @@ const TableAdmin = ({ columns, page, handleAddItem }: props) => {
             sorting,
         },
         onColumnFiltersChange: setColumnFilters,
+        onColumnFilterFnsChange: setColumnFiltersFns,
         onGlobalFilterChange: setGlobalFilter,
         onPaginationChange: setPagination,
         onSortingChange: setSorting,

@@ -242,7 +242,7 @@ export const themeSettings = (mode: any) => {
             MuiListItemButton: {
                 defaultProps: {
                     disableRipple: true,
-                    disableFocusRipple: true,
+                    // disableFocusRipple: true,
                     disableTouchRipple: true,
                 },
             },
