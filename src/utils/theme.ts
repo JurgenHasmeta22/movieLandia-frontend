@@ -239,6 +239,13 @@ export const themeSettings = (mode: any) => {
                     disableTouchRipple: true,
                 },
             },
+            MuiListItemButton: {
+                defaultProps: {
+                    disableRipple: true,
+                    disableFocusRipple: true,
+                    disableTouchRipple: true,
+                },
+            },
             MuiIconButton: {
                 styleOverrides: {
                     root: {

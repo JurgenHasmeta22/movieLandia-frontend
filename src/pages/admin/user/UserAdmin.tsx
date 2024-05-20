@@ -27,7 +27,6 @@ const UserAdmin = () => {
     const [user, setUser] = useState<IUser | null>(null);
     const [loading, setLoading] = useState(true);
     const [formData, setFormData] = useState<any>({});
-
     const navigate = useNavigate();
     const params = useParams();
     const location = useLocation();
@@ -58,6 +57,7 @@ const UserAdmin = () => {
             email: values.email,
             password: values.password,
         };
+
         const response = await userService.updateUser(payload, user?.id!);
 
         if (response) {
