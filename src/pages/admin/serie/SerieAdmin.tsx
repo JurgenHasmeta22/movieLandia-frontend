@@ -38,13 +38,18 @@ const SerieAdmin = () => {
     const [open, setOpen] = useState(false);
 
     const breadcrumbs = [
-        <Link key="1" to={"/admin/series"} style={{ textDecoration: "none" }}>
-            {location.state?.from!}
+        <Link key="2" to={`/admin/series/${params?.id!}`} style={{ textDecoration: "none" }}>
+            Serie {`${params?.id!}`}
         </Link>,
-        <Typography key="2" color="text.primary">
-            Serie details
-        </Typography>,
     ];
+
+    if (location?.state?.from) {
+        breadcrumbs.push(
+            <Link key="1" to={"/admin/series"} style={{ textDecoration: "none" }}>
+                {location.state.from}
+            </Link>,
+        );
+    }
 
     const handleDataChange = (values: any) => {
         setFormData(values);

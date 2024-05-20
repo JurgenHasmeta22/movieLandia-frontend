@@ -225,14 +225,11 @@ export const Header = (): React.JSX.Element => {
                                             MenuListProps={{
                                                 onMouseLeave: closeMenuGenres,
                                                 sx: {
-                                                    height: "auto",
-                                                    padding: 2,
-                                                    width: "550px",
                                                     display: "grid",
-                                                    rowGap: 2,
-                                                    columnGap: 2,
-                                                    gridTemplateRows: "1fr 1fr 1fr",
+                                                    height: "auto",
+                                                    width: "auto",
                                                     gridTemplateColumns: "1fr 1fr 1fr 1fr 1fr",
+                                                    padding: 2,
                                                 },
                                             }}
                                         >
@@ -245,16 +242,15 @@ export const Header = (): React.JSX.Element => {
                                                     }}
                                                     sx={{
                                                         cursor: "pointer",
-                                                        padding: 2,
-                                                        transition: "background-color 0.3s",
+                                                        padding: 1.5,
+                                                        textAlign: "center",
+                                                        transition: "background-color 0.5s",
                                                         "&:hover": {
                                                             backgroundColor: "rgba(0, 0, 0, 0.08)",
                                                         },
                                                     }}
                                                 >
-                                                    <Typography variant="body1">
-                                                        {genre.name}
-                                                    </Typography>
+                                                    <span>{genre.name}</span>
                                                 </Box>
                                             ))}
                                         </Menu>

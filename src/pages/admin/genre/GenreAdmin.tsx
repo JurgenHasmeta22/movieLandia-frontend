@@ -34,13 +34,18 @@ const GenreAdmin = () => {
     const [open, setOpen] = useState(false);
 
     const breadcrumbs = [
-        <Link key="1" to={"/admin/genres"} style={{ textDecoration: "none" }}>
-            {location.state?.from!}
+        <Link key="2" to={`/admin/genres/${params?.id!}`} style={{ textDecoration: "none" }}>
+            Genre {`${params?.id!}`}
         </Link>,
-        <Typography key="2" color="text.primary">
-            Genre details
-        </Typography>,
     ];
+
+    if (location?.state?.from) {
+        breadcrumbs.push(
+            <Link key="1" to={"/admin/genres"} style={{ textDecoration: "none" }}>
+                {location.state.from}
+            </Link>,
+        );
+    }
 
     const handleDataChange = (values: any) => {
         setFormData(values);

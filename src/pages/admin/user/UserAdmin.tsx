@@ -35,13 +35,18 @@ const UserAdmin = () => {
     const [open, setOpen] = useState(false);
 
     const breadcrumbs = [
-        <Link key="1" to={"/admin/users"} style={{ textDecoration: "none" }}>
-            {location.state?.from!}
+        <Link key="2" to={`/admin/users/${params?.id!}`} style={{ textDecoration: "none" }}>
+            User {`${params?.id!}`}
         </Link>,
-        <Typography key="2" color="text.primary">
-            User details
-        </Typography>,
     ];
+
+    if (location?.state?.from) {
+        breadcrumbs.unshift(
+            <Link key="1" to={"/admin/users"} style={{ textDecoration: "none" }}>
+                {location.state.from}
+            </Link>,
+        );
+    }
 
     const handleDataChange = (values: any) => {
         setFormData(values);
