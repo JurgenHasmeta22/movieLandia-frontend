@@ -45,7 +45,7 @@ const Carousel = ({ images }: any) => {
                         mr: index === 1 ? 0 : 1,
                         overflow: "hidden",
                         "&:hover img": {
-                            filter: "blur(10px)",
+                            filter: "blur(5px)",
                         },
                         "&:hover .carousel-button": {
                             display: "block",
@@ -55,7 +55,7 @@ const Carousel = ({ images }: any) => {
                     <img
                         src={image.source}
                         alt={`Slide ${startIndex + index}`}
-                        style={{ width: "290px", height: "auto", transition: "filter 1s ease" }}
+                        style={{ width: "300px", height: "auto", transition: "filter 1s ease" }}
                     />
                     <Link
                         to={
@@ -66,9 +66,10 @@ const Carousel = ({ images }: any) => {
                         }
                     >
                         <Button
-                            variant="contained"
+                            variant="text"
                             color="primary"
                             className="carousel-button"
+                            size="medium"
                             sx={{
                                 position: "absolute",
                                 top: "50%",

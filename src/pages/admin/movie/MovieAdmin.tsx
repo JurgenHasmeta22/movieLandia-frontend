@@ -42,13 +42,18 @@ const MovieAdmin = () => {
     const [open, setOpen] = useState(false);
 
     const breadcrumbs = [
-        <Link key="1" to={`${location.state?.from!}`} style={{ textDecoration: "none" }}>
-            {location.state?.from!}
+        <Link key="2" to={`/admin/movies/${params?.id!}`} style={{ textDecoration: "none" }}>
+            Movie {`${params?.id!}`}
         </Link>,
-        <Typography key="2" color="text.primary">
-            Movie details
-        </Typography>,
     ];
+
+    if (location?.state?.from) {
+        breadcrumbs.unshift(
+            <Link key="1" to={"/admin/movies"} style={{ textDecoration: "none" }}>
+                {location.state.from}
+            </Link>,
+        );
+    }
 
     const handleDataChange = (values: any) => {
         setFormData(values);
