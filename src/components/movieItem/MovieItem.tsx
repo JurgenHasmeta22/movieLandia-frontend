@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Card, CardContent, CardMedia, Stack, Typography } from "@mui/material";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import type IMovie from "~/types/IMovie";
@@ -12,8 +12,8 @@ const MovieItem = ({ movie, type }: IMovieItemProps): React.JSX.Element => {
     const navigate = useNavigate();
 
     return (
-        <Box
-            onClick={function (e) {
+        <Card
+            onClick={function () {
                 if (type !== "serie") {
                     navigate(
                         `/movies/${movie.title
@@ -27,46 +27,53 @@ const MovieItem = ({ movie, type }: IMovieItemProps): React.JSX.Element => {
                 cursor: "pointer",
                 display: "flex",
                 flexDirection: "column",
+                maxWidth: "200px",
+                backgroundColor: "transparent",
             }}
         >
-            <img
-                src={movie.photoSrc}
-                style={{
+            <CardMedia
+                component="img"
+                alt={`${movie.description}`}
+                image={movie.photoSrc}
+                sx={{
                     height: "300px",
-                    width: "200px",
+                    maxHeight: "300px",
+                    maxWidth: "200px",
                 }}
             />
-            <Typography
-                variant="h5"
-                color={"secondary"}
-                style={{
-                    width: "20ch",
-                    marginTop: 4,
-                }}
-            >
-                {movie.title}
-            </Typography>
-            {type !== "serie" && (
-                <Box sx={{ display: "flex", flexDirection: "row", flewWrap: "wrap", columnGap: 1 }}>
-                    {movie.genres?.map((genre: any) => (
-                        <Typography
-                            key={genre.genre.name}
-                            onClick={function (e) {
-                                navigate(`/genres/${genre.genre.name}`);
-                            }}
-                            variant="overline"
-                            color={"primary"}
-                            fontWeight={"bold"}
-                        >
-                            {genre.genre.name}
-                        </Typography>
-                    ))}
-                </Box>
-            )}
-            <Typography color={"secondary"}>
-                {movie.ratingImdb !== 0 ? `Imdb: ${movie.ratingImdb}` : "Imdb: N/A"}
-            </Typography>
-        </Box>
+            <CardContent>
+                <Typography variant="body1" color={"secondary"}>
+                    {movie.title}
+                </Typography>
+                {type !== "serie" && (
+                    <Stack
+                        sx={{
+                            display: "flex",
+                            flexDirection: "row",
+                            flewWrap: "wrap",
+                            columnGap: 1,
+                        }}
+                    >
+                        {movie.genres?.map((genre: any) => (
+                            <span
+                                key={genre.genre.name}
+                                onClick={function (e) {
+                                    navigate(`/genres/${genre.genre.name}`);
+                                }}
+                                style={{
+                                    fontWeight: "500",
+                                }}
+                            >
+                                {genre.genre.name}
+                            </span>
+                        ))}
+                    </Stack>
+                )}
+                <Typography color={"secondary"}>
+                    {movie.ratingImdb !== 0 ? `Imdb: ${movie.ratingImdb}` : "Imdb: N/A"}
+                </Typography>
+            </CardContent>
+        </Card>
     );
 };
 

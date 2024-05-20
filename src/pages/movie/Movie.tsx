@@ -134,7 +134,7 @@ export default function Movie() {
                             sx={{
                                 display: "flex",
                                 flexDirection: "row",
-                                width: "50%",
+                                width: "70%",
                                 paddingLeft: 2,
                             }}
                         >
