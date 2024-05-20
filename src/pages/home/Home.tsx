@@ -247,6 +247,7 @@ export default function Home() {
                         alignContent={"center"}
                         rowGap={4}
                         columnGap={4}
+                        marginTop={2}
                     >
                         {movies.map((movie: any) => (
                             <MovieItem movie={movie} type="homeMovie" key={movie.id} />
@@ -269,7 +270,7 @@ export default function Home() {
                 )}
                 <Stack
                     spacing={2}
-                    sx={{ display: "flex", placeItems: "center", marginTop: 1, marginBottom: 1 }}
+                    sx={{ display: "flex", placeItems: "center", marginTop: 2, marginBottom: 2 }}
                 >
                     <Pagination
                         page={searchParams.get("page") ? Number(searchParams.get("page")) : 1}

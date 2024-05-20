@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Card, CardMedia } from "@mui/material";
 import { useNavigate } from "react-router";
 import type IMovie from "~/types/IMovie";
 
@@ -11,9 +11,9 @@ export default function MovieItemLatest(props: IMovieItemLatestProps) {
     const navigate = useNavigate();
 
     return (
-        <Box
+        <Card
             key={latestMovie.id}
-            sx={{ cursor: "pointer" }}
+            sx={{ cursor: "pointer", maxHeight: "250px", maxWidth: "200px" }}
             onClick={function () {
                 navigate(
                     `/movies/${latestMovie.title
@@ -24,13 +24,15 @@ export default function MovieItemLatest(props: IMovieItemLatestProps) {
                 window.scrollTo(0, 0);
             }}
         >
-            <img
-                src={latestMovie.photoSrc}
-                style={{
-                    height: "200px",
-                    width: "150px",
+            <CardMedia
+                component="img"
+                image={latestMovie.photoSrc}
+                alt={latestMovie.description}
+                sx={{
+                    maxHeight: "250px",
+                    maxWidth: "200px",
                 }}
             />
-        </Box>
+        </Card>
     );
 }
