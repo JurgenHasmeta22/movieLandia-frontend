@@ -18,6 +18,7 @@ import {
 import { Formik, FormikProps, Form } from "formik";
 import * as yup from "yup";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import * as CONSTANTS from "~/constants/Constants";
 
 type FieldOption = {
     label: string;
@@ -92,14 +93,14 @@ const FormAdvanced: React.FC<FormProps> = ({
             }}
             enableReinitialize
         >
-            {({ values, errors, touched, handleBlur, handleChange }) => {
+            {({ values, errors, touched, handleBlur, handleChange, dirty }) => {
                 useEffect(() => {
                     onDataChange(values);
                 }, [values]);
 
                 return (
                     <Form>
-                        <Grid container direction="column" rowSpacing={{ xs: 4, md: 8, lg: 14 }}>
+                        <Grid container direction="column" rowSpacing={{ xs: 4, md: 6, lg: 8 }}>
                             <Grid container item alignItems={"center"}>
                                 <Stack
                                     rowGap={4}
@@ -305,6 +306,12 @@ const FormAdvanced: React.FC<FormProps> = ({
                                             sx={action.sx}
                                             type={action.type}
                                             endIcon={action.icon}
+                                            disabled={
+                                                dirty ||
+                                                action.label === CONSTANTS.FORM__DELETE__BUTTON
+                                                    ? false
+                                                    : true
+                                            }
                                         >
                                             <Typography
                                                 fontSize={16}

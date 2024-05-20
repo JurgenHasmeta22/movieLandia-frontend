@@ -11,7 +11,6 @@ const Sidebar = ({ sidebarItems }: any) => {
     const { user, isOpenSidebarAdmin, setIsOpenSidebarAdmin } = useStore();
     const navigate = useNavigate();
     const location = useLocation();
-
     const [selectedLabel, setSelectedLabel] = useState(location.state ? location.state.label : "");
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
