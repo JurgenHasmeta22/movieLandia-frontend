@@ -55,19 +55,6 @@ const TableAdmin = ({ columns, page, handleAddItem }: props) => {
     const [open, setOpen] = useState(false);
     const navigate = useNavigate();
     const { openModal } = useModal();
-    // const formikRef = useRef<FormikProps<any>>(null);
-
-    // console.log(
-    //     rowSelection,
-    //     isError,
-    //     isLoading,
-    //     setIsLoading,
-    //     isRefetching,
-    //     columnFilters,
-    //     globalFilter,
-    //     sorting,
-    //     pagination,
-    // );
 
     function handleDelete(id: number) {
         openModal({
@@ -218,18 +205,34 @@ const TableAdmin = ({ columns, page, handleAddItem }: props) => {
     }
 
     const fetchData = async () => {
-        if (!rows.length) {
+        if (!rows?.length) {
             setIsLoading(true);
         } else {
             setIsRefetching(true);
         }
 
+        console.log(columnFilters);
         try {
             let response: any;
 
             const queryParams = {
-                page: String(pagination.pageIndex + 1),
-                pageSize: String(pagination.pageSize),
+                page: String(pagination?.pageIndex! + 1),
+                pageSize: String(pagination?.pageSize!),
+                ...(sorting?.length > 0 && {
+                    ascOrDesc: sorting[0].desc ? "desc" : "asc",
+                    sortBy: sorting[0].id,
+                }),
+                ...(globalFilter?.length > 0 && {
+                    filterNameString:
+                        page === "users" ? "userName" : page === "genres" ? "name" : "title",
+                    filterValue: globalFilter,
+                }),
+                ...Object.fromEntries(
+                    columnFilters?.flatMap((filter, index) => [
+                        [`filterNameString${index + 1}`, filter.id],
+                        [`filterValue${index + 1}`, filter.value],
+                    ]),
+                ),
             };
 
             switch (page) {
@@ -398,8 +401,8 @@ const TableAdmin = ({ columns, page, handleAddItem }: props) => {
                     <Box sx={{ display: "flex", gap: "1rem", alignItems: "center" }}>
                         <Tooltip arrow title="Refresh Data">
                             <IconButton
-                                onClick={() => {
-                                    // refetch()
+                                onClick={async () => {
+                                    await fetchData();
                                 }}
                             >
                                 <RefreshIcon />

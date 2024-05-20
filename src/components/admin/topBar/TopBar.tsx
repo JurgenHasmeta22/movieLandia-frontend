@@ -29,6 +29,7 @@ const TopBar = () => {
 
     const handleLogout = () => {
         removeItem();
+        handleClose();
         navigate("/login");
     };
 
