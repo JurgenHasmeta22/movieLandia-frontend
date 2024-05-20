@@ -239,6 +239,11 @@ export default function Home() {
                         </Box>
                     </Box>
                 )}
+                <Box sx={{ display: "flex", placeContent: "center" }}>
+                    <Typography fontSize={22} color={"secondary"} variant="h2">
+                        All Movies
+                    </Typography>
+                </Box>
                 {movies.length !== 0 ? (
                     <Stack
                         direction="row"
@@ -247,7 +252,6 @@ export default function Home() {
                         alignContent={"center"}
                         rowGap={4}
                         columnGap={4}
-                        marginTop={2}
                     >
                         {movies.map((movie: any) => (
                             <MovieItem movie={movie} type="homeMovie" key={movie.id} />
@@ -293,7 +297,7 @@ export default function Home() {
                         }}
                     >
                         <Box sx={{ display: "flex", placeContent: "center" }}>
-                            <Typography fontSize={22} color={"secondary"}>
+                            <Typography fontSize={22} color={"secondary"} variant="h2">
                                 Latest Movies
                             </Typography>
                         </Box>
@@ -304,6 +308,7 @@ export default function Home() {
                             columnGap={4}
                             justifyContent={"center"}
                             alignContent={"center"}
+                            marginTop={2}
                         >
                             {latestMovies?.map((latestMovie: any) => (
                                 <MovieItem
