@@ -187,6 +187,11 @@ export default function Series() {
                         </Select>
                     </Box>
                 </Box>
+                <Box sx={{ display: "flex", placeContent: "center" }}>
+                    <Typography fontSize={22} color={"secondary"} variant="h2">
+                        All Series
+                    </Typography>
+                </Box>
                 <Box
                     component={"section"}
                     sx={{
@@ -204,7 +209,6 @@ export default function Series() {
                         alignContent={"center"}
                         rowGap={4}
                         columnGap={4}
-                        marginTop={4}
                     >
                         {series.map((serie: any) => (
                             <MovieItem movie={serie} type="serie" key={serie.id} />
@@ -215,7 +219,7 @@ export default function Series() {
                         sx={{
                             display: "flex",
                             placeItems: "center",
-                            marginTop: 4,
+                            marginTop: 2,
                             marginBottom: 4,
                         }}
                     >

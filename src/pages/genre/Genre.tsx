@@ -1,12 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
-import type IGenreResponse from "~/types/IGenreResponse";
 import MovieItem from "~/components/movieItem/MovieItem";
 import type IMovie from "~/types/IMovie";
-import { Box, CircularProgress, Pagination, Stack, Typography, useTheme } from "@mui/material";
+import {
+    Box,
+    CircularProgress,
+    MenuItem,
+    Pagination,
+    Select,
+    Stack,
+    Typography,
+    useTheme,
+} from "@mui/material";
 import { tokens } from "~/utils/theme";
 import genreService from "~/services/api/genreService";
 import SEOHelmet from "~/components/seoHelmet/SEOHelmet";
+import { useSorting } from "~/hooks/useSorting";
+import { toFirstWordUpperCase } from "~/utils/utils";
+import IMoviesResponse from "~/types/IMoviesResponse";
 
 export default function Genre(): React.JSX.Element {
     const [itemsPerPage, setItemsPerPage] = useState<number>(20);
@@ -18,6 +29,7 @@ export default function Genre(): React.JSX.Element {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const pageCount: number = Math.ceil(moviesCountGenre / itemsPerPage);
+    const handleChangeSorting = useSorting();
 
     const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
         searchParams.set("page", String(value));
@@ -26,19 +38,20 @@ export default function Genre(): React.JSX.Element {
 
     async function getMoviesOnGenre(): Promise<void> {
         if (!searchParams.get("page") && params.name) {
-            const response: IGenreResponse = await genreService.getGenreByName(params.name, {});
-            setMoviesOfGenre(response.rows);
+            const response: IMoviesResponse = await genreService.getGenreByName(params.name, {});
+            setMoviesOfGenre(response.movies);
             setMoviesCountGenres(response.count);
         } else if (searchParams.get("page") && params.name) {
             const queryParams = {
                 page: searchParams.get("page")!,
             };
-            const response: IGenreResponse = await genreService.getGenreByName(
+
+            const response: IMoviesResponse = await genreService.getGenreByName(
                 params.name,
                 queryParams,
             );
 
-            setMoviesOfGenre(response.rows);
+            setMoviesOfGenre(response.movies);
             setMoviesCountGenres(response.count);
         } else {
             if (searchParams.get("sortBy") && searchParams.get("ascOrDesc")) {
@@ -48,40 +61,44 @@ export default function Genre(): React.JSX.Element {
                         page: searchParams.get("page")!,
                         ascOrDesc: searchParams.get("ascOrDesc")!,
                     };
-                    const response: IGenreResponse = await genreService.getGenreByName(
+                    const response: IMoviesResponse = await genreService.getGenreByName(
                         params!.name!,
                         queryParams,
                     );
-                    setMoviesOfGenre(response.rows);
+
+                    setMoviesOfGenre(response.movies);
                     setMoviesCountGenres(response.count);
                 } else {
                     const queryParams = {
                         sortBy: searchParams.get("sortBy")!,
                         ascOrDesc: searchParams.get("ascOrDesc")!,
                     };
-                    const response: IGenreResponse = await genreService.getGenreByName(
+                    const response: IMoviesResponse = await genreService.getGenreByName(
                         params!.name!,
                         queryParams,
                     );
-                    setMoviesOfGenre(response.rows);
+
+                    setMoviesOfGenre(response.movies);
                     setMoviesCountGenres(response.count);
                 }
             } else if (searchParams.get("page")) {
                 const queryParams = {
                     page: searchParams.get("page")!,
                 };
-                const response: IGenreResponse = await genreService.getGenreByName(
+                const response: IMoviesResponse = await genreService.getGenreByName(
                     params!.name!,
                     queryParams,
                 );
-                setMoviesOfGenre(response.rows);
+
+                setMoviesOfGenre(response.movies);
                 setMoviesCountGenres(response.count);
             } else {
-                const response: IGenreResponse = await genreService.getGenreByName(
+                const response: IMoviesResponse = await genreService.getGenreByName(
                     params!.name!,
                     {},
                 );
-                setMoviesOfGenre(response.rows);
+
+                setMoviesOfGenre(response.movies);
                 setMoviesCountGenres(response.count);
             }
         }
@@ -89,7 +106,7 @@ export default function Genre(): React.JSX.Element {
 
     useEffect(() => {
         getMoviesOnGenre();
-    }, [params.name, searchParams.get("page")]);
+    }, [params.name, searchParams]);
 
     if (!moviesOfGenre) {
         return (
@@ -141,6 +158,45 @@ export default function Genre(): React.JSX.Element {
                 }}
                 component={"main"}
             >
+                <Box
+                    sx={{
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "flex-end",
+                        alignItems: "center",
+                        columnGap: 2,
+                        mr: 4,
+                        mt: 4,
+                    }}
+                    component={"section"}
+                >
+                    <Typography color={"secondary"} fontSize={16}>
+                        <span>Sort by:</span>
+                    </Typography>
+                    <Box sx={{ display: "flex", flexDirection: "row", columnGap: 2 }}>
+                        <Select
+                            defaultValue={"none"}
+                            value={
+                                searchParams.get("sortBy") && searchParams.get("ascOrDesc")
+                                    ? searchParams.get("sortBy")! +
+                                      toFirstWordUpperCase(searchParams.get("ascOrDesc")!)
+                                    : "none"
+                            }
+                            onChange={handleChangeSorting}
+                        >
+                            <MenuItem value={"none"}>None</MenuItem>
+                            <MenuItem value={"ratingImdbAsc"}>Imdb rating (Asc)</MenuItem>
+                            <MenuItem value={"ratingImdbDesc"}>Imdb rating (Desc)</MenuItem>
+                            <MenuItem value={"titleAsc"}>Title (Asc)</MenuItem>
+                            <MenuItem value={"titleDesc"}>Title (Desc)</MenuItem>
+                        </Select>
+                    </Box>
+                </Box>
+                <Box sx={{ display: "flex", placeContent: "center" }}>
+                    <Typography fontSize={22} color={"secondary"} variant="h2">
+                        {`All Movies of the ${params.name}`}
+                    </Typography>
+                </Box>
                 <Stack
                     direction="row"
                     flexWrap="wrap"
