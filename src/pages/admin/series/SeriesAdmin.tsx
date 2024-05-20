@@ -1,12 +1,8 @@
 import { Box } from "@mui/material";
-import {
-    MaterialReactTable,
-    type MRT_ColumnDef,
-} from "material-react-table";
+import { MaterialReactTable, type MRT_ColumnDef } from "material-react-table";
 import HeaderDashboard from "~/components/admin/headerDashboard/HeaderDashboard";
 import { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import ISerie from "~/types/ISerie";
 import TableAdmin from "~/utils/TableAdmin";
 
 const SeriesAdmin = () => {
@@ -35,15 +31,10 @@ const SeriesAdmin = () => {
         navigate("/admin/series/add");
     }
 
-    function handleDeleteSerie() {
-        // navigate("/admin/series/add");
-    }
-
     const { table } = TableAdmin({
         columns,
         page: "series",
         handleAddItem: handleAddSerie,
-        handleDeleteItem: handleDeleteSerie,
     });
 
     return (
