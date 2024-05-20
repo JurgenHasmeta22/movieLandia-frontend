@@ -42,15 +42,10 @@ const MoviesAdmin = () => {
         navigate("/admin/movies/add");
     }
 
-    function handleDeleteMovie() {
-        // navigate("/admin/movies/add");
-    }
-
     const { table } = TableAdmin({
         columns,
         page: "movies",
         handleAddItem: handleAddMovie,
-        handleDeleteItem: handleDeleteMovie,
     });
 
     return (

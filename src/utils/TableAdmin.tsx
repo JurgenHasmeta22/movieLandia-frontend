@@ -30,15 +30,15 @@ import RefreshIcon from "@mui/icons-material/Refresh";
 import { FormikProps } from "formik";
 import { useModal } from "~/services/providers/ModalContext";
 import * as CONSTANTS from "~/constants/Constants";
+import { toast } from "react-toastify";
 
 type props = {
     columns: MRT_ColumnDef<any>[];
     page: string;
     handleAddItem: () => void;
-    handleDeleteItem: () => void;
 };
 
-const TableAdmin = ({ columns, page, handleAddItem, handleDeleteItem }: props) => {
+const TableAdmin = ({ columns, page, handleAddItem }: props) => {
     const [rows, setRows] = useState<any[]>([]);
     const [rowsCount, setRowsCount] = useState<number>(0);
     const [rowSelection, setRowSelection] = useState<any>({});
@@ -52,10 +52,10 @@ const TableAdmin = ({ columns, page, handleAddItem, handleDeleteItem }: props) =
         pageIndex: 0,
         pageSize: 10,
     });
+    const [open, setOpen] = useState(false);
     const navigate = useNavigate();
     const { openModal } = useModal();
     // const formikRef = useRef<FormikProps<any>>(null);
-    const [open, setOpen] = useState(false);
 
     // console.log(
     //     rowSelection,
@@ -69,7 +69,79 @@ const TableAdmin = ({ columns, page, handleAddItem, handleDeleteItem }: props) =
     //     pagination,
     // );
 
-    function handleMassiveDeleteMovies() {
+    function handleDelete(id: number) {
+        openModal({
+            onClose: () => setOpen(false),
+            title: `Delete selected ${page}`,
+            actions: [
+                {
+                    label: CONSTANTS.MODAL__DELETE__NO,
+                    onClick: () => setOpen(false),
+                    color: "secondary",
+                    variant: "contained",
+                    sx: {
+                        bgcolor: "#ff5252",
+                    },
+                    icon: <WarningOutlined />,
+                },
+                {
+                    label: CONSTANTS.MODAL__DELETE__YES,
+                    onClick: async () => {
+                        let response: any;
+
+                        switch (page) {
+                            case "series":
+                                response = await serieService.deleteSerie(Number(id));
+
+                                if (response && response.msg) {
+                                    toast.success(`Item with id ${id} deleted succesfully`);
+                                    await fetchData();
+                                }
+                                break;
+                            case "movies":
+                                response = await movieService.deleteMovie(Number(id));
+
+                                if (response && response.msg) {
+                                    toast.success(`Item with id ${id} deleted succesfully`);
+                                    await fetchData();
+                                }
+                                break;
+                            case "genres":
+                                response = await genreService.deleteGenre(Number(id));
+
+                                if (response && response.msg) {
+                                    toast.success(`Item with id ${id} deleted succesfully`);
+                                    await fetchData();
+                                }
+                                break;
+                            case "users":
+                                response = await userService.deleteUser(Number(id));
+
+                                if (response && response.msg) {
+                                    toast.success(`Item with id ${id} deleted succesfully`);
+                                    await fetchData();
+                                }
+                                break;
+                            default:
+                                response = null;
+                        }
+
+                        setRowSelection([]);
+                    },
+                    type: "submit",
+                    color: "secondary",
+                    variant: "contained",
+                    sx: {
+                        bgcolor: "#30969f",
+                    },
+                    icon: <CheckOutlined />,
+                },
+            ],
+            subTitle: "Do you want to delete selected rows ?",
+        });
+    }
+
+    function handleMassiveDelete() {
         const keysArray = Object.keys(rowSelection);
 
         openModal({
@@ -88,7 +160,50 @@ const TableAdmin = ({ columns, page, handleAddItem, handleDeleteItem }: props) =
                 },
                 {
                     label: CONSTANTS.MODAL__DELETE__YES,
-                    onClick: () => {},
+                    onClick: async () => {
+                        let response: any;
+
+                        for (const id of keysArray) {
+                            switch (page) {
+                                case "series":
+                                    response = await serieService.deleteSerie(Number(id));
+
+                                    if (response && response.msg) {
+                                        toast.success(`Item with id ${id} deleted succesfully`);
+                                        await fetchData();
+                                    }
+                                    break;
+                                case "movies":
+                                    response = await movieService.deleteMovie(Number(id));
+
+                                    if (response && response.msg) {
+                                        toast.success(`Item with id ${id} deleted succesfully`);
+                                        await fetchData();
+                                    }
+                                    break;
+                                case "genres":
+                                    response = await genreService.deleteGenre(Number(id));
+
+                                    if (response && response.msg) {
+                                        toast.success(`Item with id ${id} deleted succesfully`);
+                                        await fetchData();
+                                    }
+                                    break;
+                                case "users":
+                                    response = await userService.deleteUser(Number(id));
+
+                                    if (response && response.msg) {
+                                        toast.success(`Item with id ${id} deleted succesfully`);
+                                        await fetchData();
+                                    }
+                                    break;
+                                default:
+                                    response = null;
+                            }
+                        }
+
+                        setRowSelection([]);
+                    },
                     type: "submit",
                     color: "secondary",
                     variant: "contained",
@@ -259,7 +374,7 @@ const TableAdmin = ({ columns, page, handleAddItem, handleDeleteItem }: props) =
             <MenuItem
                 key={1}
                 onClick={async () => {
-                    handleDeleteItem();
+                    handleDelete(Number(row.id));
                     closeMenu();
                 }}
                 sx={{ m: 0 }}
@@ -318,7 +433,7 @@ const TableAdmin = ({ columns, page, handleAddItem, handleDeleteItem }: props) =
                             color="error"
                             disabled={!table.getIsSomeRowsSelected()}
                             onClick={() => {
-                                handleMassiveDeleteMovies();
+                                handleMassiveDelete();
                             }}
                             variant="contained"
                         >

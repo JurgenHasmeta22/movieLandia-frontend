@@ -4,7 +4,7 @@ import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import { tokens, ColorModeContext } from "~/utils/theme";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useStore } from "~/store/store";
 import { useLocalStorage } from "~/hooks/useLocalStorage";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -13,11 +13,9 @@ const TopBar = () => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const { user, isOpenSidebarAdmin, setIsOpenSidebarAdmin } = useStore();
     const navigate = useNavigate();
-
     const colorMode = useContext(ColorModeContext);
     const { removeItem } = useLocalStorage("user");
     const open = Boolean(anchorEl);
-
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
@@ -34,14 +32,14 @@ const TopBar = () => {
         navigate("/login");
     };
 
-    // const handleRedirectToProfile = () => {
-    //     navigate("/profile", {
-    //         state: {
-    //             userId: user?.id,
-    //             from: "Perdoruesit",
-    //         },
-    //     });
-    // };
+    const handleRedirectToProfile = () => {
+        navigate("/profile", {
+            state: {
+                userId: user?.id,
+                from: "Admin",
+            },
+        });
+    };
 
     return (
         <AppBar position="static" component={"header"}>
@@ -81,7 +79,13 @@ const TopBar = () => {
                         sx={{ display: "flex", flexDirection: "row", gap: "10px" }}
                     >
                         <PersonOutlinedIcon color="action" fontSize="medium" />
-                        {user?.userName}
+                        <span
+                            style={{
+                                fontSize: 16,
+                            }}
+                        >
+                            {user?.userName}
+                        </span>
                     </IconButton>
                     <Menu
                         id="menuProfile"
@@ -92,13 +96,13 @@ const TopBar = () => {
                             "aria-labelledby": "buttonProfile",
                         }}
                     >
-                        {/* <MenuItem
+                        <MenuItem
                             onClick={handleRedirectToProfile}
                             style={{ color: colors.primary[100] }}
                         >
                             My profile
                         </MenuItem>
-                        <MenuItem>
+                        {/* <MenuItem>
                             <Link
                                 to="/changePassword"
                                 style={{ color: colors.primary[100], textDecoration: "none" }}

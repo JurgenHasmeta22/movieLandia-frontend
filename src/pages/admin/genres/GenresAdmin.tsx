@@ -23,15 +23,10 @@ const GenresAdmin = () => {
         navigate("/admin/genres/add");
     }
 
-    function handleDeleteGenre() {
-        navigate("/admin/genres/add");
-    }
-
     const { table } = TableAdmin({
         columns,
         page: "genres",
         handleAddItem: handleAddGenre,
-        handleDeleteItem: handleDeleteGenre,
     });
 
     return (
