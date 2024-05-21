@@ -11,10 +11,12 @@ import MainLayout from "~/layouts/MainLayout";
 import AdminLayout from "~/layouts/AdminLayout";
 
 // main pages
-const Series = React.lazy(() => import("~/pages/series/Series"));
-const Error404 = React.lazy(() => import("~/pages/error/Error"));
-const Genre = React.lazy(() => import("~/pages/genre/Genre"));
 const Home = React.lazy(() => import("~/pages/home/Home"));
+const Error404 = React.lazy(() => import("~/pages/error/Error"));
+const Series = React.lazy(() => import("~/pages/series/Series"));
+const Genres = React.lazy(() => import("~/pages/genres/Genres"));
+const Genre = React.lazy(() => import("~/pages/genre/Genre"));
+const Movies = React.lazy(() => import("~/pages/movies/Movies"));
 const Login = React.lazy(() => import("~/pages/login/Login"));
 const Movie = React.lazy(() => import("~/pages/movie/Movie"));
 const Profile = React.lazy(() => import("~/pages/profile/Profile"));
@@ -54,13 +56,15 @@ function App() {
             <ThemeProvider theme={theme}>
                 <CssBaseline />
                 <Routes>
-                    <Route index element={<Navigate replace to="movies" />} />
+                    <Route index element={<Navigate replace to="" />} />
                     <Route element={<MainLayout />}>
                         <Route path="*" element={<Error404 />} />
-                        <Route path="movies" element={<Home />} />
+                        <Route path="" element={<Home />} />
+                        <Route path="movies" element={<Movies />} />
                         <Route path="movies/:title" element={<Movie />} />
                         <Route path="genres/:name" element={<Genre />} />
                         <Route path="series" element={<Series />} />
+                        <Route path="genres" element={<Genres />} />
                         <Route path="profile" element={<Profile />} />
                         <Route path="login" element={<Login />} />
                         <Route path="register" element={<Register />} />

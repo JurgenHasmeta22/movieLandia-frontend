@@ -174,7 +174,7 @@ export const Header = (): React.JSX.Element => {
                                         color: colors.primary[100],
                                         cursor: "pointer",
                                     }}
-                                    to="/movies"
+                                    to="/"
                                 >
                                     MovieLandia24
                                 </Link>
@@ -486,7 +486,7 @@ export const Header = (): React.JSX.Element => {
                                     color: colors.primary[100],
                                     cursor: "pointer",
                                 }}
-                                to={"/movies"}
+                                to={"/"}
                                 onClick={() => {
                                     setOpenDrawer(false);
                                 }}

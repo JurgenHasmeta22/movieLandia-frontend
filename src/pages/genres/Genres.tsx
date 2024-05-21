@@ -1,17 +1,17 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import movieService from "~/services/api/movieService";
 import type IGenre from "~/types/IGenre";
 import { Box, Card, Stack, Typography } from "@mui/material";
 import genreService from "~/services/api/genreService";
+import IGenreResponse from "~/types/IGenreResponse";
 
 export default function Genres() {
     const [genres, setGenres] = useState<IGenre[]>([]);
     const navigate = useNavigate();
 
     async function getGenres(): Promise<void> {
-        const response: IGenre[] = await genreService.getGenres();
-        setGenres(response);
+        const response: any = await genreService.getGenres({});
+        setGenres(response.rows);
     }
 
     useEffect(() => {
@@ -20,18 +20,18 @@ export default function Genres() {
 
     return (
         <Box sx={{ display: "flex", flexDirection: "column", placeItems: "center" }}>
-            <Typography mt={2} fontSize={"30px"}>
+            <Typography mt={4} fontSize={"30px"}>
                 Choose your favorite genre
             </Typography>
-            <Stack
-                direction={"row"}
-                flexWrap={"wrap"}
-                rowGap={8}
-                columnGap={4}
-                justifyContent={"center"}
-                alignContent={"center"}
-                mb={4}
-                mt={2}
+            <Box
+                sx={{
+                    display: "grid",
+                    gridTemplateColumns: "1fr 1fr 1fr 1fr",
+                    rowGap: 6,
+                    columnGap: 4,
+                }}
+                mb={6}
+                mt={4}
             >
                 {genres?.map((genre: any) => (
                     <Card
@@ -45,12 +45,15 @@ export default function Genres() {
                             placeItems: "center",
                             placeContent: "center",
                             cursor: "pointer",
+                            height: "200px",
+                            width: "200px",
+                            backgroundColor: `colors.secondary`
                         }}
                     >
-                        <Typography>{genre.name}</Typography>
+                        <span>{genre.name}</span>
                     </Card>
                 ))}
-            </Stack>
+            </Box>
         </Box>
     );
 }
