@@ -37,24 +37,24 @@ export default function Genre(): React.JSX.Element {
     };
 
     async function getMoviesOnGenre(): Promise<void> {
-        if (!searchParams.get("page") && params.name) {
+        if (!searchParams.get("page") && params.name && !searchParams.get("sortBy")) {
             const response: IMoviesResponse = await genreService.getGenreByName(params.name, {});
+
             setMoviesOfGenre(response.movies);
             setMoviesCountGenres(response.count);
-        } else if (searchParams.get("page") && params.name) {
+        } else if (searchParams.get("page") && params.name && !searchParams.get("sortBy")) {
             const queryParams = {
                 page: searchParams.get("page")!,
             };
-
             const response: IMoviesResponse = await genreService.getGenreByName(
-                params.name,
+                params?.name,
                 queryParams,
             );
 
             setMoviesOfGenre(response.movies);
             setMoviesCountGenres(response.count);
         } else {
-            if (searchParams.get("sortBy") && searchParams.get("ascOrDesc")) {
+            if (searchParams.get("sortBy") && searchParams.get("ascOrDesc") && params.name) {
                 if (searchParams.get("page")) {
                     const queryParams = {
                         sortBy: searchParams.get("sortBy")!,

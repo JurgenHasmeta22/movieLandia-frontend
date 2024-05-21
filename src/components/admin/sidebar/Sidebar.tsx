@@ -1,11 +1,25 @@
 import { useState } from "react";
-import { Box, List, Typography, Avatar, Drawer, IconButton, useTheme } from "@mui/material";
+import {
+    Box,
+    List,
+    Typography,
+    Avatar,
+    Drawer,
+    IconButton,
+    useTheme,
+    ListItem,
+    ListItemButton,
+    ListItemIcon,
+    ListItemText,
+} from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import CloseIcon from "@mui/icons-material/Close";
 import { useLocation, useNavigate } from "react-router";
 import { useStore } from "~/store/store";
 import { tokens } from "~/utils/theme";
 import { SidebarItem } from "./components/SidebarItem";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { useLocalStorage } from "~/hooks/useLocalStorage";
 
 const Sidebar = ({ sidebarItems }: any) => {
     const { user, isOpenSidebarAdmin, setIsOpenSidebarAdmin } = useStore();
@@ -14,6 +28,7 @@ const Sidebar = ({ sidebarItems }: any) => {
     const [selectedLabel, setSelectedLabel] = useState(location.state ? location.state.label : "");
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
+    const { removeItem } = useLocalStorage("user");
 
     const handleItemClick = (title: string, to: string, state: any) => {
         setSelectedLabel(title);
@@ -65,6 +80,37 @@ const Sidebar = ({ sidebarItems }: any) => {
                             handleItemClick={handleItemClick}
                         />
                     ))}
+                    <ListItem
+                        value={"logout"}
+                        sx={{
+                            py: 6,
+                            px: 3,
+                        }}
+                    >
+                        <ListItemButton
+                            sx={{
+                                color: colors.grey[1500],
+                                "&:hover": {
+                                    backgroundColor: colors.primary[1000],
+                                    "& .MuiListItemIcon-root": {
+                                        color: colors.grey[1400],
+                                    },
+                                    "& .MuiListItemText-primary": {
+                                        color: colors.grey[1400],
+                                    },
+                                },
+                            }}
+                            onClick={() => {
+                                removeItem();
+                                navigate("/login");
+                            }}
+                        >
+                            <ListItemIcon>
+                                <LogoutIcon />
+                            </ListItemIcon>
+                            <ListItemText primary={"Logout"} />
+                        </ListItemButton>
+                    </ListItem>
                 </List>
             </Box>
         </Drawer>
