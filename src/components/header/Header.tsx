@@ -163,35 +163,63 @@ export const Header = (): React.JSX.Element => {
                             flexDirection={"row"}
                             alignItems={"center"}
                             justifyContent={"space-around"}
-                            columnGap={6}
+                            columnGap={4}
                             flexWrap={"wrap"}
                         >
                             <Box>
-                                <Link
-                                    style={{
-                                        textDecoration: "none",
-                                        fontSize: "20px",
-                                        color: colors.primary[100],
-                                        cursor: "pointer",
+                                <NavLink
+                                    style={({ isActive, isPending, isTransitioning }) => {
+                                        return {
+                                            fontWeight: isActive ? "bold" : "",
+                                            color: isActive
+                                                ? colors.greenAccent[500]
+                                                : colors.primary[100],
+                                            viewTransitionName: isTransitioning ? "slide" : "",
+                                            textDecoration: "none",
+                                            fontSize: "20px",
+                                            textDecorationLine: isActive ? "underline" : "none",
+                                            textDecorationColor: isActive
+                                                ? colors.greenAccent[500]
+                                                : "",
+                                            cursor: "pointer",
+                                            display: "flex",
+                                            flexDirection: "row",
+                                            columnGap: 1,
+                                            alignItems: "center",
+                                        };
                                     }}
                                     to="/"
                                 >
                                     MovieLandia24
-                                </Link>
+                                </NavLink>
                             </Box>
                             <Box>
                                 <List sx={{ display: "flex", flexDirection: "row" }}>
                                     <ListItem>
                                         <NavLink
-                                            style={{
-                                                textDecoration: "none",
-                                                fontSize: "16px",
-                                                color: colors.primary[100],
-                                                cursor: "pointer",
-                                                display: "flex",
-                                                flexDirection: "row",
-                                                columnGap: 2,
-                                                alignItems: "center",
+                                            style={({ isActive, isPending, isTransitioning }) => {
+                                                return {
+                                                    fontWeight: isActive ? "bold" : "",
+                                                    color: isActive
+                                                        ? colors.greenAccent[500]
+                                                        : colors.primary[100],
+                                                    viewTransitionName: isTransitioning
+                                                        ? "slide"
+                                                        : "",
+                                                    textDecoration: "none",
+                                                    fontSize: "16px",
+                                                    textDecorationLine: isActive
+                                                        ? "underline"
+                                                        : "none",
+                                                    textDecorationColor: isActive
+                                                        ? colors.greenAccent[500]
+                                                        : "",
+                                                    cursor: "pointer",
+                                                    display: "flex",
+                                                    flexDirection: "row",
+                                                    columnGap: 1,
+                                                    alignItems: "center",
+                                                };
                                             }}
                                             to="/movies"
                                         >
@@ -257,15 +285,29 @@ export const Header = (): React.JSX.Element => {
                                     </ListItem>
                                     <ListItem>
                                         <NavLink
-                                            style={{
-                                                textDecoration: "none",
-                                                fontSize: "16px",
-                                                color: colors.primary[100],
-                                                cursor: "pointer",
-                                                display: "flex",
-                                                flexDirection: "row",
-                                                columnGap: 2,
-                                                alignItems: "center",
+                                            style={({ isActive, isPending, isTransitioning }) => {
+                                                return {
+                                                    fontWeight: isActive ? "bold" : "",
+                                                    color: isActive
+                                                        ? colors.greenAccent[500]
+                                                        : colors.primary[100],
+                                                    viewTransitionName: isTransitioning
+                                                        ? "slide"
+                                                        : "",
+                                                    textDecoration: "none",
+                                                    fontSize: "16px",
+                                                    textDecorationLine: isActive
+                                                        ? "underline"
+                                                        : "none",
+                                                    textDecorationColor: isActive
+                                                        ? colors.greenAccent[500]
+                                                        : "",
+                                                    cursor: "pointer",
+                                                    display: "flex",
+                                                    flexDirection: "row",
+                                                    columnGap: 1,
+                                                    alignItems: "center",
+                                                };
                                             }}
                                             to="/series"
                                         >
@@ -275,15 +317,29 @@ export const Header = (): React.JSX.Element => {
                                     </ListItem>
                                     <ListItem>
                                         <NavLink
-                                            style={{
-                                                textDecoration: "none",
-                                                fontSize: 16,
-                                                color: colors.primary[100],
-                                                cursor: "pointer",
-                                                display: "flex",
-                                                flexDirection: "row",
-                                                columnGap: 2,
-                                                alignItems: "center",
+                                            style={({ isActive, isPending, isTransitioning }) => {
+                                                return {
+                                                    fontWeight: isActive ? "bold" : "",
+                                                    color: isActive
+                                                        ? colors.greenAccent[500]
+                                                        : colors.primary[100],
+                                                    viewTransitionName: isTransitioning
+                                                        ? "slide"
+                                                        : "",
+                                                    textDecoration: "none",
+                                                    fontSize: 16,
+                                                    textDecorationLine: isActive
+                                                        ? "underline"
+                                                        : "none",
+                                                    textDecorationColor: isActive
+                                                        ? colors.greenAccent[500]
+                                                        : "",
+                                                    cursor: "pointer",
+                                                    display: "flex",
+                                                    flexDirection: "row",
+                                                    columnGap: 1,
+                                                    alignItems: "center",
+                                                };
                                             }}
                                             to="/genres/NETFLIX"
                                         >
@@ -479,12 +535,26 @@ export const Header = (): React.JSX.Element => {
                         }}
                     >
                         <ListItem>
-                            <Link
-                                style={{
-                                    textDecoration: "none",
-                                    fontSize: "22px",
-                                    color: colors.primary[100],
-                                    cursor: "pointer",
+                            <NavLink
+                                style={({ isActive, isPending, isTransitioning }) => {
+                                    return {
+                                        fontWeight: isActive ? "bold" : "",
+                                        color: isActive
+                                            ? colors.greenAccent[500]
+                                            : colors.primary[100],
+                                        viewTransitionName: isTransitioning ? "slide" : "",
+                                        textDecoration: "none",
+                                        fontSize: "22px",
+                                        textDecorationLine: isActive ? "underline" : "none",
+                                        textDecorationColor: isActive
+                                            ? colors.greenAccent[500]
+                                            : "",
+                                        cursor: "pointer",
+                                        display: "flex",
+                                        flexDirection: "row",
+                                        columnGap: 1,
+                                        alignItems: "center",
+                                    };
                                 }}
                                 to={"/"}
                                 onClick={() => {
@@ -492,19 +562,29 @@ export const Header = (): React.JSX.Element => {
                                 }}
                             >
                                 MovieLandia24
-                            </Link>
+                            </NavLink>
                         </ListItem>
                         <ListItem>
                             <NavLink
-                                style={{
-                                    textDecoration: "none",
-                                    fontSize: "16px",
-                                    color: colors.primary[100],
-                                    cursor: "pointer",
-                                    display: "flex",
-                                    flexDirection: "row",
-                                    columnGap: 2,
-                                    alignItems: "center",
+                                style={({ isActive, isPending, isTransitioning }) => {
+                                    return {
+                                        fontWeight: isActive ? "bold" : "",
+                                        color: isActive
+                                            ? colors.greenAccent[500]
+                                            : colors.primary[100],
+                                        viewTransitionName: isTransitioning ? "slide" : "",
+                                        textDecoration: "none",
+                                        fontSize: "16px",
+                                        textDecorationLine: isActive ? "underline" : "none",
+                                        textDecorationColor: isActive
+                                            ? colors.greenAccent[500]
+                                            : "",
+                                        cursor: "pointer",
+                                        display: "flex",
+                                        flexDirection: "row",
+                                        columnGap: 1,
+                                        alignItems: "center",
+                                    };
                                 }}
                                 to="/movies"
                                 onClick={() => {
@@ -566,15 +646,25 @@ export const Header = (): React.JSX.Element => {
                         </ListItem>
                         <ListItem>
                             <NavLink
-                                style={{
-                                    textDecoration: "none",
-                                    fontSize: "16px",
-                                    color: colors.primary[100],
-                                    cursor: "pointer",
-                                    display: "flex",
-                                    flexDirection: "row",
-                                    columnGap: 2,
-                                    alignItems: "center",
+                                style={({ isActive, isPending, isTransitioning }) => {
+                                    return {
+                                        fontWeight: isActive ? "bold" : "",
+                                        color: isActive
+                                            ? colors.greenAccent[500]
+                                            : colors.primary[100],
+                                        viewTransitionName: isTransitioning ? "slide" : "",
+                                        textDecoration: "none",
+                                        fontSize: "16px",
+                                        textDecorationLine: isActive ? "underline" : "none",
+                                        textDecorationColor: isActive
+                                            ? colors.greenAccent[500]
+                                            : "",
+                                        cursor: "pointer",
+                                        display: "flex",
+                                        flexDirection: "row",
+                                        columnGap: 1,
+                                        alignItems: "center",
+                                    };
                                 }}
                                 to="/series"
                                 onClick={() => {
@@ -587,15 +677,25 @@ export const Header = (): React.JSX.Element => {
                         </ListItem>
                         <ListItem>
                             <NavLink
-                                style={{
-                                    textDecoration: "none",
-                                    fontSize: 16,
-                                    color: colors.primary[100],
-                                    cursor: "pointer",
-                                    display: "flex",
-                                    flexDirection: "row",
-                                    columnGap: 2,
-                                    alignItems: "center",
+                                style={({ isActive, isPending, isTransitioning }) => {
+                                    return {
+                                        fontWeight: isActive ? "bold" : "",
+                                        color: isActive
+                                            ? colors.greenAccent[500]
+                                            : colors.primary[100],
+                                        viewTransitionName: isTransitioning ? "slide" : "",
+                                        textDecoration: "none",
+                                        fontSize: "16px",
+                                        textDecorationLine: isActive ? "underline" : "none",
+                                        textDecorationColor: isActive
+                                            ? colors.greenAccent[500]
+                                            : "",
+                                        cursor: "pointer",
+                                        display: "flex",
+                                        flexDirection: "row",
+                                        columnGap: 1,
+                                        alignItems: "center",
+                                    };
                                 }}
                                 to="/genres/NETFLIX"
                                 onClick={() => {
