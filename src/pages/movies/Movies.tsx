@@ -85,14 +85,12 @@ export default function Movies() {
                     searchParams.get("search")!,
                     searchParams.get("page")!,
                 );
-
                 moviesResponse = response.movies;
                 setMoviesCountSearch(response.count);
             } else {
                 const response: IMoviesResponse = await movieService.searchMoviesByTitle(
                     searchParams.get("search")!,
                 );
-
                 moviesResponse = response.movies;
                 setMoviesCountSearch(response.count);
             }
@@ -104,10 +102,8 @@ export default function Movies() {
                         page: searchParams.get("page")!,
                         ascOrDesc: searchParams.get("ascOrDesc")!,
                     };
-
                     const responseMovies: IMoviesResponse =
                         await movieService.getMovies(queryParams);
-
                     moviesResponse = responseMovies.movies;
                     setMoviesCount(responseMovies.count);
                 } else {
@@ -115,10 +111,8 @@ export default function Movies() {
                         sortBy: searchParams.get("sortBy")!,
                         ascOrDesc: searchParams.get("ascOrDesc")!,
                     };
-
                     const responseMovies: IMoviesResponse =
                         await movieService.getMovies(queryParams);
-
                     moviesResponse = responseMovies.movies;
                     setMoviesCount(responseMovies.count);
                 }
@@ -126,7 +120,6 @@ export default function Movies() {
                 const queryParams = {
                     page: searchParams.get("page")!,
                 };
-
                 const response: IMoviesSearchResponse = await movieService.getMovies(queryParams);
                 moviesResponse = response.movies;
                 setMoviesCount(response.count);
@@ -205,45 +198,57 @@ export default function Movies() {
                     </Box>
                 )}
                 {!searchParams.get("search") && (
-                    <Box
-                        sx={{
-                            display: "flex",
-                            flexDirection: "row",
-                            justifyContent: "flex-end",
-                            alignItems: "center",
-                            columnGap: 2,
-                            mr: 4,
-                        }}
-                        component={"section"}
+                    <Stack
+                        display="flex"
+                        flexDirection="row"
+                        alignItems="center"
+                        component="section"
                     >
-                        <Typography color={"secondary"} fontSize={16}>
-                            <span>Sort by:</span>
-                        </Typography>
-                        <Box sx={{ display: "flex", flexDirection: "row", columnGap: 2 }}>
-                            <Select
-                                defaultValue={"none"}
-                                value={
-                                    searchParams.get("sortBy") && searchParams.get("ascOrDesc")
-                                        ? searchParams.get("sortBy")! +
-                                          toFirstWordUpperCase(searchParams.get("ascOrDesc")!)
-                                        : "none"
-                                }
-                                onChange={handleChangeSorting}
-                            >
-                                <MenuItem value={"none"}>None</MenuItem>
-                                <MenuItem value={"ratingImdbAsc"}>Imdb rating (Asc)</MenuItem>
-                                <MenuItem value={"ratingImdbDesc"}>Imdb rating (Desc)</MenuItem>
-                                <MenuItem value={"titleAsc"}>Title (Asc)</MenuItem>
-                                <MenuItem value={"titleDesc"}>Title (Desc)</MenuItem>
-                            </Select>
+                        <Box
+                            display="flex"
+                            justifyContent="center"
+                            alignItems="center"
+                            sx={{ flexGrow: 1 }}
+                            pl={18}
+                        >
+                            <Typography fontSize={22} color="secondary" variant="h2">
+                                All Movies
+                            </Typography>
                         </Box>
-                    </Box>
+                        <Box
+                            sx={{
+                                display: "flex",
+                                flexDirection: "row",
+                                justifyContent: "flex-end",
+                                alignItems: "center",
+                                columnGap: 1,
+                                mr: 4,
+                            }}
+                        >
+                            <Typography color={"secondary"} fontSize={16} variant="h3">
+                                Sort by:
+                            </Typography>
+                            <Box sx={{ display: "flex", flexDirection: "row", columnGap: 1 }}>
+                                <Select
+                                    defaultValue={"none"}
+                                    value={
+                                        searchParams.get("sortBy") && searchParams.get("ascOrDesc")
+                                            ? searchParams.get("sortBy")! +
+                                              toFirstWordUpperCase(searchParams.get("ascOrDesc")!)
+                                            : "none"
+                                    }
+                                    onChange={handleChangeSorting}
+                                >
+                                    <MenuItem value={"none"}>None</MenuItem>
+                                    <MenuItem value={"ratingImdbAsc"}>Imdb rating (Asc)</MenuItem>
+                                    <MenuItem value={"ratingImdbDesc"}>Imdb rating (Desc)</MenuItem>
+                                    <MenuItem value={"titleAsc"}>Title (Asc)</MenuItem>
+                                    <MenuItem value={"titleDesc"}>Title (Desc)</MenuItem>
+                                </Select>
+                            </Box>
+                        </Box>
+                    </Stack>
                 )}
-                <Box sx={{ display: "flex", placeContent: "center" }}>
-                    <Typography fontSize={22} color={"secondary"} variant="h2">
-                        All Movies
-                    </Typography>
-                </Box>
                 {movies.length !== 0 ? (
                     <Stack
                         direction="row"
