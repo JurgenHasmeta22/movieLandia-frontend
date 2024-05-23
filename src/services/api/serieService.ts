@@ -50,26 +50,29 @@ const serieService = {
         const response: IMoviesResponse = await axios.get(url).then((res) => res.data);
         return response;
     },
-    getSerieByName: async ({
-        sortBy,
-        ascOrDesc,
-        page,
-        pageSize,
-        title,
-        filterValue,
-        filterName,
-        filterOperator,
-    }: {
-        sortBy?: string;
-        ascOrDesc?: string;
-        page?: string;
-        pageSize?: string;
-        title?: string;
-        filterValue?: string;
-        filterName?: string;
-        filterOperator?: string;
-    }): Promise<any> => {
-        let url = `${api.url}/getSerieByTitle/${title}`;
+    getSerieByTitle: async (
+        titleSerie: string,
+        {
+            sortBy,
+            ascOrDesc,
+            page,
+            pageSize,
+            title,
+            filterValue,
+            filterName,
+            filterOperator,
+        }: {
+            sortBy?: string;
+            ascOrDesc?: string;
+            page?: string;
+            pageSize?: string;
+            title?: string;
+            filterValue?: string;
+            filterName?: string;
+            filterOperator?: string;
+        },
+    ): Promise<any> => {
+        let url = `${api.url}/getSerieByTitle/${titleSerie}`;
 
         const queryParams = [
             sortBy && `sortBy=${sortBy}`,
@@ -94,7 +97,6 @@ const serieService = {
     getSerieById: async (id: any): Promise<any> => {
         let url = `${api.url}/getSerieById/${id}`;
         const serie: ISerie = await axios.get(url).then((res) => res.data);
-
         return serie;
     },
     searchSeriesByTitle: async (title: string, page?: string): Promise<any> => {

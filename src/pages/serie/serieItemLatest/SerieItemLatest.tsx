@@ -1,14 +1,14 @@
 import { Card, CardMedia } from "@mui/material";
 import { useNavigate } from "react-router";
 import { motion } from "framer-motion";
-import type IMovie from "~/types/IMovie";
+import type ISerie from "~/types/ISerie";
 import { useStore } from "~/store/store";
 
-interface IMovieItemLatestProps {
-    latestMovie: IMovie;
+interface ISerieItemLatestProps {
+    latestSerie: ISerie;
 }
 
-export default function MovieItemLatest({ latestMovie }: IMovieItemLatestProps) {
+export default function SerieItemLatest({ latestSerie }: ISerieItemLatestProps) {
     const { mobileOpen } = useStore();
     const navigate = useNavigate();
 
@@ -18,7 +18,7 @@ export default function MovieItemLatest({ latestMovie }: IMovieItemLatestProps) 
             whileTap={{ scale: 1.1 }}
             onClick={() => {
                 navigate(
-                    `/movies/${latestMovie.title
+                    `/series/${latestSerie.title
                         .split("")
                         .map((char: any) => (char === " " ? "-" : char))
                         .join("")}`,
@@ -32,7 +32,7 @@ export default function MovieItemLatest({ latestMovie }: IMovieItemLatestProps) 
             }}
         >
             <Card
-                key={latestMovie.id}
+                key={latestSerie.id}
                 sx={{
                     maxHeight: `${mobileOpen ? "150px" : "250px"}`,
                     maxWidth: `${mobileOpen ? "150px" : "200px"}`,
@@ -44,8 +44,8 @@ export default function MovieItemLatest({ latestMovie }: IMovieItemLatestProps) 
             >
                 <CardMedia
                     component="img"
-                    image={latestMovie.photoSrc}
-                    alt={latestMovie.description}
+                    image={latestSerie.photoSrc}
+                    // alt={latestSerie.description}
                     sx={{
                         height: "100%",
                         width: "100%",
