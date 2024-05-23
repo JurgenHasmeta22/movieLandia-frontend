@@ -208,7 +208,7 @@ export default function Genre(): React.JSX.Element {
                     flexWrap="wrap"
                     justifyContent={"center"}
                     alignContent={"center"}
-                    rowGap={4}
+                    rowGap={8}
                     columnGap={4}
                     marginTop={4}
                 >

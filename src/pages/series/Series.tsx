@@ -211,7 +211,7 @@ export default function Series() {
                         flexWrap="wrap"
                         justifyContent={"center"}
                         alignContent={"center"}
-                        rowGap={4}
+                        rowGap={8}
                         columnGap={4}
                     >
                         {series.map((serie: any) => (

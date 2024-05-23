@@ -253,7 +253,7 @@ export default function Movies() {
                         flexWrap="wrap"
                         justifyContent={"center"}
                         alignContent={"center"}
-                        rowGap={4}
+                        rowGap={8}
                         columnGap={4}
                     >
                         {movies.map((movie: any) => (
@@ -307,7 +307,7 @@ export default function Movies() {
                         <Stack
                             direction="row"
                             flexWrap="wrap"
-                            rowGap={6}
+                            rowGap={8}
                             columnGap={4}
                             justifyContent={"center"}
                             alignContent={"center"}

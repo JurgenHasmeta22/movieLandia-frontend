@@ -50,11 +50,14 @@ export default function Home() {
         const fetchData = async () => {
             await Promise.all([getMovies(), getSeries(), getGenres()]);
         };
-
         fetchData();
     }, []);
 
-    if (!movies && !series && !genres) {
+    if (
+        (!movies || movies?.length === 0) &&
+        (!series || series?.length === 0) &&
+        (!genres || genres?.length === 0)
+    ) {
         return (
             <Box
                 sx={{
@@ -95,7 +98,7 @@ export default function Home() {
                             columnGap={4}
                         >
                             {movies.map((movie: any) => (
-                                <MovieItem movie={movie} type="movie" key={movie.id} />
+                                <MovieItem movie={movie} key={movie.id} />
                             ))}
                         </Stack>
                     </Box>
@@ -126,7 +129,7 @@ export default function Home() {
                     </Box>
                     <Box display={"flex"} flexDirection={"column"} rowGap={3}>
                         <Link
-                            to="/series"
+                            to="/genres"
                             style={{
                                 textDecoration: "none",
                                 fontWeight: 600,
