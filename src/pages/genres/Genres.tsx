@@ -1,22 +1,38 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import type IGenre from "~/types/IGenre";
-import { Box, Card, Typography } from "@mui/material";
+import { Box, CircularProgress, Typography } from "@mui/material";
 import genreService from "~/services/api/genreService";
 import GenreItem from "~/components/genreItem/GenreItem";
 
 export default function Genres() {
     const [genres, setGenres] = useState<IGenre[]>([]);
-    const navigate = useNavigate();
 
     async function getGenres(): Promise<void> {
         const response: any = await genreService.getGenres({});
-        setGenres(response.rows);
+        
+        if (response && response.rows) {
+            setGenres(response.rows);
+        }
     }
 
     useEffect(() => {
         getGenres();
     }, []);
+
+    if (!genres || genres?.length === 0) {
+        return (
+            <Box
+                sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "100vh",
+                }}
+            >
+                <CircularProgress size={80} thickness={4} />
+            </Box>
+        );
+    }
 
     return (
         <Box sx={{ display: "flex", flexDirection: "column", placeItems: "center" }}>
