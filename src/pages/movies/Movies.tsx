@@ -313,7 +313,8 @@ export default function Movies() {
                             columnGap={4}
                             justifyContent={"center"}
                             alignContent={"center"}
-                            marginTop={2}
+                            marginTop={3}
+                            mb={4}
                         >
                             {latestMovies?.map((latestMovie: any) => (
                                 <MovieItem

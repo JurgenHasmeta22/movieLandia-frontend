@@ -28,7 +28,6 @@ export default function Movie() {
     const params = useParams();
     const navigate = useNavigate();
     const isPageShrunk = useResizeWindow();
-
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
@@ -93,7 +92,6 @@ export default function Movie() {
                         display: "flex",
                         flexDirection: "column",
                         alignItems: "center",
-                        // justifyContent: "center",
                         rowGap: 2,
                     }}
                     component={"section"}
@@ -198,9 +196,12 @@ export default function Movie() {
                     <Stack
                         direction="row"
                         flexWrap="wrap"
-                        gap={2}
+                        columnGap={3}
+                        rowGap={3}
                         justifyContent="center"
                         alignContent="center"
+                        mt={1}
+                        mb={4}
                     >
                         {latestMoviesRelated.slice(5, 10).map((latestMovie: any) => (
                             <MovieItemLatest latestMovie={latestMovie} key={latestMovie.id} />
