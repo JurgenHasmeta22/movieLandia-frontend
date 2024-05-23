@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { useEffect } from "react";
 import { useStore } from "~/store/store";
 import type IUser from "~/types/IUser";
@@ -14,11 +14,12 @@ import AdminLayout from "~/layouts/AdminLayout";
 const Home = React.lazy(() => import("~/pages/home/Home"));
 const Error404 = React.lazy(() => import("~/pages/error/Error"));
 const Series = React.lazy(() => import("~/pages/series/Series"));
+const Serie = React.lazy(() => import("~/pages/serie/Serie"));
 const Genres = React.lazy(() => import("~/pages/genres/Genres"));
 const Genre = React.lazy(() => import("~/pages/genre/Genre"));
 const Movies = React.lazy(() => import("~/pages/movies/Movies"));
-const Login = React.lazy(() => import("~/pages/login/Login"));
 const Movie = React.lazy(() => import("~/pages/movie/Movie"));
+const Login = React.lazy(() => import("~/pages/login/Login"));
 const Profile = React.lazy(() => import("~/pages/profile/Profile"));
 const Register = React.lazy(() => import("~/pages/register/Register"));
 
@@ -59,9 +60,10 @@ function App() {
                         <Route index element={<Home />} />
                         <Route path="movies" element={<Movies />} />
                         <Route path="movies/:title" element={<Movie />} />
+                        <Route path="genres" element={<Genres />} />
                         <Route path="genres/:name" element={<Genre />} />
                         <Route path="series" element={<Series />} />
-                        <Route path="genres" element={<Genres />} />
+                        <Route path="series/:title" element={<Serie />} />
                         <Route path="profile" element={<Profile />} />
                         <Route path="login" element={<Login />} />
                         <Route path="register" element={<Register />} />

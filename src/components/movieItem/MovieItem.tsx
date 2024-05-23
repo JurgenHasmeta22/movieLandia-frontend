@@ -34,6 +34,13 @@ const MovieItem = ({ movie, type }: IMovieItemProps): React.JSX.Element => {
                                 .map((char: any) => (char === " " ? "-" : char))
                                 .join("")}`,
                         );
+                    } else {
+                        navigate(
+                            `/series/${movie.title
+                                .split("")
+                                .map((char: any) => (char === " " ? "-" : char))
+                                .join("")}`,
+                        );
                     }
                 }}
                 elevation={4}

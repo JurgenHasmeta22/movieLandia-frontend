@@ -31,7 +31,6 @@ import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import genreService from "~/services/api/genreService";
 import MovieIcon from "@mui/icons-material/Movie";
 import LocalMoviesIcon from "@mui/icons-material/LocalMovies";
-import LiveTvIcon from "@mui/icons-material/LiveTv";
 import SubtitlesIcon from "@mui/icons-material/Subtitles";
 
 export const Header = (): React.JSX.Element => {
@@ -184,7 +183,7 @@ export const Header = (): React.JSX.Element => {
                                 </Link>
                             </Box>
                             <Box>
-                                <List sx={{ display: "flex", flexDirection: "row" }}>
+                                <List sx={{ display: "flex", flexDirection: "row", columnGap: 2 }}>
                                     <ListItem>
                                         <NavLink
                                             style={({ isActive, isPending, isTransitioning }) => {
