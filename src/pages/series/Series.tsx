@@ -18,7 +18,6 @@ import serieService from "~/services/api/serieService";
 import SEOHelmet from "~/components/seoHelmet/SEOHelmet";
 import { useSorting } from "~/hooks/useSorting";
 import { toFirstWordUpperCase } from "~/utils/utils";
-import IMoviesResponse from "~/types/IMoviesResponse";
 
 export default function Series() {
     const [series, setSeries] = useState<ISerie[] | undefined>(undefined);
@@ -45,14 +44,12 @@ export default function Series() {
                     searchParams.get("search")!,
                     searchParams.get("page")!,
                 );
-
                 seriesResponse = response.rows;
                 setSeriesCountSearch(response.count);
             } else {
                 const response: ISeriesResponse = await serieService.searchSeriesByTitle(
                     searchParams.get("search")!,
                 );
-
                 seriesResponse = response.rows;
                 setSeriesCountSearch(response.count);
             }
@@ -64,7 +61,6 @@ export default function Series() {
                         page: searchParams.get("page")!,
                         ascOrDesc: searchParams.get("ascOrDesc")!,
                     };
-
                     const responseSeries: ISeriesResponse =
                         await serieService.getSeries(queryParams);
                     seriesResponse = responseSeries.rows;
@@ -74,18 +70,15 @@ export default function Series() {
                         sortBy: searchParams.get("sortBy")!,
                         ascOrDesc: searchParams.get("ascOrDesc")!,
                     };
-
                     const responseSeries: ISeriesResponse =
                         await serieService.getSeries(queryParams);
                     seriesResponse = responseSeries.rows;
-
                     setSeriesCount(responseSeries.count);
                 }
             } else if (searchParams.get("page")) {
                 const queryParams = {
                     page: searchParams.get("page")!,
                 };
-
                 const responseSeries: ISeriesResponse = await serieService.getSeries(queryParams);
                 seriesResponse = responseSeries.rows;
                 setSeriesCount(responseSeries.count);
@@ -95,7 +88,6 @@ export default function Series() {
                 setSeriesCount(responseSeries.count);
             }
         }
-
         setSeries(seriesResponse);
     }
 
@@ -153,45 +145,57 @@ export default function Series() {
                     backgroundColor: `${colors.blueAccent[700]}`,
                 }}
             >
-                <Box
-                    sx={{
-                        display: "flex",
-                        flexDirection: "row",
-                        justifyContent: "flex-end",
-                        alignItems: "center",
-                        columnGap: 2,
-                        mr: 4,
-                        mt: 4,
-                    }}
-                    component={"section"}
+                <Stack
+                    display="flex"
+                    flexDirection="row"
+                    alignItems="center"
+                    component="section"
+                    mt={4}
                 >
-                    <Typography color={"secondary"} fontSize={16}>
-                        <span>Sort by:</span>
-                    </Typography>
-                    <Box sx={{ display: "flex", flexDirection: "row", columnGap: 2 }}>
-                        <Select
-                            defaultValue={"none"}
-                            value={
-                                searchParams.get("sortBy") && searchParams.get("ascOrDesc")
-                                    ? searchParams.get("sortBy")! +
-                                      toFirstWordUpperCase(searchParams.get("ascOrDesc")!)
-                                    : "none"
-                            }
-                            onChange={handleChangeSorting}
-                        >
-                            <MenuItem value={"none"}>None</MenuItem>
-                            <MenuItem value={"ratingImdbAsc"}>Imdb rating (Asc)</MenuItem>
-                            <MenuItem value={"ratingImdbDesc"}>Imdb rating (Desc)</MenuItem>
-                            <MenuItem value={"titleAsc"}>Title (Asc)</MenuItem>
-                            <MenuItem value={"titleDesc"}>Title (Desc)</MenuItem>
-                        </Select>
+                    <Box
+                        display="flex"
+                        justifyContent="center"
+                        alignItems="center"
+                        sx={{ flexGrow: 1 }}
+                        pl={18}
+                    >
+                        <Typography fontSize={22} color={"secondary"} variant="h2">
+                            All Series
+                        </Typography>
                     </Box>
-                </Box>
-                <Box sx={{ display: "flex", placeContent: "center" }}>
-                    <Typography fontSize={22} color={"secondary"} variant="h2">
-                        All Series
-                    </Typography>
-                </Box>
+                    <Box
+                        sx={{
+                            display: "flex",
+                            flexDirection: "row",
+                            justifyContent: "flex-end",
+                            alignItems: "center",
+                            columnGap: 1,
+                            mr: 4,
+                        }}
+                    >
+                        <Typography color={"secondary"} fontSize={16}>
+                            <span>Sort by:</span>
+                        </Typography>
+                        <Box sx={{ display: "flex", flexDirection: "row", columnGap: 2 }}>
+                            <Select
+                                defaultValue={"none"}
+                                value={
+                                    searchParams.get("sortBy") && searchParams.get("ascOrDesc")
+                                        ? searchParams.get("sortBy")! +
+                                          toFirstWordUpperCase(searchParams.get("ascOrDesc")!)
+                                        : "none"
+                                }
+                                onChange={handleChangeSorting}
+                            >
+                                <MenuItem value={"none"}>None</MenuItem>
+                                <MenuItem value={"ratingImdbAsc"}>Imdb rating (Asc)</MenuItem>
+                                <MenuItem value={"ratingImdbDesc"}>Imdb rating (Desc)</MenuItem>
+                                <MenuItem value={"titleAsc"}>Title (Asc)</MenuItem>
+                                <MenuItem value={"titleDesc"}>Title (Desc)</MenuItem>
+                            </Select>
+                        </Box>
+                    </Box>
+                </Stack>
                 <Box
                     component={"section"}
                     sx={{

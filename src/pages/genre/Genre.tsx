@@ -39,7 +39,6 @@ export default function Genre(): React.JSX.Element {
     async function getMoviesOnGenre(): Promise<void> {
         if (!searchParams.get("page") && params.name && !searchParams.get("sortBy")) {
             const response: IMoviesResponse = await genreService.getGenreByName(params.name, {});
-
             setMoviesOfGenre(response.movies);
             setMoviesCountGenres(response.count);
         } else if (searchParams.get("page") && params.name && !searchParams.get("sortBy")) {
@@ -50,7 +49,6 @@ export default function Genre(): React.JSX.Element {
                 params?.name,
                 queryParams,
             );
-
             setMoviesOfGenre(response.movies);
             setMoviesCountGenres(response.count);
         } else {
@@ -65,7 +63,6 @@ export default function Genre(): React.JSX.Element {
                         params!.name!,
                         queryParams,
                     );
-
                     setMoviesOfGenre(response.movies);
                     setMoviesCountGenres(response.count);
                 } else {
@@ -77,7 +74,6 @@ export default function Genre(): React.JSX.Element {
                         params!.name!,
                         queryParams,
                     );
-
                     setMoviesOfGenre(response.movies);
                     setMoviesCountGenres(response.count);
                 }
@@ -89,7 +85,6 @@ export default function Genre(): React.JSX.Element {
                     params!.name!,
                     queryParams,
                 );
-
                 setMoviesOfGenre(response.movies);
                 setMoviesCountGenres(response.count);
             } else {
@@ -97,7 +92,6 @@ export default function Genre(): React.JSX.Element {
                     params!.name!,
                     {},
                 );
-
                 setMoviesOfGenre(response.movies);
                 setMoviesCountGenres(response.count);
             }
@@ -158,45 +152,57 @@ export default function Genre(): React.JSX.Element {
                 }}
                 component={"main"}
             >
-                <Box
-                    sx={{
-                        display: "flex",
-                        flexDirection: "row",
-                        justifyContent: "flex-end",
-                        alignItems: "center",
-                        columnGap: 2,
-                        mr: 4,
-                        mt: 4,
-                    }}
-                    component={"section"}
+                <Stack
+                    display="flex"
+                    flexDirection="row"
+                    alignItems="center"
+                    component="section"
+                    mt={4}
                 >
-                    <Typography color={"secondary"} fontSize={16}>
-                        <span>Sort by:</span>
-                    </Typography>
-                    <Box sx={{ display: "flex", flexDirection: "row", columnGap: 2 }}>
-                        <Select
-                            defaultValue={"none"}
-                            value={
-                                searchParams.get("sortBy") && searchParams.get("ascOrDesc")
-                                    ? searchParams.get("sortBy")! +
-                                      toFirstWordUpperCase(searchParams.get("ascOrDesc")!)
-                                    : "none"
-                            }
-                            onChange={handleChangeSorting}
-                        >
-                            <MenuItem value={"none"}>None</MenuItem>
-                            <MenuItem value={"ratingImdbAsc"}>Imdb rating (Asc)</MenuItem>
-                            <MenuItem value={"ratingImdbDesc"}>Imdb rating (Desc)</MenuItem>
-                            <MenuItem value={"titleAsc"}>Title (Asc)</MenuItem>
-                            <MenuItem value={"titleDesc"}>Title (Desc)</MenuItem>
-                        </Select>
+                    <Box
+                        display="flex"
+                        justifyContent="center"
+                        alignItems="center"
+                        sx={{ flexGrow: 1 }}
+                        pl={18}
+                    >
+                        <Typography fontSize={22} color={"secondary"} variant="h2">
+                            {`All Movies of the ${params.name}`}
+                        </Typography>
                     </Box>
-                </Box>
-                <Box sx={{ display: "flex", placeContent: "center" }}>
-                    <Typography fontSize={22} color={"secondary"} variant="h2">
-                        {`All Movies of the ${params.name}`}
-                    </Typography>
-                </Box>
+                    <Box
+                        sx={{
+                            display: "flex",
+                            flexDirection: "row",
+                            justifyContent: "flex-end",
+                            alignItems: "center",
+                            columnGap: 1,
+                            mr: 4,
+                        }}
+                    >
+                        <Typography color={"secondary"} fontSize={16}>
+                            <span>Sort by:</span>
+                        </Typography>
+                        <Box sx={{ display: "flex", flexDirection: "row", columnGap: 2 }}>
+                            <Select
+                                defaultValue={"none"}
+                                value={
+                                    searchParams.get("sortBy") && searchParams.get("ascOrDesc")
+                                        ? searchParams.get("sortBy")! +
+                                          toFirstWordUpperCase(searchParams.get("ascOrDesc")!)
+                                        : "none"
+                                }
+                                onChange={handleChangeSorting}
+                            >
+                                <MenuItem value={"none"}>None</MenuItem>
+                                <MenuItem value={"ratingImdbAsc"}>Imdb rating (Asc)</MenuItem>
+                                <MenuItem value={"ratingImdbDesc"}>Imdb rating (Desc)</MenuItem>
+                                <MenuItem value={"titleAsc"}>Title (Asc)</MenuItem>
+                                <MenuItem value={"titleDesc"}>Title (Desc)</MenuItem>
+                            </Select>
+                        </Box>
+                    </Box>
+                </Stack>
                 <Stack
                     direction="row"
                     flexWrap="wrap"
