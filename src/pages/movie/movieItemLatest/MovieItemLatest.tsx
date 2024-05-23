@@ -1,20 +1,22 @@
 import { Card, CardMedia } from "@mui/material";
 import { useNavigate } from "react-router";
+import { motion } from "framer-motion";
 import type IMovie from "~/types/IMovie";
+import { useStore } from "~/store/store";
 
 interface IMovieItemLatestProps {
     latestMovie: IMovie;
 }
 
-export default function MovieItemLatest(props: IMovieItemLatestProps) {
-    const { latestMovie } = props;
+export default function MovieItemLatest({ latestMovie }: IMovieItemLatestProps) {
+    const { mobileOpen } = useStore();
     const navigate = useNavigate();
 
     return (
-        <Card
-            key={latestMovie.id}
-            sx={{ cursor: "pointer", maxHeight: "250px", maxWidth: "200px" }}
-            onClick={function () {
+        <motion.div
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 1.1 }}
+            onClick={() => {
                 navigate(
                     `/movies/${latestMovie.title
                         .split("")
@@ -23,16 +25,35 @@ export default function MovieItemLatest(props: IMovieItemLatestProps) {
                 );
                 window.scrollTo(0, 0);
             }}
+            style={{
+                cursor: "pointer",
+                maxHeight: `${mobileOpen ? "150px" : "250px"}`,
+                maxWidth: `${mobileOpen ? "150px" : "200px"}`,
+                // overflow: "hidden",
+            }}
         >
-            <CardMedia
-                component="img"
-                image={latestMovie.photoSrc}
-                alt={latestMovie.description}
+            <Card
+                key={latestMovie.id}
                 sx={{
-                    maxHeight: "250px",
-                    maxWidth: "200px",
+                    maxHeight: `${mobileOpen ? "150px" : "250px"}`,
+                    maxWidth: `${mobileOpen ? "150px" : "200px"}`,
+                    height: "100%",
+                    width: "100%",
+                    display: "flex",
+                    flexDirection: "column",
                 }}
-            />
-        </Card>
+            >
+                <CardMedia
+                    component="img"
+                    image={latestMovie.photoSrc}
+                    alt={latestMovie.description}
+                    sx={{
+                        height: "100%",
+                        width: "100%",
+                        objectFit: "cover",
+                    }}
+                />
+            </Card>
+        </motion.div>
     );
 }
