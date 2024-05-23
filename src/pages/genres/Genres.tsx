@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type IGenre from "~/types/IGenre";
-import { Box, Card, Stack, Typography } from "@mui/material";
+import { Box, Card, Typography } from "@mui/material";
 import genreService from "~/services/api/genreService";
-import IGenreResponse from "~/types/IGenreResponse";
+import GenreItem from "~/components/genreItem/GenreItem";
 
 export default function Genres() {
     const [genres, setGenres] = useState<IGenre[]>([]);
@@ -33,26 +33,7 @@ export default function Genres() {
                 mb={6}
                 mt={4}
             >
-                {genres?.map((genre: any) => (
-                    <Card
-                        key={genre.id}
-                        onClick={function () {
-                            navigate(`/genres/${genre.name}`);
-                            window.scrollTo(0, 0);
-                        }}
-                        sx={{
-                            display: "flex",
-                            placeItems: "center",
-                            placeContent: "center",
-                            cursor: "pointer",
-                            height: "200px",
-                            width: "200px",
-                            backgroundColor: `colors.secondary`
-                        }}
-                    >
-                        <span>{genre.name}</span>
-                    </Card>
-                ))}
+                {genres?.map((genre: any) => <GenreItem genre={genre} />)}
             </Box>
         </Box>
     );

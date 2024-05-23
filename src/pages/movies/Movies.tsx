@@ -52,12 +52,10 @@ export default function Movies() {
             title: "Money Trap (2019) a.k.a. Organize Isler: Sazan Sarmali",
         },
     ]);
-
     const [searchParams, setSearchParams] = useSearchParams();
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const handleChangeSorting = useSorting();
-
     let pageCount;
 
     if (searchParams.get("search")) {

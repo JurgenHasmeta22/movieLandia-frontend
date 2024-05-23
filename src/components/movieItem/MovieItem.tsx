@@ -43,6 +43,7 @@ const MovieItem = ({ movie, type }: IMovieItemProps): React.JSX.Element => {
                     backgroundColor: "transparent",
                     height: "100%",
                 }}
+                elevation={4}
             >
                 <CardMedia
                     component="img"

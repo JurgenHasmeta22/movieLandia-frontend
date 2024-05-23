@@ -10,7 +10,7 @@ import PrivateRoutes from "~/utils/PrivateRoutes";
 import MainLayout from "~/layouts/MainLayout";
 import AdminLayout from "~/layouts/AdminLayout";
 
-// main pages
+// Client Pages
 const Home = React.lazy(() => import("~/pages/home/Home"));
 const Error404 = React.lazy(() => import("~/pages/error/Error"));
 const Series = React.lazy(() => import("~/pages/series/Series"));
@@ -22,7 +22,7 @@ const Movie = React.lazy(() => import("~/pages/movie/Movie"));
 const Profile = React.lazy(() => import("~/pages/profile/Profile"));
 const Register = React.lazy(() => import("~/pages/register/Register"));
 
-// admin pages
+// Admin Pages
 const Dashboard = React.lazy(() => import("~/pages/admin/dashboard/Dashboard"));
 const MoviesAdmin = React.lazy(() => import("~/pages/admin/movies/MoviesAdmin"));
 const UsersAdmin = React.lazy(() => import("~/pages/admin/users/UsersAdmin"));
@@ -44,10 +44,8 @@ function App() {
     useEffect(() => {
         const validateUser = async () => {
             const response: IUser | undefined = await authenticationService.validateUser();
-
             if (response) setUser(response);
         };
-
         validateUser();
     }, []);
 
@@ -56,10 +54,9 @@ function App() {
             <ThemeProvider theme={theme}>
                 <CssBaseline />
                 <Routes>
-                    <Route index element={<Navigate replace to="" />} />
                     <Route element={<MainLayout />}>
                         <Route path="*" element={<Error404 />} />
-                        <Route path="" element={<Home />} />
+                        <Route index element={<Home />} />
                         <Route path="movies" element={<Movies />} />
                         <Route path="movies/:title" element={<Movie />} />
                         <Route path="genres/:name" element={<Genre />} />
