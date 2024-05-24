@@ -35,7 +35,7 @@ import LocalMoviesIcon from "@mui/icons-material/LocalMovies";
 import SubtitlesIcon from "@mui/icons-material/Subtitles";
 import { useLocalStorage } from "~/hooks/useLocalStorage";
 
-export const Header = (): React.JSX.Element => {
+const Header = (): React.JSX.Element => {
     const [options, setOptions] = useState<any>([]);
     const [genres, setGenres] = useState<IGenre[]>([]);
     const [anchorElProfile, setAnchorElProfile] = useState<null | HTMLElement>(null);
@@ -812,3 +812,5 @@ export const Header = (): React.JSX.Element => {
         </>
     );
 };
+
+export default Header;

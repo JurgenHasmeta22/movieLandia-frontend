@@ -1,14 +1,14 @@
 import { Box, CircularProgress, Grid } from "@mui/material";
 import React from "react";
 import { Outlet } from "react-router-dom";
-import { Footer } from "~/components/footer/Footer";
-import { Header } from "~/components/header/Header";
+import Footer from "~/components/footer/Footer";
+import Header from "~/components/header/Header";
 import ScrollToTop from "~/components/scrollToTop/scrollToTop";
 
 const MainLayout = () => {
     return (
         <Grid container component={"main"}>
-            <Grid item xs={12} paddingTop={10}>
+            <Grid item xs={12} paddingTop={8}>
                 <Header />
                 <React.Suspense
                     fallback={

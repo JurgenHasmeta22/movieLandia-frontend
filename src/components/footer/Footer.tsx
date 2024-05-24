@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Typography, useTheme } from "@mui/material";
 import { tokens } from "~/utils/theme";
 
-export const Footer = (): React.JSX.Element => {
+const Footer = (): React.JSX.Element => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
@@ -30,3 +30,5 @@ export const Footer = (): React.JSX.Element => {
         </Box>
     );
 };
+
+export default Footer;

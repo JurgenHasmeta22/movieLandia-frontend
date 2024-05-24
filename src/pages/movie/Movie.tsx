@@ -90,6 +90,7 @@ export default function Movie() {
                             display: "flex",
                             flexDirection: "column",
                             rowGap: 4,
+                            paddingTop: 4,
                         }}
                     >
                         <Box
@@ -146,14 +147,18 @@ export default function Movie() {
                                             color: colors.greenAccent[500],
                                         }}
                                     >
-                                        <Typography component={"span"}>Duration: {movie.duration}</Typography>
+                                        <Typography component={"span"}>
+                                            Duration: {movie.duration}
+                                        </Typography>
                                     </ListItem>
                                     <ListItem
                                         sx={{
                                             color: colors.greenAccent[500],
                                         }}
                                     >
-                                        <Typography component={"span"}>Year: {movie.releaseYear}</Typography>
+                                        <Typography component={"span"}>
+                                            Year: {movie.releaseYear}
+                                        </Typography>
                                     </ListItem>
                                     <ListItem
                                         sx={{
