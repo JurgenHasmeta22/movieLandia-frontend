@@ -376,11 +376,11 @@ export const Header = (): React.JSX.Element => {
                                     )}
                                 </IconButton>
                                 {isUserLoading && !user ? (
-                                    <Box width={"117px"}>
+                                    <Box width={"223px"}>
                                         <CircularProgress size={6} thickness={4} />
                                     </Box>
                                 ) : user && !isUserLoading ? (
-                                    <Box>
+                                    <Box width={"223px"}>
                                         <IconButton
                                             id="buttonProfile"
                                             aria-controls={
