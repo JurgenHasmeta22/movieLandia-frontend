@@ -64,7 +64,7 @@ export const Header = (): React.JSX.Element => {
         navigate("/login");
     }
 
-    function redirectToProfile(user: any): void {
+    function redirectToProfile(): void {
         navigate("/profile");
     }
 
@@ -85,7 +85,7 @@ export const Header = (): React.JSX.Element => {
         }
     }
 
-    const openMenuGenres = (event: any) => {
+    const openMenuGenres = (event: React.MouseEvent<HTMLLIElement>) => {
         setAnchorElGenres(event.currentTarget);
     };
 
@@ -93,7 +93,7 @@ export const Header = (): React.JSX.Element => {
         setAnchorElGenres(null);
     };
 
-    const openMenuGenresMobile = (event: any) => {
+    const openMenuGenresMobile = (event: React.MouseEvent<HTMLLIElement>) => {
         setAnchorElGenresMobile(event.currentTarget);
     };
 
@@ -290,7 +290,9 @@ export const Header = (): React.JSX.Element => {
                                                         },
                                                     }}
                                                 >
-                                                    <Typography component={"span"}>{genre.name}</Typography>
+                                                    <Typography component={"span"}>
+                                                        {genre.name}
+                                                    </Typography>
                                                 </Box>
                                             ))}
                                         </Menu>

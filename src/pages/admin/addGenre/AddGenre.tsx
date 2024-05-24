@@ -17,13 +17,13 @@ const genreSchema = yup.object().shape({
 });
 
 const AddGenre = () => {
-    const [formData, setFormData] = useState({});
+    // const [formData, setFormData] = useState({});
     const navigate = useNavigate();
     const formikRef = useRef<FormikProps<any>>(null);
 
-    const handleDataChange = (values: any) => {
-        setFormData(values);
-    };
+    // const handleDataChange = (values: any) => {
+    //     setFormData(values);
+    // };
 
     const handleResetFromParent = () => {
         formikRef.current?.resetForm();
@@ -89,9 +89,9 @@ const AddGenre = () => {
                         icon: <ClearAllIcon color="action" sx={{ ml: "10px" }} />,
                     },
                 ]}
-                onDataChange={(values: any) => {
-                    handleDataChange(values);
-                }}
+                // onDataChange={(values: any) => {
+                //     handleDataChange(values);
+                // }}
                 onSubmit={handleFormSubmit}
                 validationSchema={genreSchema}
                 formRef={formikRef}

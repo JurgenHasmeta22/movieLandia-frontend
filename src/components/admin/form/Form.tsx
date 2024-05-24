@@ -47,7 +47,7 @@ type FormProps = {
     fields: FieldConfig[];
     formRef: React.RefObject<FormikProps<any>>;
     actions?: ActionConfig[];
-    onDataChange: (values: any) => void;
+    onDataChange?: (values: any) => void;
     onSubmit: (values: any) => void;
     onFormChange?: (values: any, formikHelpers: any) => void;
 };
@@ -95,7 +95,7 @@ const FormAdvanced: React.FC<FormProps> = ({
         >
             {({ values, errors, touched, handleBlur, handleChange, dirty }) => {
                 useEffect(() => {
-                    onDataChange(values);
+                    onDataChange ? onDataChange(values) : () => {};
                 }, [values]);
 
                 return (
