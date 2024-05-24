@@ -193,7 +193,6 @@ export default function Movies() {
                             flexDirection: "column",
                             justifyContent: "center",
                             rowGap: 4,
-                            // backgroundColor: `${colors.blueAccent[700]}`,
                         }}
                         component={"section"}
                     >
@@ -275,7 +274,7 @@ export default function Movies() {
                                     marginTop: `${searchParams.get("search") ? 2.5 : 0.2}rem`,
                                 }}
                             >
-                                {movies.map((movie: any) => (
+                                {movies.map((movie: IMovie) => (
                                     <MovieItem movie={movie} type="homeMovie" key={movie.id} />
                                 ))}
                             </Stack>
@@ -340,7 +339,7 @@ export default function Movies() {
                                     marginTop={3}
                                     mb={4}
                                 >
-                                    {latestMovies?.map((latestMovie: any) => (
+                                    {latestMovies?.map((latestMovie: IMovie) => (
                                         <MovieItem
                                             type="homeLatest"
                                             movie={latestMovie}

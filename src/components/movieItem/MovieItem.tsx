@@ -31,14 +31,14 @@ const MovieItem = ({ movie, type }: IMovieItemProps): React.JSX.Element => {
                         navigate(
                             `/movies/${movie.title
                                 .split("")
-                                .map((char: any) => (char === " " ? "-" : char))
+                                .map((char: string | number) => (char === " " ? "-" : char))
                                 .join("")}`,
                         );
                     } else {
                         navigate(
                             `/series/${movie.title
                                 .split("")
-                                .map((char: any) => (char === " " ? "-" : char))
+                                .map((char: string | number) => (char === " " ? "-" : char))
                                 .join("")}`,
                         );
                     }
