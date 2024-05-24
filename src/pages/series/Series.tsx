@@ -140,8 +140,8 @@ export default function Series() {
             <main>
                 <motion.div
                     initial={{ opacity: 0 }}
-                    animate={{ opacity: 10 }}
-                    transition={{ duration: 2 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.45, ease: "easeIn" }}
                 >
                     <Box
                         component={"section"}

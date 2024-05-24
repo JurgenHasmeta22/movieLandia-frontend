@@ -1,7 +1,8 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { VitePWA, VitePWAOptions } from "vite-plugin-pwa";
-const path = require("path");
+
+const path = require("node:path");
 
 const manifestForPlugin: Partial<VitePWAOptions> = {
     registerType: "prompt",
@@ -44,7 +45,6 @@ const manifestForPlugin: Partial<VitePWAOptions> = {
     },
 };
 
-// https://vitejs.dev/config/
 export default defineConfig({
     resolve: {
         alias: {

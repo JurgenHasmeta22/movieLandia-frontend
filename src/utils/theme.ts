@@ -136,8 +136,8 @@ export const themeSettings = (mode: any) => {
                 sharp: "cubic-bezier(0.4, 0, 0.6, 1)",
             },
             duration: {
-                enteringScreen: 1000,
-                leavingScreen: 1000,
+                enteringScreen: 350,
+                leavingScreen: 350,
             },
         },
         palette: {
