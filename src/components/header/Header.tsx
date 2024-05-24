@@ -32,6 +32,7 @@ import genreService from "~/services/api/genreService";
 import MovieIcon from "@mui/icons-material/Movie";
 import LocalMoviesIcon from "@mui/icons-material/LocalMovies";
 import SubtitlesIcon from "@mui/icons-material/Subtitles";
+import { useLocalStorage } from "~/hooks/useLocalStorage";
 
 export const Header = (): React.JSX.Element => {
     const [options, setOptions] = useState<any>([]);
@@ -47,13 +48,14 @@ export const Header = (): React.JSX.Element => {
     const colorMode = useContext(ColorModeContext);
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
+    const { removeItem } = useLocalStorage("token");
 
     const handleDrawerToggle = () => {
         setOpenDrawer(false);
     };
 
     function handleLogout(): void {
-        localStorage.removeItem("token");
+        removeItem();
         setUser(null);
         closeMenuProfile();
         navigate("/login");

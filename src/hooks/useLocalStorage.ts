@@ -1,28 +1,34 @@
-import { useState, useEffect } from "react";
-
 export function useLocalStorage<T>(key: string, initialValue?: T) {
     const getItem = (): T | null => {
-        try {
-            const item = window.localStorage.getItem(key);
-            return item ? JSON.parse(item) : initialValue;
-        } catch {
-            return null;
+        const item = window.localStorage.getItem(key);
+        // console.log("Retrieved item from localStorage:", item);
+
+        if (item) {
+            const payload = item.split(".")[1]; // Extract the payload part of JWT
+
+            try {
+                return JSON.parse(atob(payload)); // Decode the payload and parse it
+            } catch (error) {
+                console.error("Error parsing payload:", error);
+                return null;
+            }
+        } else {
+            if (initialValue !== undefined) {
+                window.localStorage.setItem(key, JSON.stringify(initialValue));
+                return initialValue;
+            } else {
+                return null;
+            }
         }
     };
 
     const setItem = (newValue: T) => {
-        try {
-            window.localStorage.setItem(key, JSON.stringify(newValue));
-        } catch {}
+        window.localStorage.setItem(key, JSON.stringify(newValue));
     };
 
     const removeItem = () => {
-        try {
-            window.localStorage.removeItem(key);
-        } catch {}
+        window.localStorage.removeItem(key);
     };
 
-    const value: any = getItem();
-
-    return { value, setItem, removeItem };
+    return { getItem, setItem, removeItem };
 }

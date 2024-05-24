@@ -18,6 +18,7 @@ const MainLayout = () => {
                                 placeItems: "center",
                                 placeContent: "center",
                                 height: "100vh",
+                                // minHeight: "calc(100vh - 128px)", // Adjust according to your Header and Footer heights
                             }}
                         >
                             <CircularProgress size={80} thickness={4} />
