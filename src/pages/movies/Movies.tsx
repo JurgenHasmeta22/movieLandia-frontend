@@ -155,23 +155,6 @@ export default function Movies() {
         );
     }
 
-    if (movies && movies?.length === 0 && !searchParams?.get("search")) {
-        return (
-            <Box
-                sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    height: "100vh",
-                }}
-            >
-                <Typography fontSize={40} color={"secondary"}>
-                    There are no movies
-                </Typography>
-            </Box>
-        );
-    }
-
     return (
         <>
             <SEOHelmet
@@ -193,7 +176,7 @@ export default function Movies() {
                             flexDirection: "column",
                             justifyContent: "center",
                             rowGap: 4,
-                            paddingTop: 4
+                            paddingTop: 4,
                         }}
                         component={"section"}
                     >
@@ -341,10 +324,7 @@ export default function Movies() {
                                     mb={4}
                                 >
                                     {latestMovies?.map((latestMovie: IMovie) => (
-                                        <MovieItem
-                                            movie={latestMovie}
-                                            key={latestMovie.id}
-                                        />
+                                        <MovieItem movie={latestMovie} key={latestMovie.id} />
                                     ))}
                                 </Stack>
                             </Box>
