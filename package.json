@@ -1,7 +1,8 @@
 {
-    "name": "hoxton-final-project-frontend",
+    "name": "movie-landia24",
     "private": true,
     "version": "1.0.0",
+    "type": "module",
     "scripts": {
         "dev": "vite",
         "build": "tsc && vite build",
