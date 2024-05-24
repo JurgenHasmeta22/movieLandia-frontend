@@ -14,8 +14,8 @@ export default function MovieItemLatest({ latestMovie }: IMovieItemLatestProps) 
 
     return (
         <motion.div
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 1.1 }}
+            whileHover={{ scale: 1.05 }}
+            transition={{ duration: 0.2, ease: "easeInOut" }}
             onClick={() => {
                 navigate(
                     `/movies/${latestMovie.title

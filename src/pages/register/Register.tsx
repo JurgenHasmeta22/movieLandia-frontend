@@ -86,7 +86,7 @@ export default function Register() {
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    transition={{ duration: 0.45, ease: "easeIn" }}
+                    transition={{ duration: 0.45, ease: "easeInOut" }}
                 >
                     <Box
                         sx={{

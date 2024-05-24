@@ -13,7 +13,10 @@ const MovieItem = ({ movie, type }: IMovieItemProps): React.JSX.Element => {
     const navigate = useNavigate();
 
     return (
-        <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 1.1 }}>
+        <motion.div
+            whileHover={{ scale: 1.05 }}
+            transition={{ duration: 0.2, ease: "easeInOut" }}
+        >
             <Card
                 sx={{
                     display: "flex",
@@ -25,16 +28,16 @@ const MovieItem = ({ movie, type }: IMovieItemProps): React.JSX.Element => {
                     width: "100%",
                 }}
                 onClick={() => {
-                    if (type && type !== "serie") {
+                    if (type && type === "serie") {
                         navigate(
-                            `/movies/${movie.title
+                            `/series/${movie.title
                                 .split("")
                                 .map((char: string | number) => (char === " " ? "-" : char))
                                 .join("")}`,
                         );
                     } else {
                         navigate(
-                            `/series/${movie.title
+                            `/movies/${movie.title
                                 .split("")
                                 .map((char: string | number) => (char === " " ? "-" : char))
                                 .join("")}`,
