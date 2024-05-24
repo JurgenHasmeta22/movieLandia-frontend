@@ -22,7 +22,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import { useLocalStorage } from "~/hooks/useLocalStorage";
 
 const Sidebar = ({ sidebarItems }: any) => {
-    const { user, isOpenSidebarAdmin, setIsOpenSidebarAdmin } = useStore();
+    const { user, setUser, isOpenSidebarAdmin, setIsOpenSidebarAdmin } = useStore();
     const navigate = useNavigate();
     const location = useLocation();
     const [selectedLabel, setSelectedLabel] = useState(location.state ? location.state.label : "");
@@ -101,6 +101,7 @@ const Sidebar = ({ sidebarItems }: any) => {
                                 },
                             }}
                             onClick={() => {
+                                setUser(null);
                                 removeItem();
                                 navigate("/login");
                             }}
