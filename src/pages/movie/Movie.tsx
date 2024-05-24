@@ -1,4 +1,4 @@
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useStore } from "~/store/store";
 import type IMovie from "~/types/IMovie";
@@ -79,143 +79,149 @@ export default function Movie() {
                 type="article"
                 canonicalUrl={`https://example.com/movies/${movie?.title}`}
             />
-            <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 10 }}
-                transition={{ duration: 2 }}
-            >
-                <Box
-                    sx={{
-                        display: "flex",
-                        flexDirection: "column",
-                        rowGap: 4,
-                        backgroundColor: `${colors.blueAccent[700]}`,
-                    }}
-                    component={"main"}
+            <main>
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 10 }}
+                    transition={{ duration: 2 }}
                 >
                     <Box
                         sx={{
                             display: "flex",
                             flexDirection: "column",
-                            alignItems: "center",
-                            rowGap: 2,
+                            rowGap: 4,
+                            // backgroundColor: `${colors.blueAccent[700]}`,
                         }}
-                        component={"section"}
                     >
-                        <Typography
-                            mt={4}
-                            mb={2}
-                            fontSize={18}
-                            color={"secondary"}
-                            textAlign={"center"}
-                            component={"h1"}
-                        >
-                            {movie.title}
-                        </Typography>
-                        <Box>
-                            <iframe
-                                style={{
-                                    width: `${isPageShrunk ? "250px" : "750px"}`,
-                                    height: `${isPageShrunk ? "300px" : "450px"}`,
-                                    border: "none",
-                                    outline: "none",
-                                }}
-                                src={movie.trailerSrc}
-                                title={movie.title}
-                                allowFullScreen
-                            ></iframe>
-                        </Box>
                         <Box
                             sx={{
                                 display: "flex",
                                 flexDirection: "column",
                                 alignItems: "center",
-                                justifyContent: "center",
                                 rowGap: 2,
                             }}
+                            component={"section"}
                         >
-                            <List
+                            <Typography
+                                mt={4}
+                                mb={2}
+                                fontSize={18}
+                                color={"secondary"}
+                                textAlign={"center"}
+                                component={"h1"}
+                            >
+                                {movie.title}
+                            </Typography>
+                            <Box>
+                                <iframe
+                                    style={{
+                                        width: `${isPageShrunk ? "250px" : "750px"}`,
+                                        height: `${isPageShrunk ? "300px" : "450px"}`,
+                                        border: "none",
+                                        outline: "none",
+                                    }}
+                                    src={movie.trailerSrc}
+                                    title={movie.title}
+                                    allowFullScreen
+                                ></iframe>
+                            </Box>
+                            <Box
                                 sx={{
                                     display: "flex",
-                                    flexDirection: "row",
-                                    width: "70%",
-                                    paddingLeft: 2,
+                                    flexDirection: "column",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    rowGap: 2,
                                 }}
                             >
-                                <ListItem
+                                <List
                                     sx={{
-                                        color: colors.greenAccent[500],
-                                    }}
-                                >
-                                    <span>Duration: {movie.duration}</span>
-                                </ListItem>
-                                <ListItem
-                                    sx={{
-                                        color: colors.greenAccent[500],
-                                    }}
-                                >
-                                    <span>Year: {movie.releaseYear}</span>
-                                </ListItem>
-                                <ListItem
-                                    sx={{
-                                        color: colors.greenAccent[500],
                                         display: "flex",
                                         flexDirection: "row",
-                                        columnGap: 1,
+                                        width: "70%",
+                                        paddingLeft: 2,
                                     }}
                                 >
-                                    <ReviewsIcon />
-                                    <span>Imdb Rating:</span>
-                                    <span>{movie.ratingImdb === 0 ? "N/A" : movie.ratingImdb}</span>
-                                </ListItem>
-                            </List>
-                            <Typography textAlign={"center"} color={"secondary"} width={"50%"}>
-                                {movie.description}
+                                    <ListItem
+                                        sx={{
+                                            color: colors.greenAccent[500],
+                                        }}
+                                    >
+                                        <span>Duration: {movie.duration}</span>
+                                    </ListItem>
+                                    <ListItem
+                                        sx={{
+                                            color: colors.greenAccent[500],
+                                        }}
+                                    >
+                                        <span>Year: {movie.releaseYear}</span>
+                                    </ListItem>
+                                    <ListItem
+                                        sx={{
+                                            color: colors.greenAccent[500],
+                                            display: "flex",
+                                            flexDirection: "row",
+                                            columnGap: 1,
+                                        }}
+                                    >
+                                        <ReviewsIcon />
+                                        <span>Imdb Rating:</span>
+                                        <span>
+                                            {movie.ratingImdb === 0 ? "N/A" : movie.ratingImdb}
+                                        </span>
+                                    </ListItem>
+                                </List>
+                                <Typography textAlign={"center"} color={"secondary"} width={"50%"}>
+                                    {movie.description}
+                                </Typography>
+                                {user?.userName && (
+                                    <Button
+                                        onClick={function () {
+                                            addToFavorites();
+                                            navigate("/profile");
+                                        }}
+                                        color="secondary"
+                                        variant="outlined"
+                                    >
+                                        Add to favorites
+                                    </Button>
+                                )}
+                            </Box>
+                        </Box>
+                        <Box
+                            sx={{
+                                display: "flex",
+                                flexDirection: "column",
+                                rowGap: 2,
+                                marginBottom: 2,
+                                marginTop: 2,
+                            }}
+                            component={"section"}
+                        >
+                            <Typography fontSize={22} color={"secondary"} textAlign={"center"}>
+                                Latest Movies
                             </Typography>
-                            {user?.userName && (
-                                <Button
-                                    onClick={function () {
-                                        addToFavorites();
-                                        navigate("/profile");
-                                    }}
-                                    color="secondary"
-                                    variant="outlined"
-                                >
-                                    Add to favorites
-                                </Button>
-                            )}
+                            <Stack
+                                direction="row"
+                                flexWrap="wrap"
+                                columnGap={3}
+                                rowGap={3}
+                                justifyContent="center"
+                                alignContent="center"
+                                mt={1}
+                                mb={4}
+                            >
+                                {latestMoviesRelated.slice(5, 10).map((latestMovie: any) => (
+                                    <MovieItemLatest
+                                        latestMovie={latestMovie}
+                                        key={latestMovie.id}
+                                    />
+                                ))}
+                            </Stack>
                         </Box>
                     </Box>
-                    <Box
-                        sx={{
-                            display: "flex",
-                            flexDirection: "column",
-                            rowGap: 2,
-                            marginBottom: 2,
-                            marginTop: 2,
-                        }}
-                        component={"section"}
-                    >
-                        <Typography fontSize={22} color={"secondary"} textAlign={"center"}>
-                            Latest Movies
-                        </Typography>
-                        <Stack
-                            direction="row"
-                            flexWrap="wrap"
-                            columnGap={3}
-                            rowGap={3}
-                            justifyContent="center"
-                            alignContent="center"
-                            mt={1}
-                            mb={4}
-                        >
-                            {latestMoviesRelated.slice(5, 10).map((latestMovie: any) => (
-                                <MovieItemLatest latestMovie={latestMovie} key={latestMovie.id} />
-                            ))}
-                        </Stack>
-                    </Box>
-                </Box>
-            </motion.div>
+                </motion.div>
+            </main>
         </>
     );
 }

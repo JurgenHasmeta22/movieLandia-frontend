@@ -1,4 +1,4 @@
-import { Box, CircularProgress, Container, Stack, Typography } from "@mui/material";
+import { Box, CircularProgress, Container, Stack } from "@mui/material";
 import HomeHeroSection from "./components/HomeHero";
 import MovieItem from "~/components/movieItem/MovieItem";
 import { useEffect, useState } from "react";
@@ -11,6 +11,7 @@ import IMoviesResponse from "~/types/IMoviesResponse";
 import serieService from "~/services/api/serieService";
 import genreService from "~/services/api/genreService";
 import GenreItem from "~/components/genreItem/GenreItem";
+import { motion } from "framer-motion";
 
 export default function Home() {
     const [series, setSeries] = useState<ISerie[]>([]);
@@ -74,86 +75,92 @@ export default function Home() {
 
     return (
         <main>
-            <HomeHeroSection />
-            <Container component={"section"}>
-                <Stack flexDirection={"column"} rowGap={10} mb={6} mt={6}>
-                    <Box display={"flex"} flexDirection={"column"} rowGap={3}>
-                        <Link
-                            to="/movies"
-                            style={{
-                                textDecoration: "none",
-                                fontWeight: 600,
-                                fontSize: 18,
-                                marginLeft: 8,
-                            }}
-                        >
-                            Explore more Movies
-                        </Link>
-                        <Stack
-                            direction="row"
-                            flexWrap="wrap"
-                            justifyContent={"center"}
-                            alignContent={"center"}
-                            rowGap={4}
-                            columnGap={4}
-                        >
-                            {movies.map((movie: any) => (
-                                <MovieItem movie={movie} key={movie.id} />
-                            ))}
-                        </Stack>
-                    </Box>
-                    <Box display={"flex"} flexDirection={"column"} rowGap={3}>
-                        <Link
-                            to="/series"
-                            style={{
-                                textDecoration: "none",
-                                fontWeight: 600,
-                                fontSize: 18,
-                                marginLeft: 8,
-                            }}
-                        >
-                            Explore more Series
-                        </Link>
-                        <Stack
-                            direction="row"
-                            flexWrap="wrap"
-                            justifyContent={"center"}
-                            alignContent={"center"}
-                            rowGap={4}
-                            columnGap={4}
-                        >
-                            {series.map((serie: any) => (
-                                <MovieItem movie={serie} type="serie" key={serie.id} />
-                            ))}
-                        </Stack>
-                    </Box>
-                    <Box display={"flex"} flexDirection={"column"} rowGap={3}>
-                        <Link
-                            to="/genres"
-                            style={{
-                                textDecoration: "none",
-                                fontWeight: 600,
-                                fontSize: 18,
-                                marginLeft: 8,
-                            }}
-                        >
-                            Explore more Genres
-                        </Link>
-                        <Stack
-                            direction="row"
-                            flexWrap="wrap"
-                            justifyContent={"center"}
-                            alignContent={"center"}
-                            rowGap={4}
-                            columnGap={4}
-                        >
-                            {genres.map((genre: any) => (
-                                <GenreItem key={genre.id} genre={genre} />
-                            ))}
-                        </Stack>
-                    </Box>
-                </Stack>
-            </Container>
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 10 }}
+                transition={{ duration: 2 }}
+            >
+                <HomeHeroSection />
+                <Container component={"section"}>
+                    <Stack flexDirection={"column"} rowGap={10} mb={6} mt={6}>
+                        <Box display={"flex"} flexDirection={"column"} rowGap={3}>
+                            <Link
+                                to="/movies"
+                                style={{
+                                    textDecoration: "none",
+                                    fontWeight: 600,
+                                    fontSize: 18,
+                                    marginLeft: 8,
+                                }}
+                            >
+                                Explore more Movies
+                            </Link>
+                            <Stack
+                                direction="row"
+                                flexWrap="wrap"
+                                justifyContent={"center"}
+                                alignContent={"center"}
+                                rowGap={4}
+                                columnGap={4}
+                            >
+                                {movies.map((movie: any) => (
+                                    <MovieItem movie={movie} key={movie.id} />
+                                ))}
+                            </Stack>
+                        </Box>
+                        <Box display={"flex"} flexDirection={"column"} rowGap={3}>
+                            <Link
+                                to="/series"
+                                style={{
+                                    textDecoration: "none",
+                                    fontWeight: 600,
+                                    fontSize: 18,
+                                    marginLeft: 8,
+                                }}
+                            >
+                                Explore more Series
+                            </Link>
+                            <Stack
+                                direction="row"
+                                flexWrap="wrap"
+                                justifyContent={"center"}
+                                alignContent={"center"}
+                                rowGap={4}
+                                columnGap={4}
+                            >
+                                {series.map((serie: any) => (
+                                    <MovieItem movie={serie} type="serie" key={serie.id} />
+                                ))}
+                            </Stack>
+                        </Box>
+                        <Box display={"flex"} flexDirection={"column"} rowGap={3}>
+                            <Link
+                                to="/genres"
+                                style={{
+                                    textDecoration: "none",
+                                    fontWeight: 600,
+                                    fontSize: 18,
+                                    marginLeft: 8,
+                                }}
+                            >
+                                Explore more Genres
+                            </Link>
+                            <Stack
+                                direction="row"
+                                flexWrap="wrap"
+                                justifyContent={"center"}
+                                alignContent={"center"}
+                                rowGap={4}
+                                columnGap={4}
+                            >
+                                {genres.map((genre: any) => (
+                                    <GenreItem key={genre.id} genre={genre} />
+                                ))}
+                            </Stack>
+                        </Box>
+                    </Stack>
+                </Container>
+            </motion.div>
         </main>
     );
 }

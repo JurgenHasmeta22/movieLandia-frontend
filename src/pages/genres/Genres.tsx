@@ -3,13 +3,14 @@ import type IGenre from "~/types/IGenre";
 import { Box, CircularProgress, Typography } from "@mui/material";
 import genreService from "~/services/api/genreService";
 import GenreItem from "~/components/genreItem/GenreItem";
+import { motion } from "framer-motion";
 
 export default function Genres() {
     const [genres, setGenres] = useState<IGenre[]>([]);
 
     async function getGenres(): Promise<void> {
         const response: any = await genreService.getGenres({});
-        
+
         if (response && response.rows) {
             setGenres(response.rows);
         }
@@ -35,22 +36,33 @@ export default function Genres() {
     }
 
     return (
-        <Box sx={{ display: "flex", flexDirection: "column", placeItems: "center" }}>
-            <Typography mt={4} fontSize={"30px"}>
-                Choose your favorite genre
-            </Typography>
-            <Box
-                sx={{
-                    display: "grid",
-                    gridTemplateColumns: "1fr 1fr 1fr 1fr",
-                    rowGap: 6,
-                    columnGap: 4,
-                }}
-                mb={6}
-                mt={4}
+        <main>
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 10 }}
+                transition={{ duration: 2 }}
             >
-                {genres?.map((genre: any) => <GenreItem genre={genre} />)}
-            </Box>
-        </Box>
+                <Box
+                    sx={{ display: "flex", flexDirection: "column", placeItems: "center" }}
+                    component={"section"}
+                >
+                    <Typography mt={4} fontSize={"30px"}>
+                        Choose your favorite genre
+                    </Typography>
+                    <Box
+                        sx={{
+                            display: "grid",
+                            gridTemplateColumns: "1fr 1fr 1fr 1fr",
+                            rowGap: 6,
+                            columnGap: 4,
+                        }}
+                        mb={6}
+                        mt={4}
+                    >
+                        {genres?.map((genre: any) => <GenreItem genre={genre} />)}
+                    </Box>
+                </Box>
+            </motion.div>
+        </main>
     );
 }
