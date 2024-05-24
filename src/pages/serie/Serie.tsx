@@ -75,7 +75,7 @@ export default function Serie() {
                         display: "flex",
                         flexDirection: "column",
                         rowGap: 4,
-                        // backgroundColor: `${colors.blueAccent[700]}`,
+                        paddingTop: 4
                     }}
                     component={"main"}
                 >

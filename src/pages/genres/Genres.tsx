@@ -43,7 +43,12 @@ export default function Genres() {
                 transition={{ duration: 2 }}
             >
                 <Box
-                    sx={{ display: "flex", flexDirection: "column", placeItems: "center" }}
+                    sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        placeItems: "center",
+                        paddingTop: 4,
+                    }}
                     component={"section"}
                 >
                     <Typography mt={4} fontSize={"30px"}>

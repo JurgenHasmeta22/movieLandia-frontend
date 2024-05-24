@@ -148,9 +148,7 @@ export default function Series() {
                         display={"flex"}
                         flexDirection={"column"}
                         rowGap={4}
-                        // sx={{
-                        //     backgroundColor: `${colors.blueAccent[700]}`,
-                        // }}
+                        paddingTop={4}
                     >
                         <Stack
                             display="flex"

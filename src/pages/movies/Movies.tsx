@@ -193,6 +193,7 @@ export default function Movies() {
                             flexDirection: "column",
                             justifyContent: "center",
                             rowGap: 4,
+                            paddingTop: 4
                         }}
                         component={"section"}
                     >

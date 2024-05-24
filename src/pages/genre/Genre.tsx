@@ -155,7 +155,7 @@ export default function Genre(): React.JSX.Element {
                             display: "flex",
                             flexDirection: "column",
                             rowGap: 4,
-                            // backgroundColor: `${colors.blueAccent[700]}`,
+                            paddingTop: 4,
                         }}
                     >
                         <Stack
