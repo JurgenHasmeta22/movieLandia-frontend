@@ -11,7 +11,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 
 const TopBar = () => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const { user, isOpenSidebarAdmin, setIsOpenSidebarAdmin } = useStore();
+    const { user, setUser, isOpenSidebarAdmin, setIsOpenSidebarAdmin } = useStore();
     const navigate = useNavigate();
     const colorMode = useContext(ColorModeContext);
     const { removeItem } = useLocalStorage("token");
@@ -28,6 +28,7 @@ const TopBar = () => {
     };
 
     const handleLogout = () => {
+        setUser(null);
         removeItem();
         handleClose();
         navigate("/login");
