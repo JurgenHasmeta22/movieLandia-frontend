@@ -109,7 +109,6 @@ export default function Serie() {
                                     outline: "none",
                                 }}
                                 src={serie.trailerSrc}
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                 title={serie.title}
                                 allowFullScreen
                             ></iframe>
