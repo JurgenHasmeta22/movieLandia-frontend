@@ -136,8 +136,8 @@ export const themeSettings = (mode: any) => {
                 sharp: "cubic-bezier(0.4, 0, 0.6, 1)",
             },
             duration: {
-                enteringScreen: 700,
-                leavingScreen: 700,
+                enteringScreen: 1000,
+                leavingScreen: 1000,
             },
         },
         palette: {
@@ -286,20 +286,21 @@ export const themeSettings = (mode: any) => {
                         color: mode === "dark" ? colors.grey[100] : colors.grey[800],
                         transition: "background-color 0.5s ease",
                         "&:hover": {
-                            backgroundColor: mode === "dark" ? colors.grey[700] : colors.grey[300],
+                            backgroundColor:
+                                mode === "dark" ? colors.grey[400] : colors.primary[900],
                         },
                     },
-                    underline: {
-                        "&:before": {
-                            borderBottom: "none",
-                        },
-                        "&:after": {
-                            borderBottom: "none",
-                        },
-                        "&:hover:not(.Mui-disabled):before": {
-                            borderBottom: "none",
-                        },
-                    },
+                    // underline: {
+                    //     "&:before": {
+                    //         borderBottom: "none",
+                    //     },
+                    //     "&:after": {
+                    //         borderBottom: "none",
+                    //     },
+                    //     "&:hover:not(.Mui-disabled):before": {
+                    //         borderBottom: "none",
+                    //     },
+                    // },
                 },
             },
         },

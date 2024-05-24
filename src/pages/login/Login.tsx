@@ -82,15 +82,15 @@ export default function Login() {
                             display: "flex",
                             placeContent: "center",
                             placeItems: "center",
-                            padding: 5,
+                            padding: 10,
                         }}
-                        component={"main"}
+                        component={"section"}
                     >
                         <Paper
                             sx={{
-                                backgroundColor: "rgb(0 0 0 / 85%)",
                                 px: 14,
                                 py: 6,
+                                borderRadius: 12,
                             }}
                         >
                             <Formik
@@ -130,7 +130,6 @@ export default function Login() {
                                                     <FormLabel>Email</FormLabel>
                                                     <TextField
                                                         type="text"
-                                                        // placeholder="example@email.com"
                                                         name="email"
                                                         required
                                                         value={values.email}
@@ -159,7 +158,6 @@ export default function Login() {
                                                     <TextField
                                                         type={showPassword ? "text" : "password"}
                                                         name="password"
-                                                        // placeholder="Example1#"
                                                         required
                                                         autoComplete="current-password"
                                                         aria-autocomplete="both"
