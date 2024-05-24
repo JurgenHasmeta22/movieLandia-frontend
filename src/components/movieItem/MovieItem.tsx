@@ -3,7 +3,6 @@ import { Card, CardContent, CardMedia, Stack, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import type IMovie from "~/types/IMovie";
-// import { useStore } from "~/store/store";
 
 interface IMovieItemProps {
     movie: IMovie;
@@ -11,7 +10,6 @@ interface IMovieItemProps {
 }
 
 const MovieItem = ({ movie, type }: IMovieItemProps): React.JSX.Element => {
-    // const { mobileOpen } = useStore();
     const navigate = useNavigate();
 
     return (
@@ -27,7 +25,7 @@ const MovieItem = ({ movie, type }: IMovieItemProps): React.JSX.Element => {
                     width: "100%",
                 }}
                 onClick={() => {
-                    if (type !== "serie") {
+                    if (type && type !== "serie") {
                         navigate(
                             `/movies/${movie.title
                                 .split("")
@@ -50,8 +48,8 @@ const MovieItem = ({ movie, type }: IMovieItemProps): React.JSX.Element => {
                     alt={`${movie.description}`}
                     image={movie.photoSrc}
                     sx={{
-                        maxHeight: "300px",
-                        maxWidth: "200px",
+                        height: "300px",
+                        width: "200px",
                     }}
                 />
                 <CardContent
@@ -59,8 +57,8 @@ const MovieItem = ({ movie, type }: IMovieItemProps): React.JSX.Element => {
                         flexGrow: 1,
                         display: "flex",
                         flexDirection: "column",
-                        placeContent: "space-between",
-                        letterSpacing: 2,
+                        placeContent: "flex-start",
+                        letterSpacing: 0.5,
                     }}
                 >
                     <Typography variant="body1" color={"secondary"} fontWeight={600} fontSize={14}>
@@ -73,26 +71,25 @@ const MovieItem = ({ movie, type }: IMovieItemProps): React.JSX.Element => {
                                 flexDirection: "row",
                                 flexWrap: "wrap",
                                 columnGap: 1,
-                                pt: 1,
-                                pb: 1,
+                                pt: 0.5,
+                                pb: 0.5,
                             }}
                         >
                             {movie.genres?.map((genre: any) => (
-                                <Typography component={"span"}
-                                    key={genre.genre.name}
+                                <Typography
+                                    component={"span"}
+                                    key={genre.id}
                                     onClick={function (e) {
                                         e.stopPropagation();
-                                        navigate(`/genres/${genre.genre.name}`);
+                                        navigate(`/genres/${genre.name}`);
                                     }}
                                     style={{
-                                        fontWeight: "500",
+                                        fontWeight: "400",
                                         cursor: "pointer",
-                                        whiteSpace: "nowrap",
-                                        textOverflow: "ellipsis",
-                                        overflow: "hidden",
+                                        fontSize: 10,
                                     }}
                                 >
-                                    {genre.genre.name}
+                                    {genre.name}
                                 </Typography>
                             ))}
                         </Stack>

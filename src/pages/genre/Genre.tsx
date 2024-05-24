@@ -226,7 +226,7 @@ export default function Genre(): React.JSX.Element {
                             marginTop={4}
                         >
                             {moviesOfGenre.map((movie: any) => (
-                                <MovieItem movie={movie} type="genreMovie" key={movie.id} />
+                                <MovieItem movie={movie} key={movie.id} />
                             ))}
                         </Stack>
                         <Stack

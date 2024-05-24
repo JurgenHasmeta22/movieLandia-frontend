@@ -276,7 +276,7 @@ export default function Movies() {
                                 }}
                             >
                                 {movies.map((movie: IMovie) => (
-                                    <MovieItem movie={movie} type="homeMovie" key={movie.id} />
+                                    <MovieItem movie={movie} key={movie.id} />
                                 ))}
                             </Stack>
                         ) : (
@@ -342,7 +342,6 @@ export default function Movies() {
                                 >
                                     {latestMovies?.map((latestMovie: IMovie) => (
                                         <MovieItem
-                                            type="homeLatest"
                                             movie={latestMovie}
                                             key={latestMovie.id}
                                         />
