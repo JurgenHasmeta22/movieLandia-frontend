@@ -28,7 +28,7 @@ const Sidebar = ({ sidebarItems }: any) => {
     const [selectedLabel, setSelectedLabel] = useState(location.state ? location.state.label : "");
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-    const { removeItem } = useLocalStorage("user");
+    const { removeItem } = useLocalStorage("token");
 
     const handleItemClick = (title: string, to: string, state: any) => {
         setSelectedLabel(title);

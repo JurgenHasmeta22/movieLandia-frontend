@@ -1,7 +1,6 @@
 export function useLocalStorage<T>(key: string, initialValue?: T) {
     const getItem = (): T | null => {
         const item = window.localStorage.getItem(key);
-        // console.log("Retrieved item from localStorage:", item);
 
         if (item) {
             const payload = item.split(".")[1]; // Extract the payload part of JWT

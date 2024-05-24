@@ -6,7 +6,6 @@ import {
     AppBar,
     Box,
     Button,
-    CircularProgress,
     Drawer,
     IconButton,
     InputAdornment,

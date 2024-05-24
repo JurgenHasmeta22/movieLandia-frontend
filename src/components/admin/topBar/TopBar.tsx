@@ -14,7 +14,7 @@ const TopBar = () => {
     const { user, isOpenSidebarAdmin, setIsOpenSidebarAdmin } = useStore();
     const navigate = useNavigate();
     const colorMode = useContext(ColorModeContext);
-    const { removeItem } = useLocalStorage("user");
+    const { removeItem } = useLocalStorage("token");
     const open = Boolean(anchorEl);
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
