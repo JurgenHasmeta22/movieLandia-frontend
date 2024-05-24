@@ -1,4 +1,4 @@
-import { AppBar, Box, IconButton, Menu, MenuItem, Toolbar, useTheme } from "@mui/material";
+import { AppBar, Box, IconButton, Menu, MenuItem, Toolbar, Typography, useTheme } from "@mui/material";
 import { useContext, useState } from "react";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
@@ -80,13 +80,13 @@ const TopBar = () => {
                         sx={{ display: "flex", flexDirection: "row", gap: "10px" }}
                     >
                         <PersonOutlinedIcon color="action" fontSize="medium" />
-                        <span
+                        <Typography component={"span"}
                             style={{
                                 fontSize: 16,
                             }}
                         >
                             {user?.userName}
-                        </span>
+                        </Typography>
                     </IconButton>
                     <Menu
                         id="menuProfile"

@@ -14,6 +14,7 @@ import {
     ListItem,
     Menu,
     MenuItem,
+    Skeleton,
     Stack,
     TextField,
     Toolbar,
@@ -289,14 +290,14 @@ export const Header = (): React.JSX.Element => {
                                                         },
                                                     }}
                                                 >
-                                                    <span>{genre.name}</span>
+                                                    <Typography component={"span"}>{genre.name}</Typography>
                                                 </Box>
                                             ))}
                                         </Menu>
                                     </ListItem>
                                     <ListItem>
                                         <NavLink
-                                            style={({ isActive, isPending, isTransitioning }) => {
+                                            style={({ isActive, isTransitioning }) => {
                                                 return {
                                                     fontWeight: isActive ? "bold" : "",
                                                     color: isActive
@@ -376,9 +377,7 @@ export const Header = (): React.JSX.Element => {
                                     )}
                                 </IconButton>
                                 {isUserLoading && !user ? (
-                                    <Box width={"223px"}>
-                                        <CircularProgress size={6} thickness={4} />
-                                    </Box>
+                                    <Skeleton variant="rectangular" width={223} />
                                 ) : user && !isUserLoading ? (
                                     <Box width={"223px"}>
                                         <IconButton

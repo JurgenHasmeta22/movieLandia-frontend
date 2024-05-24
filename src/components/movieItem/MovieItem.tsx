@@ -78,7 +78,7 @@ const MovieItem = ({ movie, type }: IMovieItemProps): React.JSX.Element => {
                             }}
                         >
                             {movie.genres?.map((genre: any) => (
-                                <span
+                                <Typography component={"span"}
                                     key={genre.genre.name}
                                     onClick={function (e) {
                                         e.stopPropagation();
@@ -93,7 +93,7 @@ const MovieItem = ({ movie, type }: IMovieItemProps): React.JSX.Element => {
                                     }}
                                 >
                                     {genre.genre.name}
-                                </span>
+                                </Typography>
                             ))}
                         </Stack>
                     )}

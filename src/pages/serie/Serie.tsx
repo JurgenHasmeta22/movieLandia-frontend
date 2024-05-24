@@ -133,7 +133,7 @@ export default function Serie() {
                                         color: colors.greenAccent[500],
                                     }}
                                 >
-                                    <span>Year: {serie.releaseYear}</span>
+                                    <Typography component={"span"}>Year: {serie.releaseYear}</Typography>
                                 </ListItem>
                                 <ListItem
                                     sx={{
@@ -144,8 +144,8 @@ export default function Serie() {
                                     }}
                                 >
                                     <ReviewsIcon />
-                                    <span>Imdb Rating:</span>
-                                    <span>{serie.ratingImdb === 0 ? "N/A" : serie.ratingImdb}</span>
+                                    <Typography component={"span"}>Imdb Rating:</Typography>
+                                    <Typography component={"span"}>{serie.ratingImdb === 0 ? "N/A" : serie.ratingImdb}</Typography>
                                 </ListItem>
                             </List>
                             {/* <Typography textAlign={"center"} color={"secondary"} width={"50%"}>

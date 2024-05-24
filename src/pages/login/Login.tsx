@@ -207,7 +207,7 @@ export default function Login() {
                                                     }}
                                                 >
                                                     <LockOutlinedIcon />
-                                                    <span
+                                                    <Typography component={"span"}
                                                         style={{
                                                             fontSize: 14,
                                                             paddingLeft: 4,
@@ -215,10 +215,10 @@ export default function Login() {
                                                         }}
                                                     >
                                                         Login
-                                                    </span>
+                                                    </Typography>
                                                 </Button>
                                                 <Box>
-                                                    <span
+                                                    <Typography component={"span"}
                                                         style={{
                                                             fontSize: 12,
                                                             paddingLeft: 4,
@@ -226,7 +226,7 @@ export default function Login() {
                                                         }}
                                                     >
                                                         Don't have an account ?
-                                                    </span>
+                                                    </Typography>
                                                     <Link
                                                         style={{
                                                             textDecoration: "none",
