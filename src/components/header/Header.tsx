@@ -120,7 +120,6 @@ const Header = (): React.JSX.Element => {
                 value: genre.name,
                 label: genre.name,
             };
-
             setOptions([...options, option]);
         }
     }, []);
