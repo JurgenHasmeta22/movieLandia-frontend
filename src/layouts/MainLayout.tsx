@@ -8,7 +8,7 @@ import ScrollToTop from "~/components/scrollToTop/scrollToTop";
 const MainLayout = () => {
     return (
         <Grid container component={"main"}>
-            <Grid item xs={12}>
+            <Grid item xs={12} paddingTop={10}>
                 <Header />
                 <React.Suspense
                     fallback={

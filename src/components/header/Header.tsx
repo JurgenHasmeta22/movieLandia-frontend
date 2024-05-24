@@ -6,6 +6,7 @@ import {
     AppBar,
     Box,
     Button,
+    CircularProgress,
     Drawer,
     IconButton,
     InputAdornment,
@@ -42,7 +43,8 @@ export const Header = (): React.JSX.Element => {
     const [anchorElGenresMobile, setAnchorElGenresMobile] = useState<null | HTMLElement>(null);
 
     const isPageShrunk = useResizeWindow();
-    const { user, setUser, openDrawer, mobileOpen, setMobileOpen, setOpenDrawer } = useStore();
+    const { user, setUser, isUserLoading, openDrawer, mobileOpen, setMobileOpen, setOpenDrawer } =
+        useStore();
     const navigate = useNavigate();
     const [searchParams, setSearchParams] = useSearchParams();
     const colorMode = useContext(ColorModeContext);
@@ -134,7 +136,7 @@ export const Header = (): React.JSX.Element => {
 
     return (
         <>
-            <AppBar position="static" component={"header"}>
+            <AppBar position="fixed" component={"header"}>
                 <Toolbar
                     sx={{
                         display: "flex",
@@ -373,7 +375,11 @@ export const Header = (): React.JSX.Element => {
                                         <LightModeOutlinedIcon />
                                     )}
                                 </IconButton>
-                                {user !== null ? (
+                                {isUserLoading && !user ? (
+                                    <Box width={"117px"}>
+                                        <CircularProgress size={6} thickness={4} />
+                                    </Box>
+                                ) : user && !isUserLoading ? (
                                     <Box>
                                         <IconButton
                                             id="buttonProfile"
@@ -392,13 +398,14 @@ export const Header = (): React.JSX.Element => {
                                             }}
                                         >
                                             <PersonOutlinedIcon color="action" fontSize="medium" />
-                                            <span
+                                            <Typography
+                                                component={"span"}
                                                 style={{
                                                     fontSize: 16,
                                                 }}
                                             >
                                                 {user?.userName}
-                                            </span>
+                                            </Typography>
                                         </IconButton>
                                         <Menu
                                             id="menuProfile"
@@ -424,7 +431,7 @@ export const Header = (): React.JSX.Element => {
                                         </Menu>
                                     </Box>
                                 ) : (
-                                    <>
+                                    <Box display={"flex"} flexDirection={"row"} columnGap={1}>
                                         <Button
                                             color="secondary"
                                             variant="outlined"
@@ -471,7 +478,7 @@ export const Header = (): React.JSX.Element => {
                                                 Sign Up
                                             </Typography>
                                         </Button>
-                                    </>
+                                    </Box>
                                 )}
                             </Box>
                         </Stack>
