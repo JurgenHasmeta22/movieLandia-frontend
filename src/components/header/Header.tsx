@@ -166,7 +166,7 @@ const Header = (): React.JSX.Element => {
                             flexDirection={"row"}
                             alignItems={"center"}
                             justifyContent={"space-around"}
-                            columnGap={8}
+                            columnGap={6}
                             flexWrap={"wrap"}
                         >
                             <Box>
@@ -380,7 +380,7 @@ const Header = (): React.JSX.Element => {
                                 {isUserLoading && !user ? (
                                     <Skeleton variant="rectangular" width={223} />
                                 ) : user && !isUserLoading ? (
-                                    <Box width={"223px"}>
+                                    <Box width={"223px"} display={"flex"} justifyContent={"center"}>
                                         <IconButton
                                             id="buttonProfile"
                                             aria-controls={
