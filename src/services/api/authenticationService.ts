@@ -48,6 +48,8 @@ const authenticationService = {
 
     validateUser: async () => {
         if (localStorage.token) {
+            localStorage.token = localStorage.token.trim().replace(/^"|"$/g, ""); // Trim and remove surrounding quotes
+
             const config = {
                 headers: {
                     Authorization: `Bearer ${localStorage.token}`,
