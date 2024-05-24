@@ -9,6 +9,7 @@ import ReviewsIcon from "@mui/icons-material/Reviews";
 import { motion } from "framer-motion";
 import ISeriesResponse from "~/types/ISeriesResponse";
 import SerieItemLatest from "./serieItemLatest/SerieItemLatest";
+import { useResizeWindow } from "~/hooks/useResizeWindow";
 
 export default function Serie() {
     const [serie, setSerie] = useState<ISerie | null>(null);
@@ -16,6 +17,7 @@ export default function Serie() {
     const params = useParams();
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
+    const isPageShrunk = useResizeWindow();
 
     async function getSeries(): Promise<void> {
         const response: ISeriesResponse = await serieService.getSeries({});
@@ -35,7 +37,7 @@ export default function Serie() {
 
     useEffect(() => {
         getSerie();
-    }, [serie]);
+    }, [params.title]);
 
     useEffect(() => {
         getSeries();
@@ -75,7 +77,7 @@ export default function Serie() {
                         display: "flex",
                         flexDirection: "column",
                         rowGap: 4,
-                        paddingTop: 4
+                        paddingTop: 4,
                     }}
                     component={"main"}
                 >
@@ -98,7 +100,7 @@ export default function Serie() {
                         >
                             {serie.title}
                         </Typography>
-                        {/* <Box>
+                        <Box>
                             <iframe
                                 style={{
                                     width: `${isPageShrunk ? "250px" : "750px"}`,
@@ -106,11 +108,11 @@ export default function Serie() {
                                     border: "none",
                                     outline: "none",
                                 }}
-                                src={serie.}
+                                src={serie.trailerSrc}
                                 title={serie.title}
                                 allowFullScreen
                             ></iframe>
-                        </Box> */}
+                        </Box>
                         <Box
                             sx={{
                                 display: "flex",
@@ -118,7 +120,7 @@ export default function Serie() {
                                 alignItems: "center",
                                 justifyContent: "center",
                                 rowGap: 2,
-                                columnGap: 4
+                                columnGap: 4,
                             }}
                         >
                             <List
@@ -133,7 +135,9 @@ export default function Serie() {
                                         color: colors.greenAccent[500],
                                     }}
                                 >
-                                    <Typography component={"span"}>Year: {serie.releaseYear}</Typography>
+                                    <Typography component={"span"}>
+                                        Year: {serie.releaseYear}
+                                    </Typography>
                                 </ListItem>
                                 <ListItem
                                     sx={{
@@ -145,12 +149,14 @@ export default function Serie() {
                                 >
                                     <ReviewsIcon />
                                     <Typography component={"span"}>Imdb Rating:</Typography>
-                                    <Typography component={"span"}>{serie.ratingImdb === 0 ? "N/A" : serie.ratingImdb}</Typography>
+                                    <Typography component={"span"}>
+                                        {serie.ratingImdb === 0 ? "N/A" : serie.ratingImdb}
+                                    </Typography>
                                 </ListItem>
                             </List>
-                            {/* <Typography textAlign={"center"} color={"secondary"} width={"50%"}>
+                            <Typography textAlign={"center"} color={"secondary"} width={"50%"}>
                                 {serie.description}
-                            </Typography> */}
+                            </Typography>
                         </Box>
                     </Box>
                     <Box
