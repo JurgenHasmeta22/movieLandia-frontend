@@ -96,15 +96,15 @@ export default function Register() {
                             display: "flex",
                             placeContent: "center",
                             placeItems: "center",
-                            padding: 5,
+                            padding: 10,
                         }}
-                        component={"main"}
+                        component={"section"}
                     >
                         <Paper
                             sx={{
-                                backgroundColor: "rgb(0 0 0 / 85%)",
                                 px: 14,
                                 py: 6,
+                                borderRadius: 12
                             }}
                         >
                             <Formik
@@ -155,7 +155,6 @@ export default function Register() {
                                                         type="text"
                                                         name="userName"
                                                         required
-                                                        // placeholder="Example22"
                                                         value={values.userName}
                                                         autoComplete="username"
                                                         aria-autocomplete="both"
@@ -185,7 +184,6 @@ export default function Register() {
                                                         type="text"
                                                         name="email"
                                                         required
-                                                        // placeholder="example@email.com"
                                                         value={values.email}
                                                         autoComplete="username"
                                                         aria-autocomplete="both"
@@ -213,7 +211,6 @@ export default function Register() {
                                                         type={showPassword ? "text" : "password"}
                                                         name="password"
                                                         required
-                                                        // placeholder="Example1#"
                                                         autoComplete="current-password"
                                                         aria-autocomplete="both"
                                                         value={values.password}
@@ -270,7 +267,6 @@ export default function Register() {
                                                         required
                                                         autoComplete="current-password"
                                                         aria-autocomplete="both"
-                                                        // placeholder="Repeat again password"
                                                         value={values.confirmPassword}
                                                         onChange={handleChange}
                                                         onBlur={handleBlur}
