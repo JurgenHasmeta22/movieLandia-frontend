@@ -21,6 +21,7 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useState } from "react";
 import SEOHelmet from "~/components/seoHelmet/SEOHelmet";
 import { motion } from "framer-motion";
+import { useLocalStorage } from "~/hooks/useLocalStorage";
 
 const registerSchema = yup.object().shape({
     userName: yup
@@ -53,6 +54,7 @@ export default function Register() {
     const handleMouseDownPassword = () => setShowPassword(!showPassword);
     const handleClickShowPasswordConfirm = () => setShowPasswordConfirm(!showPasswordConfirm);
     const handleMouseDownPasswordConfirm = () => setShowPasswordConfirm(!showPasswordConfirm);
+    const { setItem } = useLocalStorage("token");
 
     async function onSubmitRegister(values: any) {
         const response: IResponseLogin = await authenticationService.onRegister(
@@ -62,17 +64,13 @@ export default function Register() {
         );
 
         if (response && !response.error) {
-            localStorage.setItem("token", response.token);
+            setItem(response.token);
             setUser(response.user);
             toast.success(CONSTANTS.LOGIN__SUCCESS);
             navigate("/movies");
         } else {
             toast.error(CONSTANTS.LOGIN__FAILURE);
         }
-    }
-
-    if (user) {
-        navigate("/movies");
     }
 
     return (
@@ -104,7 +102,7 @@ export default function Register() {
                             sx={{
                                 px: 14,
                                 py: 6,
-                                borderRadius: 12
+                                borderRadius: 12,
                             }}
                         >
                             <Formik

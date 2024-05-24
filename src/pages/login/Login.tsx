@@ -21,6 +21,7 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useState } from "react";
 import SEOHelmet from "~/components/seoHelmet/SEOHelmet";
 import { motion } from "framer-motion";
+import { useLocalStorage } from "~/hooks/useLocalStorage";
 
 const loginSchema = yup.object().shape({
     email: yup.string().required("Email is a required field").email("Invalid email format"),
@@ -40,6 +41,7 @@ export default function Login() {
     const navigate = useNavigate();
     const handleClickShowPassword = () => setShowPassword(!showPassword);
     const handleMouseDownPassword = () => setShowPassword(!showPassword);
+    const { setItem } = useLocalStorage("token");
 
     async function onSubmitLogin(values: any) {
         const response: IResponseLogin = await authenticationService.onLogin(
@@ -48,17 +50,13 @@ export default function Login() {
         );
 
         if (response && !response.error) {
-            localStorage.setItem("token", response.token);
+            setItem(response.token);
             setUser(response.user);
             toast.success(CONSTANTS.LOGIN__SUCCESS);
             navigate("/movies");
         } else {
             toast.error(CONSTANTS.LOGIN__FAILURE);
         }
-    }
-
-    if (user) {
-        navigate("/movies");
     }
 
     return (

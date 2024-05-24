@@ -9,6 +9,7 @@ import { ColorModeContext, useMode } from "~/utils/theme";
 import PrivateRoutes from "~/utils/PrivateRoutes";
 import MainLayout from "~/layouts/MainLayout";
 import AdminLayout from "~/layouts/AdminLayout";
+import AuthRoutes from "~/utils/AuthRoutes";
 
 // Client Pages
 const Home = React.lazy(() => import("~/pages/home/Home"));
@@ -45,8 +46,10 @@ function App() {
     useEffect(() => {
         const validateUser = async () => {
             const response: IUser | undefined = await authenticationService.validateUser();
+
             if (response) setUser(response);
         };
+
         validateUser();
     }, []);
 
@@ -58,32 +61,34 @@ function App() {
                     <Route element={<MainLayout />}>
                         <Route path="*" element={<Error404 />} />
                         <Route index element={<Home />} />
-                        <Route path="movies" element={<Movies />} />
-                        <Route path="movies/:title" element={<Movie />} />
-                        <Route path="genres" element={<Genres />} />
-                        <Route path="genres/:name" element={<Genre />} />
-                        <Route path="series" element={<Series />} />
-                        <Route path="series/:title" element={<Serie />} />
-                        <Route path="profile" element={<Profile />} />
-                        <Route path="login" element={<Login />} />
-                        <Route path="register" element={<Register />} />
+                        <Route path="/movies" element={<Movies />} />
+                        <Route path="/movies/:title" element={<Movie />} />
+                        <Route path="/genres" element={<Genres />} />
+                        <Route path="/genres/:name" element={<Genre />} />
+                        <Route path="/series" element={<Series />} />
+                        <Route path="/series/:title" element={<Serie />} />
+                        <Route path="/profile" element={<Profile />} />
+                        <Route element={<AuthRoutes />}>
+                            <Route path="/login" element={<Login />} />
+                            <Route path="/register" element={<Register />} />
+                        </Route>
                     </Route>
                     <Route element={<PrivateRoutes />}>
                         <Route element={<AdminLayout />}>
-                            <Route path="admin" element={<Dashboard />} />
-                            <Route path="admin/dashboard" element={<Dashboard />} />
-                            <Route path="admin/users" element={<UsersAdmin />} />
-                            <Route path="admin/users/add" element={<AddUserAdmin />} />
-                            <Route path="admin/users/:id" element={<UserAdmin />} />
-                            <Route path="admin/movies" element={<MoviesAdmin />} />
-                            <Route path="admin/movies/add" element={<AddMovieAdmin />} />
-                            <Route path="admin/movies/:id" element={<MovieAdmin />} />
-                            <Route path="admin/series" element={<SeriesAdmin />} />
-                            <Route path="admin/series/add" element={<AddSerieAdmin />} />
-                            <Route path="admin/series/:id" element={<SerieAdmin />} />
-                            <Route path="admin/genres" element={<GenresAdmin />} />
-                            <Route path="admin/genres/add" element={<AddGenreAdmin />} />
-                            <Route path="admin/genres/:id" element={<GenreAdmin />} />
+                            <Route path="/admin" element={<Dashboard />} />
+                            <Route path="/admin/dashboard" element={<Dashboard />} />
+                            <Route path="/admin/users" element={<UsersAdmin />} />
+                            <Route path="/admin/users/add" element={<AddUserAdmin />} />
+                            <Route path="/admin/users/:id" element={<UserAdmin />} />
+                            <Route path="/admin/movies" element={<MoviesAdmin />} />
+                            <Route path="/admin/movies/add" element={<AddMovieAdmin />} />
+                            <Route path="/admin/movies/:id" element={<MovieAdmin />} />
+                            <Route path="/admin/series" element={<SeriesAdmin />} />
+                            <Route path="/admin/series/add" element={<AddSerieAdmin />} />
+                            <Route path="/admin/series/:id" element={<SerieAdmin />} />
+                            <Route path="/admin/genres" element={<GenresAdmin />} />
+                            <Route path="/admin/genres/add" element={<AddGenreAdmin />} />
+                            <Route path="/admin/genres/:id" element={<GenreAdmin />} />
                         </Route>
                     </Route>
                 </Routes>
