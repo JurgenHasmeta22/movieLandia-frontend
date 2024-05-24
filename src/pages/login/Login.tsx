@@ -80,7 +80,8 @@ export default function Login() {
                             display: "flex",
                             placeContent: "center",
                             placeItems: "center",
-                            padding: 10,
+                            paddingTop: 10,
+                            paddingBottom: 10
                         }}
                         component={"section"}
                     >

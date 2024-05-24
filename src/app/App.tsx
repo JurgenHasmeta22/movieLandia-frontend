@@ -40,14 +40,19 @@ const SerieAdmin = React.lazy(() => import("~/pages/admin/serie/SerieAdmin"));
 const GenreAdmin = React.lazy(() => import("~/pages/admin/genre/GenreAdmin"));
 
 function App() {
-    const { setUser } = useStore();
+    const { setUser, setIsUserLoading } = useStore();
     const [theme, colorMode] = useMode();
 
     useEffect(() => {
         const validateUser = async () => {
             const response: IUser | undefined = await authenticationService.validateUser();
 
-            if (response) setUser(response);
+            if (response) {
+                setUser(response);
+                setIsUserLoading(false);
+            } else {
+                setIsUserLoading(false);
+            }
         };
 
         validateUser();
