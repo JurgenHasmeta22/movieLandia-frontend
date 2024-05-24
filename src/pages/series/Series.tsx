@@ -111,23 +111,6 @@ export default function Series() {
         );
     }
 
-    if (series && series?.length === 0) {
-        return (
-            <Box
-                sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    height: "100vh",
-                }}
-            >
-                <Typography fontSize={40} color={"secondary"}>
-                    There are no series
-                </Typography>
-            </Box>
-        );
-    }
-
     return (
         <>
             <SEOHelmet
