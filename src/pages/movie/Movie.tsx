@@ -90,7 +90,6 @@ export default function Movie() {
                             display: "flex",
                             flexDirection: "column",
                             rowGap: 4,
-                            // backgroundColor: `${colors.blueAccent[700]}`,
                         }}
                     >
                         <Box
@@ -147,14 +146,14 @@ export default function Movie() {
                                             color: colors.greenAccent[500],
                                         }}
                                     >
-                                        <span>Duration: {movie.duration}</span>
+                                        <Typography component={"span"}>Duration: {movie.duration}</Typography>
                                     </ListItem>
                                     <ListItem
                                         sx={{
                                             color: colors.greenAccent[500],
                                         }}
                                     >
-                                        <span>Year: {movie.releaseYear}</span>
+                                        <Typography component={"span"}>Year: {movie.releaseYear}</Typography>
                                     </ListItem>
                                     <ListItem
                                         sx={{
@@ -165,10 +164,10 @@ export default function Movie() {
                                         }}
                                     >
                                         <ReviewsIcon />
-                                        <span>Imdb Rating:</span>
-                                        <span>
+                                        <Typography component={"span"}>Imdb Rating:</Typography>
+                                        <Typography component={"span"}>
                                             {movie.ratingImdb === 0 ? "N/A" : movie.ratingImdb}
-                                        </span>
+                                        </Typography>
                                     </ListItem>
                                 </List>
                                 <Typography textAlign={"center"} color={"secondary"} width={"50%"}>

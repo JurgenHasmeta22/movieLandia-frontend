@@ -186,8 +186,8 @@ export default function Genre(): React.JSX.Element {
                                     mr: 4,
                                 }}
                             >
-                                <Typography color={"secondary"} fontSize={16}>
-                                    <span>Sort by:</span>
+                                <Typography color={"secondary"} fontSize={16} component={"span"}>
+                                    Sort by:
                                 </Typography>
                                 <Box sx={{ display: "flex", flexDirection: "row", columnGap: 2 }}>
                                     <Select

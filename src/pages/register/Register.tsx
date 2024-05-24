@@ -313,7 +313,7 @@ export default function Register() {
                                                     }}
                                                 >
                                                     <LockOutlinedIcon />
-                                                    <span
+                                                    <Typography component={"span"}
                                                         style={{
                                                             paddingLeft: 4,
                                                             textTransform: "capitalize",
@@ -321,17 +321,17 @@ export default function Register() {
                                                         }}
                                                     >
                                                         Register
-                                                    </span>
+                                                    </Typography>
                                                 </Button>
                                                 <Box>
-                                                    <span
+                                                    <Typography component={"span"}
                                                         style={{
                                                             textTransform: "capitalize",
                                                             fontSize: 12,
                                                         }}
                                                     >
                                                         Already have an account ?
-                                                    </span>
+                                                    </Typography>
                                                     <Link
                                                         style={{
                                                             textDecoration: "none",

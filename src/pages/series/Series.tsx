@@ -181,7 +181,7 @@ export default function Series() {
                                 }}
                             >
                                 <Typography color={"secondary"} fontSize={16}>
-                                    <span>Sort by:</span>
+                                    <Typography component={"span"}>Sort by:</Typography>
                                 </Typography>
                                 <Box sx={{ display: "flex", flexDirection: "row", columnGap: 2 }}>
                                     <Select
