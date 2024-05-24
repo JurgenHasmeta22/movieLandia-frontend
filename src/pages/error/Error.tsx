@@ -16,10 +16,17 @@ export default function Error404(): React.JSX.Element {
                     display: "flex",
                     placeItems: "center",
                     placeContent: "center",
-                    height: "70vh",
+                    rowGap: 1,
+                    flexDirection: "column",
+                    height: "100vh",
                 }}
             >
-                <Typography fontSize={32}>Error 404</Typography>
+                <Typography fontSize={42} component={"h1"}>
+                    Error 404
+                </Typography>
+                <Typography fontSize={34} variant="body1">
+                    Page not found
+                </Typography>
             </Box>
         </>
     );

@@ -11,7 +11,10 @@ export default function GenreItem({ genre }: IGenreItemProps) {
     const navigate = useNavigate();
 
     return (
-        <motion.div whileHover={{ scale: 1.15 }} whileTap={{ scale: 1.15 }}>
+        <motion.div
+            whileHover={{ scale: 1.05 }}
+            transition={{ duration: 0.2, ease: "easeInOut" }}
+        >
             <Card
                 key={genre.id}
                 onClick={function () {
