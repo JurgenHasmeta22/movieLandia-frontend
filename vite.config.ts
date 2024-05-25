@@ -46,6 +46,10 @@ const manifestForPlugin: Partial<VitePWAOptions> = {
 };
 
 export default defineConfig({
+    build: {
+        outDir: "dist",
+        assetsDir: "assets",
+    },
     resolve: {
         alias: {
             "~": path.resolve(__dirname, "src"),
