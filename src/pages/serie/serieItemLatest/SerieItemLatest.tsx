@@ -45,10 +45,10 @@ export default function SerieItemLatest({ latestSerie }: ISerieItemLatestProps) 
                 <CardMedia
                     component="img"
                     image={latestSerie.photoSrc}
-                    // alt={latestSerie.description}
+                    alt={latestSerie.description}
                     sx={{
-                        height: "100%",
-                        width: "100%",
+                        height: "317px",
+                        width: "214px",
                         objectFit: "cover",
                     }}
                 />

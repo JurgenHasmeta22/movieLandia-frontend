@@ -64,7 +64,7 @@ const Carousel = ({ data, type }: ICarouselProps) => {
                         <img
                             src={element.photoSrc}
                             alt={`Slide ${startIndex + index}`}
-                            style={{ width: "300px", height: "auto", transition: "filter 1s ease" }}
+                            style={{ width: "280px", height: "auto", transition: "filter 1s ease" }}
                         />
                         <Link
                             to={
