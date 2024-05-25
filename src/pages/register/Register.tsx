@@ -156,6 +156,8 @@ export default function Register() {
                                                         required
                                                         value={values.userName}
                                                         autoComplete="username"
+                                                        aria-label="Username"
+                                                        hiddenLabel={true}
                                                         aria-autocomplete="both"
                                                         onChange={handleChange}
                                                         onBlur={handleBlur}
@@ -185,6 +187,8 @@ export default function Register() {
                                                         required
                                                         value={values.email}
                                                         autoComplete="username"
+                                                        aria-label="Email"
+                                                        hiddenLabel={true}
                                                         aria-autocomplete="both"
                                                         onChange={handleChange}
                                                         onBlur={handleBlur}
@@ -211,6 +215,8 @@ export default function Register() {
                                                         name="password"
                                                         required
                                                         autoComplete="current-password"
+                                                        aria-label="Current password"
+                                                        hiddenLabel={true}
                                                         aria-autocomplete="both"
                                                         value={values.password}
                                                         onChange={handleChange}
@@ -265,6 +271,8 @@ export default function Register() {
                                                         name="confirmPassword"
                                                         required
                                                         autoComplete="current-password"
+                                                        aria-label="Confirm password"
+                                                        hiddenLabel={true}
                                                         aria-autocomplete="both"
                                                         value={values.confirmPassword}
                                                         onChange={handleChange}
