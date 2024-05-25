@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { useStore } from "~/store/store";
 import type IMovie from "~/types/IMovie";
 import movieService from "~/services/api/movieService";
-import MovieItemLatest from "~/pages/movie/movieItemLatest/MovieItemLatest";
 import {
     Box,
     Button,
@@ -20,6 +19,7 @@ import SEOHelmet from "~/components/seoHelmet/SEOHelmet";
 import ReviewsIcon from "@mui/icons-material/Reviews";
 import { motion } from "framer-motion";
 import { toast } from "react-toastify";
+import CardItem from "~/components/cardItem/CardItem";
 
 export default function Movie() {
     const [movie, setMovie] = useState<IMovie | null>(null);
@@ -230,9 +230,10 @@ export default function Movie() {
                                 mb={4}
                             >
                                 {latestMoviesRelated.slice(5, 10).map((latestMovie: any) => (
-                                    <MovieItemLatest
-                                        latestMovie={latestMovie}
+                                    <CardItem
+                                        data={latestMovie}
                                         key={latestMovie.id}
+                                        type="movie"
                                     />
                                 ))}
                             </Stack>

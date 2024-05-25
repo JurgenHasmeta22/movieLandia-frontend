@@ -27,18 +27,17 @@ import userService from "~/services/api/userService";
 import genreService from "~/services/api/genreService";
 import { toFirstWordUpperCase } from "./utils";
 import RefreshIcon from "@mui/icons-material/Refresh";
-import { FormikProps } from "formik";
 import { useModal } from "~/services/providers/ModalContext";
 import * as CONSTANTS from "~/constants/Constants";
 import { toast } from "react-toastify";
 
-type props = {
+type TableAdminProps = {
     columns: MRT_ColumnDef<any>[];
     page: string;
     handleAddItem: () => void;
 };
 
-const TableAdmin = ({ columns, page, handleAddItem }: props) => {
+const TableAdmin = ({ columns, page, handleAddItem }: TableAdminProps) => {
     const [rows, setRows] = useState<any[]>([]);
     const [rowsCount, setRowsCount] = useState<number>(0);
     const [rowSelection, setRowSelection] = useState<any>({});

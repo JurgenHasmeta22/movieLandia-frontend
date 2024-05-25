@@ -17,10 +17,10 @@ import SEOHelmet from "~/components/seoHelmet/SEOHelmet";
 import ReviewsIcon from "@mui/icons-material/Reviews";
 import { motion } from "framer-motion";
 import ISeriesResponse from "~/types/ISeriesResponse";
-import SerieItemLatest from "./serieItemLatest/SerieItemLatest";
 import { useResizeWindow } from "~/hooks/useResizeWindow";
 import { toast } from "react-toastify";
 import { useStore } from "~/store/store";
+import CardItem from "~/components/cardItem/CardItem";
 
 export default function Serie() {
     const [serie, setSerie] = useState<ISerie | null>(null);
@@ -228,7 +228,7 @@ export default function Serie() {
                             mb={4}
                         >
                             {series.slice(5, 10).map((latestSerie: any) => (
-                                <SerieItemLatest latestSerie={latestSerie} key={latestSerie.id} />
+                                <CardItem data={latestSerie} key={latestSerie.id} type={"serie"} />
                             ))}
                         </Stack>
                     </Box>
