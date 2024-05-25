@@ -126,7 +126,7 @@ export default function Login() {
                                                     flexDirection={"column"}
                                                     rowGap={1}
                                                 >
-                                                    <FormLabel>Email</FormLabel>
+                                                    <FormLabel component={"label"}>Email</FormLabel>
                                                     <TextField
                                                         type="text"
                                                         name="email"
@@ -155,7 +155,7 @@ export default function Login() {
                                                     flexDirection={"column"}
                                                     rowGap={1}
                                                 >
-                                                    <FormLabel>Password</FormLabel>
+                                                    <FormLabel component={"label"}>Password</FormLabel>
                                                     <TextField
                                                         type={showPassword ? "text" : "password"}
                                                         name="password"
