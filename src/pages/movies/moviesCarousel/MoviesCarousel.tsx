@@ -4,25 +4,30 @@ import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import PlayCircleIcon from "@mui/icons-material/PlayCircle";
 import { Link } from "react-router-dom";
+import IMovie from "~/types/IMovie";
 
-const Carousel = ({ images }: any) => {
+interface ICarouselProps {
+    movies: IMovie[];
+}
+
+const Carousel = ({ movies }: ICarouselProps) => {
     const [startIndex, setStartIndex] = useState(0);
 
     const handleNext = () => {
-        setStartIndex((prevIndex) => (prevIndex === images.length - 3 ? 0 : prevIndex + 1));
+        setStartIndex((prevIndex) => (prevIndex === movies.length - 3 ? 0 : prevIndex + 1));
     };
 
     const handlePrev = () => {
-        setStartIndex((prevIndex) => (prevIndex === 0 ? images.length - 3 : prevIndex - 1));
+        setStartIndex((prevIndex) => (prevIndex === 0 ? movies.length - 3 : prevIndex - 1));
     };
 
     useEffect(() => {
         const interval = setInterval(() => {
-            setStartIndex((prevIndex) => (prevIndex === images.length - 3 ? 0 : prevIndex + 1));
+            setStartIndex((prevIndex) => (prevIndex === movies.length - 3 ? 0 : prevIndex + 1));
         }, 3000);
 
         return () => clearInterval(interval);
-    }, [images]);
+    }, [movies]);
 
     return (
         <Box
@@ -37,7 +42,7 @@ const Carousel = ({ images }: any) => {
             <IconButton onClick={handlePrev} size="large">
                 <NavigateBeforeIcon />
             </IconButton>
-            {images.slice(startIndex, startIndex + 3).map((image: any, index: number) => (
+            {movies.slice(startIndex, startIndex + 3).map((movie: IMovie, index: number) => (
                 <Box
                     key={index}
                     position="relative"
@@ -53,13 +58,13 @@ const Carousel = ({ images }: any) => {
                     }}
                 >
                     <img
-                        src={image.source}
+                        src={movie.photoSrc}
                         alt={`Slide ${startIndex + index}`}
                         style={{ width: "300px", height: "auto", transition: "filter 1s ease" }}
                     />
                     <Link
                         to={
-                            `/movies/${image.title
+                            `/movies/${movie.title
                                 .split("")
                                 .map((char: any) => (char === " " ? "-" : char))
                                 .join("")}` || "#"
