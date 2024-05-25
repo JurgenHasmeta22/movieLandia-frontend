@@ -130,10 +130,12 @@ export default function Login() {
                                                     <TextField
                                                         type="text"
                                                         name="email"
+                                                        aria-label="Email"
                                                         required
                                                         value={values.email}
                                                         onChange={handleChange}
                                                         autoComplete="username"
+                                                        hiddenLabel={true}
                                                         aria-autocomplete="both"
                                                         onBlur={handleBlur}
                                                         size="small"
@@ -159,7 +161,9 @@ export default function Login() {
                                                         name="password"
                                                         required
                                                         autoComplete="current-password"
+                                                        aria-label="Current password"
                                                         aria-autocomplete="both"
+                                                        hiddenLabel={true}
                                                         value={values.password}
                                                         onChange={handleChange}
                                                         onBlur={handleBlur}
