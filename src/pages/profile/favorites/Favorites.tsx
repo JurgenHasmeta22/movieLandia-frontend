@@ -16,19 +16,22 @@ export default function FavoritesTab({ type }: FavoritesTabProps) {
         <Box component={"section"}>
             <Typography variant="h2">Bookmarked {type}</Typography>
             <Stack flexDirection={"row"} flexWrap={"wrap"} columnGap={3} rowGap={3} mt={4}>
-                {favorites?.map((favItem: any) => (
+                {favorites?.map((favItem: any, index: number) => (
                     <motion.div
-                        key={favItem.movie.id}
+                        key={index}
                         whileHover={{ scale: 1.05 }}
                         transition={{ duration: 0.2, ease: "easeInOut" }}
                     >
                         <Box
                             onClick={() => {
                                 const urlPath = type === "Movies" ? "movies" : "series";
-                                const formattedTitle = favItem.movie.title
-                                    .split("")
-                                    .map((char: string) => (char === " " ? "-" : char))
-                                    .join("");
+                                const formattedTitle =
+                                    type === "Movies"
+                                        ? favItem.movie.title
+                                        : favItem.serie.title
+                                              .split("")
+                                              .map((char: string) => (char === " " ? "-" : char))
+                                              .join("");
                                 navigate(`/${urlPath}/${formattedTitle}`);
                                 window.scrollTo(0, 0);
                             }}
@@ -39,8 +42,12 @@ export default function FavoritesTab({ type }: FavoritesTabProps) {
                             }}
                         >
                             <img
-                                src={favItem.movie.photoSrc}
-                                alt={favItem.movie.title}
+                                src={
+                                    type === "Movies"
+                                        ? favItem.movie.photoSrc
+                                        : favItem.serie.photoSrc
+                                }
+                                alt={type === "Movies" ? favItem.movie.title : favItem.serie.title}
                                 style={{
                                     height: "200px",
                                     width: "200px",
@@ -48,10 +55,13 @@ export default function FavoritesTab({ type }: FavoritesTabProps) {
                                 }}
                             />
                             <Typography component={"h4"} fontSize={16}>
-                                {favItem.movie.title}
+                                {type === "Movies" ? favItem.movie.title : favItem.serie.title}
                             </Typography>
                             <Typography component={"span"} fontSize={12}>
-                                Release Year: {favItem.movie.releaseYear}
+                                Release Year:{" "}
+                                {type === "Movies"
+                                    ? favItem.movie.releaseYear
+                                    : favItem.serie.releaseYear}
                             </Typography>
                         </Box>
                     </motion.div>

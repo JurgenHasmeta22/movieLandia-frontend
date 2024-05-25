@@ -41,7 +41,7 @@ export default function Movie() {
         setMovie(response);
     }
 
-    async function addToFavorites() {
+    async function bookmarkMovie() {
         if (!user || !movie) return;
 
         try {
@@ -50,7 +50,7 @@ export default function Movie() {
             if (response && !response.error) {
                 setUser(response);
                 toast.success("Movie bookmarked successfully!");
-                navigate("/profile");
+                navigate("/profile?tab=favMovies");
                 window.scrollTo(0, 0);
             } else {
                 toast.error("Movie not bookmarked successfully!");
@@ -194,8 +194,8 @@ export default function Movie() {
                                 </Typography>
                                 {user?.userName && (
                                     <Button
-                                        onClick={function () {
-                                            addToFavorites();
+                                        onClick={() => {
+                                            bookmarkMovie();
                                         }}
                                         color="secondary"
                                         variant="outlined"

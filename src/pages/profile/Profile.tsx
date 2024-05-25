@@ -1,29 +1,36 @@
 import { Box, CircularProgress, Tab, Tabs, Typography, useTheme } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useStore } from "~/store/store";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import { tokens } from "~/utils/theme";
 import TabPanel from "~/components/tab/Tab";
 import AboutUsTab from "./aboutUs/About";
-import { useState } from "react";
 import SEOHelmet from "~/components/seoHelmet/SEOHelmet";
 import FavoritesTab from "./favorites/Favorites";
 
 export default function Profile() {
-    const [value, setValue] = useState<number>(0);
+    const [searchParams, setSearchParams] = useSearchParams();
     const navigate = useNavigate();
     const { user } = useStore();
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
+    const tabValue =
+        searchParams?.get("tab")! === "favMovies"
+            ? 0
+            : searchParams?.get("tab")! === "favSeries"
+              ? 1
+              : searchParams?.get("tab")! === "about"
+                ? 2
+                : 0;
 
-    const handleChange = (event: any, newValue: any) => {
+    const handleChange = (event: any, newValue: number) => {
         if (newValue === 0) {
             navigate("/profile?tab=favMovies");
         } else if (newValue === 1) {
+            navigate("/profile?tab=favSeries");
+        } else if (newValue === 2) {
             navigate("/profile?tab=about");
         }
-
-        setValue(newValue);
     };
 
     if (!user) {
@@ -68,7 +75,7 @@ export default function Profile() {
                 </Box>
                 <Box component={"section"}>
                     <Tabs
-                        value={value}
+                        value={searchParams?.get("tab")! === "favMovies"}
                         onChange={handleChange}
                         variant="fullWidth"
                         textColor="secondary"
@@ -99,13 +106,13 @@ export default function Profile() {
                             }}
                         />
                     </Tabs>
-                    <TabPanel value={value} index={0}>
+                    <TabPanel value={tabValue} index={0}>
                         <FavoritesTab type={"Movies"} />
                     </TabPanel>
-                    <TabPanel value={value} index={1}>
+                    <TabPanel value={tabValue} index={1}>
                         <FavoritesTab type={"Series"} />
                     </TabPanel>
-                    <TabPanel value={value} index={2}>
+                    <TabPanel value={tabValue} index={2}>
                         <AboutUsTab />
                     </TabPanel>
                 </Box>
