@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import type ISerie from "~/types/ISerie";
 import type ISeriesResponse from "~/types/ISeriesResponse";
-import MovieItem from "~/components/movieItem/MovieItem";
 import {
     Box,
     CircularProgress,
@@ -20,6 +19,7 @@ import { useSorting } from "~/hooks/useSorting";
 import { getRandomElements, toFirstWordUpperCase } from "~/utils/utils";
 import { motion } from "framer-motion";
 import Carousel from "~/components/carousel/Carousel";
+import CardItem from "~/components/cardItem/CardItem";
 
 export default function Series() {
     const [series, setSeries] = useState<ISerie[] | undefined>(undefined);
@@ -139,7 +139,7 @@ export default function Series() {
                         paddingTop={4}
                     >
                         <Box mt={4} component={"section"}>
-                            <Carousel data={seriesCarouselImages} type="series"/>
+                            <Carousel data={seriesCarouselImages} type="series" />
                         </Box>
                         <Stack
                             display="flex"
@@ -218,7 +218,7 @@ export default function Series() {
                                 columnGap={4}
                             >
                                 {series.map((serie: any) => (
-                                    <MovieItem movie={serie} type="serie" key={serie.id} />
+                                    <CardItem data={serie} type="serie" key={serie.id} />
                                 ))}
                             </Stack>
                             <Stack

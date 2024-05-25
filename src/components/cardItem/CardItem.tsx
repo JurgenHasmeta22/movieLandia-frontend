@@ -2,14 +2,13 @@ import React from "react";
 import { Card, CardContent, CardMedia, Stack, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import type IMovie from "~/types/IMovie";
 
-interface IMovieItemProps {
-    movie: IMovie;
+interface ICardItemProps {
+    data: any;
     type?: string;
 }
 
-const MovieItem = ({ movie, type }: IMovieItemProps): React.JSX.Element => {
+const CardItem = ({ data, type }: ICardItemProps): React.JSX.Element => {
     const navigate = useNavigate();
 
     return (
@@ -27,18 +26,18 @@ const MovieItem = ({ movie, type }: IMovieItemProps): React.JSX.Element => {
                 onClick={() => {
                     const path =
                         type === "serie"
-                            ? `/series/${movie.title.split(" ").join("-")}`
-                            : `/movies/${movie.title.split(" ").join("-")}`;
-                            
+                            ? `/series/${data.title.split(" ").join("-")}`
+                            : `/datas/${data.title.split(" ").join("-")}`;
+
                     navigate(path);
-                    window.scrollTo(0, 0)
+                    window.scrollTo(0, 0);
                 }}
                 elevation={4}
             >
                 <CardMedia
                     component="img"
-                    alt={`${movie.description}`}
-                    image={movie.photoSrc}
+                    alt={`${data.description}`}
+                    image={data.photoSrc}
                     sx={{
                         height: "300px",
                         width: "200px",
@@ -54,9 +53,9 @@ const MovieItem = ({ movie, type }: IMovieItemProps): React.JSX.Element => {
                     }}
                 >
                     <Typography variant="body1" color={"secondary"} fontWeight={600} fontSize={14}>
-                        {movie.title}
+                        {data.title}
                     </Typography>
-                    {!type && movie.genres && movie.genres.length > 0 && (
+                    {!type && data.genres && data.genres.length > 0 && (
                         <Stack
                             sx={{
                                 display: "flex",
@@ -67,7 +66,7 @@ const MovieItem = ({ movie, type }: IMovieItemProps): React.JSX.Element => {
                                 pb: 0.5,
                             }}
                         >
-                            {movie.genres?.map((genre: any) => (
+                            {data.genres?.map((genre: any) => (
                                 <Typography
                                     component={"span"}
                                     key={genre.id}
@@ -87,7 +86,7 @@ const MovieItem = ({ movie, type }: IMovieItemProps): React.JSX.Element => {
                         </Stack>
                     )}
                     <Typography color={"secondary"} fontSize={12}>
-                        {movie.ratingImdb !== 0 ? `Rating Imdb: ${movie.ratingImdb}` : "Imdb: N/A"}
+                        {data.ratingImdb !== 0 ? `Rating Imdb: ${data.ratingImdb}` : "Imdb: N/A"}
                     </Typography>
                 </CardContent>
             </Card>
@@ -95,4 +94,4 @@ const MovieItem = ({ movie, type }: IMovieItemProps): React.JSX.Element => {
     );
 };
 
-export default MovieItem;
+export default CardItem;

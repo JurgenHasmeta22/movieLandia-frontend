@@ -6,7 +6,7 @@ import { tokens } from "~/utils/theme";
 import TabPanel from "~/components/tab/Tab";
 import AboutUsTab from "./aboutUs/About";
 import SEOHelmet from "~/components/seoHelmet/SEOHelmet";
-import FavoritesTab from "./favorites/Favorites";
+import FavoritesTab from "~/components/favorites/Favorites";
 
 export default function Profile() {
     const [searchParams, setSearchParams] = useSearchParams();
