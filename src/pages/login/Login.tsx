@@ -76,7 +76,7 @@ export default function Login() {
                 >
                     <Box
                         sx={{
-                            backgroundImage: "url('/public/assets/images/netflix.png')",
+                            backgroundImage: "url('/assets/images/netflix.png')",
                             display: "flex",
                             placeContent: "center",
                             placeItems: "center",
