@@ -324,6 +324,7 @@ export default function Register() {
                                                     variant="outlined"
                                                     sx={{
                                                         fontWeight: 600,
+                                                        py: 1,
                                                     }}
                                                 >
                                                     <LockOutlinedIcon />
@@ -332,10 +333,11 @@ export default function Register() {
                                                         style={{
                                                             paddingLeft: 4,
                                                             textTransform: "capitalize",
-                                                            fontSize: 14,
+                                                            fontSize: 16,
+                                                            fontWeight: 700,
                                                         }}
                                                     >
-                                                        Register
+                                                        Continue
                                                     </Typography>
                                                 </Button>
                                                 <Box>
