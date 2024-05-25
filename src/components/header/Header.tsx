@@ -61,10 +61,12 @@ const Header = (): React.JSX.Element => {
         setUser(null);
         closeMenuProfile();
         navigate("/login");
+        window.scrollTo(0, 0);
     }
 
     function redirectToProfile(): void {
         navigate("/profile");
+        window.scrollTo(0, 0);
     }
 
     async function getGenres(): Promise<void> {
@@ -165,7 +167,7 @@ const Header = (): React.JSX.Element => {
                             flexDirection={"row"}
                             alignItems={"center"}
                             justifyContent={"space-around"}
-                            columnGap={6}
+                            columnGap={3}
                             flexWrap={"wrap"}
                         >
                             <Box>
@@ -181,6 +183,9 @@ const Header = (): React.JSX.Element => {
                                         fontSize: 20,
                                     }}
                                     to="/"
+                                    onClick={() => {
+                                        window.scrollTo(0, 0);
+                                    }}
                                 >
                                     MovieLandia24
                                 </Link>
@@ -189,7 +194,7 @@ const Header = (): React.JSX.Element => {
                                 <List sx={{ display: "flex", flexDirection: "row", columnGap: 2 }}>
                                     <ListItem>
                                         <NavLink
-                                            style={({ isActive, isPending, isTransitioning }) => {
+                                            style={({ isActive, isTransitioning }) => {
                                                 return {
                                                     fontWeight: isActive ? "bold" : "",
                                                     color: isActive
@@ -215,6 +220,9 @@ const Header = (): React.JSX.Element => {
                                                 };
                                             }}
                                             to="/movies"
+                                            onClick={() => {
+                                                window.scrollTo(0, 0);
+                                            }}
                                         >
                                             <MovieIcon fontSize={"large"} />
                                             Movies
@@ -226,7 +234,7 @@ const Header = (): React.JSX.Element => {
                                         sx={{ cursor: "pointer" }}
                                     >
                                         <NavLink
-                                            style={({ isActive, isPending, isTransitioning }) => {
+                                            style={({ isActive, isTransitioning }) => {
                                                 return {
                                                     fontWeight: isActive ? "bold" : "",
                                                     color: isActive
@@ -277,6 +285,7 @@ const Header = (): React.JSX.Element => {
                                                     onClick={() => {
                                                         closeMenuGenres();
                                                         navigate(`/genres/${genre.name}`);
+                                                        window.scrollTo(0, 0);
                                                     }}
                                                     sx={{
                                                         cursor: "pointer",
@@ -324,6 +333,9 @@ const Header = (): React.JSX.Element => {
                                                 };
                                             }}
                                             to="/series"
+                                            onClick={() => {
+                                                window.scrollTo(0, 0);
+                                            }}
                                         >
                                             <LocalMoviesIcon fontSize={"large"} />
                                             Series
@@ -343,8 +355,10 @@ const Header = (): React.JSX.Element => {
 
                                         if (value.length > 0) {
                                             navigate(`/movies?search=${value}`);
+                                            window.scrollTo(0, 0);
                                         } else {
                                             navigate("/movies");
+                                            window.scrollTo(0, 0);
                                         }
                                     }}
                                     InputProps={{
@@ -362,6 +376,7 @@ const Header = (): React.JSX.Element => {
                                                     onClick={() => {
                                                         if (searchParams.get("search")) {
                                                             navigate("/movies");
+                                                            window.scrollTo(0, 0);
                                                         }
                                                     }}
                                                 />
@@ -436,6 +451,7 @@ const Header = (): React.JSX.Element => {
                                             variant="outlined"
                                             onClick={function () {
                                                 navigate("/login");
+                                                window.scrollTo(0, 0);
                                             }}
                                             sx={{
                                                 display: "flex",
@@ -498,12 +514,14 @@ const Header = (): React.JSX.Element => {
                         sx={{
                             display: "flex",
                             placeContent: "end",
-                            marginTop: 2,
+                            marginRight: 2,
+                            marginTop: 1,
                         }}
                     >
                         <IconButton
                             onClick={() => {
                                 setOpenDrawer(false);
+                                window.scrollTo(0, 0);
                             }}
                         >
                             <CloseOutlined />
@@ -515,6 +533,7 @@ const Header = (): React.JSX.Element => {
                             flexDirection: "column",
                             rowGap: 1,
                             alignItems: "center",
+                            justifyContent: "start",
                         }}
                     >
                         <ListItem>
@@ -532,6 +551,7 @@ const Header = (): React.JSX.Element => {
                                 to={"/"}
                                 onClick={() => {
                                     setOpenDrawer(false);
+                                    window.scrollTo(0, 0);
                                 }}
                             >
                                 MovieLandia24
@@ -539,7 +559,7 @@ const Header = (): React.JSX.Element => {
                         </ListItem>
                         <ListItem>
                             <NavLink
-                                style={({ isActive, isPending, isTransitioning }) => {
+                                style={({ isActive, isTransitioning }) => {
                                     return {
                                         fontWeight: isActive ? "bold" : "",
                                         color: isActive
@@ -563,6 +583,7 @@ const Header = (): React.JSX.Element => {
                                 to="/movies"
                                 onClick={() => {
                                     setOpenDrawer(false);
+                                    window.scrollTo(0, 0);
                                 }}
                             >
                                 <MovieIcon fontSize={"large"} />
@@ -574,7 +595,7 @@ const Header = (): React.JSX.Element => {
                             onMouseLeave={closeMenuGenresMobile}
                         >
                             <NavLink
-                                style={({ isActive, isPending, isTransitioning }) => {
+                                style={({ isActive, isTransitioning }) => {
                                     return {
                                         fontWeight: isActive ? "bold" : "",
                                         color: isActive
@@ -624,6 +645,7 @@ const Header = (): React.JSX.Element => {
                                             closeMenuGenres();
                                             navigate(`/genres/${genre.name}`);
                                             setOpenDrawer(false);
+                                            window.scrollTo(0, 0);
                                         }}
                                     >
                                         {genre.name}
@@ -633,7 +655,7 @@ const Header = (): React.JSX.Element => {
                         </ListItem>
                         <ListItem>
                             <NavLink
-                                style={({ isActive, isPending, isTransitioning }) => {
+                                style={({ isActive, isTransitioning }) => {
                                     return {
                                         fontWeight: isActive ? "bold" : "",
                                         color: isActive
@@ -657,6 +679,7 @@ const Header = (): React.JSX.Element => {
                                 to="/series"
                                 onClick={() => {
                                     setOpenDrawer(false);
+                                    window.scrollTo(0, 0);
                                 }}
                             >
                                 <LocalMoviesIcon fontSize={"large"} />
@@ -667,8 +690,8 @@ const Header = (): React.JSX.Element => {
                             sx={{
                                 display: "flex",
                                 flexDirection: "column",
-                                placeContent: "center",
-                                rowGap: 2,
+                                justifyContent: "start",
+                                rowGap: 1,
                             }}
                         >
                             <TextField
@@ -680,8 +703,10 @@ const Header = (): React.JSX.Element => {
 
                                     if (value.length > 0) {
                                         navigate(`/movies?search=${value}`);
+                                        window.scrollTo(0, 0);
                                     } else {
                                         navigate("/movies");
+                                        window.scrollTo(0, 0);
                                     }
                                 }}
                                 InputProps={{
@@ -701,6 +726,7 @@ const Header = (): React.JSX.Element => {
                                                 onClick={() => {
                                                     if (searchParams.get("search")) {
                                                         navigate("/movies");
+                                                        window.scrollTo(0, 0);
                                                     }
                                                 }}
                                             />
