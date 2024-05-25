@@ -25,21 +25,16 @@ export default function MovieItemLatest({ latestMovie }: IMovieItemLatestProps) 
                 );
                 window.scrollTo(0, 0);
             }}
-            style={{
-                cursor: "pointer",
-                maxHeight: `${mobileOpen ? "150px" : "250px"}`,
-                maxWidth: `${mobileOpen ? "150px" : "200px"}`,
-            }}
         >
             <Card
                 key={latestMovie.id}
                 sx={{
-                    maxHeight: `${mobileOpen ? "150px" : "250px"}`,
                     maxWidth: `${mobileOpen ? "150px" : "200px"}`,
                     height: "100%",
                     width: "100%",
                     display: "flex",
                     flexDirection: "column",
+                    cursor: "pointer",
                 }}
             >
                 <CardMedia
