@@ -34,7 +34,7 @@ export default function Movies() {
     const [moviesCarouselImages, setMoviesCarouselImages] = useState<any[]>([
         {
             source: `${api.url}/images/movies/1gxZrx9gL9ov2c1NpXimEUzMTmh.jpg`,
-            title: "Spider-Man: No Way Home (2021)",
+            title: "SpiderMan No Way Home (2021)",
         },
         {
             source: `${api.url}/images/movies/1RjyfPLsZTq3lUdJY7pTzcmpPKl.jpg`,
@@ -168,7 +168,7 @@ export default function Movies() {
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    transition={{ duration: 0.45, ease: "easeInOut" }}
+                    transition={{ duration: 0.35, ease: "easeInOut" }}
                 >
                     <Box
                         sx={{
