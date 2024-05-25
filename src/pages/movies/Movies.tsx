@@ -4,7 +4,6 @@ import movieService from "~/services/api/movieService";
 import type IMovie from "~/types/IMovie";
 import type IMoviesSearchResponse from "~/types/IMovieSearchResponse";
 import type IMoviesResponse from "~/types/IMoviesResponse";
-import MoviesCarousel from "~/pages/movies/moviesCarousel/MoviesCarousel";
 import MovieItem from "~/components/movieItem/MovieItem";
 import {
     Box,
@@ -21,6 +20,7 @@ import { getRandomElements, toFirstWordUpperCase } from "~/utils/utils";
 import SEOHelmet from "~/components/seoHelmet/SEOHelmet";
 import { useSorting } from "~/hooks/useSorting";
 import { motion } from "framer-motion";
+import Carousel from "~/components/carousel/Carousel";
 
 export default function Movies() {
     const [movies, setMovies] = useState<IMovie[] | undefined>(undefined);
@@ -161,7 +161,7 @@ export default function Movies() {
                     >
                         {!searchParams.get("search") && (
                             <Box mt={4} component={"section"}>
-                                <MoviesCarousel movies={moviesCarouselImages} />
+                                <Carousel data={moviesCarouselImages} type="movies"/>
                             </Box>
                         )}
                         {!searchParams.get("search") && (

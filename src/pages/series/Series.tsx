@@ -17,15 +17,17 @@ import { tokens } from "~/utils/theme";
 import serieService from "~/services/api/serieService";
 import SEOHelmet from "~/components/seoHelmet/SEOHelmet";
 import { useSorting } from "~/hooks/useSorting";
-import { toFirstWordUpperCase } from "~/utils/utils";
+import { getRandomElements, toFirstWordUpperCase } from "~/utils/utils";
 import { motion } from "framer-motion";
+import Carousel from "~/components/carousel/Carousel";
 
 export default function Series() {
     const [series, setSeries] = useState<ISerie[] | undefined>(undefined);
     const [seriesCount, setSeriesCount] = useState<number>(0);
     const [seriesCountSearch, setSeriesCountSearch] = useState<number>(0);
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [seriesCarouselImages, setSeriesCarouselImages] = useState<any[]>([]);
 
+    const [searchParams, setSearchParams] = useSearchParams();
     const pageCount = Math.ceil(seriesCount / 20);
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -89,7 +91,10 @@ export default function Series() {
                 setSeriesCount(responseSeries.count);
             }
         }
+
+        const randomSeries = getRandomElements(seriesResponse, 5);
         setSeries(seriesResponse);
+        setSeriesCarouselImages(randomSeries);
     }
 
     useEffect(() => {
@@ -133,6 +138,9 @@ export default function Series() {
                         rowGap={4}
                         paddingTop={4}
                     >
+                        <Box mt={4} component={"section"}>
+                            <Carousel data={seriesCarouselImages} type="series"/>
+                        </Box>
                         <Stack
                             display="flex"
                             flexDirection="row"
