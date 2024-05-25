@@ -143,6 +143,7 @@ export default function Serie() {
                                 }}
                                 src={serie.trailerSrc}
                                 title={serie.title}
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                 allowFullScreen
                             ></iframe>
                         </Box>

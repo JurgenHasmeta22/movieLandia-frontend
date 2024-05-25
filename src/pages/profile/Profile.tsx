@@ -57,7 +57,7 @@ export default function Profile() {
                 type="website"
                 canonicalUrl="https://example.com/profile"
             />
-            <Box height={"100vh"} component={"main"}>
+            <Box height={"100%"} component={"main"} mb={2}>
                 <Box
                     display={"flex"}
                     flexDirection={"row"}
@@ -78,31 +78,45 @@ export default function Profile() {
                         value={searchParams?.get("tab")! === "favMovies"}
                         onChange={handleChange}
                         variant="fullWidth"
-                        textColor="secondary"
                         orientation="horizontal"
+                        sx={{
+                            borderBottom: `2px solid ${colors.greenAccent[200]}`,
+                        }}
                     >
                         <Tab
                             label="Favorite Movies"
-                            style={{
+                            tabIndex={0}
+                            sx={{
                                 backgroundColor: colors.blueAccent[400],
                                 color: colors.primary[400],
-                                fontWeight: "700",
+                                fontWeight: "600",
+                                fontSize: 18,
+                                textTransform: "capitalize",
+                                borderBottom: `${searchParams?.get("tab") === "favMovies" ? "4px solid" : "0px"}`,
                             }}
                         />
                         <Tab
                             label="Favorite Series"
-                            style={{
+                            tabIndex={1}
+                            sx={{
                                 backgroundColor: colors.blueAccent[400],
                                 color: colors.primary[400],
-                                fontWeight: "700",
+                                fontWeight: "600",
+                                fontSize: 18,
+                                textTransform: "capitalize",
+                                borderBottom: `${searchParams?.get("tab") === "favSeries" ? "4px solid" : "0px"}`,
                             }}
                         />
                         <Tab
                             label="About Me"
-                            style={{
+                            tabIndex={2}
+                            sx={{
                                 backgroundColor: colors.blueAccent[400],
                                 color: colors.primary[400],
-                                fontWeight: "700",
+                                fontWeight: "600",
+                                fontSize: 18,
+                                textTransform: "capitalize",
+                                borderBottom: `${searchParams?.get("tab") === "about" ? "4px solid" : "0px"}`,
                             }}
                         />
                     </Tabs>
