@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
-import MovieItem from "~/components/movieItem/MovieItem";
 import type IMovie from "~/types/IMovie";
 import {
     Box,
@@ -19,6 +18,7 @@ import { useSorting } from "~/hooks/useSorting";
 import { toFirstWordUpperCase } from "~/utils/utils";
 import IMoviesResponse from "~/types/IMoviesResponse";
 import { motion } from "framer-motion";
+import CardItem from "~/components/cardItem/CardItem";
 
 export default function Genre(): React.JSX.Element {
     const [itemsPerPage, setItemsPerPage] = useState<number>(20);
@@ -226,7 +226,7 @@ export default function Genre(): React.JSX.Element {
                             marginTop={4}
                         >
                             {moviesOfGenre.map((movie: any) => (
-                                <MovieItem movie={movie} key={movie.id} />
+                                <CardItem data={movie} key={movie.id} />
                             ))}
                         </Stack>
                         <Stack
