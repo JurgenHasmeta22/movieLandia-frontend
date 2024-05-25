@@ -27,7 +27,7 @@ const CardItem = ({ data, type }: ICardItemProps): React.JSX.Element => {
                     const path =
                         type === "serie"
                             ? `/series/${data.title.split(" ").join("-")}`
-                            : `/datas/${data.title.split(" ").join("-")}`;
+                            : `/movies/${data.title.split(" ").join("-")}`;
 
                     navigate(path);
                     window.scrollTo(0, 0);
