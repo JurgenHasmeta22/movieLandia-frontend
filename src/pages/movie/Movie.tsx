@@ -134,6 +134,7 @@ export default function Movie() {
                                         border: "none",
                                         outline: "none",
                                     }}
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                     src={movie.trailerSrc}
                                     title={movie.title}
                                     allowFullScreen

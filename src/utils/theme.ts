@@ -303,6 +303,21 @@ export const themeSettings = (mode: any) => {
                     // },
                 },
             },
+            MuiTab: {
+                // styleOverrides: {
+                //     root: {
+                //         textTransform: "capitalize",
+                //         "&:selected": {
+                //             borderBottom: `3px solid ${colors.primary[600]}`,
+                //         },
+                //     },
+                // },
+                defaultProps: {
+                    disableRipple: true,
+                    disableFocusRipple: true,
+                    disableTouchRipple: true,
+                },
+            },
         },
     };
 };
