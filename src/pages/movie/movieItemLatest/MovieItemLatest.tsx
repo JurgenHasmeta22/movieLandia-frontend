@@ -47,8 +47,8 @@ export default function MovieItemLatest({ latestMovie }: IMovieItemLatestProps) 
                     image={latestMovie.photoSrc}
                     alt={latestMovie.description}
                     sx={{
-                        height: "100%",
-                        width: "100%",
+                        height: "317px",
+                        width: "214px",
                         objectFit: "cover",
                     }}
                 />

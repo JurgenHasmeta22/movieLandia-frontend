@@ -39,8 +39,8 @@ const CardItem = ({ data, type }: ICardItemProps): React.JSX.Element => {
                     alt={`${data.description}`}
                     image={data.photoSrc}
                     sx={{
-                        height: "300px",
-                        width: "200px",
+                        height: "317px",
+                        width: "214px",
                     }}
                 />
                 <CardContent
