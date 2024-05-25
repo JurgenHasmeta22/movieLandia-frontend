@@ -29,7 +29,9 @@ const MovieItem = ({ movie, type }: IMovieItemProps): React.JSX.Element => {
                         type === "serie"
                             ? `/series/${movie.title.split(" ").join("-")}`
                             : `/movies/${movie.title.split(" ").join("-")}`;
+                            
                     navigate(path);
+                    window.scrollTo(0, 0)
                 }}
                 elevation={4}
             >
