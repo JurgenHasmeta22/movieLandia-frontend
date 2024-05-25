@@ -149,7 +149,9 @@ export default function Register() {
                                                     flexDirection={"column"}
                                                     rowGap={1}
                                                 >
-                                                    <FormLabel>Username</FormLabel>
+                                                    <FormLabel component={"label"}>
+                                                        Username
+                                                    </FormLabel>
                                                     <TextField
                                                         type="text"
                                                         name="userName"
@@ -180,7 +182,7 @@ export default function Register() {
                                                     flexDirection={"column"}
                                                     rowGap={1}
                                                 >
-                                                    <FormLabel>Email</FormLabel>
+                                                    <FormLabel component={"label"}>Email</FormLabel>
                                                     <TextField
                                                         type="text"
                                                         name="email"
@@ -209,7 +211,9 @@ export default function Register() {
                                                     flexDirection={"column"}
                                                     rowGap={1}
                                                 >
-                                                    <FormLabel>Password</FormLabel>
+                                                    <FormLabel component={"label"}>
+                                                        Password
+                                                    </FormLabel>
                                                     <TextField
                                                         type={showPassword ? "text" : "password"}
                                                         name="password"
@@ -261,7 +265,9 @@ export default function Register() {
                                                     flexDirection={"column"}
                                                     rowGap={1}
                                                 >
-                                                    <FormLabel>Confirm password</FormLabel>
+                                                    <FormLabel component={"label"}>
+                                                        Confirm password
+                                                    </FormLabel>
                                                     <TextField
                                                         type={
                                                             showPasswordConfirm
