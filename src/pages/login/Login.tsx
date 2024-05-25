@@ -81,7 +81,7 @@ export default function Login() {
                             placeContent: "center",
                             placeItems: "center",
                             paddingTop: 10,
-                            paddingBottom: 10
+                            paddingBottom: 10,
                         }}
                         component={"section"}
                     >
@@ -155,7 +155,9 @@ export default function Login() {
                                                     flexDirection={"column"}
                                                     rowGap={1}
                                                 >
-                                                    <FormLabel component={"label"}>Password</FormLabel>
+                                                    <FormLabel component={"label"}>
+                                                        Password
+                                                    </FormLabel>
                                                     <TextField
                                                         type={showPassword ? "text" : "password"}
                                                         name="password"
@@ -208,21 +210,25 @@ export default function Login() {
                                                     variant="outlined"
                                                     sx={{
                                                         fontWeight: 600,
+                                                        py: 1,
                                                     }}
                                                 >
                                                     <LockOutlinedIcon />
-                                                    <Typography component={"span"}
+                                                    <Typography
+                                                        component={"span"}
                                                         style={{
-                                                            fontSize: 14,
+                                                            fontSize: 16,
                                                             paddingLeft: 4,
+                                                            fontWeight: 700,
                                                             textTransform: "capitalize",
                                                         }}
                                                     >
-                                                        Login
+                                                        Continue
                                                     </Typography>
                                                 </Button>
                                                 <Box>
-                                                    <Typography component={"span"}
+                                                    <Typography
+                                                        component={"span"}
                                                         style={{
                                                             fontSize: 12,
                                                             paddingLeft: 4,
