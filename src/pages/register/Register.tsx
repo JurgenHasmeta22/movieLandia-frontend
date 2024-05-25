@@ -90,7 +90,7 @@ export default function Register() {
                 >
                     <Box
                         sx={{
-                            backgroundImage: "url('/assets/assets/images/netflix.png')",
+                            backgroundImage: "url('/assets/images/netflix.png')",
                             display: "flex",
                             placeContent: "center",
                             placeItems: "center",
