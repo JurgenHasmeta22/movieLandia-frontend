@@ -3,48 +3,55 @@ import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useStore } from "~/store/store";
 
-export default function FavoriteMoviesTab() {
+interface FavoritesTabProps {
+    type: "Movies" | "Series";
+}
+
+export default function FavoritesTab({ type }: FavoritesTabProps) {
     const navigate = useNavigate();
     const { user } = useStore();
+    const favorites = type === "Movies" ? user?.favMovies : user?.favSeries;
 
     return (
         <Box component={"section"}>
-            <Typography variant="h2">Bookmarked Movies</Typography>
+            <Typography variant="h2">Bookmarked {type}</Typography>
             <Stack flexDirection={"row"} flexWrap={"wrap"} columnGap={3} rowGap={3} mt={4}>
-                {user?.favMovies?.map((favMovie: any) => (
+                {favorites?.map((favItem: any) => (
                     <motion.div
+                        key={favItem.movie.id}
                         whileHover={{ scale: 1.05 }}
                         transition={{ duration: 0.2, ease: "easeInOut" }}
                     >
                         <Box
-                            key={favMovie.movie.id}
-                            onClick={function () {
-                                navigate(
-                                    `/movies/${favMovie.movie.title
-                                        .split("")
-                                        .map((char: any) => (char === " " ? "-" : char))
-                                        .join("")}`,
-                                );
-                                window.scroll(0, 0);
+                            onClick={() => {
+                                const urlPath = type === "Movies" ? "movies" : "series";
+                                const formattedTitle = favItem.movie.title
+                                    .split("")
+                                    .map((char: string) => (char === " " ? "-" : char))
+                                    .join("");
+                                navigate(`/${urlPath}/${formattedTitle}`);
+                                window.scrollTo(0, 0);
                             }}
                             sx={{
                                 height: "250px",
                                 width: "200px",
+                                cursor: "pointer",
                             }}
                         >
                             <img
-                                src={favMovie.movie.photoSrc}
+                                src={favItem.movie.photoSrc}
+                                alt={favItem.movie.title}
                                 style={{
                                     height: "200px",
                                     width: "200px",
-                                    cursor: "pointer",
+                                    objectFit: "cover",
                                 }}
                             />
                             <Typography component={"h4"} fontSize={16}>
-                                {favMovie.movie.title}
+                                {favItem.movie.title}
                             </Typography>
                             <Typography component={"span"} fontSize={12}>
-                                Release Year: {favMovie.movie.releaseYear}
+                                Release Year: {favItem.movie.releaseYear}
                             </Typography>
                         </Box>
                     </motion.div>

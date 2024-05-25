@@ -3,6 +3,7 @@ import type IMoviesResponse from "~/types/IMoviesResponse";
 import ISerie from "~/types/ISerie";
 import ISeriePatch from "~/types/ISeriePatch";
 import ISeriePost from "~/types/ISeriePost";
+import IUser from "~/types/IUser";
 
 const api = {
     url: import.meta.env.VITE_API_URL,
@@ -123,6 +124,29 @@ const serieService = {
         let url = `${api.url}/deleteSerieById/${id}`;
         const serie: ISerie = await axios.delete(url).then((res) => res.data);
         return serie;
+    },
+    addToFavorites: async (
+        serieId: number | undefined,
+        userId: number | undefined,
+    ): Promise<any> => {
+        if (localStorage.token) {
+            const config = {
+                headers: {
+                    Authorization: localStorage.token,
+                },
+            };
+
+            const payload = {
+                serieId,
+                userId,
+            };
+
+            const user: IUser = await axios
+                .post(`${api.url}/bookmarkSerie`, payload, config)
+                .then((x) => x.data);
+
+            return user;
+        }
     },
 };
 

@@ -4,10 +4,10 @@ import { useStore } from "~/store/store";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import { tokens } from "~/utils/theme";
 import TabPanel from "~/components/tab/Tab";
-import FavoriteMoviesTab from "./favoriteMovies/FavoriteMovies";
-import AboutUsTab from "./aboutUs/AboutUs";
+import AboutUsTab from "./aboutUs/About";
 import { useState } from "react";
 import SEOHelmet from "~/components/seoHelmet/SEOHelmet";
+import FavoritesTab from "./favorites/Favorites";
 
 export default function Profile() {
     const [value, setValue] = useState<number>(0);
@@ -81,9 +81,14 @@ export default function Profile() {
                                 color: colors.primary[400],
                                 fontWeight: "700",
                             }}
-                            disableFocusRipple={true}
-                            disableRipple={true}
-                            disableTouchRipple={true}
+                        />
+                        <Tab
+                            label="Favorite Series"
+                            style={{
+                                backgroundColor: colors.blueAccent[400],
+                                color: colors.primary[400],
+                                fontWeight: "700",
+                            }}
                         />
                         <Tab
                             label="About Me"
@@ -95,9 +100,12 @@ export default function Profile() {
                         />
                     </Tabs>
                     <TabPanel value={value} index={0}>
-                        <FavoriteMoviesTab />
+                        <FavoritesTab type={"Movies"} />
                     </TabPanel>
                     <TabPanel value={value} index={1}>
+                        <FavoritesTab type={"Series"} />
+                    </TabPanel>
+                    <TabPanel value={value} index={2}>
                         <AboutUsTab />
                     </TabPanel>
                 </Box>

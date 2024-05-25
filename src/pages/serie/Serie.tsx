@@ -1,8 +1,17 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import type ISerie from "~/types/ISerie";
 import serieService from "~/services/api/serieService";
-import { Box, CircularProgress, List, ListItem, Stack, Typography, useTheme } from "@mui/material";
+import {
+    Box,
+    Button,
+    CircularProgress,
+    List,
+    ListItem,
+    Stack,
+    Typography,
+    useTheme,
+} from "@mui/material";
 import { tokens } from "~/utils/theme";
 import SEOHelmet from "~/components/seoHelmet/SEOHelmet";
 import ReviewsIcon from "@mui/icons-material/Reviews";
@@ -10,6 +19,8 @@ import { motion } from "framer-motion";
 import ISeriesResponse from "~/types/ISeriesResponse";
 import SerieItemLatest from "./serieItemLatest/SerieItemLatest";
 import { useResizeWindow } from "~/hooks/useResizeWindow";
+import { toast } from "react-toastify";
+import { useStore } from "~/store/store";
 
 export default function Serie() {
     const [serie, setSerie] = useState<ISerie | null>(null);
@@ -18,6 +29,8 @@ export default function Serie() {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const isPageShrunk = useResizeWindow();
+    const { user, setUser } = useStore();
+    const navigate = useNavigate();
 
     async function getSeries(): Promise<void> {
         const response: ISeriesResponse = await serieService.getSeries({});
@@ -32,6 +45,26 @@ export default function Serie() {
 
         if (response) {
             setSerie(response);
+        }
+    }
+
+    async function addToFavorites() {
+        if (!user || !serie) return;
+
+        try {
+            const response = await serieService.addToFavorites(serie.id, user.id);
+
+            if (response && !response.error) {
+                setUser(response);
+                toast.success("Serie bookmarked successfully!");
+                navigate("/profile");
+                window.scrollTo(0, 0);
+            } else {
+                toast.error("Serie not bookmarked successfully!");
+            }
+        } catch (error) {
+            console.error("An error occurred while adding the serie to favorites:", error);
+            toast.error("An error occurred while adding the serie to favorites.");
         }
     }
 
@@ -157,6 +190,17 @@ export default function Serie() {
                             <Typography textAlign={"center"} color={"secondary"} width={"50%"}>
                                 {serie.description}
                             </Typography>
+                            {user?.userName && (
+                                <Button
+                                    onClick={function () {
+                                        addToFavorites();
+                                    }}
+                                    color="secondary"
+                                    variant="outlined"
+                                >
+                                    Add to favorites
+                                </Button>
+                            )}
                         </Box>
                     </Box>
                     <Box

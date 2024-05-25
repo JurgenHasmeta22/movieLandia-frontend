@@ -2,7 +2,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useStore } from "~/store/store";
 import type IMovie from "~/types/IMovie";
-import type IUser from "~/types/IUser";
 import movieService from "~/services/api/movieService";
 import MovieItemLatest from "~/pages/movie/movieItemLatest/MovieItemLatest";
 import {
@@ -26,7 +25,6 @@ export default function Movie() {
     const [movie, setMovie] = useState<IMovie | null>(null);
     const [latestMoviesRelated, setLatestMoviesRelated] = useState<IMovie[]>([]);
     const { user, setUser } = useStore();
-
     const params = useParams();
     const navigate = useNavigate();
     const isPageShrunk = useResizeWindow();

@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
 
-export default function AboutUsTab() {
+export default function AboutTab() {
     return (
         <Box>
             <Typography>This is my account</Typography>
