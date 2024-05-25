@@ -17,46 +17,23 @@ import {
     useTheme,
 } from "@mui/material";
 import { tokens } from "~/utils/theme";
-import { toFirstWordUpperCase } from "~/utils/utils";
+import { getRandomElements, toFirstWordUpperCase } from "~/utils/utils";
 import SEOHelmet from "~/components/seoHelmet/SEOHelmet";
 import { useSorting } from "~/hooks/useSorting";
 import { motion } from "framer-motion";
-
-const api = {
-    url: import.meta.env.VITE_API_URL,
-};
 
 export default function Movies() {
     const [movies, setMovies] = useState<IMovie[] | undefined>(undefined);
     const [latestMovies, setLatestMovies] = useState<IMovie[]>([]);
     const [moviesCount, setMoviesCount] = useState<number | null>(null);
     const [moviesCountSearch, setMoviesCountSearch] = useState<number | null>(null);
-    const [moviesCarouselImages, setMoviesCarouselImages] = useState<any[]>([
-        {
-            source: `${api.url}/images/movies/1gxZrx9gL9ov2c1NpXimEUzMTmh.jpg`,
-            title: "SpiderMan No Way Home (2021)",
-        },
-        {
-            source: `${api.url}/images/movies/1RjyfPLsZTq3lUdJY7pTzcmpPKl.jpg`,
-            title: "Eternals (2021)",
-        },
-        {
-            source: `${api.url}/images/movies/1TkkTo8UiRl5lWM5qkAISHXg0fU.jpg`,
-            title: "Freaks Out (2021)",
-        },
-        {
-            source: `${api.url}/images/movies/1ZiZ3eVUWPxJROTkYbH8FBC9UuB.jpg`,
-            title: "The Girl on the Mountain (2022)",
-        },
-        {
-            source: `${api.url}/images/movies/4kiVg3QJQghjtRupyfWYI3T1R0O-1.jpg`,
-            title: "Money Trap (2019) a.k.a. Organize Isler: Sazan Sarmali",
-        },
-    ]);
+    const [moviesCarouselImages, setMoviesCarouselImages] = useState<any[]>([]);
+
     const [searchParams, setSearchParams] = useSearchParams();
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const handleChangeSorting = useSorting();
+
     let pageCount;
 
     if (searchParams.get("search")) {
@@ -129,7 +106,9 @@ export default function Movies() {
             }
         }
 
+        const randomMovies = getRandomElements(moviesResponse, 5);
         setMovies(moviesResponse);
+        setMoviesCarouselImages(randomMovies);
     }
 
     useEffect(() => {
@@ -182,7 +161,7 @@ export default function Movies() {
                     >
                         {!searchParams.get("search") && (
                             <Box mt={4} component={"section"}>
-                                <MoviesCarousel images={moviesCarouselImages} />
+                                <MoviesCarousel movies={moviesCarouselImages} />
                             </Box>
                         )}
                         {!searchParams.get("search") && (
