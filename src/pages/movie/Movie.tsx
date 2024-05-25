@@ -20,6 +20,7 @@ import { useResizeWindow } from "~/hooks/useResizeWindow";
 import SEOHelmet from "~/components/seoHelmet/SEOHelmet";
 import ReviewsIcon from "@mui/icons-material/Reviews";
 import { motion } from "framer-motion";
+import { toast } from "react-toastify";
 
 export default function Movie() {
     const [movie, setMovie] = useState<IMovie | null>(null);
@@ -43,8 +44,23 @@ export default function Movie() {
     }
 
     async function addToFavorites() {
-        const response: IUser = await movieService.addToFavorites(movie?.id, user?.id);
-        setUser(response);
+        if (!user || !movie) return;
+
+        try {
+            const response = await movieService.addToFavorites(movie.id, user.id);
+
+            if (response && !response.error) {
+                setUser(response);
+                toast.success("Movie bookmarked successfully!");
+                navigate("/profile");
+                window.scrollTo(0, 0);
+            } else {
+                toast.error("Movie not bookmarked successfully!");
+            }
+        } catch (error) {
+            console.error("An error occurred while adding the movie to favorites:", error);
+            toast.error("An error occurred while adding the movie to favorites.");
+        }
     }
 
     useEffect(() => {
@@ -182,7 +198,6 @@ export default function Movie() {
                                     <Button
                                         onClick={function () {
                                             addToFavorites();
-                                            navigate("/profile");
                                         }}
                                         color="secondary"
                                         variant="outlined"

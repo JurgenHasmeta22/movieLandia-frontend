@@ -50,19 +50,19 @@ export default function Profile() {
                 type="website"
                 canonicalUrl="https://example.com/profile"
             />
-            <Box height={"70vh"} component={"main"}>
+            <Box height={"100vh"} component={"main"}>
                 <Box
                     display={"flex"}
                     flexDirection={"row"}
                     columnGap={1}
                     justifyContent={"center"}
                     alignItems={"center"}
-                    mt={4}
+                    mt={8}
                     mb={4}
                     component={"section"}
                 >
                     <PersonOutlinedIcon color="secondary" fontSize="large" />
-                    <Typography color={"primary"} fontWeight={500} fontSize={22}>
+                    <Typography color={"secondary"} fontWeight={500} fontSize={22}>
                         {user.userName}
                     </Typography>
                 </Box>
@@ -71,22 +71,25 @@ export default function Profile() {
                         value={value}
                         onChange={handleChange}
                         variant="fullWidth"
-                        textColor="primary"
+                        textColor="secondary"
                         orientation="horizontal"
                     >
                         <Tab
                             label="Favorite Movies"
                             style={{
                                 backgroundColor: colors.blueAccent[400],
-                                color: colors.primary[600],
+                                color: colors.primary[400],
                                 fontWeight: "700",
                             }}
+                            disableFocusRipple={true}
+                            disableRipple={true}
+                            disableTouchRipple={true}
                         />
                         <Tab
-                            label="About me"
+                            label="About Me"
                             style={{
                                 backgroundColor: colors.blueAccent[400],
-                                color: colors.primary[600],
+                                color: colors.primary[400],
                                 fontWeight: "700",
                             }}
                         />
