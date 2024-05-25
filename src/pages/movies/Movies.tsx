@@ -4,7 +4,6 @@ import movieService from "~/services/api/movieService";
 import type IMovie from "~/types/IMovie";
 import type IMoviesSearchResponse from "~/types/IMovieSearchResponse";
 import type IMoviesResponse from "~/types/IMoviesResponse";
-import MovieItem from "~/components/movieItem/MovieItem";
 import {
     Box,
     CircularProgress,
@@ -21,6 +20,7 @@ import SEOHelmet from "~/components/seoHelmet/SEOHelmet";
 import { useSorting } from "~/hooks/useSorting";
 import { motion } from "framer-motion";
 import Carousel from "~/components/carousel/Carousel";
+import CardItem from "~/components/cardItem/CardItem";
 
 export default function Movies() {
     const [movies, setMovies] = useState<IMovie[] | undefined>(undefined);
@@ -161,7 +161,7 @@ export default function Movies() {
                     >
                         {!searchParams.get("search") && (
                             <Box mt={4} component={"section"}>
-                                <Carousel data={moviesCarouselImages} type="movies"/>
+                                <Carousel data={moviesCarouselImages} type="movies" />
                             </Box>
                         )}
                         {!searchParams.get("search") && (
@@ -238,7 +238,7 @@ export default function Movies() {
                                 }}
                             >
                                 {movies.map((movie: IMovie) => (
-                                    <MovieItem movie={movie} key={movie.id} />
+                                    <CardItem data={movie} key={movie.id} />
                                 ))}
                             </Stack>
                         ) : (
@@ -303,7 +303,7 @@ export default function Movies() {
                                     mb={4}
                                 >
                                     {latestMovies?.map((latestMovie: IMovie) => (
-                                        <MovieItem movie={latestMovie} key={latestMovie.id} />
+                                        <CardItem data={latestMovie} key={latestMovie.id} />
                                     ))}
                                 </Stack>
                             </Box>

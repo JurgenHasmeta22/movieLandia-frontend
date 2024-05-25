@@ -33,7 +33,7 @@ import MovieIcon from "@mui/icons-material/Movie";
 import LocalMoviesIcon from "@mui/icons-material/LocalMovies";
 import SubtitlesIcon from "@mui/icons-material/Subtitles";
 import { useLocalStorage } from "~/hooks/useLocalStorage";
-import HeaderMenu from "../HeaderMenu/HeaderMenu";
+import HeaderMenu from "../headerMenu/HeaderMenu";
 
 const Header = (): React.JSX.Element => {
     const [options, setOptions] = useState<any>([]);

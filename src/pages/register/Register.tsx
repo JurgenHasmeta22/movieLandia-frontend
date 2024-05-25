@@ -90,7 +90,7 @@ export default function Register() {
                 >
                     <Box
                         sx={{
-                            backgroundImage: "url('/src/assets/images/netflix.png')",
+                            backgroundImage: "url('/public/assets/assets/images/netflix.png')",
                             display: "flex",
                             placeContent: "center",
                             placeItems: "center",
@@ -313,7 +313,8 @@ export default function Register() {
                                                     }}
                                                 >
                                                     <LockOutlinedIcon />
-                                                    <Typography component={"span"}
+                                                    <Typography
+                                                        component={"span"}
                                                         style={{
                                                             paddingLeft: 4,
                                                             textTransform: "capitalize",
@@ -324,7 +325,8 @@ export default function Register() {
                                                     </Typography>
                                                 </Button>
                                                 <Box>
-                                                    <Typography component={"span"}
+                                                    <Typography
+                                                        component={"span"}
                                                         style={{
                                                             textTransform: "capitalize",
                                                             fontSize: 12,

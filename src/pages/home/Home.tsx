@@ -1,6 +1,5 @@
 import { Box, CircularProgress, Container, Stack } from "@mui/material";
 import HomeHeroSection from "./components/HomeHero";
-import MovieItem from "~/components/movieItem/MovieItem";
 import { useEffect, useState } from "react";
 import ISerie from "~/types/ISerie";
 import IGenre from "~/types/IGenre";
@@ -12,6 +11,7 @@ import serieService from "~/services/api/serieService";
 import genreService from "~/services/api/genreService";
 import GenreItem from "~/components/genreItem/GenreItem";
 import { motion } from "framer-motion";
+import CardItem from "~/components/cardItem/CardItem";
 
 export default function Home() {
     const [series, setSeries] = useState<ISerie[]>([]);
@@ -51,6 +51,7 @@ export default function Home() {
         const fetchData = async () => {
             await Promise.all([getMovies(), getSeries(), getGenres()]);
         };
+
         fetchData();
     }, []);
 
@@ -79,7 +80,7 @@ export default function Home() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.35, ease: "easeInOut" }}
-                >
+            >
                 <HomeHeroSection />
                 <Container component={"section"}>
                     <Stack flexDirection={"column"} rowGap={10} mb={6} mt={6}>
@@ -93,7 +94,7 @@ export default function Home() {
                                     marginLeft: 8,
                                 }}
                             >
-                                Explore more Movies
+                                Explore Movies
                             </Link>
                             <Stack
                                 direction="row"
@@ -104,7 +105,7 @@ export default function Home() {
                                 columnGap={4}
                             >
                                 {movies.map((movie: any) => (
-                                    <MovieItem movie={movie} key={movie.id} />
+                                    <CardItem data={movie} key={movie.id} />
                                 ))}
                             </Stack>
                         </Box>
@@ -118,7 +119,7 @@ export default function Home() {
                                     marginLeft: 8,
                                 }}
                             >
-                                Explore more Series
+                                Explore Series
                             </Link>
                             <Stack
                                 direction="row"
@@ -128,8 +129,8 @@ export default function Home() {
                                 rowGap={4}
                                 columnGap={4}
                             >
-                                {series.map((serie: any) => (
-                                    <MovieItem movie={serie} type="serie" key={serie.id} />
+                                {series.map((serie: ISerie) => (
+                                    <CardItem data={serie} type="serie" key={serie.id} />
                                 ))}
                             </Stack>
                         </Box>
@@ -143,7 +144,7 @@ export default function Home() {
                                     marginLeft: 8,
                                 }}
                             >
-                                Explore more Genres
+                                Explore Genres
                             </Link>
                             <Stack
                                 direction="row"
@@ -153,7 +154,7 @@ export default function Home() {
                                 rowGap={4}
                                 columnGap={4}
                             >
-                                {genres.map((genre: any) => (
+                                {genres.map((genre: IGenre) => (
                                     <GenreItem key={genre.id} genre={genre} />
                                 ))}
                             </Stack>

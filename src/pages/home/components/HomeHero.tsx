@@ -14,7 +14,7 @@ const HomeHeroSection = () => {
             component={"section"}
             sx={{
                 height: "100vh",
-                backgroundImage: "url('/src/assets/images/netflix.png')",
+                backgroundImage: "url('/public/assets/images/netflix.png')",
                 backgroundSize: "cover",
                 backgroundPosition: "center",
             }}
