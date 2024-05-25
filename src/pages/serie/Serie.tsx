@@ -48,7 +48,7 @@ export default function Serie() {
         }
     }
 
-    async function addToFavorites() {
+    async function bookmarkSerie() {
         if (!user || !serie) return;
 
         try {
@@ -57,7 +57,7 @@ export default function Serie() {
             if (response && !response.error) {
                 setUser(response);
                 toast.success("Serie bookmarked successfully!");
-                navigate("/profile");
+                navigate("/profile?tab=favSeries");
                 window.scrollTo(0, 0);
             } else {
                 toast.error("Serie not bookmarked successfully!");
@@ -192,8 +192,8 @@ export default function Serie() {
                             </Typography>
                             {user?.userName && (
                                 <Button
-                                    onClick={function () {
-                                        addToFavorites();
+                                    onClick={() => {
+                                        bookmarkSerie();
                                     }}
                                     color="secondary"
                                     variant="outlined"
