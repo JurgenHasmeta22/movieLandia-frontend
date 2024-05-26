@@ -33,18 +33,26 @@ export default function Serie() {
     const navigate = useNavigate();
 
     async function getSeries(): Promise<void> {
-        const response: ISeriesResponse = await serieService.getSeries({});
+        try {
+            const response: ISeriesResponse = await serieService.getSeries({});
 
-        if (response) {
-            setSeries(response.rows);
+            if (response) {
+                setSeries(response.rows);
+            }
+        } catch (error) {
+            console.error("Error fetching series:", error);
         }
     }
 
     async function getSerie(): Promise<void> {
-        const response: ISerie = await serieService.getSerieByTitle(params?.title!, {});
+        try {
+            const response: ISerie = await serieService.getSerieByTitle(params?.title!, {});
 
-        if (response) {
-            setSerie(response);
+            if (response) {
+                setSerie(response);
+            }
+        } catch (error) {
+            console.error("Error fetching serie:", error);
         }
     }
 
@@ -86,7 +94,7 @@ export default function Serie() {
                     height: "100vh",
                 }}
             >
-                <CircularProgress size={80} thickness={4} color="secondary"/>
+                <CircularProgress size={80} thickness={4} color="secondary" />
             </Box>
         );
     }

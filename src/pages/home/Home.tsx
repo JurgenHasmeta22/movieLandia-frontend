@@ -21,29 +21,44 @@ export default function Home() {
     const [movies, setMovies] = useState<IMovie[]>([]);
 
     const getMovies = async () => {
-        const response: IMoviesResponse = await movieService.getMovies({});
-        if (response && response.movies) {
-            const shuffledArray = response.movies.sort(() => Math.random() - 0.5);
-            const randomElements = shuffledArray.slice(0, 5);
-            setMovies(randomElements);
+        try {
+            const response: IMoviesResponse = await movieService.getMovies({});
+
+            if (response && response.movies) {
+                const shuffledArray = response.movies.sort(() => Math.random() - 0.5);
+                const randomElements = shuffledArray.slice(0, 5);
+                setMovies(randomElements);
+            }
+        } catch (error) {
+            console.error("Error fetching movies:", error);
         }
     };
 
     const getSeries = async () => {
-        const response = await serieService.getSeries({});
-        if (response && response.rows) {
-            const shuffledArray = response.rows.sort(() => Math.random() - 0.5);
-            const randomElements = shuffledArray.slice(0, 5);
-            setSeries(randomElements);
+        try {
+            const response = await serieService.getSeries({});
+
+            if (response && response.rows) {
+                const shuffledArray = response.rows.sort(() => Math.random() - 0.5);
+                const randomElements = shuffledArray.slice(0, 5);
+                setSeries(randomElements);
+            }
+        } catch (error) {
+            console.error("Error fetching series:", error);
         }
     };
 
     const getGenres = async () => {
-        const response = await genreService.getGenres({});
-        if (response && response.rows) {
-            const shuffledArray = response.rows.sort(() => Math.random() - 0.5);
-            const randomElements = shuffledArray.slice(0, 5);
-            setGenres(randomElements);
+        try {
+            const response = await genreService.getGenres({});
+
+            if (response && response.rows) {
+                const shuffledArray = response.rows.sort(() => Math.random() - 0.5);
+                const randomElements = shuffledArray.slice(0, 5);
+                setGenres(randomElements);
+            }
+        } catch (error) {
+            console.error("Error fetching genres:", error);
         }
     };
 
@@ -104,7 +119,7 @@ export default function Home() {
                     height: "100vh",
                 }}
             >
-                <CircularProgress size={80} thickness={4} color="secondary"/>
+                <CircularProgress size={80} thickness={4} color="secondary" />
             </Box>
         );
     }

@@ -24,7 +24,6 @@ export default function Genre(): React.JSX.Element {
     const [itemsPerPage, setItemsPerPage] = useState<number>(20);
     const [moviesCountGenre, setMoviesCountGenres] = useState<number>(0);
     const [moviesOfGenre, setMoviesOfGenre] = useState<IMovie[] | undefined>(undefined);
-
     const params = useParams();
     const [searchParams, setSearchParams] = useSearchParams();
     const theme = useTheme();
@@ -40,8 +39,11 @@ export default function Genre(): React.JSX.Element {
     async function getMoviesOnGenre(): Promise<void> {
         if (!searchParams.get("page") && params.name && !searchParams.get("sortBy")) {
             const response: IMoviesResponse = await genreService.getGenreByName(params.name, {});
-            setMoviesOfGenre(response.movies);
-            setMoviesCountGenres(response.count);
+
+            if (response) {
+                setMoviesOfGenre(response.movies);
+                setMoviesCountGenres(response.count);
+            }
         } else if (searchParams.get("page") && params.name && !searchParams.get("sortBy")) {
             const queryParams = {
                 page: searchParams.get("page")!,
@@ -50,8 +52,11 @@ export default function Genre(): React.JSX.Element {
                 params?.name,
                 queryParams,
             );
-            setMoviesOfGenre(response.movies);
-            setMoviesCountGenres(response.count);
+
+            if (response) {
+                setMoviesOfGenre(response.movies);
+                setMoviesCountGenres(response.count);
+            }
         } else {
             if (searchParams.get("sortBy") && searchParams.get("ascOrDesc") && params.name) {
                 if (searchParams.get("page")) {
@@ -64,8 +69,11 @@ export default function Genre(): React.JSX.Element {
                         params!.name!,
                         queryParams,
                     );
-                    setMoviesOfGenre(response.movies);
-                    setMoviesCountGenres(response.count);
+
+                    if (response) {
+                        setMoviesOfGenre(response.movies);
+                        setMoviesCountGenres(response.count);
+                    }
                 } else {
                     const queryParams = {
                         sortBy: searchParams.get("sortBy")!,
@@ -75,8 +83,11 @@ export default function Genre(): React.JSX.Element {
                         params!.name!,
                         queryParams,
                     );
-                    setMoviesOfGenre(response.movies);
-                    setMoviesCountGenres(response.count);
+
+                    if (response) {
+                        setMoviesOfGenre(response.movies);
+                        setMoviesCountGenres(response.count);
+                    }
                 }
             } else if (searchParams.get("page")) {
                 const queryParams = {
@@ -86,15 +97,21 @@ export default function Genre(): React.JSX.Element {
                     params!.name!,
                     queryParams,
                 );
-                setMoviesOfGenre(response.movies);
-                setMoviesCountGenres(response.count);
+
+                if (response) {
+                    setMoviesOfGenre(response.movies);
+                    setMoviesCountGenres(response.count);
+                }
             } else {
                 const response: IMoviesResponse = await genreService.getGenreByName(
                     params!.name!,
                     {},
                 );
-                setMoviesOfGenre(response.movies);
-                setMoviesCountGenres(response.count);
+
+                if (response) {
+                    setMoviesOfGenre(response.movies);
+                    setMoviesCountGenres(response.count);
+                }
             }
         }
     }

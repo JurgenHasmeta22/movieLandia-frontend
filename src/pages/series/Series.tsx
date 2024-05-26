@@ -47,14 +47,20 @@ export default function Series() {
                     searchParams.get("search")!,
                     searchParams.get("page")!,
                 );
-                seriesResponse = response.rows;
-                setSeriesCountSearch(response.count);
+
+                if (response) {
+                    seriesResponse = response.rows;
+                    setSeriesCountSearch(response.count);
+                }
             } else {
                 const response: ISeriesResponse = await serieService.searchSeriesByTitle(
                     searchParams.get("search")!,
                 );
-                seriesResponse = response.rows;
-                setSeriesCountSearch(response.count);
+
+                if (response) {
+                    seriesResponse = response.rows;
+                    setSeriesCountSearch(response.count);
+                }
             }
         } else {
             if (searchParams.get("sortBy") && searchParams.get("ascOrDesc")) {
@@ -64,35 +70,51 @@ export default function Series() {
                         page: searchParams.get("page")!,
                         ascOrDesc: searchParams.get("ascOrDesc")!,
                     };
+
                     const responseSeries: ISeriesResponse =
                         await serieService.getSeries(queryParams);
-                    seriesResponse = responseSeries.rows;
-                    setSeriesCount(responseSeries.count);
+
+                    if (responseSeries) {
+                        seriesResponse = responseSeries.rows;
+                        setSeriesCount(responseSeries.count);
+                    }
                 } else {
                     const queryParams = {
                         sortBy: searchParams.get("sortBy")!,
                         ascOrDesc: searchParams.get("ascOrDesc")!,
                     };
+
                     const responseSeries: ISeriesResponse =
                         await serieService.getSeries(queryParams);
-                    seriesResponse = responseSeries.rows;
-                    setSeriesCount(responseSeries.count);
+
+                    if (responseSeries) {
+                        seriesResponse = responseSeries.rows;
+                        setSeriesCount(responseSeries.count);
+                    }
                 }
             } else if (searchParams.get("page")) {
                 const queryParams = {
                     page: searchParams.get("page")!,
                 };
+
                 const responseSeries: ISeriesResponse = await serieService.getSeries(queryParams);
-                seriesResponse = responseSeries.rows;
-                setSeriesCount(responseSeries.count);
+
+                if (responseSeries) {
+                    seriesResponse = responseSeries.rows;
+                    setSeriesCount(responseSeries.count);
+                }
             } else {
                 const responseSeries: ISeriesResponse = await serieService.getSeries({});
-                seriesResponse = responseSeries.rows;
-                setSeriesCount(responseSeries.count);
+
+                if (responseSeries) {
+                    seriesResponse = responseSeries.rows;
+                    setSeriesCount(responseSeries.count);
+                }
             }
         }
 
         const randomSeries = getRandomElements(seriesResponse, 5);
+
         setSeries(seriesResponse);
         setSeriesCarouselImages(randomSeries);
     }
@@ -111,7 +133,7 @@ export default function Series() {
                     height: "100vh",
                 }}
             >
-                <CircularProgress size={80} thickness={4} color="secondary"/>
+                <CircularProgress size={80} thickness={4} color="secondary" />
             </Box>
         );
     }
