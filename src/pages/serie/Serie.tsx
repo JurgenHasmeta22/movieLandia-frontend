@@ -217,17 +217,6 @@ export default function Serie() {
                                 >
                                     {serie.description}
                                 </Typography>
-                                {user?.userName && (
-                                    <Button
-                                        onClick={() => {
-                                            bookmarkSerie();
-                                        }}
-                                        color="secondary"
-                                        variant="outlined"
-                                    >
-                                        Add to favorites
-                                    </Button>
-                                )}
                                 <Button
                                     href={serie.trailerSrc}
                                     target="_blank"
@@ -255,6 +244,24 @@ export default function Serie() {
                                         Watch Trailer
                                     </Typography>
                                 </Button>
+                                {user?.userName && (
+                                    <Button
+                                        onClick={() => {
+                                            bookmarkSerie();
+                                        }}
+                                        color="secondary"
+                                        variant="contained"
+                                        sx={{
+                                            width: "40%",
+                                            display: "flex",
+                                            placeSelf: "center",
+                                            marginTop: 2,
+                                            py: 1,
+                                        }}
+                                    >
+                                        Add to favorites
+                                    </Button>
+                                )}
                             </Box>
                         </Box>
                     </Box>
