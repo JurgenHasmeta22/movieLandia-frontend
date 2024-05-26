@@ -127,27 +127,13 @@ export default function Serie() {
                         <Typography
                             mt={4}
                             mb={2}
-                            fontSize={18}
+                            fontSize={28}
                             color={"secondary"}
                             textAlign={"center"}
                             component={"h1"}
                         >
                             {serie.title}
                         </Typography>
-                        <Box>
-                            <iframe
-                                style={{
-                                    width: `${isPageShrunk ? "250px" : "750px"}`,
-                                    height: `${isPageShrunk ? "300px" : "450px"}`,
-                                    border: "none",
-                                    outline: "none",
-                                }}
-                                src={serie.trailerSrc}
-                                title={serie.title}
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowFullScreen
-                            ></iframe>
-                        </Box>
                         <Box
                             sx={{
                                 display: "flex",
@@ -162,7 +148,8 @@ export default function Serie() {
                                 sx={{
                                     display: "flex",
                                     flexDirection: "row",
-                                    paddingLeft: 2,
+                                    width: "50%",
+                                    paddingLeft: 4,
                                 }}
                             >
                                 <ListItem

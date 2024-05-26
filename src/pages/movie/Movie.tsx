@@ -120,27 +120,13 @@ export default function Movie() {
                             <Typography
                                 mt={4}
                                 mb={2}
-                                fontSize={18}
+                                fontSize={28}
                                 color={"secondary"}
                                 textAlign={"center"}
                                 component={"h1"}
                             >
                                 {movie.title}
                             </Typography>
-                            <Box>
-                                <iframe
-                                    style={{
-                                        width: `${isPageShrunk ? "250px" : "750px"}`,
-                                        height: `${isPageShrunk ? "300px" : "450px"}`,
-                                        border: "none",
-                                        outline: "none",
-                                    }}
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                    src={movie.trailerSrc}
-                                    title={movie.title}
-                                    allowFullScreen
-                                ></iframe>
-                            </Box>
                             <Box
                                 sx={{
                                     display: "flex",
@@ -154,8 +140,8 @@ export default function Movie() {
                                     sx={{
                                         display: "flex",
                                         flexDirection: "row",
-                                        width: "70%",
-                                        paddingLeft: 2,
+                                        width: "60%",
+                                        paddingLeft: 4,
                                     }}
                                 >
                                     <ListItem

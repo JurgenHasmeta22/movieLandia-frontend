@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, CardContent, CardMedia, Stack, Typography } from "@mui/material";
+import { Box, Card, CardContent, CardMedia, Stack, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 
@@ -48,8 +48,10 @@ const CardItem = ({ data, type }: ICardItemProps): React.JSX.Element => {
                         flexGrow: 1,
                         display: "flex",
                         flexDirection: "column",
-                        placeContent: "flex-start",
-                        letterSpacing: 0.5,
+                        alignItems: "start",
+                        justifyContent: "start",
+                        // placeItems: "start",
+                        letterSpacing: 0.3,
                     }}
                 >
                     <Typography variant="body1" color={"secondary"} fontWeight={600} fontSize={14}>
@@ -61,7 +63,7 @@ const CardItem = ({ data, type }: ICardItemProps): React.JSX.Element => {
                                 display: "flex",
                                 flexDirection: "row",
                                 flexWrap: "wrap",
-                                columnGap: 1,
+                                columnGap: 0.5,
                                 pt: 0.5,
                                 pb: 0.5,
                             }}
@@ -85,9 +87,22 @@ const CardItem = ({ data, type }: ICardItemProps): React.JSX.Element => {
                             ))}
                         </Stack>
                     )}
-                    <Typography color={"secondary"} fontSize={12}>
-                        {data.ratingImdb !== 0 ? `Rating Imdb: ${data.ratingImdb}` : "Imdb: N/A"}
-                    </Typography>
+                    <Box
+                        display="flex"
+                        flexDirection="row"
+                        columnGap={0.5}
+                        alignItems={"center"}
+                        justifyContent={"start"}
+                    >
+                        <img
+                            src="/assets/icons/imdb.svg"
+                            alt="IMDb Icon"
+                            style={{ width: "35px", height: "35px" }}
+                        />
+                        <Typography color={"secondary"} fontSize={12} component="span">
+                            {data.ratingImdb !== 0 ? `${data.ratingImdb}` : "N/A"}
+                        </Typography>
+                    </Box>
                 </CardContent>
             </Card>
         </motion.div>
