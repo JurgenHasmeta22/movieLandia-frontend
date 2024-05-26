@@ -47,28 +47,57 @@ const userService = {
             url += `?${queryParams}`;
         }
 
-        const response: IUserResponse = await axios.get(url).then((res) => res.data);
-        return response;
+        try {
+            const response: IUserResponse = await axios.get(url).then((res) => res.data);
+            return response;
+        } catch (error) {
+            // console.log(error);
+            return { error };
+        }
     },
     getUserByUserName: async (userName: string): Promise<any> => {
         let url = `${api.url}/getUserByUserName/${userName}`;
-        const user: IUser = await axios.get(url).then((res) => res.data);
-        return user;
+
+        try {
+            const user: IUser = await axios.get(url).then((res) => res.data);
+            return user;
+        } catch (error) {
+            // console.log(error);
+            return { error };
+        }
     },
     getUserById: async (id: any) => {
         let url = `${api.url}/getUserById/${id}`;
-        const user: IUser = await axios.get(url).then((res) => res.data);
-        return user;
+
+        try {
+            const user: IUser = await axios.get(url).then((res) => res.data);
+            return user;
+        } catch (error) {
+            // console.log(error);
+            return { error };
+        }
     },
     updateUser: async (payload: IUserPatch, id: number): Promise<any> => {
         let url = `${api.url}/updateUserById/${id}`;
-        const user: IUser = await axios.patch(url, payload).then((res) => res.data);
-        return user;
+
+        try {
+            const user: IUser = await axios.patch(url, payload).then((res) => res.data);
+            return user;
+        } catch (error) {
+            // console.log(error);
+            return { error };
+        }
     },
     deleteUser: async (id: number): Promise<any> => {
         let url = `${api.url}/deleteUserById/${id}`;
-        const user: IUser = await axios.delete(url).then((res) => res.data);
-        return user;
+
+        try {
+            const user: IUser = await axios.delete(url).then((res) => res.data);
+            return user;
+        } catch (error) {
+            // console.log(error);
+            return { error };
+        }
     },
 };
 

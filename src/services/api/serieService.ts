@@ -48,8 +48,13 @@ const serieService = {
             url += `?${queryParams}`;
         }
 
-        const response: IMoviesResponse = await axios.get(url).then((res) => res.data);
-        return response;
+        try {
+            const response: IMoviesResponse = await axios.get(url).then((res) => res.data);
+            return response;
+        } catch (error) {
+            // console.log(error);
+            return { error };
+        }
     },
     getSerieByTitle: async (
         titleSerie: string,
@@ -92,13 +97,24 @@ const serieService = {
             url += `?${queryParams}`;
         }
 
-        const serie: ISerie = await axios.get(url).then((res) => res.data);
-        return serie;
+        try {
+            const serie: ISerie = await axios.get(url).then((res) => res.data);
+            return serie;
+        } catch (error) {
+            // console.log(error);
+            return { error };
+        }
     },
     getSerieById: async (id: any): Promise<any> => {
         let url = `${api.url}/getSerieById/${id}`;
-        const serie: ISerie = await axios.get(url).then((res) => res.data);
-        return serie;
+
+        try {
+            const serie: ISerie = await axios.get(url).then((res) => res.data);
+            return serie;
+        } catch (error) {
+            // console.log(error);
+            return { error };
+        }
     },
     searchSeriesByTitle: async (title: string, page?: string): Promise<any> => {
         let url = `${api.url}/searchSeriesByTitle?title=${title}`;
@@ -107,23 +123,46 @@ const serieService = {
             url += `&page=${page}`;
         }
 
-        const response: IMoviesResponse = await axios.get(url).then((res) => res.data);
-        return response;
+        try {
+            const response: IMoviesResponse = await axios.get(url).then((res) => res.data);
+            return response;
+        } catch (error) {
+            // console.log(error);
+            return { error };
+        }
     },
     updateSerie: async (payload: ISeriePatch, id: number): Promise<any> => {
         let url = `${api.url}/updateSerieById/${id}`;
-        const serie: ISerie = await axios.patch(url, payload).then((res) => res.data);
-        return serie;
+
+        try {
+            const serie: ISerie = await axios.patch(url, payload).then((res) => res.data);
+            return serie;
+        } catch (error) {
+            // console.log(error);
+            return { error };
+        }
     },
     addSerie: async (payload: ISeriePost): Promise<any> => {
         let url = `${api.url}/addSerie`;
-        const serie: ISerie = await axios.post(url, payload).then((res) => res.data);
-        return serie;
+
+        try {
+            const serie: ISerie = await axios.post(url, payload).then((res) => res.data);
+            return serie;
+        } catch (error) {
+            // console.log(error);
+            return { error };
+        }
     },
     deleteSerie: async (id: number): Promise<any> => {
         let url = `${api.url}/deleteSerieById/${id}`;
-        const serie: ISerie = await axios.delete(url).then((res) => res.data);
-        return serie;
+
+        try {
+            const serie: ISerie = await axios.delete(url).then((res) => res.data);
+            return serie;
+        } catch (error) {
+            // console.log(error);
+            return { error };
+        }
     },
     addToFavorites: async (
         serieId: number | undefined,
@@ -135,17 +174,20 @@ const serieService = {
                     Authorization: localStorage.token,
                 },
             };
-
             const payload = {
                 serieId,
                 userId,
             };
 
-            const user: IUser = await axios
-                .post(`${api.url}/bookmarkSerie`, payload, config)
-                .then((x) => x.data);
-
-            return user;
+            try {
+                const user: IUser = await axios
+                    .post(`${api.url}/bookmarkSerie`, payload, config)
+                    .then((x) => x.data);
+                return user;
+            } catch (error) {
+                // console.log(error);
+                return { error };
+            }
         }
     },
 };
