@@ -2,9 +2,7 @@ import axios from "axios";
 import IGenre from "~/types/IGenre";
 import IGenrePatch from "~/types/IGenrePatch";
 import IGenrePost from "~/types/IGenrePost";
-import type IMovie from "~/types/IMovie";
 import type IMoviesResponse from "~/types/IMoviesResponse";
-import type IUser from "~/types/IUser";
 
 const api = {
     url: import.meta.env.VITE_API_URL,
@@ -49,8 +47,13 @@ const genreService = {
             url += `?${queryParams}`;
         }
 
-        const moviesResponse: IMoviesResponse = await axios.get(url).then((res) => res.data);
-        return moviesResponse;
+        try {
+            const moviesResponse: IMoviesResponse = await axios.get(url).then((res) => res.data);
+            return moviesResponse;
+        } catch (error) {
+            // console.log(error);
+            return { error };
+        }
     },
     getGenreByName: async (
         name: string,
@@ -93,28 +96,57 @@ const genreService = {
             url += `?${queryParams}`;
         }
 
-        const moviesResponse: IMoviesResponse = await axios.get(url).then((res) => res.data);
-        return moviesResponse;
+        try {
+            const moviesResponse: IMoviesResponse = await axios.get(url).then((res) => res.data);
+            return moviesResponse;
+        } catch (error) {
+            // console.log(error);
+            return { error };
+        }
     },
     getGenreById: async (id: any): Promise<any> => {
         let url = `${api.url}/getGenreById/${id}`;
-        const genre: IGenre = await axios.get(url).then((res) => res.data);
-        return genre;
+
+        try {
+            const genre: IGenre = await axios.get(url).then((res) => res.data);
+            return genre;
+        } catch (error) {
+            // console.log(error);
+            return { error };
+        }
     },
     updateGenre: async (payload: IGenrePatch, id: number): Promise<any> => {
         let url = `${api.url}/updateGenreById/${id}`;
-        const genre: IGenre = await axios.patch(url, payload).then((res) => res.data);
-        return genre;
+
+        try {
+            const genre: IGenre = await axios.patch(url, payload).then((res) => res.data);
+            return genre;
+        } catch (error) {
+            // console.log(error);
+            return { error };
+        }
     },
     addGenre: async (payload: IGenrePost): Promise<any> => {
         let url = `${api.url}/addGenre`;
-        const genre: IGenre = await axios.post(url, payload).then((res) => res.data);
-        return genre;
+
+        try {
+            const genre: IGenre = await axios.post(url, payload).then((res) => res.data);
+            return genre;
+        } catch (error) {
+            // console.log(error);
+            return { error };
+        }
     },
     deleteGenre: async (id: number): Promise<any> => {
         let url = `${api.url}/deleteGenreById/${id}`;
-        const genre: IGenre = await axios.delete(url).then((res) => res.data);
-        return genre;
+
+        try {
+            const genre: IGenre = await axios.delete(url).then((res) => res.data);
+            return genre;
+        } catch (error) {
+            // console.log(error);
+            return { error };
+        }
     },
 };
 

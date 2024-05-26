@@ -48,8 +48,13 @@ const movieService = {
             url += `?${queryParams}`;
         }
 
-        const moviesResponse: IMoviesResponse = await axios.get(url).then((res) => res.data);
-        return moviesResponse;
+        try {
+            const moviesResponse: IMoviesResponse = await axios.get(url).then((res) => res.data);
+            return moviesResponse;
+        } catch (error) {
+            // console.log(error);
+            return { error };
+        }
     },
     searchMoviesByTitle: async (title: string, page?: string): Promise<any> => {
         let url = `${api.url}/searchMoviesByTitle?title=${title}`;
@@ -58,26 +63,46 @@ const movieService = {
             url += `&page=${page}`;
         }
 
-        const moviesResponse: IMoviesResponse = await axios.get(url).then((res) => res.data);
-        return moviesResponse;
+        try {
+            const moviesResponse: IMoviesResponse = await axios.get(url).then((res) => res.data);
+            return moviesResponse;
+        } catch (error) {
+            // console.log(error);
+            return { error };
+        }
     },
     getMovieByTitle: async (title: string | undefined): Promise<any> => {
-        const movie: IMovie = await axios
-            .get(`${api.url}/getMovieByTitle/${title}`)
-            .then((x) => x.data);
-
-        return movie;
+        try {
+            const movie: IMovie = await axios
+                .get(`${api.url}/getMovieByTitle/${title}`)
+                .then((x) => x.data);
+            return movie;
+        } catch (error) {
+            // console.log(error);
+            return { error };
+        }
     },
     getMovieById: async (id: any | undefined): Promise<any> => {
-        const movie: IMovie = await axios.get(`${api.url}/getMovieById/${id}`).then((x) => x.data);
-        return movie;
+        try {
+            const movie: IMovie = await axios
+                .get(`${api.url}/getMovieById/${id}`)
+                .then((x) => x.data);
+            return movie;
+        } catch (error) {
+            // console.log(error);
+            return { error };
+        }
     },
     getLatestMovies: async (): Promise<any> => {
-        const latestMovies: IMovie[] = await axios
-            .get(`${api.url}/getLatestMovies`)
-            .then((x) => x.data);
-
-        return latestMovies;
+        try {
+            const latestMovies: IMovie[] = await axios
+                .get(`${api.url}/getLatestMovies`)
+                .then((x) => x.data);
+            return latestMovies;
+        } catch (error) {
+            // console.log(error);
+            return { error };
+        }
     },
     addToFavorites: async (
         movieId: number | undefined,
@@ -89,33 +114,55 @@ const movieService = {
                     Authorization: localStorage.token,
                 },
             };
-
             const payload = {
                 movieId,
                 userId,
             };
 
-            const user: IUser = await axios
-                .post(`${api.url}/bookmarkMovie`, payload, config)
-                .then((x) => x.data);
+            try {
+                const user: IUser = await axios
+                    .post(`${api.url}/bookmarkMovie`, payload, config)
+                    .then((x) => x.data);
 
-            return user;
+                return user;
+            } catch (error) {
+                // console.log(error);
+                return { error };
+            }
         }
     },
     updateMovie: async (payload: IMoviePatch, id: number): Promise<any> => {
         let url = `${api.url}/updateMovieById/${id}`;
-        const movie: IMovie = await axios.patch(url, payload).then((res) => res.data);
-        return movie;
+
+        try {
+            const movie: IMovie = await axios.patch(url, payload).then((res) => res.data);
+            return movie;
+        } catch (error) {
+            // console.log(error);
+            return { error };
+        }
     },
     addMovie: async (payload: IMoviePost): Promise<any> => {
         let url = `${api.url}/addMovie`;
-        const movie: IMovie = await axios.post(url, payload).then((res) => res.data);
-        return movie;
+
+        try {
+            const movie: IMovie = await axios.post(url, payload).then((res) => res.data);
+            return movie;
+        } catch (error) {
+            // console.log(error);
+            return { error };
+        }
     },
     deleteMovie: async (id: number): Promise<any> => {
         let url = `${api.url}/deleteMovieById/${id}`;
-        const movie: IMovie = await axios.delete(url).then((res) => res.data);
-        return movie;
+
+        try {
+            const movie: IMovie = await axios.delete(url).then((res) => res.data);
+            return movie;
+        } catch (error) {
+            // console.log(error);
+            return { error };
+        }
     },
 };
 

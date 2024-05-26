@@ -22,7 +22,7 @@ const authenticationService = {
 
             return responseLogin;
         } catch (error) {
-            console.log(error);
+            // console.log(error);
             return { error };
         }
     },
@@ -41,7 +41,7 @@ const authenticationService = {
 
             return responseLogin;
         } catch (error) {
-            console.log(error);
+            // console.log(error);
             return { error };
         }
     },
@@ -56,11 +56,16 @@ const authenticationService = {
                 },
             };
 
-            const response: IUser = await axios
-                .get(`${api.url}/validateUser`, config)
-                .then((x) => x.data);
+            try {
+                const response: IUser = await axios
+                    .get(`${api.url}/validateUser`, config)
+                    .then((x) => x.data);
 
-            return response;
+                return response;
+            } catch (error) {
+                // console.log(error);
+                return { error };
+            }
         }
     },
 };
