@@ -102,7 +102,7 @@ export default function Movie() {
                         sx={{
                             display: "flex",
                             flexDirection: "column",
-                            rowGap: 4,
+                            rowGap: 3,
                         }}
                     >
                         <Box

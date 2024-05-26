@@ -110,7 +110,7 @@ export default function Serie() {
                     sx={{
                         display: "flex",
                         flexDirection: "column",
-                        rowGap: 4,
+                        rowGap: 3,
                     }}
                     component={"main"}
                 >
