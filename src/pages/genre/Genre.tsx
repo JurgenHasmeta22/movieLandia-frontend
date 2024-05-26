@@ -113,7 +113,7 @@ export default function Genre(): React.JSX.Element {
                     height: "100vh",
                 }}
             >
-                <CircularProgress size={80} thickness={4} />
+                <CircularProgress size={80} thickness={4} color="secondary" />
             </Box>
         );
     }

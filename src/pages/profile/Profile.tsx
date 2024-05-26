@@ -43,7 +43,7 @@ export default function Profile() {
                     height: "100vh",
                 }}
             >
-                <CircularProgress size={80} thickness={4} />
+                <CircularProgress size={80} thickness={4} color="secondary"/>
             </Box>
         );
     }
@@ -72,7 +72,7 @@ export default function Profile() {
                         {user.userName}
                     </Typography>
                 </Box>
-                <Box component={"section"} marginTop={4}>
+                <Box component={"section"} marginTop={4} marginBottom={2}>
                     <Tabs
                         value={searchParams?.get("tab")! === "favMovies"}
                         onChange={handleChange}
