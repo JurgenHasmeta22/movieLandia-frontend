@@ -19,6 +19,8 @@ import { useSorting } from "~/hooks/useSorting";
 import { getRandomElements, toFirstWordUpperCase } from "~/utils/utils";
 import Carousel from "~/components/carousel/Carousel";
 import CardItem from "~/components/cardItem/CardItem";
+import { useInView } from "react-intersection-observer";
+import { motion, useAnimation } from "framer-motion";
 
 export default function Series() {
     const [series, setSeries] = useState<ISerie[] | undefined>(undefined);
@@ -122,6 +124,19 @@ export default function Series() {
         getSeries();
     }, [searchParams]);
 
+    const sectionVariants = {
+        hidden: { opacity: 0, y: 100 },
+        visible: { opacity: 1, y: 0 },
+    };
+    const [seriesRef, seriesInView] = useInView({ triggerOnce: true });
+    const seriesControls = useAnimation();
+
+    useEffect(() => {
+        if (seriesInView) {
+            seriesControls.start("visible");
+        }
+    }, [seriesInView, seriesControls]);
+
     if (!series) {
         return (
             <Box
@@ -218,18 +233,27 @@ export default function Series() {
                             rowGap: 4,
                         }}
                     >
-                        <Stack
-                            direction="row"
-                            flexWrap="wrap"
-                            justifyContent={"center"}
-                            alignContent={"center"}
-                            rowGap={8}
-                            columnGap={4}
+                        <motion.div
+                            ref={seriesRef}
+                            animate={seriesControls}
+                            variants={sectionVariants}
+                            transition={{ duration: 0.5 }}
+                            initial="hidden"
+                            style={{ position: "relative" }}
                         >
-                            {series.map((serie: any) => (
-                                <CardItem data={serie} type="serie" key={serie.id} />
-                            ))}
-                        </Stack>
+                            <Stack
+                                direction="row"
+                                flexWrap="wrap"
+                                justifyContent={"center"}
+                                alignContent={"center"}
+                                rowGap={8}
+                                columnGap={4}
+                            >
+                                {series.map((serie: any) => (
+                                    <CardItem data={serie} type="serie" key={serie.id} />
+                                ))}
+                            </Stack>
+                        </motion.div>
                         <Stack
                             spacing={2}
                             sx={{
