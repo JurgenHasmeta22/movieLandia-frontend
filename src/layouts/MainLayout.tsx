@@ -1,4 +1,5 @@
 import { Box, CircularProgress, Grid } from "@mui/material";
+import { motion } from "framer-motion";
 import React from "react";
 import { Outlet } from "react-router-dom";
 import Footer from "~/components/footer/Footer";
@@ -20,11 +21,19 @@ const MainLayout = () => {
                                 height: "100vh",
                             }}
                         >
-                            <CircularProgress size={80} thickness={4} color="secondary"/>
+                            <CircularProgress size={80} thickness={4} color="secondary" />
                         </Box>
                     }
                 >
-                    <Outlet />
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 20 }}
+                        transition={{ duration: 0.5 }}
+                        style={{ width: "100%" }}
+                    >
+                        <Outlet />
+                    </motion.div>
                 </React.Suspense>
                 <ScrollToTop />
                 <Footer />

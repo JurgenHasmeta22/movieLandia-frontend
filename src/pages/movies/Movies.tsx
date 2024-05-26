@@ -18,7 +18,6 @@ import { tokens } from "~/utils/theme";
 import { getRandomElements, toFirstWordUpperCase } from "~/utils/utils";
 import SEOHelmet from "~/components/seoHelmet/SEOHelmet";
 import { useSorting } from "~/hooks/useSorting";
-import { motion } from "framer-motion";
 import Carousel from "~/components/carousel/Carousel";
 import CardItem from "~/components/cardItem/CardItem";
 
@@ -168,172 +167,162 @@ export default function Movies() {
                 canonicalUrl="https://example.com/movies"
             />
             <main>
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.5 }}
+                <Box
+                    sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                        rowGap: 4,
+                        paddingTop: 4,
+                    }}
+                    component={"section"}
                 >
-                    <Box
-                        sx={{
-                            display: "flex",
-                            flexDirection: "column",
-                            justifyContent: "center",
-                            rowGap: 4,
-                            paddingTop: 4,
-                        }}
-                        component={"section"}
-                    >
-                        {!searchParams.get("search") && (
-                            <Box mt={4} component={"section"}>
-                                <Carousel data={moviesCarouselImages} type="movies" />
-                            </Box>
-                        )}
-                        {!searchParams.get("search") && (
-                            <Stack
-                                display="flex"
-                                flexDirection="row"
-                                alignItems="center"
-                                component="section"
-                            >
-                                <Box
-                                    display="flex"
-                                    justifyContent="center"
-                                    alignItems="center"
-                                    sx={{ flexGrow: 1 }}
-                                    pl={18}
-                                >
-                                    <Typography fontSize={22} color="secondary" variant="h2">
-                                        All Movies
-                                    </Typography>
-                                </Box>
-                                <Box
-                                    sx={{
-                                        display: "flex",
-                                        flexDirection: "row",
-                                        justifyContent: "flex-end",
-                                        alignItems: "center",
-                                        columnGap: 1,
-                                        mr: 4,
-                                    }}
-                                >
-                                    <Typography color={"secondary"} fontSize={16} variant="h3">
-                                        Sort by:
-                                    </Typography>
-                                    <Box
-                                        sx={{ display: "flex", flexDirection: "row", columnGap: 1 }}
-                                    >
-                                        <Select
-                                            defaultValue={"none"}
-                                            value={
-                                                searchParams.get("sortBy") &&
-                                                searchParams.get("ascOrDesc")
-                                                    ? searchParams.get("sortBy")! +
-                                                      toFirstWordUpperCase(
-                                                          searchParams.get("ascOrDesc")!,
-                                                      )
-                                                    : "none"
-                                            }
-                                            onChange={handleChangeSorting}
-                                        >
-                                            <MenuItem value={"none"}>None</MenuItem>
-                                            <MenuItem value={"ratingImdbAsc"}>
-                                                Imdb rating (Asc)
-                                            </MenuItem>
-                                            <MenuItem value={"ratingImdbDesc"}>
-                                                Imdb rating (Desc)
-                                            </MenuItem>
-                                            <MenuItem value={"titleAsc"}>Title (Asc)</MenuItem>
-                                            <MenuItem value={"titleDesc"}>Title (Desc)</MenuItem>
-                                        </Select>
-                                    </Box>
-                                </Box>
-                            </Stack>
-                        )}
-                        {movies.length !== 0 ? (
-                            <Stack
-                                direction="row"
-                                flexWrap="wrap"
-                                justifyContent={"center"}
-                                alignContent={"center"}
-                                rowGap={8}
-                                columnGap={4}
-                                sx={{
-                                    marginTop: `${searchParams.get("search") ? 2.5 : 0.2}rem`,
-                                }}
-                            >
-                                {movies.map((movie: IMovie) => (
-                                    <CardItem data={movie} key={movie.id} />
-                                ))}
-                            </Stack>
-                        ) : (
+                    {!searchParams.get("search") && (
+                        <Box mt={4} component={"section"}>
+                            <Carousel data={moviesCarouselImages} type="movies" />
+                        </Box>
+                    )}
+                    {!searchParams.get("search") && (
+                        <Stack
+                            display="flex"
+                            flexDirection="row"
+                            alignItems="center"
+                            component="section"
+                        >
                             <Box
-                                sx={{
-                                    height: "50vh",
-                                    display: "flex",
-                                    placeItems: "center",
-                                    placeContent: "center",
-                                }}
-                                component={"section"}
+                                display="flex"
+                                justifyContent="center"
+                                alignItems="center"
+                                sx={{ flexGrow: 1 }}
+                                pl={18}
                             >
-                                <Typography component={"h1"} fontSize={20} textAlign={"center"}>
-                                    No Search Result, no movie found with that criteria.
+                                <Typography fontSize={22} color="secondary" variant="h2">
+                                    All Movies
                                 </Typography>
                             </Box>
-                        )}
+                            <Box
+                                sx={{
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    justifyContent: "flex-end",
+                                    alignItems: "center",
+                                    columnGap: 1,
+                                    mr: 4,
+                                }}
+                            >
+                                <Typography color={"secondary"} fontSize={16} variant="h3">
+                                    Sort by:
+                                </Typography>
+                                <Box sx={{ display: "flex", flexDirection: "row", columnGap: 1 }}>
+                                    <Select
+                                        defaultValue={"none"}
+                                        value={
+                                            searchParams.get("sortBy") &&
+                                            searchParams.get("ascOrDesc")
+                                                ? searchParams.get("sortBy")! +
+                                                  toFirstWordUpperCase(
+                                                      searchParams.get("ascOrDesc")!,
+                                                  )
+                                                : "none"
+                                        }
+                                        onChange={handleChangeSorting}
+                                    >
+                                        <MenuItem value={"none"}>None</MenuItem>
+                                        <MenuItem value={"ratingImdbAsc"}>
+                                            Imdb rating (Asc)
+                                        </MenuItem>
+                                        <MenuItem value={"ratingImdbDesc"}>
+                                            Imdb rating (Desc)
+                                        </MenuItem>
+                                        <MenuItem value={"titleAsc"}>Title (Asc)</MenuItem>
+                                        <MenuItem value={"titleDesc"}>Title (Desc)</MenuItem>
+                                    </Select>
+                                </Box>
+                            </Box>
+                        </Stack>
+                    )}
+                    {movies.length !== 0 ? (
                         <Stack
-                            spacing={2}
+                            direction="row"
+                            flexWrap="wrap"
+                            justifyContent={"center"}
+                            alignContent={"center"}
+                            rowGap={8}
+                            columnGap={4}
                             sx={{
+                                marginTop: `${searchParams.get("search") ? 2.5 : 0.2}rem`,
+                            }}
+                        >
+                            {movies.map((movie: IMovie) => (
+                                <CardItem data={movie} key={movie.id} />
+                            ))}
+                        </Stack>
+                    ) : (
+                        <Box
+                            sx={{
+                                height: "50vh",
                                 display: "flex",
                                 placeItems: "center",
-                                marginTop: 2,
+                                placeContent: "center",
+                            }}
+                            component={"section"}
+                        >
+                            <Typography component={"h1"} fontSize={20} textAlign={"center"}>
+                                No Search Result, no movie found with that criteria.
+                            </Typography>
+                        </Box>
+                    )}
+                    <Stack
+                        spacing={2}
+                        sx={{
+                            display: "flex",
+                            placeItems: "center",
+                            marginTop: 2,
+                            marginBottom: 4,
+                        }}
+                    >
+                        <Pagination
+                            page={searchParams.get("page") ? Number(searchParams.get("page")) : 1}
+                            size="large"
+                            count={pageCount}
+                            showFirstButton
+                            showLastButton
+                            onChange={handlePageChange}
+                            color="secondary"
+                        />
+                    </Stack>
+                    {!searchParams.get("search") && (
+                        <Box
+                            component={"section"}
+                            sx={{
+                                display: "flex",
+                                flexDirection: "column",
+                                rowGap: 2,
                                 marginBottom: 4,
                             }}
                         >
-                            <Pagination
-                                page={
-                                    searchParams.get("page") ? Number(searchParams.get("page")) : 1
-                                }
-                                size="large"
-                                count={pageCount}
-                                showFirstButton
-                                showLastButton
-                                onChange={handlePageChange}
-                                color="secondary"
-                            />
-                        </Stack>
-                        {!searchParams.get("search") && (
-                            <Box
-                                component={"section"}
-                                sx={{
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    rowGap: 2,
-                                    marginBottom: 4,
-                                }}
-                            >
-                                <Box sx={{ display: "flex", placeContent: "center" }}>
-                                    <Typography fontSize={22} color={"secondary"} variant="h2">
-                                        Latest Movies
-                                    </Typography>
-                                </Box>
-                                <Stack
-                                    direction="row"
-                                    flexWrap="wrap"
-                                    rowGap={8}
-                                    columnGap={4}
-                                    justifyContent={"center"}
-                                    alignContent={"center"}
-                                    marginTop={3}
-                                    mb={4}
-                                >
-                                    {latestMovies?.map((latestMovie: IMovie) => (
-                                        <CardItem data={latestMovie} key={latestMovie.id} />
-                                    ))}
-                                </Stack>
+                            <Box sx={{ display: "flex", placeContent: "center" }}>
+                                <Typography fontSize={22} color={"secondary"} variant="h2">
+                                    Latest Movies
+                                </Typography>
                             </Box>
-                        )}
-                    </Box>
-                </motion.div>
+                            <Stack
+                                direction="row"
+                                flexWrap="wrap"
+                                rowGap={8}
+                                columnGap={4}
+                                justifyContent={"center"}
+                                alignContent={"center"}
+                                marginTop={3}
+                                mb={4}
+                            >
+                                {latestMovies?.map((latestMovie: IMovie) => (
+                                    <CardItem data={latestMovie} key={latestMovie.id} />
+                                ))}
+                            </Stack>
+                        </Box>
+                    )}
+                </Box>
             </main>
         </>
     );
