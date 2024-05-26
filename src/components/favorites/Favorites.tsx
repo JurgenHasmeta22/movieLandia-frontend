@@ -14,8 +14,8 @@ export default function FavoritesTab({ type }: FavoritesTabProps) {
 
     return (
         <Box component={"section"}>
-            <Typography variant="h2">Bookmarked {type}</Typography>
-            <Stack flexDirection={"row"} flexWrap={"wrap"} columnGap={6} rowGap={20} mt={4}>
+            <Typography variant="h4">Bookmarked {type}</Typography>
+            <Stack flexDirection={"row"} flexWrap={"wrap"} columnGap={6} rowGap={4} mt={4}>
                 {favorites?.map((favItem: any, index: number) => (
                     <motion.div
                         key={index}
@@ -36,8 +36,8 @@ export default function FavoritesTab({ type }: FavoritesTabProps) {
                                 window.scrollTo(0, 0);
                             }}
                             sx={{
-                                height: "250px",
-                                width: "200px",
+                                height: "100%",
+                                width: "100%",
                                 cursor: "pointer",
                             }}
                         >
@@ -49,8 +49,8 @@ export default function FavoritesTab({ type }: FavoritesTabProps) {
                                 }
                                 alt={type === "Movies" ? favItem.movie.title : favItem.serie.title}
                                 style={{
-                                    height: "317px",
-                                    width: "214px",
+                                    height: "300px",
+                                    width: "200px",
                                     objectFit: "cover",
                                 }}
                             />
