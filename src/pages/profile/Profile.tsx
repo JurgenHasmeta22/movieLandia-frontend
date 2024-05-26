@@ -43,7 +43,7 @@ export default function Profile() {
                     height: "100vh",
                 }}
             >
-                <CircularProgress size={80} thickness={4} color="secondary"/>
+                <CircularProgress size={80} thickness={4} color="secondary" />
             </Box>
         );
     }
@@ -119,13 +119,13 @@ export default function Profile() {
                             }}
                         />
                     </Tabs>
-                    <TabPanel value={tabValue} index={0}>
-                        <FavoritesTab type={"Movies"} />
+                    <TabPanel value={tabValue} index={0} key={0}>
+                        <FavoritesTab type={"Movies"} key={"0"} />
                     </TabPanel>
-                    <TabPanel value={tabValue} index={1}>
-                        <FavoritesTab type={"Series"} />
+                    <TabPanel value={tabValue} index={1} key={1}>
+                        <FavoritesTab type={"Series"} key={"1"} />
                     </TabPanel>
-                    <TabPanel value={tabValue} index={2}>
+                    <TabPanel value={tabValue} index={2} key={2}>
                         <AboutUsTab />
                     </TabPanel>
                 </Box>

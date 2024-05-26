@@ -32,6 +32,7 @@ export default function FavoritesTab({ type }: FavoritesTabProps) {
                                               .split("")
                                               .map((char: string) => (char === " " ? "-" : char))
                                               .join("");
+                                              
                                 navigate(`/${urlPath}/${formattedTitle}`);
                                 window.scrollTo(0, 0);
                             }}

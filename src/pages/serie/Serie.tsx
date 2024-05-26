@@ -21,6 +21,7 @@ import { toast } from "react-toastify";
 import { useStore } from "~/store/store";
 import CardItem from "~/components/cardItem/CardItem";
 import YouTubeIcon from "@mui/icons-material/YouTube";
+import BookmarkIcon from "@mui/icons-material/Bookmark";
 
 export default function Serie() {
     const [serie, setSerie] = useState<ISerie | null>(null);
@@ -233,7 +234,7 @@ export default function Serie() {
                                     sx={{
                                         display: "flex",
                                         flexDirection: "row",
-                                        columnGap: 0.5,
+                                        columnGap: 1,
                                         width: "30%",
                                         placeSelf: "center",
                                         marginTop: 1,
@@ -263,9 +264,20 @@ export default function Serie() {
                                             display: "flex",
                                             placeSelf: "center",
                                             marginTop: 1,
+                                            columnGap: 1,
                                         }}
                                     >
-                                        Add to favorites
+                                        <BookmarkIcon color={"error"}></BookmarkIcon>
+                                        <Typography
+                                            component={"span"}
+                                            sx={{
+                                                textTransform: "capitalize",
+                                            }}
+                                            color={"primary"}
+                                            fontWeight={700}
+                                        >
+                                            Bookmark
+                                        </Typography>
                                     </Button>
                                 )}
                             </Box>
