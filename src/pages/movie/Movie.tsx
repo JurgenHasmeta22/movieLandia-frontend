@@ -30,13 +30,27 @@ export default function Movie() {
     const colors = tokens(theme.palette.mode);
 
     async function getLatestMovies(): Promise<void> {
-        const response: IMovie[] = await movieService.getLatestMovies();
-        setLatestMoviesRelated(response);
+        try {
+            const response: IMovie[] = await movieService.getLatestMovies();
+
+            if (response) {
+                setLatestMoviesRelated(response);
+            }
+        } catch (error) {
+            console.error("Error fetching latest movies:", error);
+        }
     }
 
     async function getMovie(): Promise<void> {
-        const response: IMovie = await movieService.getMovieByTitle(params.title);
-        setMovie(response);
+        try {
+            const response: IMovie = await movieService.getMovieByTitle(params.title);
+
+            if (response) {
+                setMovie(response);
+            }
+        } catch (error) {
+            console.error("Error fetching movie:", error);
+        }
     }
 
     async function bookmarkMovie() {
@@ -77,7 +91,7 @@ export default function Movie() {
                     height: "100vh",
                 }}
             >
-                <CircularProgress size={50} thickness={2} />
+                <CircularProgress size={50} thickness={2} color="secondary"/>
             </Box>
         );
     }

@@ -86,7 +86,7 @@ export default function Serie() {
                     height: "100vh",
                 }}
             >
-                <CircularProgress size={80} thickness={4} />
+                <CircularProgress size={80} thickness={4} color="secondary"/>
             </Box>
         );
     }

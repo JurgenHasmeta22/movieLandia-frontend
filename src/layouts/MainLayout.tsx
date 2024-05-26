@@ -20,7 +20,7 @@ const MainLayout = () => {
                                 height: "100vh",
                             }}
                         >
-                            <CircularProgress size={120} thickness={8} />
+                            <CircularProgress size={120} thickness={8} color="secondary"/>
                         </Box>
                     }
                 >
