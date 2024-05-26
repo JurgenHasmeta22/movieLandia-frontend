@@ -91,7 +91,7 @@ export default function Register() {
                 >
                     <Box
                         sx={{
-                            backgroundImage: "url('/assets/images/netflix.png')",
+                            position: "relative",
                             display: "flex",
                             placeContent: "center",
                             placeItems: "center",
@@ -100,6 +100,20 @@ export default function Register() {
                         }}
                         component={"section"}
                     >
+                        <Box
+                            sx={{
+                                position: "absolute",
+                                top: 0,
+                                left: 0,
+                                right: 0,
+                                bottom: 0,
+                                backgroundImage: "url('/assets/images/netflix.png')",
+                                backgroundSize: "cover",
+                                backgroundPosition: "center",
+                                filter: "blur(4px)",
+                                zIndex: -1,
+                            }}
+                        />
                         <Paper
                             sx={{
                                 px: 14,
