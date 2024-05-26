@@ -10,6 +10,7 @@ import PrivateRoutes from "~/utils/PrivateRoutes";
 import MainLayout from "~/layouts/MainLayout";
 import AdminLayout from "~/layouts/AdminLayout";
 import AuthRoutes from "~/utils/AuthRoutes";
+import { AnimatePresence } from "framer-motion";
 
 // Client Pages
 const Home = React.lazy(() => import("~/pages/home/Home"));
@@ -62,44 +63,46 @@ function App() {
         <ColorModeContext.Provider value={colorMode}>
             <ThemeProvider theme={theme}>
                 <CssBaseline />
-                <Routes>
-                    <Route element={<MainLayout />}>
-                        <Route path="*" element={<Error404 />} />
-                        <Route index element={<Home />} />
-                        <Route path="/movies" element={<Movies />} />
-                        <Route path="/movies/:title" element={<Movie />} />
-                        <Route path="/genres" element={<Genres />} />
-                        <Route path="/genres/:name" element={<Genre />} />
-                        <Route path="/series" element={<Series />} />
-                        <Route path="/series/:title" element={<Serie />} />
-                        <Route path="/profile" element={<Profile />} />
-                    </Route>
-                    <Route element={<AuthRoutes />}>
-                        {/* Did this because it fixed flickering and header and footer cramping on few seconds when i tried to go to login while logged in */}
+                <AnimatePresence mode={"wait"}>
+                    <Routes location={location} key={location.pathname}>
                         <Route element={<MainLayout />}>
-                            <Route path="/login" element={<Login />} />
-                            <Route path="/register" element={<Register />} />
+                            <Route path="*" element={<Error404 />} />
+                            <Route index element={<Home />} />
+                            <Route path="/movies" element={<Movies />} />
+                            <Route path="/movies/:title" element={<Movie />} />
+                            <Route path="/genres" element={<Genres />} />
+                            <Route path="/genres/:name" element={<Genre />} />
+                            <Route path="/series" element={<Series />} />
+                            <Route path="/series/:title" element={<Serie />} />
+                            <Route path="/profile" element={<Profile />} />
                         </Route>
-                    </Route>
-                    <Route element={<PrivateRoutes />}>
-                        <Route element={<AdminLayout />}>
-                            <Route path="/admin" element={<Dashboard />} />
-                            <Route path="/admin/dashboard" element={<Dashboard />} />
-                            <Route path="/admin/users" element={<UsersAdmin />} />
-                            <Route path="/admin/users/add" element={<AddUserAdmin />} />
-                            <Route path="/admin/users/:id" element={<UserAdmin />} />
-                            <Route path="/admin/movies" element={<MoviesAdmin />} />
-                            <Route path="/admin/movies/add" element={<AddMovieAdmin />} />
-                            <Route path="/admin/movies/:id" element={<MovieAdmin />} />
-                            <Route path="/admin/series" element={<SeriesAdmin />} />
-                            <Route path="/admin/series/add" element={<AddSerieAdmin />} />
-                            <Route path="/admin/series/:id" element={<SerieAdmin />} />
-                            <Route path="/admin/genres" element={<GenresAdmin />} />
-                            <Route path="/admin/genres/add" element={<AddGenreAdmin />} />
-                            <Route path="/admin/genres/:id" element={<GenreAdmin />} />
+                        {/* Did this because it fixed flickering and header and footer cramping on few seconds when i tried to go to login while logged in */}
+                        <Route element={<AuthRoutes />}>
+                            <Route element={<MainLayout />}>
+                                <Route path="/login" element={<Login />} />
+                                <Route path="/register" element={<Register />} />
+                            </Route>
                         </Route>
-                    </Route>
-                </Routes>
+                        <Route element={<PrivateRoutes />}>
+                            <Route element={<AdminLayout />}>
+                                <Route path="/admin" element={<Dashboard />} />
+                                <Route path="/admin/dashboard" element={<Dashboard />} />
+                                <Route path="/admin/users" element={<UsersAdmin />} />
+                                <Route path="/admin/users/add" element={<AddUserAdmin />} />
+                                <Route path="/admin/users/:id" element={<UserAdmin />} />
+                                <Route path="/admin/movies" element={<MoviesAdmin />} />
+                                <Route path="/admin/movies/add" element={<AddMovieAdmin />} />
+                                <Route path="/admin/movies/:id" element={<MovieAdmin />} />
+                                <Route path="/admin/series" element={<SeriesAdmin />} />
+                                <Route path="/admin/series/add" element={<AddSerieAdmin />} />
+                                <Route path="/admin/series/:id" element={<SerieAdmin />} />
+                                <Route path="/admin/genres" element={<GenresAdmin />} />
+                                <Route path="/admin/genres/add" element={<AddGenreAdmin />} />
+                                <Route path="/admin/genres/:id" element={<GenreAdmin />} />
+                            </Route>
+                        </Route>
+                    </Routes>
+                </AnimatePresence>
             </ThemeProvider>
         </ColorModeContext.Provider>
     );
