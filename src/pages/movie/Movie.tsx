@@ -19,6 +19,7 @@ import { motion } from "framer-motion";
 import { toast } from "react-toastify";
 import CardItem from "~/components/cardItem/CardItem";
 import YouTubeIcon from "@mui/icons-material/YouTube";
+import BookmarkIcon from "@mui/icons-material/Bookmark";
 
 export default function Movie() {
     const [movie, setMovie] = useState<IMovie | null>(null);
@@ -243,7 +244,7 @@ export default function Movie() {
                                             marginTop: 1,
                                         }}
                                     >
-                                        <YouTubeIcon color="error" fontSize="large" />
+                                        <YouTubeIcon color="error" />
                                         <Typography
                                             component={"span"}
                                             color={colors.primary[600]}
@@ -266,10 +267,21 @@ export default function Movie() {
                                                 display: "flex",
                                                 placeSelf: "center",
                                                 width: "30%",
+                                                columnGap: 1,
                                                 marginTop: 1,
                                             }}
                                         >
-                                            Add to favorites
+                                            <BookmarkIcon color={"error"}></BookmarkIcon>
+                                            <Typography
+                                                component={"span"}
+                                                sx={{
+                                                    textTransform: "capitalize",
+                                                }}
+                                                color={"primary"}
+                                                fontWeight={700}
+                                            >
+                                                Bookmark
+                                            </Typography>
                                         </Button>
                                     )}
                                 </Box>
