@@ -20,6 +20,8 @@ import SEOHelmet from "~/components/seoHelmet/SEOHelmet";
 import { useSorting } from "~/hooks/useSorting";
 import Carousel from "~/components/carousel/Carousel";
 import CardItem from "~/components/cardItem/CardItem";
+import { motion, useAnimation } from "framer-motion";
+import { useInView } from "react-intersection-observer";
 
 export default function Movies() {
     const [movies, setMovies] = useState<IMovie[] | undefined>(undefined);
@@ -142,6 +144,28 @@ export default function Movies() {
         fetchData();
     }, [searchParams]);
 
+    const sectionVariants = {
+        hidden: { opacity: 0, y: 100 },
+        visible: { opacity: 1, y: 0 },
+    };
+
+    const [moviesRef, moviesInView] = useInView({ triggerOnce: true });
+    const [moviesLatestRef, moviesLatestInView] = useInView({ triggerOnce: true });
+    const moviesControls = useAnimation();
+    const moviesLatestControls = useAnimation();
+
+    useEffect(() => {
+        if (moviesInView) {
+            moviesControls.start("visible");
+        }
+    }, [moviesInView, moviesControls]);
+
+    useEffect(() => {
+        if (moviesLatestInView) {
+            moviesLatestControls.start("visible");
+        }
+    }, [moviesLatestInView, moviesLatestControls]);
+
     if (!movies) {
         return (
             <Box
@@ -242,21 +266,30 @@ export default function Movies() {
                         </Stack>
                     )}
                     {movies.length !== 0 ? (
-                        <Stack
-                            direction="row"
-                            flexWrap="wrap"
-                            justifyContent={"center"}
-                            alignContent={"center"}
-                            rowGap={8}
-                            columnGap={4}
-                            sx={{
-                                marginTop: `${searchParams.get("search") ? 2.5 : 0.2}rem`,
-                            }}
+                        <motion.div
+                            ref={moviesRef}
+                            animate={moviesControls}
+                            variants={sectionVariants}
+                            transition={{ duration: 1 }}
+                            initial="hidden"
+                            style={{ position: "relative" }}
                         >
-                            {movies.map((movie: IMovie) => (
-                                <CardItem data={movie} key={movie.id} />
-                            ))}
-                        </Stack>
+                            <Stack
+                                direction="row"
+                                flexWrap="wrap"
+                                justifyContent={"center"}
+                                alignContent={"center"}
+                                rowGap={8}
+                                columnGap={4}
+                                sx={{
+                                    marginTop: `${searchParams.get("search") ? 2.5 : 0.2}rem`,
+                                }}
+                            >
+                                {movies.map((movie: IMovie) => (
+                                    <CardItem data={movie} key={movie.id} />
+                                ))}
+                            </Stack>
+                        </motion.div>
                     ) : (
                         <Box
                             sx={{
@@ -306,20 +339,29 @@ export default function Movies() {
                                     Latest Movies
                                 </Typography>
                             </Box>
-                            <Stack
-                                direction="row"
-                                flexWrap="wrap"
-                                rowGap={8}
-                                columnGap={4}
-                                justifyContent={"center"}
-                                alignContent={"center"}
-                                marginTop={3}
-                                mb={4}
+                            <motion.div
+                                ref={moviesLatestRef}
+                                animate={moviesLatestControls}
+                                variants={sectionVariants}
+                                transition={{ duration: 1 }}
+                                initial="hidden"
+                                style={{ position: "relative" }}
                             >
-                                {latestMovies?.map((latestMovie: IMovie) => (
-                                    <CardItem data={latestMovie} key={latestMovie.id} />
-                                ))}
-                            </Stack>
+                                <Stack
+                                    direction="row"
+                                    flexWrap="wrap"
+                                    rowGap={8}
+                                    columnGap={4}
+                                    justifyContent={"center"}
+                                    alignContent={"center"}
+                                    marginTop={3}
+                                    mb={4}
+                                >
+                                    {latestMovies?.map((latestMovie: IMovie) => (
+                                        <CardItem data={latestMovie} key={latestMovie.id} />
+                                    ))}
+                                </Stack>
+                            </motion.div>
                         </Box>
                     )}
                 </Box>
