@@ -118,7 +118,6 @@ export default function Serie() {
                     sx={{
                         display: "flex",
                         flexDirection: "column",
-                        rowGap: 3,
                     }}
                     component={"main"}
                 >
@@ -128,11 +127,10 @@ export default function Serie() {
                             flexDirection: "column",
                             alignItems: "center",
                             justifyContent: "center",
-                            boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
                             height: "auto",
                             width: "100%",
-                            py: 12,
-                            backgroundColor: `${colors.blueAccent[800]}`,
+                            pt: 8,
+                            pb: 4,
                         }}
                         component={"section"}
                     >
@@ -145,8 +143,8 @@ export default function Serie() {
                                 justifyContent: "center",
                                 height: "100%",
                                 width: "90%",
-                                columnGap: 8,
-                                padding: 10,
+                                columnGap: 6,
+                                padding: 6,
                                 backgroundColor: `${colors.primary[400]}`,
                             }}
                         >
@@ -161,7 +159,6 @@ export default function Serie() {
                                 sx={{
                                     display: "flex",
                                     flexDirection: "column",
-                                    rowGap: 1,
                                 }}
                             >
                                 <Typography
@@ -193,7 +190,7 @@ export default function Serie() {
                                             color: colors.greenAccent[500],
                                             display: "flex",
                                             flexDirection: "row",
-                                            columnGap: 1,
+                                            columnGap: 0.5,
                                         }}
                                     >
                                         <Box
@@ -236,13 +233,13 @@ export default function Serie() {
                                     sx={{
                                         display: "flex",
                                         flexDirection: "row",
-                                        columnGap: 1,
-                                        width: "40%",
+                                        columnGap: 0.5,
+                                        width: "30%",
                                         placeSelf: "center",
-                                        marginTop: 2,
+                                        marginTop: 1,
                                     }}
                                 >
-                                    <YouTubeIcon color="error" fontSize="large" />
+                                    <YouTubeIcon color="error" />
                                     <Typography
                                         component={"span"}
                                         color={colors.primary[600]}
@@ -262,11 +259,10 @@ export default function Serie() {
                                         color="secondary"
                                         variant="contained"
                                         sx={{
-                                            width: "40%",
+                                            width: "30%",
                                             display: "flex",
                                             placeSelf: "center",
-                                            marginTop: 2,
-                                            py: 1,
+                                            marginTop: 1,
                                         }}
                                     >
                                         Add to favorites

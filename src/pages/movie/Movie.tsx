@@ -91,7 +91,7 @@ export default function Movie() {
                     height: "100vh",
                 }}
             >
-                <CircularProgress size={50} thickness={2} color="secondary"/>
+                <CircularProgress size={80} thickness={4} color="secondary" />
             </Box>
         );
     }
@@ -116,7 +116,6 @@ export default function Movie() {
                         sx={{
                             display: "flex",
                             flexDirection: "column",
-                            rowGap: 3,
                         }}
                     >
                         <Box
@@ -125,11 +124,10 @@ export default function Movie() {
                                 flexDirection: "column",
                                 alignItems: "center",
                                 justifyContent: "center",
-                                boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
                                 height: "auto",
                                 width: "100%",
-                                py: 12,
-                                backgroundColor: `${colors.blueAccent[800]}`,
+                                pt: 8,
+                                pb: 4,
                             }}
                             component={"section"}
                         >
@@ -142,8 +140,8 @@ export default function Movie() {
                                     justifyContent: "center",
                                     height: "100%",
                                     width: "90%",
-                                    columnGap: 8,
-                                    padding: 10,
+                                    columnGap: 6,
+                                    padding: 6,
                                     backgroundColor: `${colors.primary[400]}`,
                                 }}
                             >
@@ -156,7 +154,6 @@ export default function Movie() {
                                     sx={{
                                         display: "flex",
                                         flexDirection: "column",
-                                        rowGap: 1,
                                     }}
                                 >
                                     <Typography
@@ -197,7 +194,7 @@ export default function Movie() {
                                                 color: colors.greenAccent[500],
                                                 display: "flex",
                                                 flexDirection: "row",
-                                                columnGap: 1,
+                                                columnGap: 0.5,
                                             }}
                                         >
                                             <Box
@@ -240,10 +237,10 @@ export default function Movie() {
                                         sx={{
                                             display: "flex",
                                             flexDirection: "row",
-                                            columnGap: 1,
-                                            width: "40%",
                                             placeSelf: "center",
-                                            marginTop: 2,
+                                            width: "30%",
+                                            columnGap: 1,
+                                            marginTop: 1,
                                         }}
                                     >
                                         <YouTubeIcon color="error" fontSize="large" />
@@ -266,11 +263,10 @@ export default function Movie() {
                                             color="secondary"
                                             variant="contained"
                                             sx={{
-                                                width: "40%",
                                                 display: "flex",
                                                 placeSelf: "center",
-                                                marginTop: 2,
-                                                py: 1,
+                                                width: "30%",
+                                                marginTop: 1,
                                             }}
                                         >
                                             Add to favorites
