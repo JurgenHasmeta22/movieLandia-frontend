@@ -15,7 +15,7 @@ export default function FavoritesTab({ type }: FavoritesTabProps) {
     return (
         <Box component={"section"}>
             <Typography variant="h2">Bookmarked {type}</Typography>
-            <Stack flexDirection={"row"} flexWrap={"wrap"} columnGap={3} rowGap={3} mt={4}>
+            <Stack flexDirection={"row"} flexWrap={"wrap"} columnGap={6} rowGap={20} mt={4}>
                 {favorites?.map((favItem: any, index: number) => (
                     <motion.div
                         key={index}
@@ -54,14 +54,8 @@ export default function FavoritesTab({ type }: FavoritesTabProps) {
                                     objectFit: "cover",
                                 }}
                             />
-                            <Typography component={"h4"} fontSize={16}>
+                            <Typography component={"h4"} fontSize={14}>
                                 {type === "Movies" ? favItem.movie.title : favItem.serie.title}
-                            </Typography>
-                            <Typography component={"span"} fontSize={12}>
-                                Release Year:{" "}
-                                {type === "Movies"
-                                    ? favItem.movie.releaseYear
-                                    : favItem.serie.releaseYear}
                             </Typography>
                         </Box>
                     </motion.div>

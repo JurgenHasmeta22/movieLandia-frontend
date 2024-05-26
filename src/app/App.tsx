@@ -74,9 +74,12 @@ function App() {
                             <Route path="/genres/:name" element={<Genre />} />
                             <Route path="/series" element={<Series />} />
                             <Route path="/series/:title" element={<Serie />} />
-                            <Route path="/profile" element={<Profile />} />
                         </Route>
-                        {/* Did this because it fixed flickering and header and footer cramping on few seconds when i tried to go to login while logged in */}
+                        <Route element={<PrivateRoutes />}>
+                            <Route element={<MainLayout />}>
+                                <Route path="/profile" element={<Profile />} />
+                            </Route>
+                        </Route>
                         <Route element={<AuthRoutes />}>
                             <Route element={<MainLayout />}>
                                 <Route path="/login" element={<Login />} />
