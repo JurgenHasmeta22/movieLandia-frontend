@@ -57,7 +57,7 @@ export default function Profile() {
                 type="website"
                 canonicalUrl="https://example.com/profile"
             />
-            <Box height={"100%"} component={"main"} mb={2}>
+            <Box height={"100%"} component={"main"}>
                 <Box
                     display={"flex"}
                     flexDirection={"row"}
@@ -65,7 +65,6 @@ export default function Profile() {
                     justifyContent={"center"}
                     alignItems={"center"}
                     mt={8}
-                    mb={4}
                     component={"section"}
                 >
                     <PersonOutlinedIcon color="secondary" fontSize="large" />
@@ -73,7 +72,7 @@ export default function Profile() {
                         {user.userName}
                     </Typography>
                 </Box>
-                <Box component={"section"}>
+                <Box component={"section"} marginTop={4}>
                     <Tabs
                         value={searchParams?.get("tab")! === "favMovies"}
                         onChange={handleChange}
@@ -90,7 +89,7 @@ export default function Profile() {
                                 backgroundColor: colors.blueAccent[400],
                                 color: colors.primary[400],
                                 fontWeight: "600",
-                                fontSize: 18,
+                                fontSize: 14,
                                 textTransform: "capitalize",
                                 borderBottom: `${searchParams?.get("tab") === "favMovies" ? "4px solid" : "0px"}`,
                             }}
@@ -102,7 +101,7 @@ export default function Profile() {
                                 backgroundColor: colors.blueAccent[400],
                                 color: colors.primary[400],
                                 fontWeight: "600",
-                                fontSize: 18,
+                                fontSize: 14,
                                 textTransform: "capitalize",
                                 borderBottom: `${searchParams?.get("tab") === "favSeries" ? "4px solid" : "0px"}`,
                             }}
@@ -114,7 +113,7 @@ export default function Profile() {
                                 backgroundColor: colors.blueAccent[400],
                                 color: colors.primary[400],
                                 fontWeight: "600",
-                                fontSize: 18,
+                                fontSize: 14,
                                 textTransform: "capitalize",
                                 borderBottom: `${searchParams?.get("tab") === "about" ? "4px solid" : "0px"}`,
                             }}

@@ -136,7 +136,7 @@ export default function Serie() {
                                 alignItems: "center",
                                 justifyContent: "center",
                                 height: "100%",
-                                width: "100%",
+                                width: "90%",
                                 columnGap: 8,
                                 padding: 10,
                                 backgroundColor: `${colors.primary[400]}`,
