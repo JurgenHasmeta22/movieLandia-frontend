@@ -17,7 +17,6 @@ import SEOHelmet from "~/components/seoHelmet/SEOHelmet";
 import { useSorting } from "~/hooks/useSorting";
 import { toFirstWordUpperCase } from "~/utils/utils";
 import IMoviesResponse from "~/types/IMoviesResponse";
-import { motion } from "framer-motion";
 import CardItem from "~/components/cardItem/CardItem";
 
 export default function Genre(): React.JSX.Element {
@@ -162,113 +161,97 @@ export default function Genre(): React.JSX.Element {
                 canonicalUrl={`https://example.com/genre/${params?.name}`}
             />
             <main>
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.5 }}
+                <Box
+                    sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        rowGap: 4,
+                        paddingTop: 4,
+                    }}
                 >
-                    <Box
-                        sx={{
-                            display: "flex",
-                            flexDirection: "column",
-                            rowGap: 4,
-                            paddingTop: 4,
-                        }}
+                    <Stack
+                        display="flex"
+                        flexDirection="row"
+                        alignItems="center"
+                        component="section"
+                        mt={4}
                     >
-                        <Stack
+                        <Box
                             display="flex"
-                            flexDirection="row"
+                            justifyContent="center"
                             alignItems="center"
-                            component="section"
-                            mt={4}
+                            sx={{ flexGrow: 1 }}
+                            pl={18}
                         >
-                            <Box
-                                display="flex"
-                                justifyContent="center"
-                                alignItems="center"
-                                sx={{ flexGrow: 1 }}
-                                pl={18}
-                            >
-                                <Typography fontSize={22} color={"secondary"} variant="h2">
-                                    {`All Movies of the ${params.name}`}
-                                </Typography>
-                            </Box>
-                            <Box
-                                sx={{
-                                    display: "flex",
-                                    flexDirection: "row",
-                                    justifyContent: "flex-end",
-                                    alignItems: "center",
-                                    columnGap: 1,
-                                    mr: 4,
-                                }}
-                            >
-                                <Typography color={"secondary"} fontSize={16} component={"span"}>
-                                    Sort by:
-                                </Typography>
-                                <Box sx={{ display: "flex", flexDirection: "row", columnGap: 2 }}>
-                                    <Select
-                                        defaultValue={"none"}
-                                        value={
-                                            searchParams.get("sortBy") &&
-                                            searchParams.get("ascOrDesc")
-                                                ? searchParams.get("sortBy")! +
-                                                  toFirstWordUpperCase(
-                                                      searchParams.get("ascOrDesc")!,
-                                                  )
-                                                : "none"
-                                        }
-                                        onChange={handleChangeSorting}
-                                    >
-                                        <MenuItem value={"none"}>None</MenuItem>
-                                        <MenuItem value={"ratingImdbAsc"}>
-                                            Imdb rating (Asc)
-                                        </MenuItem>
-                                        <MenuItem value={"ratingImdbDesc"}>
-                                            Imdb rating (Desc)
-                                        </MenuItem>
-                                        <MenuItem value={"titleAsc"}>Title (Asc)</MenuItem>
-                                        <MenuItem value={"titleDesc"}>Title (Desc)</MenuItem>
-                                    </Select>
-                                </Box>
-                            </Box>
-                        </Stack>
-                        <Stack
-                            direction="row"
-                            flexWrap="wrap"
-                            justifyContent={"center"}
-                            alignContent={"center"}
-                            rowGap={8}
-                            columnGap={4}
-                            marginTop={4}
-                        >
-                            {moviesOfGenre.map((movie: any) => (
-                                <CardItem data={movie} key={movie.id} />
-                            ))}
-                        </Stack>
-                        <Stack
-                            spacing={2}
+                            <Typography fontSize={22} color={"secondary"} variant="h2">
+                                {`All Movies of the ${params.name}`}
+                            </Typography>
+                        </Box>
+                        <Box
                             sx={{
                                 display: "flex",
-                                placeItems: "center",
-                                marginTop: 4,
-                                marginBottom: 4,
+                                flexDirection: "row",
+                                justifyContent: "flex-end",
+                                alignItems: "center",
+                                columnGap: 1,
+                                mr: 4,
                             }}
                         >
-                            <Pagination
-                                page={
-                                    searchParams.get("page") ? Number(searchParams.get("page")) : 1
-                                }
-                                size="large"
-                                count={pageCount}
-                                showFirstButton
-                                showLastButton
-                                onChange={handlePageChange}
-                            />
-                        </Stack>
-                    </Box>
-                </motion.div>
+                            <Typography color={"secondary"} fontSize={16} component={"span"}>
+                                Sort by:
+                            </Typography>
+                            <Box sx={{ display: "flex", flexDirection: "row", columnGap: 2 }}>
+                                <Select
+                                    defaultValue={"none"}
+                                    value={
+                                        searchParams.get("sortBy") && searchParams.get("ascOrDesc")
+                                            ? searchParams.get("sortBy")! +
+                                              toFirstWordUpperCase(searchParams.get("ascOrDesc")!)
+                                            : "none"
+                                    }
+                                    onChange={handleChangeSorting}
+                                >
+                                    <MenuItem value={"none"}>None</MenuItem>
+                                    <MenuItem value={"ratingImdbAsc"}>Imdb rating (Asc)</MenuItem>
+                                    <MenuItem value={"ratingImdbDesc"}>Imdb rating (Desc)</MenuItem>
+                                    <MenuItem value={"titleAsc"}>Title (Asc)</MenuItem>
+                                    <MenuItem value={"titleDesc"}>Title (Desc)</MenuItem>
+                                </Select>
+                            </Box>
+                        </Box>
+                    </Stack>
+                    <Stack
+                        direction="row"
+                        flexWrap="wrap"
+                        justifyContent={"center"}
+                        alignContent={"center"}
+                        rowGap={8}
+                        columnGap={4}
+                        marginTop={4}
+                    >
+                        {moviesOfGenre.map((movie: any) => (
+                            <CardItem data={movie} key={movie.id} />
+                        ))}
+                    </Stack>
+                    <Stack
+                        spacing={2}
+                        sx={{
+                            display: "flex",
+                            placeItems: "center",
+                            marginTop: 4,
+                            marginBottom: 4,
+                        }}
+                    >
+                        <Pagination
+                            page={searchParams.get("page") ? Number(searchParams.get("page")) : 1}
+                            size="large"
+                            count={pageCount}
+                            showFirstButton
+                            showLastButton
+                            onChange={handlePageChange}
+                        />
+                    </Stack>
+                </Box>
             </main>
         </>
     );

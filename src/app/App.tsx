@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { useStore } from "~/store/store";
 import type IUser from "~/types/IUser";
@@ -43,6 +43,7 @@ const GenreAdmin = React.lazy(() => import("~/pages/admin/genre/GenreAdmin"));
 function App() {
     const { setUser, setIsUserLoading } = useStore();
     const [theme, colorMode] = useMode();
+    const location = useLocation();
 
     useEffect(() => {
         const validateUser = async () => {

@@ -126,120 +126,113 @@ export default function Home() {
 
     return (
         <main>
-            <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.5 }}
-            >
-                <HomeHeroSection />
-                <Container component={"section"}>
-                    <Stack flexDirection={"column"} rowGap={10} mb={6} mt={6}>
-                        <motion.div
-                            ref={moviesRef}
-                            animate={moviesControls}
-                            variants={sectionVariants}
-                            transition={{ duration: 1 }}
-                            initial="hidden"
-                            style={{ position: "relative" }}
-                        >
-                            <Box display={"flex"} flexDirection={"column"} rowGap={3}>
-                                <Link
-                                    to="/movies"
-                                    style={{
-                                        textDecoration: "none",
-                                        fontWeight: 600,
-                                        fontSize: 18,
-                                        marginLeft: 8,
-                                    }}
-                                >
-                                    Explore Movies
-                                </Link>
-                                <Stack
-                                    direction="row"
-                                    flexWrap="wrap"
-                                    justifyContent={"center"}
-                                    alignContent={"center"}
-                                    rowGap={4}
-                                    columnGap={4}
-                                >
-                                    {movies.map((movie: any) => (
-                                        <CardItem data={movie} key={movie.id} />
-                                    ))}
-                                </Stack>
-                            </Box>
-                        </motion.div>
-                        <motion.div
-                            ref={seriesRef}
-                            animate={seriesControls}
-                            variants={sectionVariants}
-                            transition={{ duration: 1 }}
-                            initial="hidden"
-                            style={{ position: "relative" }}
-                        >
-                            <Box display={"flex"} flexDirection={"column"} rowGap={3}>
-                                <Link
-                                    to="/series"
-                                    style={{
-                                        textDecoration: "none",
-                                        fontWeight: 600,
-                                        fontSize: 18,
-                                        marginLeft: 8,
-                                    }}
-                                >
-                                    Explore Series
-                                </Link>
-                                <Stack
-                                    direction="row"
-                                    flexWrap="wrap"
-                                    justifyContent={"center"}
-                                    alignContent={"center"}
-                                    rowGap={4}
-                                    columnGap={4}
-                                >
-                                    {series.map((serie: ISerie) => (
-                                        <CardItem data={serie} type="serie" key={serie.id} />
-                                    ))}
-                                </Stack>
-                            </Box>
-                        </motion.div>
-                        <motion.div
-                            ref={genresRef}
-                            animate={genresControls}
-                            variants={sectionVariants}
-                            transition={{ duration: 1 }}
-                            initial="hidden"
-                            style={{ position: "relative" }}
-                        >
-                            <Box display={"flex"} flexDirection={"column"} rowGap={3}>
-                                <Link
-                                    to="/genres"
-                                    style={{
-                                        textDecoration: "none",
-                                        fontWeight: 600,
-                                        fontSize: 18,
-                                        marginLeft: 8,
-                                    }}
-                                >
-                                    Explore Genres
-                                </Link>
-                                <Stack
-                                    direction="row"
-                                    flexWrap="wrap"
-                                    justifyContent={"center"}
-                                    alignContent={"center"}
-                                    rowGap={4}
-                                    columnGap={4}
-                                >
-                                    {genres.map((genre: IGenre) => (
-                                        <GenreItem key={genre.id} genre={genre} />
-                                    ))}
-                                </Stack>
-                            </Box>
-                        </motion.div>
-                    </Stack>
-                </Container>
-            </motion.div>
+            <HomeHeroSection />
+            <Container component={"section"}>
+                <Stack flexDirection={"column"} rowGap={10} mb={6} mt={6}>
+                    <motion.div
+                        ref={moviesRef}
+                        animate={moviesControls}
+                        variants={sectionVariants}
+                        transition={{ duration: 1 }}
+                        initial="hidden"
+                        style={{ position: "relative" }}
+                    >
+                        <Box display={"flex"} flexDirection={"column"} rowGap={3}>
+                            <Link
+                                to="/movies"
+                                style={{
+                                    textDecoration: "none",
+                                    fontWeight: 600,
+                                    fontSize: 18,
+                                    marginLeft: 8,
+                                }}
+                            >
+                                Explore Movies
+                            </Link>
+                            <Stack
+                                direction="row"
+                                flexWrap="wrap"
+                                justifyContent={"center"}
+                                alignContent={"center"}
+                                rowGap={4}
+                                columnGap={4}
+                            >
+                                {movies.map((movie: any) => (
+                                    <CardItem data={movie} key={movie.id} />
+                                ))}
+                            </Stack>
+                        </Box>
+                    </motion.div>
+                    <motion.div
+                        ref={seriesRef}
+                        animate={seriesControls}
+                        variants={sectionVariants}
+                        transition={{ duration: 1 }}
+                        initial="hidden"
+                        style={{ position: "relative" }}
+                    >
+                        <Box display={"flex"} flexDirection={"column"} rowGap={3}>
+                            <Link
+                                to="/series"
+                                style={{
+                                    textDecoration: "none",
+                                    fontWeight: 600,
+                                    fontSize: 18,
+                                    marginLeft: 8,
+                                }}
+                            >
+                                Explore Series
+                            </Link>
+                            <Stack
+                                direction="row"
+                                flexWrap="wrap"
+                                justifyContent={"center"}
+                                alignContent={"center"}
+                                rowGap={4}
+                                columnGap={4}
+                            >
+                                {series.map((serie: ISerie) => (
+                                    <CardItem data={serie} type="serie" key={serie.id} />
+                                ))}
+                            </Stack>
+                        </Box>
+                    </motion.div>
+                    <motion.div
+                        ref={genresRef}
+                        animate={genresControls}
+                        variants={sectionVariants}
+                        transition={{ duration: 1 }}
+                        initial="hidden"
+                        style={{ position: "relative" }}
+                    >
+                        <Box display={"flex"} flexDirection={"column"} rowGap={3}>
+                            <Link
+                                to="/genres"
+                                style={{
+                                    textDecoration: "none",
+                                    fontWeight: 600,
+                                    fontSize: 18,
+                                    marginLeft: 8,
+                                }}
+                            >
+                                Explore Genres
+                            </Link>
+                            <Stack
+                                direction="row"
+                                flexWrap="wrap"
+                                justifyContent={"center"}
+                                alignContent={"center"}
+                                rowGap={4}
+                                columnGap={4}
+                            >
+                                {genres.map((genre: IGenre) => (
+                                    <GenreItem key={genre.id} genre={genre} />
+                                ))}
+                            </Stack>
+                        </Box>
+                    </motion.div>
+                </Stack>
+            </Container>
         </main>
     );
 }
