@@ -14,13 +14,13 @@ import {
 } from "@mui/material";
 import { tokens } from "~/utils/theme";
 import SEOHelmet from "~/components/seoHelmet/SEOHelmet";
-import ReviewsIcon from "@mui/icons-material/Reviews";
 import { motion } from "framer-motion";
 import ISeriesResponse from "~/types/ISeriesResponse";
 import { useResizeWindow } from "~/hooks/useResizeWindow";
 import { toast } from "react-toastify";
 import { useStore } from "~/store/store";
 import CardItem from "~/components/cardItem/CardItem";
+import YouTubeIcon from "@mui/icons-material/YouTube";
 
 export default function Serie() {
     const [serie, setSerie] = useState<ISerie | null>(null);
@@ -111,7 +111,6 @@ export default function Serie() {
                         display: "flex",
                         flexDirection: "column",
                         rowGap: 4,
-                        paddingTop: 4,
                     }}
                     component={"main"}
                 >
@@ -120,76 +119,143 @@ export default function Serie() {
                             display: "flex",
                             flexDirection: "column",
                             alignItems: "center",
-                            rowGap: 2,
+                            justifyContent: "center",
+                            boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+                            height: "auto",
+                            width: "100%",
+                            py: 12,
+                            backgroundColor: `${colors.blueAccent[800]}`,
                         }}
                         component={"section"}
                     >
-                        <Typography
-                            mt={4}
-                            mb={2}
-                            fontSize={28}
-                            color={"secondary"}
-                            textAlign={"center"}
-                            component={"h1"}
-                        >
-                            {serie.title}
-                        </Typography>
                         <Box
                             sx={{
                                 display: "flex",
-                                flexDirection: "column",
+                                flexDirection: "row",
+                                flexWrap: "wrap",
                                 alignItems: "center",
                                 justifyContent: "center",
-                                rowGap: 2,
-                                columnGap: 4,
+                                height: "100%",
+                                width: "100%",
+                                columnGap: 8,
                             }}
                         >
-                            <List
+                            <Box>
+                                <img
+                                    src={serie.photoSrc}
+                                    alt={serie.title}
+                                    style={{ width: 220, height: "auto" }}
+                                />
+                            </Box>
+                            <Box
                                 sx={{
                                     display: "flex",
-                                    flexDirection: "row",
-                                    width: "50%",
-                                    paddingLeft: 4,
+                                    flexDirection: "column",
+                                    rowGap: 1,
                                 }}
                             >
-                                <ListItem
+                                <Typography
+                                    fontSize={36}
+                                    color={"secondary"}
+                                    textAlign={"center"}
+                                    component={"h1"}
+                                >
+                                    {serie.title}
+                                </Typography>
+                                <List
                                     sx={{
-                                        color: colors.greenAccent[500],
+                                        display: "flex",
+                                        flexDirection: "row",
+                                        placeSelf: "center",
                                     }}
                                 >
-                                    <Typography component={"span"}>
-                                        Year: {serie.releaseYear}
-                                    </Typography>
-                                </ListItem>
-                                <ListItem
+                                    <ListItem
+                                        sx={{
+                                            color: colors.greenAccent[500],
+                                        }}
+                                    >
+                                        <Typography component={"span"} width={"20ch"}>
+                                            Release Year: {serie.releaseYear}
+                                        </Typography>
+                                    </ListItem>
+                                    <ListItem
+                                        sx={{
+                                            color: colors.greenAccent[500],
+                                            display: "flex",
+                                            flexDirection: "row",
+                                            columnGap: 1,
+                                        }}
+                                    >
+                                        <Box
+                                            display="flex"
+                                            flexDirection="row"
+                                            columnGap={0.5}
+                                            alignItems={"center"}
+                                            justifyContent={"start"}
+                                        >
+                                            <img
+                                                src="/assets/icons/imdb.svg"
+                                                alt="IMDb Icon"
+                                                style={{ width: "35px", height: "35px" }}
+                                            />
+                                            <Typography
+                                                color={"secondary"}
+                                                fontSize={12}
+                                                component="span"
+                                            >
+                                                {serie.ratingImdb !== 0
+                                                    ? `${serie.ratingImdb}`
+                                                    : "N/A"}
+                                            </Typography>
+                                        </Box>
+                                    </ListItem>
+                                </List>
+                                <Typography
+                                    textAlign={"center"}
+                                    color={"secondary"}
+                                    width={["50ch", "60ch", "70ch", "80ch"]}
+                                >
+                                    {serie.description}
+                                </Typography>
+                                {user?.userName && (
+                                    <Button
+                                        onClick={() => {
+                                            bookmarkSerie();
+                                        }}
+                                        color="secondary"
+                                        variant="outlined"
+                                    >
+                                        Add to favorites
+                                    </Button>
+                                )}
+                                <Button
+                                    href={serie.trailerSrc}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    color="secondary"
+                                    variant="contained"
                                     sx={{
-                                        color: colors.greenAccent[500],
                                         display: "flex",
                                         flexDirection: "row",
                                         columnGap: 1,
+                                        width: "40%",
+                                        placeSelf: "center",
+                                        marginTop: 2,
                                     }}
                                 >
-                                    <ReviewsIcon />
-                                    <Typography component={"span"}>Imdb Rating:</Typography>
-                                    <Typography component={"span"}>
-                                        {serie.ratingImdb === 0 ? "N/A" : serie.ratingImdb}
+                                    <YouTubeIcon color="error" fontSize="large" />
+                                    <Typography
+                                        component={"span"}
+                                        color={colors.primary[600]}
+                                        fontWeight={700}
+                                        sx={{
+                                            textTransform: "capitalize",
+                                        }}
+                                    >
+                                        Watch Trailer
                                     </Typography>
-                                </ListItem>
-                            </List>
-                            <Typography textAlign={"center"} color={"secondary"} width={"50%"}>
-                                {serie.description}
-                            </Typography>
-                            {user?.userName && (
-                                <Button
-                                    onClick={() => {
-                                        bookmarkSerie();
-                                    }}
-                                    color="secondary"
-                                    variant="outlined"
-                                >
-                                    Add to favorites
                                 </Button>
-                            )}
+                            </Box>
                         </Box>
                     </Box>
                     <Box
