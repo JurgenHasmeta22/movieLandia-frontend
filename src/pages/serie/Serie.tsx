@@ -138,6 +138,8 @@ export default function Serie() {
                                 height: "100%",
                                 width: "100%",
                                 columnGap: 8,
+                                padding: 10,
+                                backgroundColor: `${colors.primary[400]}`,
                             }}
                         >
                             <Box>

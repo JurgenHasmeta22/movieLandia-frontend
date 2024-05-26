@@ -127,8 +127,10 @@ export default function Movie() {
                                     alignItems: "center",
                                     justifyContent: "center",
                                     height: "100%",
-                                    width: "100%",
+                                    width: "90%",
                                     columnGap: 8,
+                                    padding: 10,
+                                    backgroundColor: `${colors.primary[400]}`,
                                 }}
                             >
                                 <img
