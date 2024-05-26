@@ -73,12 +73,18 @@ export default function Home() {
 
     // #region "Framer Motion stuff to make divs animated"
     const sectionVariants = {
-        hidden: { opacity: 0, transform: "translateX(50px)" },
-        visible: { opacity: 1, transform: "translateX(0px)" },
+        hidden: { opacity: 0, y: 100 },
+        visible: { opacity: 1, y: 0 },
     };
 
     const [moviesRef, moviesInView] = useInView({ triggerOnce: true });
     const moviesControls = useAnimation();
+
+    const [seriesRef, seriesInView] = useInView({ triggerOnce: true });
+    const seriesControls = useAnimation();
+
+    const [genresRef, genresInView] = useInView({ triggerOnce: true });
+    const genresControls = useAnimation();
 
     useEffect(() => {
         if (moviesInView) {
@@ -86,17 +92,11 @@ export default function Home() {
         }
     }, [moviesInView, moviesControls]);
 
-    const [seriesRef, seriesInView] = useInView({ triggerOnce: true });
-    const seriesControls = useAnimation();
-
     useEffect(() => {
         if (seriesInView) {
             seriesControls.start("visible");
         }
     }, [seriesInView, seriesControls]);
-
-    const [genresRef, genresInView] = useInView({ triggerOnce: true });
-    const genresControls = useAnimation();
 
     useEffect(() => {
         if (genresInView) {
