@@ -33,7 +33,6 @@ export default function Movies() {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const handleChangeSorting = useSorting();
-
     let pageCount;
 
     if (searchParams.get("search")) {
@@ -49,7 +48,10 @@ export default function Movies() {
 
     async function getLatestMovies(): Promise<void> {
         const latestMovies: IMovie[] = await movieService.getLatestMovies();
-        setLatestMovies(latestMovies);
+
+        if (latestMovies) {
+            setLatestMovies(latestMovies);
+        }
     }
 
     async function getMovies(): Promise<void> {
@@ -61,14 +63,20 @@ export default function Movies() {
                     searchParams.get("search")!,
                     searchParams.get("page")!,
                 );
-                moviesResponse = response.movies;
-                setMoviesCountSearch(response.count);
+
+                if (response) {
+                    moviesResponse = response.movies;
+                    setMoviesCountSearch(response.count);
+                }
             } else {
                 const response: IMoviesResponse = await movieService.searchMoviesByTitle(
                     searchParams.get("search")!,
                 );
-                moviesResponse = response.movies;
-                setMoviesCountSearch(response.count);
+
+                if (response) {
+                    moviesResponse = response.movies;
+                    setMoviesCountSearch(response.count);
+                }
             }
         } else {
             if (searchParams.get("sortBy") && searchParams.get("ascOrDesc")) {
@@ -78,35 +86,51 @@ export default function Movies() {
                         page: searchParams.get("page")!,
                         ascOrDesc: searchParams.get("ascOrDesc")!,
                     };
+
                     const responseMovies: IMoviesResponse =
                         await movieService.getMovies(queryParams);
-                    moviesResponse = responseMovies.movies;
-                    setMoviesCount(responseMovies.count);
+
+                    if (responseMovies) {
+                        moviesResponse = responseMovies.movies;
+                        setMoviesCount(responseMovies.count);
+                    }
                 } else {
                     const queryParams = {
                         sortBy: searchParams.get("sortBy")!,
                         ascOrDesc: searchParams.get("ascOrDesc")!,
                     };
+
                     const responseMovies: IMoviesResponse =
                         await movieService.getMovies(queryParams);
-                    moviesResponse = responseMovies.movies;
-                    setMoviesCount(responseMovies.count);
+
+                    if (responseMovies) {
+                        moviesResponse = responseMovies.movies;
+                        setMoviesCount(responseMovies.count);
+                    }
                 }
             } else if (searchParams.get("page")) {
                 const queryParams = {
                     page: searchParams.get("page")!,
                 };
+
                 const response: IMoviesSearchResponse = await movieService.getMovies(queryParams);
-                moviesResponse = response.movies;
-                setMoviesCount(response.count);
+
+                if (response) {
+                    moviesResponse = response.movies;
+                    setMoviesCount(response.count);
+                }
             } else {
                 const response: IMoviesSearchResponse = await movieService.getMovies({});
-                moviesResponse = response.movies;
-                setMoviesCount(response.count);
+
+                if (response) {
+                    moviesResponse = response.movies;
+                    setMoviesCount(response.count);
+                }
             }
         }
 
         const randomMovies = getRandomElements(moviesResponse, 5);
+
         setMovies(moviesResponse);
         setMoviesCarouselImages(randomMovies);
     }
@@ -129,7 +153,7 @@ export default function Movies() {
                     height: "100vh",
                 }}
             >
-                <CircularProgress size={80} thickness={4} color="secondary"/>
+                <CircularProgress size={80} thickness={4} color="secondary" />
             </Box>
         );
     }
@@ -147,7 +171,7 @@ export default function Movies() {
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    transition={{ duration: 0.5}}
+                    transition={{ duration: 0.5 }}
                 >
                     <Box
                         sx={{
