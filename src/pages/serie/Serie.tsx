@@ -1,5 +1,4 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
 import type ISerie from "~/types/ISerie";
 import serieService from "~/services/api/serieService";
 import {
@@ -14,17 +13,15 @@ import {
 } from "@mui/material";
 import { tokens } from "~/utils/theme";
 import SEOHelmet from "~/components/seoHelmet/SEOHelmet";
-import ISeriesResponse from "~/types/ISeriesResponse";
 import { useResizeWindow } from "~/hooks/useResizeWindow";
 import { toast } from "react-toastify";
 import { useStore } from "~/store/store";
 import CardItem from "~/components/cardItem/CardItem";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
+import { useQuery } from "@tanstack/react-query";
 
 export default function Serie() {
-    const [serie, setSerie] = useState<ISerie | null>(null);
-    const [series, setSeries] = useState<ISerie[]>([]);
     const params = useParams();
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -32,29 +29,18 @@ export default function Serie() {
     const { user, setUser } = useStore();
     const navigate = useNavigate();
 
-    async function getSeries(): Promise<void> {
-        try {
-            const response: ISeriesResponse = await serieService.getSeries({});
+    const serieQuery = useQuery({
+        queryKey: ["serie", params.title],
+        queryFn: () => serieService.getSerieByTitle(params?.title!, {}),
+    });
 
-            if (response) {
-                setSeries(response.rows);
-            }
-        } catch (error) {
-            console.error("Error fetching series:", error);
-        }
-    }
+    const seriesQuery = useQuery({
+        queryKey: ["series"],
+        queryFn: () => serieService.getSeries({}),
+    });
 
-    async function getSerie(): Promise<void> {
-        try {
-            const response: ISerie = await serieService.getSerieByTitle(params?.title!, {});
-
-            if (response) {
-                setSerie(response);
-            }
-        } catch (error) {
-            console.error("Error fetching serie:", error);
-        }
-    }
+    const serie: ISerie = serieQuery?.data! ?? null;
+    const series: ISerie[] = seriesQuery?.data?.rows ?? [];
 
     async function bookmarkSerie() {
         if (!user || !serie) return;
@@ -76,15 +62,7 @@ export default function Serie() {
         }
     }
 
-    useEffect(() => {
-        getSerie();
-    }, [params.title]);
-
-    useEffect(() => {
-        getSeries();
-    }, []);
-
-    if (!serie) {
+    if (serieQuery.isLoading || seriesQuery.isLoading) {
         return (
             <Box
                 sx={{
@@ -95,6 +73,21 @@ export default function Serie() {
                 }}
             >
                 <CircularProgress size={80} thickness={4} color="secondary" />
+            </Box>
+        );
+    }
+
+    if (serieQuery.isError === true || seriesQuery.isError === true) {
+        return (
+            <Box
+                sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "100vh",
+                }}
+            >
+                <Typography variant="h1">An Error occurred the server is down!</Typography>
             </Box>
         );
     }
