@@ -23,9 +23,9 @@ import { useQuery } from "@tanstack/react-query";
 export default function Serie() {
     const params = useParams();
     const theme = useTheme();
+    const navigate = useNavigate();
     const colors = tokens(theme.palette.mode);
     const { user, setUser } = useStore();
-    const navigate = useNavigate();
 
     const serieQuery = useQuery({
         queryKey: ["serie", params.title],
