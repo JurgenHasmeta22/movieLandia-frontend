@@ -13,7 +13,6 @@ import {
 } from "@mui/material";
 import { tokens } from "~/utils/theme";
 import SEOHelmet from "~/components/seoHelmet/SEOHelmet";
-import { useResizeWindow } from "~/hooks/useResizeWindow";
 import { toast } from "react-toastify";
 import { useStore } from "~/store/store";
 import CardItem from "~/components/cardItem/CardItem";
@@ -25,7 +24,6 @@ export default function Serie() {
     const params = useParams();
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-    const isPageShrunk = useResizeWindow();
     const { user, setUser } = useStore();
     const navigate = useNavigate();
 
@@ -33,12 +31,10 @@ export default function Serie() {
         queryKey: ["serie", params.title],
         queryFn: () => serieService.getSerieByTitle(params?.title!, {}),
     });
-
     const seriesQuery = useQuery({
         queryKey: ["series"],
         queryFn: () => serieService.getSeries({}),
     });
-
     const serie: ISerie = serieQuery?.data! ?? null;
     const series: ISerie[] = seriesQuery?.data?.rows ?? [];
 

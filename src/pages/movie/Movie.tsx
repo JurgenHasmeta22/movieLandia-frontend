@@ -31,7 +31,6 @@ export default function Movie() {
         queryKey: ["movie", params.title],
         queryFn: () => movieService.getMovieByTitle(params.title),
     });
-
     const latestMoviesQuery = useQuery({
         queryKey: ["latestMovies"],
         queryFn: () => movieService.getLatestMovies(),

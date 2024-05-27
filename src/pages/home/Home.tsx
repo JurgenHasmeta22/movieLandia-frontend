@@ -1,12 +1,11 @@
 import { Box, CircularProgress, Container, Stack, Typography } from "@mui/material";
 import HomeHeroSection from "./components/HomeHero";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import ISerie from "~/types/ISerie";
 import IGenre from "~/types/IGenre";
 import IMovie from "~/types/IMovie";
 import { Link } from "react-router-dom";
 import movieService from "~/services/api/movieService";
-import IMoviesResponse from "~/types/IMoviesResponse";
 import serieService from "~/services/api/serieService";
 import genreService from "~/services/api/genreService";
 import GenreItem from "~/components/genreItem/GenreItem";
@@ -15,18 +14,21 @@ import { useInView } from "react-intersection-observer";
 import CardItem from "~/components/cardItem/CardItem";
 import { useQuery } from "@tanstack/react-query";
 
+const sectionVariants = {
+    hidden: { opacity: 0, y: 100 },
+    visible: { opacity: 1, y: 0 },
+};
+
 export default function Home() {
     // #region Using Tanstack Query to fetch and store data
     const moviesQuery = useQuery({
         queryKey: ["movies"],
         queryFn: () => movieService.getMovies({}),
     });
-
     const seriesQuery = useQuery({
         queryKey: ["series"],
         queryFn: () => serieService.getSeries({}),
     });
-
     const genresQuery = useQuery({
         queryKey: ["genres"],
         queryFn: () => genreService.getGenres({}),
@@ -46,11 +48,6 @@ export default function Home() {
     // #endregion
 
     // #region "Framer Motion stuff to make divs animated"
-    const sectionVariants = {
-        hidden: { opacity: 0, y: 100 },
-        visible: { opacity: 1, y: 0 },
-    };
-
     const [moviesRef, moviesInView] = useInView({ triggerOnce: true });
     const moviesControls = useAnimation();
 
@@ -79,11 +76,7 @@ export default function Home() {
     }, [genresInView, genresControls]);
     // #endregion
 
-    if (
-        moviesQuery.isLoading === true ||
-        seriesQuery.isLoading === true ||
-        genresQuery.isLoading === true
-    ) {
+    if (moviesQuery.isLoading || seriesQuery.isLoading || genresQuery.isLoading) {
         return (
             <Box
                 sx={{
@@ -98,11 +91,7 @@ export default function Home() {
         );
     }
 
-    if (
-        moviesQuery.isError === true ||
-        seriesQuery.isError === true ||
-        genresQuery.isError === true
-    ) {
+    if (moviesQuery.isError || seriesQuery.isError || genresQuery.isError) {
         return (
             <Box
                 sx={{
