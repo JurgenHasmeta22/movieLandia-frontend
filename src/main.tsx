@@ -8,9 +8,6 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import "react-toastify/dist/ReactToastify.css";
 import "./main.css";
 
-// const queryClient = new QueryClient({
-//     defaultOptions: { queries: { staleTime: 1000 * 60 * 5 } },
-// });
 const queryClient = new QueryClient();
 const container = document.getElementById("root")!;
 const root = createRoot(container);

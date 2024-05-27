@@ -1,5 +1,4 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
 import { useStore } from "~/store/store";
 import type IMovie from "~/types/IMovie";
 import movieService from "~/services/api/movieService";
@@ -19,39 +18,27 @@ import { toast } from "react-toastify";
 import CardItem from "~/components/cardItem/CardItem";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
+import { useQuery } from "@tanstack/react-query";
 
 export default function Movie() {
-    const [movie, setMovie] = useState<IMovie | null>(null);
-    const [latestMoviesRelated, setLatestMoviesRelated] = useState<IMovie[]>([]);
     const { user, setUser } = useStore();
     const params = useParams();
     const navigate = useNavigate();
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
-    async function getLatestMovies(): Promise<void> {
-        try {
-            const response: IMovie[] = await movieService.getLatestMovies();
+    const movieQuery = useQuery({
+        queryKey: ["movie", params.title],
+        queryFn: () => movieService.getMovieByTitle(params.title),
+    });
 
-            if (response) {
-                setLatestMoviesRelated(response);
-            }
-        } catch (error) {
-            console.error("Error fetching latest movies:", error);
-        }
-    }
+    const latestMoviesQuery = useQuery({
+        queryKey: ["latestMovies"],
+        queryFn: () => movieService.getLatestMovies(),
+    });
 
-    async function getMovie(): Promise<void> {
-        try {
-            const response: IMovie = await movieService.getMovieByTitle(params.title);
-
-            if (response) {
-                setMovie(response);
-            }
-        } catch (error) {
-            console.error("Error fetching movie:", error);
-        }
-    }
+    const movie: IMovie = movieQuery?.data! ?? null;
+    const latestMovies: IMovie[] = latestMoviesQuery?.data! ?? [];
 
     async function bookmarkMovie() {
         if (!user || !movie) return;
@@ -73,15 +60,7 @@ export default function Movie() {
         }
     }
 
-    useEffect(() => {
-        getMovie();
-    }, [params.title]);
-
-    useEffect(() => {
-        getLatestMovies();
-    }, []);
-
-    if (!movie) {
+    if (movieQuery.isLoading || latestMoviesQuery.isLoading) {
         return (
             <Box
                 sx={{
@@ -92,6 +71,21 @@ export default function Movie() {
                 }}
             >
                 <CircularProgress size={80} thickness={4} color="secondary" />
+            </Box>
+        );
+    }
+
+    if (movieQuery.isError === true || latestMoviesQuery.isError === true) {
+        return (
+            <Box
+                sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "100vh",
+                }}
+            >
+                <Typography variant="h1">An Error occurred the server is down!</Typography>
             </Box>
         );
     }
@@ -302,7 +296,7 @@ export default function Movie() {
                             mt={1}
                             mb={4}
                         >
-                            {latestMoviesRelated.slice(5, 10).map((latestMovie: any) => (
+                            {latestMovies.slice(5, 10).map((latestMovie: any) => (
                                 <CardItem data={latestMovie} key={latestMovie.id} type="movie" />
                             ))}
                         </Stack>

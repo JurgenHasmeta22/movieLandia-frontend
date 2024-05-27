@@ -1,4 +1,4 @@
-import { Box, CircularProgress, Container, Stack } from "@mui/material";
+import { Box, CircularProgress, Container, Stack, Typography } from "@mui/material";
 import HomeHeroSection from "./components/HomeHero";
 import { useEffect, useState } from "react";
 import ISerie from "~/types/ISerie";
@@ -13,62 +13,36 @@ import GenreItem from "~/components/genreItem/GenreItem";
 import { motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import CardItem from "~/components/cardItem/CardItem";
+import { useQuery } from "@tanstack/react-query";
 
 export default function Home() {
-    // #region "Data needed state, useEffect and API calls"
-    const [series, setSeries] = useState<ISerie[]>([]);
-    const [genres, setGenres] = useState<IGenre[]>([]);
-    const [movies, setMovies] = useState<IMovie[]>([]);
+    // #region Using Tanstack Query to fetch and store data
+    const moviesQuery = useQuery({
+        queryKey: ["movies"],
+        queryFn: () => movieService.getMovies({}),
+    });
 
-    const getMovies = async () => {
-        try {
-            const response: IMoviesResponse = await movieService.getMovies({});
+    const seriesQuery = useQuery({
+        queryKey: ["series"],
+        queryFn: () => serieService.getSeries({}),
+    });
 
-            if (response && response.movies) {
-                const shuffledArray = response.movies.sort(() => Math.random() - 0.5);
-                const randomElements = shuffledArray.slice(0, 5);
-                setMovies(randomElements);
-            }
-        } catch (error) {
-            console.error("Error fetching movies:", error);
-        }
-    };
+    const genresQuery = useQuery({
+        queryKey: ["genres"],
+        queryFn: () => genreService.getGenres({}),
+    });
 
-    const getSeries = async () => {
-        try {
-            const response = await serieService.getSeries({});
+    const movies: IMovie[] = moviesQuery.data?.movies! ?? [];
+    const shuffledMovies: IMovie[] = movies.sort(() => Math.random() - 0.5);
+    const finalMovies: IMovie[] = shuffledMovies.slice(0, 5);
 
-            if (response && response.rows) {
-                const shuffledArray = response.rows.sort(() => Math.random() - 0.5);
-                const randomElements = shuffledArray.slice(0, 5);
-                setSeries(randomElements);
-            }
-        } catch (error) {
-            console.error("Error fetching series:", error);
-        }
-    };
+    const series: ISerie[] = seriesQuery.data?.rows! ?? [];
+    const shuffledSeries: ISerie[] = series.sort(() => Math.random() - 0.5);
+    const finalSeries: ISerie[] = shuffledSeries.slice(0, 5);
 
-    const getGenres = async () => {
-        try {
-            const response = await genreService.getGenres({});
-
-            if (response && response.rows) {
-                const shuffledArray = response.rows.sort(() => Math.random() - 0.5);
-                const randomElements = shuffledArray.slice(0, 5);
-                setGenres(randomElements);
-            }
-        } catch (error) {
-            console.error("Error fetching genres:", error);
-        }
-    };
-
-    useEffect(() => {
-        const fetchData = async () => {
-            await Promise.all([getMovies(), getSeries(), getGenres()]);
-        };
-
-        fetchData();
-    }, []);
+    const genres: IGenre[] = genresQuery.data?.rows! ?? [];
+    const shuffledGenres: IGenre[] = genres.sort(() => Math.random() - 0.5);
+    const finalGenres: IGenre[] = shuffledGenres.slice(0, 5);
     // #endregion
 
     // #region "Framer Motion stuff to make divs animated"
@@ -106,9 +80,9 @@ export default function Home() {
     // #endregion
 
     if (
-        (!movies || movies?.length === 0) &&
-        (!series || series?.length === 0) &&
-        (!genres || genres?.length === 0)
+        moviesQuery.isLoading === true ||
+        seriesQuery.isLoading === true ||
+        genresQuery.isLoading === true
     ) {
         return (
             <Box
@@ -120,6 +94,25 @@ export default function Home() {
                 }}
             >
                 <CircularProgress size={80} thickness={4} color="secondary" />
+            </Box>
+        );
+    }
+
+    if (
+        moviesQuery.isError === true ||
+        seriesQuery.isError === true ||
+        genresQuery.isError === true
+    ) {
+        return (
+            <Box
+                sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "100vh",
+                }}
+            >
+                <Typography variant="h1">An Error occurred the server is down!</Typography>
             </Box>
         );
     }
@@ -157,7 +150,7 @@ export default function Home() {
                                 rowGap={4}
                                 columnGap={4}
                             >
-                                {movies.map((movie: any) => (
+                                {finalMovies.map((movie: any) => (
                                     <CardItem data={movie} key={movie.id} />
                                 ))}
                             </Stack>
@@ -191,7 +184,7 @@ export default function Home() {
                                 rowGap={4}
                                 columnGap={4}
                             >
-                                {series.map((serie: ISerie) => (
+                                {finalSeries.map((serie: ISerie) => (
                                     <CardItem data={serie} type="serie" key={serie.id} />
                                 ))}
                             </Stack>
@@ -225,7 +218,7 @@ export default function Home() {
                                 rowGap={4}
                                 columnGap={4}
                             >
-                                {genres.map((genre: IGenre) => (
+                                {finalGenres.map((genre: IGenre) => (
                                     <GenreItem key={genre.id} genre={genre} />
                                 ))}
                             </Stack>
