@@ -44,6 +44,7 @@ const TableAdmin = ({ columns, page, handleAddItem }: TableAdminProps) => {
     const [isError, setIsError] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [isRefetching, setIsRefetching] = useState(false);
+    
     const [columnFilters, setColumnFilters] = useState<MRT_ColumnFiltersState>([]);
     const [columnFiltersFns, setColumnFiltersFns] = useState<any>([]);
     const [globalFilter, setGlobalFilter] = useState("");
@@ -52,6 +53,7 @@ const TableAdmin = ({ columns, page, handleAddItem }: TableAdminProps) => {
         pageIndex: 0,
         pageSize: 10,
     });
+
     const [open, setOpen] = useState(false);
     const navigate = useNavigate();
     const { openModal } = useModal();
@@ -211,8 +213,6 @@ const TableAdmin = ({ columns, page, handleAddItem }: TableAdminProps) => {
             setIsRefetching(true);
         }
 
-        console.log(columnFilters, columnFiltersFns);
-
         try {
             let response: any;
 
@@ -228,16 +228,7 @@ const TableAdmin = ({ columns, page, handleAddItem }: TableAdminProps) => {
                         page === "users" ? "userName" : page === "genres" ? "name" : "title",
                     filterValue: globalFilter,
                 }),
-                // ...(columnFilters?.length > 0 && {
-                //     filters: columnFilters?.map((filter) => ({
-                //         filterNameString: filter.id,
-                //         filterValue: filter.value,
-                //         filterOperatorString: columnFiltersFns[filter.id] || "equals",
-                //     })),
-                // }),
             };
-
-            console.log(queryParams);
 
             switch (page) {
                 case "series":
