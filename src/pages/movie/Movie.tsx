@@ -21,11 +21,11 @@ import BookmarkIcon from "@mui/icons-material/Bookmark";
 import { useQuery } from "@tanstack/react-query";
 
 export default function Movie() {
-    const { user, setUser } = useStore();
     const params = useParams();
     const navigate = useNavigate();
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
+    const { user, setUser } = useStore();
 
     const movieQuery = useQuery({
         queryKey: ["movie", params.title],
@@ -35,7 +35,6 @@ export default function Movie() {
         queryKey: ["latestMovies"],
         queryFn: () => movieService.getLatestMovies(),
     });
-
     const movie: IMovie = movieQuery?.data! ?? null;
     const latestMovies: IMovie[] = latestMoviesQuery?.data! ?? [];
 
@@ -74,7 +73,7 @@ export default function Movie() {
         );
     }
 
-    if (movieQuery.isError === true || latestMoviesQuery.isError === true) {
+    if (movieQuery.isError || latestMoviesQuery.isError) {
         return (
             <Box
                 sx={{

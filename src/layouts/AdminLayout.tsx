@@ -1,4 +1,5 @@
 import { Box, CircularProgress, Grid } from "@mui/material";
+import { motion } from "framer-motion";
 import React from "react";
 import { Outlet } from "react-router-dom";
 import Sidebar from "~/components/admin/sidebar/Sidebar";
@@ -37,9 +38,17 @@ const AdminLayout = () => {
                                     </Box>
                                 }
                             >
-                                <Box ml={4}>
-                                    <Outlet />
-                                </Box>
+                                <motion.div
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    exit={{ opacity: 0 }}
+                                    transition={{ duration: 0.5 }}
+                                    style={{ width: "100%" }}
+                                >
+                                    <Box ml={4}>
+                                        <Outlet />
+                                    </Box>
+                                </motion.div>
                             </React.Suspense>
                         </Grid>
                     </Grid>
