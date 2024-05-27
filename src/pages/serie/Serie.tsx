@@ -19,6 +19,7 @@ import CardItem from "~/components/cardItem/CardItem";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import { useQuery } from "@tanstack/react-query";
+import BookmarkRemoveIcon from "@mui/icons-material/BookmarkRemove";
 
 export default function Serie() {
     const params = useParams();
@@ -37,6 +38,18 @@ export default function Serie() {
     });
     const serie: ISerie = serieQuery?.data! ?? null;
     const series: ISerie[] = seriesQuery?.data?.rows ?? [];
+
+    const isSerieBookamedQuery = useQuery({
+        queryKey: ["isSerieBookmarked", params.title],
+        queryFn: () => serieService.isSerieBookmared(serie?.id!, user?.id),
+    });
+    const isSerieBookmarked: boolean = isSerieBookamedQuery?.data?.isBookmarked! ?? false;
+
+    async function handleBookmark() {
+        if (!isSerieBookmarked) {
+            await bookmarkSerie();
+        }
+    }
 
     async function bookmarkSerie() {
         if (!user || !serie) return;
@@ -234,29 +247,32 @@ export default function Serie() {
                             </Button>
                             {user?.userName && (
                                 <Button
-                                    onClick={() => {
-                                        bookmarkSerie();
-                                    }}
+                                    onClick={handleBookmark}
                                     color="secondary"
                                     variant="contained"
+                                    disabled={isSerieBookmarked}
                                     sx={{
-                                        width: "30%",
                                         display: "flex",
                                         placeSelf: "center",
-                                        marginTop: 1,
+                                        width: "30%",
                                         columnGap: 1,
+                                        marginTop: 1,
                                     }}
                                 >
-                                    <BookmarkIcon color={"error"}></BookmarkIcon>
+                                    {!isSerieBookmarked ? (
+                                        <BookmarkIcon color="success" />
+                                    ) : (
+                                        <BookmarkRemoveIcon color="error" />
+                                    )}
                                     <Typography
-                                        component={"span"}
+                                        component="span"
                                         sx={{
                                             textTransform: "capitalize",
                                         }}
-                                        color={"primary"}
+                                        color="primary"
                                         fontWeight={700}
                                     >
-                                        Bookmark
+                                        {isSerieBookmarked ? "Bookmarked" : "Bookmark"}
                                     </Typography>
                                 </Button>
                             )}

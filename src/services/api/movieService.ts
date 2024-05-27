@@ -108,27 +108,60 @@ const movieService = {
         movieId: number | undefined,
         userId: number | undefined,
     ): Promise<any> => {
-        if (localStorage.token) {
-            const config = {
-                headers: {
-                    Authorization: localStorage.token,
-                },
-            };
-            const payload = {
-                movieId,
-                userId,
-            };
+        const payload = {
+            movieId,
+            userId,
+        };
 
-            try {
-                const user: IUser = await axios
-                    .post(`${api.url}/bookmarkMovie`, payload, config)
-                    .then((x) => x.data);
+        try {
+            const user: IUser = await axios
+                .post(`${api.url}/bookmarkMovie`, payload)
+                .then((x) => x.data);
 
-                return user;
-            } catch (error) {
-                // console.log(error);
-                return { error };
-            }
+            return user;
+        } catch (error) {
+            // console.log(error);
+            return { error };
+        }
+    },
+    removeFromFavorites: async (
+        movieId: number | undefined,
+        userId: number | undefined,
+    ): Promise<any> => {
+        const payload = {
+            movieId,
+            userId,
+        };
+
+        try {
+            const user: IUser = await axios
+                .post(`${api.url}/unBookmarkMovie`, payload)
+                .then((x) => x.data);
+
+            return user;
+        } catch (error) {
+            // console.log(error);
+            return { error };
+        }
+    },
+    isMovieBookmared: async (
+        movieId: number | undefined,
+        userId: number | undefined,
+    ): Promise<any> => {
+        const payload = {
+            movieId,
+            userId,
+        };
+
+        try {
+            const result: boolean = await axios
+                .post(`${api.url}/isMovieBookmarked`, payload)
+                .then((x) => x.data);
+
+            return result;
+        } catch (error) {
+            // console.log(error);
+            return { error };
         }
     },
     updateMovie: async (payload: IMoviePatch, id: number): Promise<any> => {
