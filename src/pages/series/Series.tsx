@@ -16,14 +16,14 @@ import { useSorting } from "~/hooks/useSorting";
 import { getRandomElements, toFirstWordUpperCase } from "~/utils/utils";
 import Carousel from "~/components/carousel/Carousel";
 import CardItem from "~/components/cardItem/CardItem";
-import { useInView } from "react-intersection-observer";
-import { motion, useAnimation } from "framer-motion";
+// import { useInView } from "react-intersection-observer";
+// import { motion, useAnimation } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
 
-const sectionVariants = {
-    hidden: { opacity: 0, y: 100 },
-    visible: { opacity: 1, y: 0 },
-};
+// const sectionVariants = {
+//     hidden: { opacity: 0, y: 100 },
+//     visible: { opacity: 1, y: 0 },
+// };
 
 export default function Series() {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -68,14 +68,14 @@ export default function Series() {
     // #endregion
 
     // #region "Framer Motion animations for page"
-    const [seriesRef, seriesInView] = useInView({ triggerOnce: false });
-    const seriesControls = useAnimation();
+    // const [seriesRef, seriesInView] = useInView({ triggerOnce: false });
+    // const seriesControls = useAnimation();
 
-    useEffect(() => {
-        if (seriesInView) {
-            seriesControls.start("visible");
-        }
-    }, [seriesInView, seriesControls]);
+    // useEffect(() => {
+    //     if (seriesInView) {
+    //         seriesControls.start("visible");
+    //     }
+    // }, [seriesInView, seriesControls]);
     // #endregion
 
     // #region "Data state spinners, errrors check"
@@ -191,27 +191,27 @@ export default function Series() {
                             rowGap: 4,
                         }}
                     >
-                        <motion.div
+                        {/* <motion.div
                             ref={seriesRef}
                             animate={seriesControls}
                             variants={sectionVariants}
                             transition={{ duration: 0.5 }}
                             initial="hidden"
                             style={{ position: "relative" }}
+                        > */}
+                        <Stack
+                            direction="row"
+                            flexWrap="wrap"
+                            justifyContent={"center"}
+                            alignContent={"center"}
+                            rowGap={8}
+                            columnGap={4}
                         >
-                            <Stack
-                                direction="row"
-                                flexWrap="wrap"
-                                justifyContent={"center"}
-                                alignContent={"center"}
-                                rowGap={8}
-                                columnGap={4}
-                            >
-                                {series.map((serie: any) => (
-                                    <CardItem data={serie} type="serie" key={serie.id} />
-                                ))}
-                            </Stack>
-                        </motion.div>
+                            {series.map((serie: any) => (
+                                <CardItem data={serie} type="serie" key={serie.id} />
+                            ))}
+                        </Stack>
+                        {/* </motion.div> */}
                         <Stack
                             spacing={2}
                             sx={{

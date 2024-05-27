@@ -248,7 +248,7 @@ export default function Login() {
                                                     }}
                                                     to={"/register"}
                                                 >
-                                                    Login
+                                                    Sign Up
                                                 </Link>
                                             </Box>
                                         </Box>
