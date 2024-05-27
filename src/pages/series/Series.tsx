@@ -54,7 +54,6 @@ export default function Series() {
         queryKey: ["series", search, sortBy, ascOrDesc, page],
         queryFn: () => fetchSeries(),
     });
-
     const series: ISerie[] = seriesQuery.data?.rows! ?? [];
     const seriesCount: number = seriesQuery.data?.count! ?? 0;
     const seriesCarouselImages = getRandomElements(series, 5);
@@ -62,7 +61,6 @@ export default function Series() {
 
     // #region "Pagination logic"
     const pageCount = Math.ceil(seriesCount / 10);
-
     const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
         searchParams.set("page", String(value));
         setSearchParams(searchParams);
@@ -70,7 +68,7 @@ export default function Series() {
     // #endregion
 
     // #region "Framer Motion animations for page"
-    const [seriesRef, seriesInView] = useInView({ triggerOnce: true });
+    const [seriesRef, seriesInView] = useInView({ triggerOnce: false });
     const seriesControls = useAnimation();
 
     useEffect(() => {
@@ -96,7 +94,7 @@ export default function Series() {
         );
     }
 
-    if (seriesQuery.isError === true) {
+    if (seriesQuery.isError) {
         return (
             <Box
                 sx={{
@@ -110,12 +108,8 @@ export default function Series() {
             </Box>
         );
     }
-
-    if (seriesQuery.isSuccess) {
-        seriesControls.start("visible");
-    }
     // #endregion
-    
+
     return (
         <>
             <SEOHelmet

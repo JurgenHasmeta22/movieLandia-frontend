@@ -1,25 +1,17 @@
-import { useEffect, useState } from "react";
 import type IGenre from "~/types/IGenre";
 import { Box, CircularProgress, Typography } from "@mui/material";
 import genreService from "~/services/api/genreService";
 import GenreItem from "~/components/genreItem/GenreItem";
+import { useQuery } from "@tanstack/react-query";
 
 export default function Genres() {
-    const [genres, setGenres] = useState<IGenre[]>([]);
+    const genresQuery = useQuery({
+        queryKey: ["genres"],
+        queryFn: () => genreService.getGenres({}),
+    });
+    const genres: IGenre[] = genresQuery.data! ?? [];
 
-    async function getGenres(): Promise<void> {
-        const response: any = await genreService.getGenres({});
-
-        if (response && response.rows) {
-            setGenres(response.rows);
-        }
-    }
-
-    useEffect(() => {
-        getGenres();
-    }, []);
-
-    if (!genres || genres?.length === 0) {
+    if (genresQuery.isLoading) {
         return (
             <Box
                 sx={{
@@ -30,6 +22,21 @@ export default function Genres() {
                 }}
             >
                 <CircularProgress size={80} thickness={4} color="secondary" />
+            </Box>
+        );
+    }
+
+    if (genresQuery.isError) {
+        return (
+            <Box
+                sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "100vh",
+                }}
+            >
+                <Typography variant="h1">An Error occurred the server is down!</Typography>
             </Box>
         );
     }

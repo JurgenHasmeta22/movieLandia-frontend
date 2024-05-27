@@ -54,12 +54,10 @@ export default function Movies() {
         queryKey: ["movies", search, sortBy, ascOrDesc, page],
         queryFn: () => fetchMovies(),
     });
-
     const latestMoviesQuery = useQuery({
         queryKey: ["latestMovies"],
         queryFn: () => movieService.getLatestMovies(),
     });
-
     const movies: IMovie[] = moviesQuery.data?.movies! ?? [];
     const moviesCount: number = moviesQuery.data?.count! ?? 0;
     const latestMovies: IMovie[] = latestMoviesQuery.data! ?? [];
@@ -68,7 +66,6 @@ export default function Movies() {
 
     // #region "Pagination logic"
     const pageCount = Math.ceil(moviesCount / 10);
-
     const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
         searchParams.set("page", String(value));
         setSearchParams(searchParams);
@@ -76,8 +73,8 @@ export default function Movies() {
     // #endregion
 
     // #region "Framer Motion animations logic"
-    const [moviesRef, moviesInView] = useInView({ triggerOnce: true });
-    const [moviesLatestRef, moviesLatestInView] = useInView({ triggerOnce: true });
+    const [moviesRef, moviesInView] = useInView({ triggerOnce: false });
+    const [moviesLatestRef, moviesLatestInView] = useInView({ triggerOnce: false });
     const moviesControls = useAnimation();
     const moviesLatestControls = useAnimation();
 
@@ -110,7 +107,7 @@ export default function Movies() {
         );
     }
 
-    if (moviesQuery.isError === true || latestMoviesQuery.isError === true) {
+    if (moviesQuery.isError || latestMoviesQuery.isError) {
         return (
             <Box
                 sx={{
@@ -123,10 +120,6 @@ export default function Movies() {
                 <Typography variant="h1">An Error occurred the server is down!</Typography>
             </Box>
         );
-    }
-
-    if (moviesQuery.isSuccess) {
-        moviesControls.start("visible");
     }
     // #endregion
 
