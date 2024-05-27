@@ -115,7 +115,7 @@ export default function Home() {
                         ref={moviesRef}
                         animate={moviesControls}
                         variants={sectionVariants}
-                        transition={{ duration: 1 }}
+                        transition={{ duration: 0.5 }}
                         initial="hidden"
                         style={{ position: "relative" }}
                     >
@@ -149,7 +149,7 @@ export default function Home() {
                         ref={seriesRef}
                         animate={seriesControls}
                         variants={sectionVariants}
-                        transition={{ duration: 1 }}
+                        transition={{ duration: 0.5 }}
                         initial="hidden"
                         style={{ position: "relative" }}
                     >
@@ -183,7 +183,7 @@ export default function Home() {
                         ref={genresRef}
                         animate={genresControls}
                         variants={sectionVariants}
-                        transition={{ duration: 1 }}
+                        transition={{ duration: 0.5 }}
                         initial="hidden"
                         style={{ position: "relative" }}
                     >
