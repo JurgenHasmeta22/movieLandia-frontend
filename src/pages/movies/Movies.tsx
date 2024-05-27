@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import movieService from "~/services/api/movieService";
 import type IMovie from "~/types/IMovie";
@@ -20,10 +20,10 @@ import { motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { useQuery } from "@tanstack/react-query";
 
-const sectionVariants = {
-    hidden: { opacity: 0, y: 100 },
-    visible: { opacity: 1, y: 0 },
-};
+// const sectionVariants = {
+//     hidden: { opacity: 0, y: 100 },
+//     visible: { opacity: 1, y: 0 },
+// };
 
 export default function Movies() {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -73,22 +73,22 @@ export default function Movies() {
     // #endregion
 
     // #region "Framer Motion animations logic"
-    const [moviesRef, moviesInView] = useInView({ triggerOnce: false });
-    const [moviesLatestRef, moviesLatestInView] = useInView({ triggerOnce: false });
-    const moviesControls = useAnimation();
-    const moviesLatestControls = useAnimation();
+    // const [moviesRef, moviesInView] = useInView({ triggerOnce: false });
+    // const [moviesLatestRef, moviesLatestInView] = useInView({ triggerOnce: false });
+    // const moviesControls = useAnimation();
+    // const moviesLatestControls = useAnimation();
 
-    useEffect(() => {
-        if (moviesInView) {
-            moviesControls.start("visible");
-        }
-    }, [moviesInView, moviesControls]);
+    // useEffect(() => {
+    //     if (moviesInView) {
+    //         moviesControls.start("visible");
+    //     }
+    // }, [moviesInView, moviesControls]);
 
-    useEffect(() => {
-        if (moviesLatestInView) {
-            moviesLatestControls.start("visible");
-        }
-    }, [moviesLatestInView, moviesLatestControls]);
+    // useEffect(() => {
+    //     if (moviesLatestInView) {
+    //         moviesLatestControls.start("visible");
+    //     }
+    // }, [moviesLatestInView, moviesLatestControls]);
     // #endregion
 
     // #region "Data state spinners, errrors check"
@@ -208,31 +208,31 @@ export default function Movies() {
                         </Stack>
                     )}
                     {movies.length !== 0 ? (
-                        <motion.div
-                            ref={moviesRef}
-                            animate={moviesControls}
-                            variants={sectionVariants}
-                            transition={{ duration: 0.5 }}
-                            initial="hidden"
-                            style={{ position: "relative" }}
+                        // <motion.div
+                        //     ref={moviesRef}
+                        //     animate={moviesControls}
+                        //     variants={sectionVariants}
+                        //     transition={{ duration: 0.5 }}
+                        //     initial="hidden"
+                        //     style={{ position: "relative" }}
+                        // >
+                        <Stack
+                            direction="row"
+                            flexWrap="wrap"
+                            justifyContent={"center"}
+                            alignContent={"center"}
+                            rowGap={8}
+                            columnGap={4}
+                            sx={{
+                                marginTop: `${searchParams.get("search") ? 2.5 : 0.2}rem`,
+                            }}
                         >
-                            <Stack
-                                direction="row"
-                                flexWrap="wrap"
-                                justifyContent={"center"}
-                                alignContent={"center"}
-                                rowGap={8}
-                                columnGap={4}
-                                sx={{
-                                    marginTop: `${searchParams.get("search") ? 2.5 : 0.2}rem`,
-                                }}
-                            >
-                                {movies.map((movie: IMovie) => (
-                                    <CardItem data={movie} key={movie.id} />
-                                ))}
-                            </Stack>
-                        </motion.div>
+                            {movies.map((movie: IMovie) => (
+                                <CardItem data={movie} key={movie.id} />
+                            ))}
+                        </Stack>
                     ) : (
+                        // </motion.div>
                         <Box
                             sx={{
                                 height: "50vh",
@@ -281,29 +281,29 @@ export default function Movies() {
                                     Latest Movies
                                 </Typography>
                             </Box>
-                            <motion.div
+                            {/* <motion.div
                                 ref={moviesLatestRef}
                                 animate={moviesLatestControls}
                                 variants={sectionVariants}
                                 transition={{ duration: 0.5 }}
                                 initial="hidden"
                                 style={{ position: "relative" }}
+                            > */}
+                            <Stack
+                                direction="row"
+                                flexWrap="wrap"
+                                rowGap={8}
+                                columnGap={4}
+                                justifyContent={"center"}
+                                alignContent={"center"}
+                                marginTop={3}
+                                mb={4}
                             >
-                                <Stack
-                                    direction="row"
-                                    flexWrap="wrap"
-                                    rowGap={8}
-                                    columnGap={4}
-                                    justifyContent={"center"}
-                                    alignContent={"center"}
-                                    marginTop={3}
-                                    mb={4}
-                                >
-                                    {latestMovies?.map((latestMovie: IMovie) => (
-                                        <CardItem data={latestMovie} key={latestMovie.id} />
-                                    ))}
-                                </Stack>
-                            </motion.div>
+                                {latestMovies?.map((latestMovie: IMovie) => (
+                                    <CardItem data={latestMovie} key={latestMovie.id} />
+                                ))}
+                            </Stack>
+                            {/* </motion.div> */}
                         </Box>
                     )}
                 </Box>
