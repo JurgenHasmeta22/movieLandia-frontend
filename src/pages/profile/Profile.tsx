@@ -19,8 +19,6 @@ export default function Profile() {
             ? 0
             : searchParams?.get("tab")! === "favSeries"
               ? 1
-              : searchParams?.get("tab")! === "about"
-                ? 2
                 : 0;
 
     const handleChange = (event: any, newValue: number) => {
@@ -28,8 +26,6 @@ export default function Profile() {
             navigate("/profile?tab=favMovies");
         } else if (newValue === 1) {
             navigate("/profile?tab=favSeries");
-        } else if (newValue === 2) {
-            navigate("/profile?tab=about");
         }
     };
 
@@ -106,27 +102,12 @@ export default function Profile() {
                                 borderBottom: `${searchParams?.get("tab") === "favSeries" ? "4px solid" : "0px"}`,
                             }}
                         />
-                        <Tab
-                            label="About Me"
-                            tabIndex={2}
-                            sx={{
-                                backgroundColor: colors.blueAccent[400],
-                                color: colors.primary[400],
-                                fontWeight: "600",
-                                fontSize: 14,
-                                textTransform: "capitalize",
-                                borderBottom: `${searchParams?.get("tab") === "about" ? "4px solid" : "0px"}`,
-                            }}
-                        />
                     </Tabs>
                     <TabPanel value={tabValue} index={0} key={0}>
                         <FavoritesTab type={"Movies"} key={"0"} />
                     </TabPanel>
                     <TabPanel value={tabValue} index={1} key={1}>
                         <FavoritesTab type={"Series"} key={"1"} />
-                    </TabPanel>
-                    <TabPanel value={tabValue} index={2} key={2}>
-                        <AboutUsTab />
                     </TabPanel>
                 </Box>
             </Box>
