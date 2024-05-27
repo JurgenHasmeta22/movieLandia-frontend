@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import type ISerie from "~/types/ISerie";
-import type ISeriesResponse from "~/types/ISeriesResponse";
 import {
     Box,
     CircularProgress,
@@ -10,9 +9,7 @@ import {
     Select,
     Stack,
     Typography,
-    useTheme,
 } from "@mui/material";
-import { tokens } from "~/utils/theme";
 import serieService from "~/services/api/serieService";
 import SEOHelmet from "~/components/seoHelmet/SEOHelmet";
 import { useSorting } from "~/hooks/useSorting";
@@ -21,123 +18,68 @@ import Carousel from "~/components/carousel/Carousel";
 import CardItem from "~/components/cardItem/CardItem";
 import { useInView } from "react-intersection-observer";
 import { motion, useAnimation } from "framer-motion";
+import { useQuery } from "@tanstack/react-query";
 
 export default function Series() {
-    const [series, setSeries] = useState<ISerie[] | undefined>(undefined);
-    const [seriesCount, setSeriesCount] = useState<number>(0);
-    const [seriesCountSearch, setSeriesCountSearch] = useState<number>(0);
-    const [seriesCarouselImages, setSeriesCarouselImages] = useState<any[]>([]);
-
     const [searchParams, setSearchParams] = useSearchParams();
-    const pageCount = Math.ceil(seriesCount / 20);
-    const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
     const handleChangeSorting = useSorting();
+
+    // #region "Data fetching and handling data with tanstack query"
+    const page = searchParams.get("page") || 1;
+    const search = searchParams.get("search");
+    const sortBy = searchParams.get("sortBy");
+    const ascOrDesc = searchParams.get("ascOrDesc");
+
+    const fetchSeries = async () => {
+        let response;
+        const queryParams: Record<string, string | number> = { page };
+
+        if (search) {
+            response = await serieService.searchSeriesByTitle(search, String(page));
+        } else {
+            if (sortBy) queryParams.sortBy = sortBy;
+            if (ascOrDesc) queryParams.ascOrDesc = ascOrDesc;
+            response = await serieService.getSeries(queryParams);
+        }
+
+        return response;
+    };
+
+    const seriesQuery = useQuery({
+        queryKey: ["series", search, sortBy, ascOrDesc, page],
+        queryFn: () => fetchSeries(),
+    });
+
+    const series: ISerie[] = seriesQuery.data?.rows! ?? [];
+    const seriesCount: number = seriesQuery.data?.count! ?? 0;
+    const seriesCarouselImages = getRandomElements(series, 5);
+    // #endregion
+
+    // #region "Pagination logic"
+    const pageCount = Math.ceil(seriesCount / 10);
 
     const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
         searchParams.set("page", String(value));
         setSearchParams(searchParams);
     };
+    // #endregion
 
-    async function getSeries(): Promise<void> {
-        let seriesResponse: ISerie[] = [];
-
-        if (searchParams.get("search")) {
-            if (searchParams.get("page")) {
-                const response: ISeriesResponse = await serieService.searchSeriesByTitle(
-                    searchParams.get("search")!,
-                    searchParams.get("page")!,
-                );
-
-                if (response) {
-                    seriesResponse = response.rows;
-                    setSeriesCountSearch(response.count);
-                }
-            } else {
-                const response: ISeriesResponse = await serieService.searchSeriesByTitle(
-                    searchParams.get("search")!,
-                );
-
-                if (response) {
-                    seriesResponse = response.rows;
-                    setSeriesCountSearch(response.count);
-                }
-            }
-        } else {
-            if (searchParams.get("sortBy") && searchParams.get("ascOrDesc")) {
-                if (searchParams.get("page")) {
-                    const queryParams = {
-                        sortBy: searchParams.get("sortBy")!,
-                        page: searchParams.get("page")!,
-                        ascOrDesc: searchParams.get("ascOrDesc")!,
-                    };
-
-                    const responseSeries: ISeriesResponse =
-                        await serieService.getSeries(queryParams);
-
-                    if (responseSeries) {
-                        seriesResponse = responseSeries.rows;
-                        setSeriesCount(responseSeries.count);
-                    }
-                } else {
-                    const queryParams = {
-                        sortBy: searchParams.get("sortBy")!,
-                        ascOrDesc: searchParams.get("ascOrDesc")!,
-                    };
-
-                    const responseSeries: ISeriesResponse =
-                        await serieService.getSeries(queryParams);
-
-                    if (responseSeries) {
-                        seriesResponse = responseSeries.rows;
-                        setSeriesCount(responseSeries.count);
-                    }
-                }
-            } else if (searchParams.get("page")) {
-                const queryParams = {
-                    page: searchParams.get("page")!,
-                };
-
-                const responseSeries: ISeriesResponse = await serieService.getSeries(queryParams);
-
-                if (responseSeries) {
-                    seriesResponse = responseSeries.rows;
-                    setSeriesCount(responseSeries.count);
-                }
-            } else {
-                const responseSeries: ISeriesResponse = await serieService.getSeries({});
-
-                if (responseSeries) {
-                    seriesResponse = responseSeries.rows;
-                    setSeriesCount(responseSeries.count);
-                }
-            }
-        }
-
-        const randomSeries = getRandomElements(seriesResponse, 5);
-
-        setSeries(seriesResponse);
-        setSeriesCarouselImages(randomSeries);
-    }
-
-    useEffect(() => {
-        getSeries();
-    }, [searchParams]);
-
+    // #region "Framer Motion animations for page"
     const sectionVariants = {
         hidden: { opacity: 0, y: 100 },
         visible: { opacity: 1, y: 0 },
     };
     const [seriesRef, seriesInView] = useInView({ triggerOnce: true });
-    const seriesControls = useAnimation();
+    // const seriesControls = useAnimation();
 
-    useEffect(() => {
-        if (seriesInView) {
-            seriesControls.start("visible");
-        }
-    }, [seriesInView, seriesControls]);
+    // useEffect(() => {
+    //     if (seriesInView) {
+    //         seriesControls.start("visible");
+    //     }
+    // }, [seriesInView, seriesControls]);
+    // #endregion
 
-    if (!series) {
+    if (seriesQuery.isLoading) {
         return (
             <Box
                 sx={{
@@ -148,6 +90,21 @@ export default function Series() {
                 }}
             >
                 <CircularProgress size={80} thickness={4} color="secondary" />
+            </Box>
+        );
+    }
+
+    if (seriesQuery.isError === true) {
+        return (
+            <Box
+                sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "100vh",
+                }}
+            >
+                <Typography variant="h1">An Error occurred the server is down!</Typography>
             </Box>
         );
     }
@@ -233,27 +190,27 @@ export default function Series() {
                             rowGap: 4,
                         }}
                     >
-                        <motion.div
+                        {/* <motion.div
                             ref={seriesRef}
                             animate={seriesControls}
                             variants={sectionVariants}
                             transition={{ duration: 0.5 }}
                             initial="hidden"
                             style={{ position: "relative" }}
+                        > */}
+                        <Stack
+                            direction="row"
+                            flexWrap="wrap"
+                            justifyContent={"center"}
+                            alignContent={"center"}
+                            rowGap={8}
+                            columnGap={4}
                         >
-                            <Stack
-                                direction="row"
-                                flexWrap="wrap"
-                                justifyContent={"center"}
-                                alignContent={"center"}
-                                rowGap={8}
-                                columnGap={4}
-                            >
-                                {series.map((serie: any) => (
-                                    <CardItem data={serie} type="serie" key={serie.id} />
-                                ))}
-                            </Stack>
-                        </motion.div>
+                            {series.map((serie: any) => (
+                                <CardItem data={serie} type="serie" key={serie.id} />
+                            ))}
+                        </Stack>
+                        {/* </motion.div> */}
                         <Stack
                             spacing={2}
                             sx={{
