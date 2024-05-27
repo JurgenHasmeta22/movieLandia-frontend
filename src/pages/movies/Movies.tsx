@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import movieService from "~/services/api/movieService";
 import type IMovie from "~/types/IMovie";
-import type IMoviesSearchResponse from "~/types/IMovieSearchResponse";
-import type IMoviesResponse from "~/types/IMoviesResponse";
 import {
     Box,
     CircularProgress,
@@ -12,9 +10,7 @@ import {
     Select,
     Stack,
     Typography,
-    useTheme,
 } from "@mui/material";
-import { tokens } from "~/utils/theme";
 import { getRandomElements, toFirstWordUpperCase } from "~/utils/utils";
 import SEOHelmet from "~/components/seoHelmet/SEOHelmet";
 import { useSorting } from "~/hooks/useSorting";
@@ -22,128 +18,59 @@ import Carousel from "~/components/carousel/Carousel";
 import CardItem from "~/components/cardItem/CardItem";
 import { motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
+import { useQuery } from "@tanstack/react-query";
 
 export default function Movies() {
-    const [movies, setMovies] = useState<IMovie[] | undefined>(undefined);
-    const [latestMovies, setLatestMovies] = useState<IMovie[]>([]);
-    const [moviesCount, setMoviesCount] = useState<number | null>(null);
-    const [moviesCountSearch, setMoviesCountSearch] = useState<number | null>(null);
-    const [moviesCarouselImages, setMoviesCarouselImages] = useState<any[]>([]);
-
     const [searchParams, setSearchParams] = useSearchParams();
-    const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
     const handleChangeSorting = useSorting();
-    let pageCount;
 
-    if (searchParams.get("search")) {
-        pageCount = Math.ceil(moviesCountSearch! / 10);
-    } else {
-        pageCount = Math.ceil(moviesCount! / 10);
-    }
+    // #region "Data fetching and handling data with tanstack query"
+    const page = searchParams.get("page") || 1;
+    const search = searchParams.get("search");
+    const sortBy = searchParams.get("sortBy");
+    const ascOrDesc = searchParams.get("ascOrDesc");
+
+    const fetchMovies = async () => {
+        let response;
+        const queryParams: Record<string, string | number> = { page };
+
+        if (search) {
+            response = await movieService.searchMoviesByTitle(search, String(page));
+        } else {
+            if (sortBy) queryParams.sortBy = sortBy;
+            if (ascOrDesc) queryParams.ascOrDesc = ascOrDesc;
+            response = await movieService.getMovies(queryParams);
+        }
+
+        return response;
+    };
+
+    const moviesQuery = useQuery({
+        queryKey: ["movies", search, sortBy, ascOrDesc, page],
+        queryFn: () => fetchMovies(),
+    });
+
+    const latestMoviesQuery = useQuery({
+        queryKey: ["latestMovies"],
+        queryFn: () => movieService.getLatestMovies(),
+    });
+
+    const movies: IMovie[] = moviesQuery.data?.movies! ?? [];
+    const moviesCount: number = moviesQuery.data?.count! ?? 0;
+    const latestMovies: IMovie[] = latestMoviesQuery.data! ?? [];
+    const moviesCarouselImages = getRandomElements(movies, 5);
+    // #endregion
+
+    // #region "Pagination logic"
+    const pageCount = Math.ceil(moviesCount / 10);
 
     const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
         searchParams.set("page", String(value));
         setSearchParams(searchParams);
     };
+    // #endregion
 
-    async function getLatestMovies(): Promise<void> {
-        const latestMovies: IMovie[] = await movieService.getLatestMovies();
-
-        if (latestMovies) {
-            setLatestMovies(latestMovies);
-        }
-    }
-
-    async function getMovies(): Promise<void> {
-        let moviesResponse: IMovie[] = [];
-
-        if (searchParams.get("search")) {
-            if (searchParams.get("page")) {
-                const response: IMoviesResponse = await movieService.searchMoviesByTitle(
-                    searchParams.get("search")!,
-                    searchParams.get("page")!,
-                );
-
-                if (response) {
-                    moviesResponse = response.movies;
-                    setMoviesCountSearch(response.count);
-                }
-            } else {
-                const response: IMoviesResponse = await movieService.searchMoviesByTitle(
-                    searchParams.get("search")!,
-                );
-
-                if (response) {
-                    moviesResponse = response.movies;
-                    setMoviesCountSearch(response.count);
-                }
-            }
-        } else {
-            if (searchParams.get("sortBy") && searchParams.get("ascOrDesc")) {
-                if (searchParams.get("page")) {
-                    const queryParams = {
-                        sortBy: searchParams.get("sortBy")!,
-                        page: searchParams.get("page")!,
-                        ascOrDesc: searchParams.get("ascOrDesc")!,
-                    };
-
-                    const responseMovies: IMoviesResponse =
-                        await movieService.getMovies(queryParams);
-
-                    if (responseMovies) {
-                        moviesResponse = responseMovies.movies;
-                        setMoviesCount(responseMovies.count);
-                    }
-                } else {
-                    const queryParams = {
-                        sortBy: searchParams.get("sortBy")!,
-                        ascOrDesc: searchParams.get("ascOrDesc")!,
-                    };
-
-                    const responseMovies: IMoviesResponse =
-                        await movieService.getMovies(queryParams);
-
-                    if (responseMovies) {
-                        moviesResponse = responseMovies.movies;
-                        setMoviesCount(responseMovies.count);
-                    }
-                }
-            } else if (searchParams.get("page")) {
-                const queryParams = {
-                    page: searchParams.get("page")!,
-                };
-
-                const response: IMoviesSearchResponse = await movieService.getMovies(queryParams);
-
-                if (response) {
-                    moviesResponse = response.movies;
-                    setMoviesCount(response.count);
-                }
-            } else {
-                const response: IMoviesSearchResponse = await movieService.getMovies({});
-
-                if (response) {
-                    moviesResponse = response.movies;
-                    setMoviesCount(response.count);
-                }
-            }
-        }
-
-        const randomMovies = getRandomElements(moviesResponse, 5);
-
-        setMovies(moviesResponse);
-        setMoviesCarouselImages(randomMovies);
-    }
-
-    useEffect(() => {
-        const fetchData = async () => {
-            await Promise.all([getMovies(), getLatestMovies()]);
-        };
-
-        fetchData();
-    }, [searchParams]);
-
+    // #region "Framer Motion implementation of animation on scroll"
     const sectionVariants = {
         hidden: { opacity: 0, y: 100 },
         visible: { opacity: 1, y: 0 },
@@ -151,22 +78,23 @@ export default function Movies() {
 
     const [moviesRef, moviesInView] = useInView({ triggerOnce: true });
     const [moviesLatestRef, moviesLatestInView] = useInView({ triggerOnce: true });
-    const moviesControls = useAnimation();
-    const moviesLatestControls = useAnimation();
+    // const moviesControls = useAnimation();
+    // const moviesLatestControls = useAnimation();
 
-    useEffect(() => {
-        if (moviesInView) {
-            moviesControls.start("visible");
-        }
-    }, [moviesInView, moviesControls]);
+    // useEffect(() => {
+    //     if (moviesInView) {
+    //         moviesControls.start("visible");
+    //     }
+    // }, [moviesInView, moviesControls]);
 
-    useEffect(() => {
-        if (moviesLatestInView) {
-            moviesLatestControls.start("visible");
-        }
-    }, [moviesLatestInView, moviesLatestControls]);
+    // useEffect(() => {
+    //     if (moviesLatestInView) {
+    //         moviesLatestControls.start("visible");
+    //     }
+    // }, [moviesLatestInView, moviesLatestControls]);
+    // #endregion
 
-    if (!movies) {
+    if (moviesQuery.isLoading || latestMoviesQuery.isLoading) {
         return (
             <Box
                 sx={{
@@ -177,6 +105,21 @@ export default function Movies() {
                 }}
             >
                 <CircularProgress size={80} thickness={4} color="secondary" />
+            </Box>
+        );
+    }
+
+    if (moviesQuery.isError === true || latestMoviesQuery.isError === true) {
+        return (
+            <Box
+                sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "100vh",
+                }}
+            >
+                <Typography variant="h1">An Error occurred the server is down!</Typography>
             </Box>
         );
     }
@@ -266,31 +209,31 @@ export default function Movies() {
                         </Stack>
                     )}
                     {movies.length !== 0 ? (
-                        <motion.div
-                            ref={moviesRef}
-                            animate={moviesControls}
-                            variants={sectionVariants}
-                            transition={{ duration: 1 }}
-                            initial="hidden"
-                            style={{ position: "relative" }}
+                        // <motion.div
+                        //     ref={moviesRef}
+                        //     animate={moviesControls}
+                        //     variants={sectionVariants}
+                        //     transition={{ duration: 1 }}
+                        //     initial="hidden"
+                        //     style={{ position: "relative" }}
+                        // >
+                        <Stack
+                            direction="row"
+                            flexWrap="wrap"
+                            justifyContent={"center"}
+                            alignContent={"center"}
+                            rowGap={8}
+                            columnGap={4}
+                            sx={{
+                                marginTop: `${searchParams.get("search") ? 2.5 : 0.2}rem`,
+                            }}
                         >
-                            <Stack
-                                direction="row"
-                                flexWrap="wrap"
-                                justifyContent={"center"}
-                                alignContent={"center"}
-                                rowGap={8}
-                                columnGap={4}
-                                sx={{
-                                    marginTop: `${searchParams.get("search") ? 2.5 : 0.2}rem`,
-                                }}
-                            >
-                                {movies.map((movie: IMovie) => (
-                                    <CardItem data={movie} key={movie.id} />
-                                ))}
-                            </Stack>
-                        </motion.div>
+                            {movies.map((movie: IMovie) => (
+                                <CardItem data={movie} key={movie.id} />
+                            ))}
+                        </Stack>
                     ) : (
+                        // </motion.div>
                         <Box
                             sx={{
                                 height: "50vh",
@@ -339,29 +282,29 @@ export default function Movies() {
                                     Latest Movies
                                 </Typography>
                             </Box>
-                            <motion.div
+                            {/* <motion.div
                                 ref={moviesLatestRef}
                                 animate={moviesLatestControls}
                                 variants={sectionVariants}
                                 transition={{ duration: 1 }}
                                 initial="hidden"
                                 style={{ position: "relative" }}
+                            > */}
+                            <Stack
+                                direction="row"
+                                flexWrap="wrap"
+                                rowGap={8}
+                                columnGap={4}
+                                justifyContent={"center"}
+                                alignContent={"center"}
+                                marginTop={3}
+                                mb={4}
                             >
-                                <Stack
-                                    direction="row"
-                                    flexWrap="wrap"
-                                    rowGap={8}
-                                    columnGap={4}
-                                    justifyContent={"center"}
-                                    alignContent={"center"}
-                                    marginTop={3}
-                                    mb={4}
-                                >
-                                    {latestMovies?.map((latestMovie: IMovie) => (
-                                        <CardItem data={latestMovie} key={latestMovie.id} />
-                                    ))}
-                                </Stack>
-                            </motion.div>
+                                {latestMovies?.map((latestMovie: IMovie) => (
+                                    <CardItem data={latestMovie} key={latestMovie.id} />
+                                ))}
+                            </Stack>
+                            {/* </motion.div> */}
                         </Box>
                     )}
                 </Box>
