@@ -212,7 +212,7 @@ export default function Movies() {
                             ref={moviesRef}
                             animate={moviesControls}
                             variants={sectionVariants}
-                            transition={{ duration: 1 }}
+                            transition={{ duration: 0.5 }}
                             initial="hidden"
                             style={{ position: "relative" }}
                         >
@@ -285,7 +285,7 @@ export default function Movies() {
                                 ref={moviesLatestRef}
                                 animate={moviesLatestControls}
                                 variants={sectionVariants}
-                                transition={{ duration: 1 }}
+                                transition={{ duration: 0.5 }}
                                 initial="hidden"
                                 style={{ position: "relative" }}
                             >

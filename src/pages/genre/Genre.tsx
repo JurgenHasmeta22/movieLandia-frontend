@@ -22,6 +22,7 @@ export default function Genre(): React.JSX.Element {
     const handleChangeSorting = useSorting();
     const params = useParams();
 
+    // #region "Data fetching logic"
     const page = searchParams.get("page") || 1;
     const sortBy = searchParams.get("sortBy");
     const ascOrDesc = searchParams.get("ascOrDesc");
@@ -42,13 +43,17 @@ export default function Genre(): React.JSX.Element {
     });
     const moviesByGenre: IMovie[] = moviesByGenreQuery.data?.movies! ?? [];
     const moviesByGenreCount: number = moviesByGenreQuery.data?.count! ?? 0;
+    // #endregion
 
+    // #region "Pagination logic"
     const pageCount = Math.ceil(moviesByGenreCount / 10);
     const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
         searchParams.set("page", String(value));
         setSearchParams(searchParams);
     };
+    // #endregion
 
+    // #region "Checking spinners errors etc"
     if (moviesByGenreQuery.isLoading) {
         return (
             <Box
@@ -95,7 +100,8 @@ export default function Genre(): React.JSX.Element {
             </Box>
         );
     }
-
+    // #endregion
+    
     return (
         <>
             <SEOHelmet
