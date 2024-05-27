@@ -50,7 +50,6 @@ const CardItem = ({ data, type }: ICardItemProps): React.JSX.Element => {
                         flexDirection: "column",
                         alignItems: "start",
                         justifyContent: "start",
-                        // placeItems: "start",
                         letterSpacing: 0.3,
                     }}
                 >
@@ -68,10 +67,10 @@ const CardItem = ({ data, type }: ICardItemProps): React.JSX.Element => {
                                 pb: 0.5,
                             }}
                         >
-                            {data.genres?.map((genre: any) => (
+                            {data.genres?.map((genre: any, index: number) => (
                                 <Typography
                                     component={"span"}
-                                    key={genre.id}
+                                    key={index}
                                     onClick={function (e) {
                                         e.stopPropagation();
                                         navigate(`/genres/${genre.name}`);

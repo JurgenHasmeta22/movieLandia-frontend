@@ -19,6 +19,7 @@ import CardItem from "~/components/cardItem/CardItem";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import { useQuery } from "@tanstack/react-query";
+import BookmarkRemoveIcon from "@mui/icons-material/BookmarkRemove";
 
 export default function Movie() {
     const params = useParams();
@@ -37,6 +38,18 @@ export default function Movie() {
     });
     const movie: IMovie = movieQuery?.data! ?? null;
     const latestMovies: IMovie[] = latestMoviesQuery?.data! ?? [];
+
+    const isMovieBookamedQuery = useQuery({
+        queryKey: ["isMovieBookmarked", params.title],
+        queryFn: () => movieService.isMovieBookmared(movie?.id!, user?.id),
+    });
+    const isMovieBookmarked: boolean = isMovieBookamedQuery?.data?.isBookmarked! ?? false;
+
+    async function handleBookmark() {
+        if (!isMovieBookmarked) {
+            await bookmarkMovie();
+        }
+    }
 
     async function bookmarkMovie() {
         if (!user || !movie) return;
@@ -243,11 +256,10 @@ export default function Movie() {
                                 </Button>
                                 {user?.userName && (
                                     <Button
-                                        onClick={() => {
-                                            bookmarkMovie();
-                                        }}
+                                        onClick={handleBookmark}
                                         color="secondary"
                                         variant="contained"
+                                        disabled={isMovieBookmarked}
                                         sx={{
                                             display: "flex",
                                             placeSelf: "center",
@@ -256,16 +268,20 @@ export default function Movie() {
                                             marginTop: 1,
                                         }}
                                     >
-                                        <BookmarkIcon color={"error"}></BookmarkIcon>
+                                        {!isMovieBookmarked ? (
+                                            <BookmarkIcon color="success" />
+                                        ) : (
+                                            <BookmarkRemoveIcon color="error" />
+                                        )}
                                         <Typography
-                                            component={"span"}
+                                            component="span"
                                             sx={{
                                                 textTransform: "capitalize",
                                             }}
-                                            color={"primary"}
+                                            color="primary"
                                             fontWeight={700}
                                         >
-                                            Bookmark
+                                            {isMovieBookmarked ? "Bookmarked" : "Bookmark"}
                                         </Typography>
                                     </Button>
                                 )}

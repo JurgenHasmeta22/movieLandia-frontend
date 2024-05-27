@@ -168,26 +168,59 @@ const serieService = {
         serieId: number | undefined,
         userId: number | undefined,
     ): Promise<any> => {
-        if (localStorage.token) {
-            const config = {
-                headers: {
-                    Authorization: localStorage.token,
-                },
-            };
-            const payload = {
-                serieId,
-                userId,
-            };
+        const payload = {
+            serieId,
+            userId,
+        };
 
-            try {
-                const user: IUser = await axios
-                    .post(`${api.url}/bookmarkSerie`, payload, config)
-                    .then((x) => x.data);
-                return user;
-            } catch (error) {
-                // console.log(error);
-                return { error };
-            }
+        try {
+            const user: IUser = await axios
+                .post(`${api.url}/bookmarkSerie`, payload)
+                .then((x) => x.data);
+            return user;
+        } catch (error) {
+            // console.log(error);
+            return { error };
+        }
+    },
+    removeFromFavorites: async (
+        serieId: number | undefined,
+        userId: number | undefined,
+    ): Promise<any> => {
+        const payload = {
+            serieId,
+            userId,
+        };
+
+        try {
+            const user: IUser = await axios
+                .post(`${api.url}/unBookmarkSerie`, payload)
+                .then((x) => x.data);
+
+            return user;
+        } catch (error) {
+            // console.log(error);
+            return { error };
+        }
+    },
+    isSerieBookmared: async (
+        serieId: number | undefined,
+        userId: number | undefined,
+    ): Promise<any> => {
+        const payload = {
+            serieId,
+            userId,
+        };
+
+        try {
+            const result: boolean = await axios
+                .post(`${api.url}/isSerieBookmarked`, payload)
+                .then((x) => x.data);
+
+            return result;
+        } catch (error) {
+            // console.log(error);
+            return { error };
         }
     },
 };
