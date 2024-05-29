@@ -204,11 +204,11 @@ const serieService = {
         }
     },
     isSerieBookmared: async (
-        serieId: number | undefined,
+        serieTitle: string | undefined,
         userId: number | undefined,
     ): Promise<any> => {
         const payload = {
-            serieId,
+            serieTitle,
             userId,
         };
 

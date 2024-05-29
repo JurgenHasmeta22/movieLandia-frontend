@@ -145,11 +145,11 @@ const movieService = {
         }
     },
     isMovieBookmared: async (
-        movieId: number | undefined,
+        movieTitle: string | undefined,
         userId: number | undefined,
     ): Promise<any> => {
         const payload = {
-            movieId,
+            movieTitle,
             userId,
         };
 
