@@ -66,7 +66,6 @@ export default function Serie() {
                 toast.error("Serie not bookmarked successfully!");
             }
         } catch (error) {
-            console.error("An error occurred while adding the serie to favorites:", error);
             toast.error("An error occurred while adding the serie to favorites.");
         }
     }
@@ -177,8 +176,8 @@ export default function Serie() {
                                         color: colors.greenAccent[500],
                                     }}
                                 >
-                                    <Typography component={"span"} width={"20ch"}>
-                                        Release Year: {serie.releaseYear}
+                                    <Typography component={"span"}>
+                                        {serie.releaseYear}
                                     </Typography>
                                 </ListItem>
                                 <ListItem
@@ -230,7 +229,7 @@ export default function Serie() {
                                     columnGap: 1,
                                     width: "30%",
                                     placeSelf: "center",
-                                    marginTop: 1,
+                                    marginTop: 3,
                                 }}
                             >
                                 <YouTubeIcon color="error" />

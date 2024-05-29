@@ -10,26 +10,31 @@ import ISerie from "~/types/ISerie";
 interface ICarouselProps {
     data: IMovie[] | ISerie[];
     type: string;
+    visibleItems?: number;
 }
 
-const Carousel = ({ data, type }: ICarouselProps) => {
+const Carousel = ({ data, type, visibleItems = 3 }: ICarouselProps) => {
     const [startIndex, setStartIndex] = useState(0);
 
     const handleNext = () => {
-        setStartIndex((prevIndex) => (prevIndex === data.length - 3 ? 0 : prevIndex + 1));
+        setStartIndex((prevIndex) => (prevIndex >= data.length - visibleItems ? 0 : prevIndex + 1));
     };
 
     const handlePrev = () => {
-        setStartIndex((prevIndex) => (prevIndex === 0 ? data.length - 3 : prevIndex - 1));
+        setStartIndex((prevIndex) =>
+            prevIndex === 0 ? data.length - visibleItems : prevIndex - 1,
+        );
     };
 
     useEffect(() => {
         const interval = setInterval(() => {
-            setStartIndex((prevIndex) => (prevIndex === data.length - 3 ? 0 : prevIndex + 1));
+            setStartIndex((prevIndex) =>
+                prevIndex >= data.length - visibleItems ? 0 : prevIndex + 1,
+            );
         }, 3000);
 
         return () => clearInterval(interval);
-    }, [data]);
+    }, [data, visibleItems]);
 
     return (
         <Box
@@ -41,17 +46,19 @@ const Carousel = ({ data, type }: ICarouselProps) => {
             sx={{ gap: 2, px: 6 }}
             flexWrap={"wrap"}
         >
-            <IconButton onClick={handlePrev} size="large">
-                <NavigateBeforeIcon />
-            </IconButton>
+            {data.length > visibleItems && (
+                <IconButton onClick={handlePrev} size="large">
+                    <NavigateBeforeIcon />
+                </IconButton>
+            )}
             {data
-                .slice(startIndex, startIndex + 3)
+                .slice(startIndex, startIndex + visibleItems)
                 .map((element: IMovie | ISerie, index: number) => (
                     <Box
                         key={index}
                         position="relative"
                         sx={{
-                            mr: index === 1 ? 0 : 1,
+                            mr: index === visibleItems - 1 ? 0 : 1,
                             overflow: "hidden",
                             "&:hover img": {
                                 filter: "blur(5px)",
@@ -92,9 +99,11 @@ const Carousel = ({ data, type }: ICarouselProps) => {
                         </Link>
                     </Box>
                 ))}
-            <IconButton onClick={handleNext} size="large">
-                <NavigateNextIcon />
-            </IconButton>
+            {data.length > visibleItems && (
+                <IconButton onClick={handleNext} size="large">
+                    <NavigateNextIcon />
+                </IconButton>
+            )}
         </Box>
     );
 };

@@ -14,10 +14,11 @@ import {
 import genreService from "~/services/api/genreService";
 import SEOHelmet from "~/components/seoHelmet/SEOHelmet";
 import { useSorting } from "~/hooks/useSorting";
-import { toFirstWordUpperCase } from "~/utils/utils";
+import { getRandomElements, toFirstWordUpperCase } from "~/utils/utils";
 import CardItem from "~/components/cardItem/CardItem";
 import { useQuery } from "@tanstack/react-query";
 import SwapVertIcon from "@mui/icons-material/SwapVert";
+import Carousel from "~/components/carousel/Carousel";
 
 const valueToLabelMap: Record<any, string> = {
     none: "None",
@@ -52,6 +53,10 @@ export default function Genre(): React.JSX.Element {
     });
     const moviesByGenre: IMovie[] = moviesByGenreQuery.data?.movies! ?? [];
     const moviesByGenreCount: number = moviesByGenreQuery.data?.count! ?? 0;
+    const moviesCarouselImages = getRandomElements(
+        moviesByGenre,
+        moviesByGenre.length > 5 ? 5 : moviesByGenre.length,
+    );
 
     const pageCount = Math.ceil(moviesByGenreCount / 10);
     const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
@@ -124,6 +129,13 @@ export default function Genre(): React.JSX.Element {
                         paddingTop: 4,
                     }}
                 >
+                    <Box mt={4} component={"section"}>
+                        <Carousel
+                            data={moviesCarouselImages}
+                            type="movies"
+                            visibleItems={moviesByGenre.length === 5 ? 3 : moviesByGenre.length}
+                        />
+                    </Box>
                     <Stack
                         display="flex"
                         flexDirection="row"
@@ -139,7 +151,7 @@ export default function Genre(): React.JSX.Element {
                             pl={18}
                         >
                             <Typography fontSize={22} color={"secondary"} variant="h2">
-                                {`All Movies of the ${params.name}`}
+                                {`Movies of genre ${params.name}`}
                             </Typography>
                         </Box>
                         <Box
