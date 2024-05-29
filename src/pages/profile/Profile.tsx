@@ -4,7 +4,6 @@ import { useStore } from "~/store/store";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import { tokens } from "~/utils/theme";
 import TabPanel from "~/components/tab/Tab";
-import AboutUsTab from "./aboutUs/About";
 import SEOHelmet from "~/components/seoHelmet/SEOHelmet";
 import FavoritesTab from "~/components/favorites/Favorites";
 
@@ -19,7 +18,7 @@ export default function Profile() {
             ? 0
             : searchParams?.get("tab")! === "favSeries"
               ? 1
-                : 0;
+              : 0;
 
     const handleChange = (event: any, newValue: number) => {
         if (newValue === 0) {
@@ -53,63 +52,61 @@ export default function Profile() {
                 type="website"
                 canonicalUrl="https://example.com/profile"
             />
-            <Box height={"100%"} component={"main"}>
-                <Box
-                    display={"flex"}
-                    flexDirection={"row"}
-                    columnGap={1}
-                    justifyContent={"center"}
-                    alignItems={"center"}
-                    mt={8}
-                    component={"section"}
+            <Box
+                display={"flex"}
+                flexDirection={"row"}
+                columnGap={1}
+                justifyContent={"center"}
+                alignItems={"center"}
+                mt={8}
+                component={"section"}
+            >
+                <PersonOutlinedIcon color="secondary" fontSize="large" />
+                <Typography color={"secondary"} fontWeight={600} fontSize={18}>
+                    {user.userName}
+                </Typography>
+            </Box>
+            <Box component={"section"} marginTop={4} marginBottom={2} height={"100%"}>
+                <Tabs
+                    value={searchParams?.get("tab")! === "favMovies"}
+                    onChange={handleChange}
+                    variant="fullWidth"
+                    orientation="horizontal"
+                    sx={{
+                        borderBottom: `1px solid ${colors.greenAccent[800]}`,
+                    }}
                 >
-                    <PersonOutlinedIcon color="secondary" fontSize="large" />
-                    <Typography color={"secondary"} fontWeight={500} fontSize={22}>
-                        {user.userName}
-                    </Typography>
-                </Box>
-                <Box component={"section"} marginTop={4} marginBottom={2}>
-                    <Tabs
-                        value={searchParams?.get("tab")! === "favMovies"}
-                        onChange={handleChange}
-                        variant="fullWidth"
-                        orientation="horizontal"
+                    <Tab
+                        label="Favorite Movies"
+                        tabIndex={0}
                         sx={{
-                            borderBottom: `2px solid ${colors.greenAccent[200]}`,
+                            backgroundColor: colors.blueAccent[400],
+                            color: colors.grey[100],
+                            fontWeight: "600",
+                            fontSize: 14,
+                            textTransform: "capitalize",
+                            borderBottom: `${searchParams?.get("tab") === "favMovies" ? "4px solid" : "0px"}`,
                         }}
-                    >
-                        <Tab
-                            label="Favorite Movies"
-                            tabIndex={0}
-                            sx={{
-                                backgroundColor: colors.blueAccent[400],
-                                color: colors.primary[400],
-                                fontWeight: "600",
-                                fontSize: 14,
-                                textTransform: "capitalize",
-                                borderBottom: `${searchParams?.get("tab") === "favMovies" ? "4px solid" : "0px"}`,
-                            }}
-                        />
-                        <Tab
-                            label="Favorite Series"
-                            tabIndex={1}
-                            sx={{
-                                backgroundColor: colors.blueAccent[400],
-                                color: colors.primary[400],
-                                fontWeight: "600",
-                                fontSize: 14,
-                                textTransform: "capitalize",
-                                borderBottom: `${searchParams?.get("tab") === "favSeries" ? "4px solid" : "0px"}`,
-                            }}
-                        />
-                    </Tabs>
-                    <TabPanel value={tabValue} index={0} key={0}>
-                        <FavoritesTab type={"Movies"} key={"0"} />
-                    </TabPanel>
-                    <TabPanel value={tabValue} index={1} key={1}>
-                        <FavoritesTab type={"Series"} key={"1"} />
-                    </TabPanel>
-                </Box>
+                    />
+                    <Tab
+                        label="Favorite Series"
+                        tabIndex={1}
+                        sx={{
+                            backgroundColor: colors.blueAccent[400],
+                            color: colors.grey[100],
+                            fontWeight: "600",
+                            fontSize: 14,
+                            textTransform: "capitalize",
+                            borderBottom: `${searchParams?.get("tab") === "favSeries" ? "4px solid" : "0px"}`,
+                        }}
+                    />
+                </Tabs>
+                <TabPanel value={tabValue} index={0} key={0}>
+                    <FavoritesTab type={"Movies"} key={"0"} />
+                </TabPanel>
+                <TabPanel value={tabValue} index={1} key={1}>
+                    <FavoritesTab type={"Series"} key={"1"} />
+                </TabPanel>
             </Box>
         </>
     );

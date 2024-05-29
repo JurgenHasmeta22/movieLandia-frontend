@@ -76,6 +76,25 @@ export default function Movie() {
         }
     }
 
+    async function onRemoveBookmarkMovie() {
+        if (!user || !movie) return;
+
+        try {
+            const response = await movieService.removeFromFavorites(movie?.id!, user?.id);
+
+            if (response && !response.error) {
+                await refetchMovieDetailsAndBookmarkStatus();
+                setUser(response);
+                toast.success("Movie unbookmarked successfully!");
+                window.scrollTo(0, 0);
+            } else {
+                toast.error("Movie not unbookmarked successfully!");
+            }
+        } catch (error) {
+            toast.error("An error occurred while removing the movie from favorites.");
+        }
+    }
+
     if (movieQuery.isLoading || latestMoviesQuery.isLoading) {
         return (
             <Box
@@ -247,6 +266,8 @@ export default function Movie() {
                                     onClick={async () => {
                                         if (!isMovieBookmarked) {
                                             await onBookmarkMovie();
+                                        } else {
+                                            await onRemoveBookmarkMovie();
                                         }
                                     }}
                                     color="secondary"
