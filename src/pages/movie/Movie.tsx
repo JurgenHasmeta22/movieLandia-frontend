@@ -167,7 +167,7 @@ export default function Movie() {
                             }}
                         >
                             <Typography
-                                fontSize={36}
+                                fontSize={24}
                                 color={"secondary"}
                                 textAlign={"center"}
                                 component={"h1"}
@@ -306,6 +306,7 @@ export default function Movie() {
                         flexDirection: "column",
                         rowGap: 2,
                         marginBottom: 2,
+                        height: "100vh"
                     }}
                     component={"section"}
                 >
