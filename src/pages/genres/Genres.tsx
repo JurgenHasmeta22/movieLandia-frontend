@@ -1,5 +1,5 @@
 import type IGenre from "~/types/IGenre";
-import { Box, CircularProgress, Typography } from "@mui/material";
+import { Box, CircularProgress, Container, Typography } from "@mui/material";
 import genreService from "~/services/api/genreService";
 import GenreItem from "~/components/genreItem/GenreItem";
 import { useQuery } from "@tanstack/react-query";
@@ -42,7 +42,7 @@ export default function Genres() {
     }
 
     return (
-        <main>
+        <Container>
             <Box
                 sx={{
                     display: "flex",
@@ -68,6 +68,6 @@ export default function Genres() {
                     {genres?.map((genre: any) => <GenreItem genre={genre} />)}
                 </Box>
             </Box>
-        </main>
+        </Container>
     );
 }

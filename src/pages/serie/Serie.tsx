@@ -5,6 +5,7 @@ import {
     Box,
     Button,
     CircularProgress,
+    Container,
     List,
     ListItem,
     Stack,
@@ -104,13 +105,7 @@ export default function Serie() {
                 type="article"
                 canonicalUrl={`https://example.com/series/${serie?.title}`}
             />
-            <Box
-                sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                }}
-                component={"main"}
-            >
+            <Container>
                 <Box
                     sx={{
                         display: "flex",
@@ -299,7 +294,7 @@ export default function Serie() {
                         ))}
                     </Stack>
                 </Box>
-            </Box>
+            </Container>
         </>
     );
 }

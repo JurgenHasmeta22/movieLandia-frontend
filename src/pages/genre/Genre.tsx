@@ -4,6 +4,7 @@ import type IMovie from "~/types/IMovie";
 import {
     Box,
     CircularProgress,
+    Container,
     MenuItem,
     Pagination,
     Select,
@@ -110,7 +111,7 @@ export default function Genre(): React.JSX.Element {
                 type="article"
                 canonicalUrl={`https://example.com/genre/${params?.name}`}
             />
-            <main>
+            <Container>
                 <Box
                     sx={{
                         display: "flex",
@@ -215,7 +216,7 @@ export default function Genre(): React.JSX.Element {
                         />
                     </Stack>
                 </Box>
-            </main>
+            </Container>
         </>
     );
 }
