@@ -220,13 +220,12 @@ export default function Login() {
                                                 <Typography
                                                     component={"span"}
                                                     style={{
-                                                        fontSize: 16,
+                                                        fontSize: 14,
                                                         paddingLeft: 4,
-                                                        fontWeight: 700,
                                                         textTransform: "capitalize",
                                                     }}
                                                 >
-                                                    Continue
+                                                    Sign In
                                                 </Typography>
                                             </Button>
                                             <Box>
