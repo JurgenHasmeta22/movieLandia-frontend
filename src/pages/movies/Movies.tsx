@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import movieService from "~/services/api/movieService";
 import type IMovie from "~/types/IMovie";
@@ -9,6 +8,7 @@ import {
     Pagination,
     Select,
     Stack,
+    SvgIcon,
     Typography,
 } from "@mui/material";
 import { getRandomElements, toFirstWordUpperCase } from "~/utils/utils";
@@ -16,20 +16,21 @@ import SEOHelmet from "~/components/seoHelmet/SEOHelmet";
 import { useSorting } from "~/hooks/useSorting";
 import Carousel from "~/components/carousel/Carousel";
 import CardItem from "~/components/cardItem/CardItem";
-import { motion, useAnimation } from "framer-motion";
-import { useInView } from "react-intersection-observer";
 import { useQuery } from "@tanstack/react-query";
+import SwapVertIcon from "@mui/icons-material/SwapVert";
 
-// const sectionVariants = {
-//     hidden: { opacity: 0, y: 100 },
-//     visible: { opacity: 1, y: 0 },
-// };
+const valueToLabelMap: Record<any, string> = {
+    none: "None",
+    ratingImdbAsc: "Imdb rating (Asc)",
+    ratingImdbDesc: "Imdb rating (Desc)",
+    titleAsc: "Title (Asc)",
+    titleDesc: "Title (Desc)",
+};
 
 export default function Movies() {
     const [searchParams, setSearchParams] = useSearchParams();
     const handleChangeSorting = useSorting();
 
-    // #region "Data fetching and handling data"
     const page = searchParams.get("page") || 1;
     const search = searchParams.get("search");
     const sortBy = searchParams.get("sortBy");
@@ -62,36 +63,13 @@ export default function Movies() {
     const moviesCount: number = moviesQuery.data?.count! ?? 0;
     const latestMovies: IMovie[] = latestMoviesQuery.data! ?? [];
     const moviesCarouselImages = getRandomElements(movies, 5);
-    // #endregion
 
-    // #region "Pagination logic"
     const pageCount = Math.ceil(moviesCount / 10);
     const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
         searchParams.set("page", String(value));
         setSearchParams(searchParams);
     };
-    // #endregion
 
-    // #region "Framer Motion animations logic"
-    // const [moviesRef, moviesInView] = useInView({ triggerOnce: false });
-    // const [moviesLatestRef, moviesLatestInView] = useInView({ triggerOnce: false });
-    // const moviesControls = useAnimation();
-    // const moviesLatestControls = useAnimation();
-
-    // useEffect(() => {
-    //     if (moviesInView) {
-    //         moviesControls.start("visible");
-    //     }
-    // }, [moviesInView, moviesControls]);
-
-    // useEffect(() => {
-    //     if (moviesLatestInView) {
-    //         moviesLatestControls.start("visible");
-    //     }
-    // }, [moviesLatestInView, moviesLatestControls]);
-    // #endregion
-
-    // #region "Data state spinners, errrors check"
     if (moviesQuery.isLoading || latestMoviesQuery.isLoading) {
         return (
             <Box
@@ -121,7 +99,6 @@ export default function Movies() {
             </Box>
         );
     }
-    // #endregion
 
     return (
         <>
@@ -163,59 +140,50 @@ export default function Movies() {
                                 pl={18}
                             >
                                 <Typography fontSize={22} color="secondary" variant="h2">
-                                    All Movies
+                                    Movies
                                 </Typography>
                             </Box>
                             <Box
                                 sx={{
                                     display: "flex",
-                                    flexDirection: "row",
                                     justifyContent: "flex-end",
                                     alignItems: "center",
-                                    columnGap: 1,
                                     mr: 4,
                                 }}
                             >
-                                <Typography color={"secondary"} fontSize={16} variant="h3">
-                                    Sort by:
-                                </Typography>
-                                <Box sx={{ display: "flex", flexDirection: "row", columnGap: 1 }}>
-                                    <Select
-                                        defaultValue={"none"}
-                                        value={
-                                            searchParams.get("sortBy") &&
-                                            searchParams.get("ascOrDesc")
-                                                ? searchParams.get("sortBy")! +
-                                                  toFirstWordUpperCase(
-                                                      searchParams.get("ascOrDesc")!,
-                                                  )
-                                                : "none"
-                                        }
-                                        onChange={handleChangeSorting}
-                                    >
-                                        <MenuItem value={"none"}>None</MenuItem>
-                                        <MenuItem value={"ratingImdbAsc"}>
-                                            Imdb rating (Asc)
-                                        </MenuItem>
-                                        <MenuItem value={"ratingImdbDesc"}>
-                                            Imdb rating (Desc)
-                                        </MenuItem>
-                                        <MenuItem value={"titleAsc"}>Title (Asc)</MenuItem>
-                                        <MenuItem value={"titleDesc"}>Title (Desc)</MenuItem>
-                                    </Select>
-                                </Box>
+                                <Select
+                                    defaultValue={"none"}
+                                    value={
+                                        searchParams.get("sortBy") && searchParams.get("ascOrDesc")
+                                            ? searchParams.get("sortBy")! +
+                                              toFirstWordUpperCase(searchParams.get("ascOrDesc")!)
+                                            : "none"
+                                    }
+                                    onChange={handleChangeSorting}
+                                    sx={{
+                                        px: 2,
+                                    }}
+                                    renderValue={(value: string) => {
+                                        return (
+                                            <Box sx={{ display: "flex", gap: 0.5 }}>
+                                                <SvgIcon color="secondary">
+                                                    <SwapVertIcon />
+                                                </SvgIcon>
+                                                {valueToLabelMap[value]}
+                                            </Box>
+                                        );
+                                    }}
+                                >
+                                    <MenuItem value={"none"}>None</MenuItem>
+                                    <MenuItem value={"ratingImdbAsc"}>Imdb rating (Asc)</MenuItem>
+                                    <MenuItem value={"ratingImdbDesc"}>Imdb rating (Desc)</MenuItem>
+                                    <MenuItem value={"titleAsc"}>Title (Asc)</MenuItem>
+                                    <MenuItem value={"titleDesc"}>Title (Desc)</MenuItem>
+                                </Select>
                             </Box>
                         </Stack>
                     )}
                     {movies.length !== 0 ? (
-                        // <motion.div
-                        //     ref={moviesRef}
-                        //     animate={moviesControls}
-                        //     variants={sectionVariants}
-                        //     transition={{ duration: 0.5 }}
-                        //     initial="hidden"
-                        //     style={{ position: "relative" }}
-                        // >
                         <Stack
                             direction="row"
                             flexWrap="wrap"
@@ -232,7 +200,6 @@ export default function Movies() {
                             ))}
                         </Stack>
                     ) : (
-                        // </motion.div>
                         <Box
                             sx={{
                                 height: "50vh",

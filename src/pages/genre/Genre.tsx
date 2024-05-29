@@ -8,6 +8,7 @@ import {
     Pagination,
     Select,
     Stack,
+    SvgIcon,
     Typography,
 } from "@mui/material";
 import genreService from "~/services/api/genreService";
@@ -16,13 +17,21 @@ import { useSorting } from "~/hooks/useSorting";
 import { toFirstWordUpperCase } from "~/utils/utils";
 import CardItem from "~/components/cardItem/CardItem";
 import { useQuery } from "@tanstack/react-query";
+import SwapVertIcon from "@mui/icons-material/SwapVert";
+
+const valueToLabelMap: Record<any, string> = {
+    none: "None",
+    ratingImdbAsc: "Imdb rating (Asc)",
+    ratingImdbDesc: "Imdb rating (Desc)",
+    titleAsc: "Title (Asc)",
+    titleDesc: "Title (Desc)",
+};
 
 export default function Genre(): React.JSX.Element {
     const [searchParams, setSearchParams] = useSearchParams();
     const handleChangeSorting = useSorting();
     const params = useParams();
 
-    // #region "Data fetching logic"
     const page = searchParams.get("page") || 1;
     const sortBy = searchParams.get("sortBy");
     const ascOrDesc = searchParams.get("ascOrDesc");
@@ -43,17 +52,13 @@ export default function Genre(): React.JSX.Element {
     });
     const moviesByGenre: IMovie[] = moviesByGenreQuery.data?.movies! ?? [];
     const moviesByGenreCount: number = moviesByGenreQuery.data?.count! ?? 0;
-    // #endregion
 
-    // #region "Pagination logic"
     const pageCount = Math.ceil(moviesByGenreCount / 10);
     const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
         searchParams.set("page", String(value));
         setSearchParams(searchParams);
     };
-    // #endregion
 
-    // #region "Checking spinners errors etc"
     if (moviesByGenreQuery.isLoading) {
         return (
             <Box
@@ -100,8 +105,7 @@ export default function Genre(): React.JSX.Element {
             </Box>
         );
     }
-    // #endregion
-    
+
     return (
         <>
             <SEOHelmet
@@ -141,34 +145,40 @@ export default function Genre(): React.JSX.Element {
                         <Box
                             sx={{
                                 display: "flex",
-                                flexDirection: "row",
                                 justifyContent: "flex-end",
                                 alignItems: "center",
-                                columnGap: 1,
                                 mr: 4,
                             }}
                         >
-                            <Typography color={"secondary"} fontSize={16} component={"span"}>
-                                Sort by:
-                            </Typography>
-                            <Box sx={{ display: "flex", flexDirection: "row", columnGap: 2 }}>
-                                <Select
-                                    defaultValue={"none"}
-                                    value={
-                                        searchParams.get("sortBy") && searchParams.get("ascOrDesc")
-                                            ? searchParams.get("sortBy")! +
-                                              toFirstWordUpperCase(searchParams.get("ascOrDesc")!)
-                                            : "none"
-                                    }
-                                    onChange={handleChangeSorting}
-                                >
-                                    <MenuItem value={"none"}>None</MenuItem>
-                                    <MenuItem value={"ratingImdbAsc"}>Imdb rating (Asc)</MenuItem>
-                                    <MenuItem value={"ratingImdbDesc"}>Imdb rating (Desc)</MenuItem>
-                                    <MenuItem value={"titleAsc"}>Title (Asc)</MenuItem>
-                                    <MenuItem value={"titleDesc"}>Title (Desc)</MenuItem>
-                                </Select>
-                            </Box>
+                            <Select
+                                defaultValue={"none"}
+                                value={
+                                    searchParams.get("sortBy") && searchParams.get("ascOrDesc")
+                                        ? searchParams.get("sortBy")! +
+                                          toFirstWordUpperCase(searchParams.get("ascOrDesc")!)
+                                        : "none"
+                                }
+                                onChange={handleChangeSorting}
+                                sx={{
+                                    px: 2,
+                                }}
+                                renderValue={(value: string) => {
+                                    return (
+                                        <Box sx={{ display: "flex", gap: 0.5 }}>
+                                            <SvgIcon color="secondary">
+                                                <SwapVertIcon />
+                                            </SvgIcon>
+                                            {valueToLabelMap[value]}
+                                        </Box>
+                                    );
+                                }}
+                            >
+                                <MenuItem value={"none"}>None</MenuItem>
+                                <MenuItem value={"ratingImdbAsc"}>Imdb rating (Asc)</MenuItem>
+                                <MenuItem value={"ratingImdbDesc"}>Imdb rating (Desc)</MenuItem>
+                                <MenuItem value={"titleAsc"}>Title (Asc)</MenuItem>
+                                <MenuItem value={"titleDesc"}>Title (Desc)</MenuItem>
+                            </Select>
                         </Box>
                     </Stack>
                     <Stack
