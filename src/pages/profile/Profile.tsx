@@ -66,9 +66,9 @@ export default function Profile() {
                     {user.userName}
                 </Typography>
             </Box>
-            <Box component={"section"} marginTop={4} marginBottom={2} height={"100%"}>
+            <Box component={"section"} marginTop={4} marginBottom={2}>
                 <Tabs
-                    value={searchParams?.get("tab")! === "favMovies"}
+                    value={tabValue}
                     onChange={handleChange}
                     variant="fullWidth"
                     orientation="horizontal"

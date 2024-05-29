@@ -299,6 +299,7 @@ export default function Serie() {
                         rowGap: 2,
                         marginBottom: 2,
                         marginTop: 2,
+                        height: "100vh",
                     }}
                     component={"section"}
                 >

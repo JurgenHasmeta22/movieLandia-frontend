@@ -58,7 +58,10 @@ export default function FavoritesTab({ type }: FavoritesTabProps) {
     }
 
     return (
-        <Box component={"section"}>
+        <Box
+            component={"section"}
+            height={`${user?.favMovies?.length! > 0 || user?.favSeries?.length! > 0 ? "auto" : "100vh"}`}
+        >
             <Typography variant="h4">Bookmarked {type}</Typography>
             <Stack flexDirection={"row"} flexWrap={"wrap"} columnGap={6} rowGap={4} mt={4}>
                 {favorites?.map((favItem: any, index: number) => (
