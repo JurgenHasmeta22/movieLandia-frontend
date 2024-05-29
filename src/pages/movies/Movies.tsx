@@ -4,6 +4,7 @@ import type IMovie from "~/types/IMovie";
 import {
     Box,
     CircularProgress,
+    Container,
     MenuItem,
     Pagination,
     Select,
@@ -109,7 +110,7 @@ export default function Movies() {
                 type="website"
                 canonicalUrl="https://example.com/movies"
             />
-            <main>
+            <Container>
                 <Box
                     sx={{
                         display: "flex",
@@ -274,7 +275,7 @@ export default function Movies() {
                         </Box>
                     )}
                 </Box>
-            </main>
+            </Container>
         </>
     );
 }

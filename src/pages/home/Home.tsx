@@ -108,7 +108,7 @@ export default function Home() {
     }
 
     return (
-        <main>
+        <>
             <SEOHelmet
                 title="MovieLand24 - Your Ultimate Destination for Movies"
                 description="Welcome to MovieLand24 - your ultimate destination for movies. Discover a vast collection of movies and enjoy streaming your favorites."
@@ -117,7 +117,7 @@ export default function Home() {
                 canonicalUrl={"https://example.com/"}
             />
             <HomeHeroSection />
-            <Container component={"section"}>
+            <Container>
                 <Stack flexDirection={"column"} rowGap={10} mb={6} mt={6}>
                     <motion.div
                         ref={moviesRef}
@@ -127,7 +127,12 @@ export default function Home() {
                         initial="hidden"
                         style={{ position: "relative" }}
                     >
-                        <Box display={"flex"} flexDirection={"column"} rowGap={3}>
+                        <Box
+                            display={"flex"}
+                            flexDirection={"column"}
+                            rowGap={3}
+                            component={"section"}
+                        >
                             <Link
                                 to="/movies"
                                 style={{
@@ -161,7 +166,12 @@ export default function Home() {
                         initial="hidden"
                         style={{ position: "relative" }}
                     >
-                        <Box display={"flex"} flexDirection={"column"} rowGap={3}>
+                        <Box
+                            display={"flex"}
+                            flexDirection={"column"}
+                            rowGap={3}
+                            component={"section"}
+                        >
                             <Link
                                 to="/series"
                                 style={{
@@ -195,7 +205,12 @@ export default function Home() {
                         initial="hidden"
                         style={{ position: "relative" }}
                     >
-                        <Box display={"flex"} flexDirection={"column"} rowGap={3}>
+                        <Box
+                            display={"flex"}
+                            flexDirection={"column"}
+                            rowGap={3}
+                            component={"section"}
+                        >
                             <Link
                                 to="/genres"
                                 style={{
@@ -223,6 +238,6 @@ export default function Home() {
                     </motion.div>
                 </Stack>
             </Container>
-        </main>
+        </>
     );
 }

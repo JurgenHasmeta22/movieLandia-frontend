@@ -3,6 +3,7 @@ import type ISerie from "~/types/ISerie";
 import {
     Box,
     CircularProgress,
+    Container,
     MenuItem,
     Pagination,
     Select,
@@ -104,7 +105,7 @@ export default function Series() {
                 type="website"
                 canonicalUrl="https://example.com/series"
             />
-            <main>
+            <Container>
                 <Box
                     component={"section"}
                     display={"flex"}
@@ -217,7 +218,7 @@ export default function Series() {
                         </Stack>
                     </Box>
                 </Box>
-            </main>
+            </Container>
         </>
     );
 }

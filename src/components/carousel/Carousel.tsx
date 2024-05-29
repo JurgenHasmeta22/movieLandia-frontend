@@ -87,7 +87,7 @@ const Carousel = ({ data, type, visibleItems = 3 }: ICarouselProps) => {
                             src={element.photoSrc}
                             alt={`Slide ${startIndex + index}`}
                             style={{
-                                width: "100%",
+                                width: `${isMobile || isTablet ? "100%" : "290px"}`,
                                 height: "auto",
                                 transition: "filter 1s ease",
                             }}
