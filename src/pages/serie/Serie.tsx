@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import type ISerie from "~/types/ISerie";
 import serieService from "~/services/api/serieService";
 import {
@@ -18,7 +18,7 @@ import { toast } from "react-toastify";
 import { useStore } from "~/store/store";
 import CardItem from "~/components/cardItem/CardItem";
 import YouTubeIcon from "@mui/icons-material/YouTube";
-import BookmarkIcon from "@mui/icons-material/Bookmark";
+import BookmarkAddIcon from "@mui/icons-material/BookmarkAdd";
 import { useQuery } from "@tanstack/react-query";
 import BookmarkRemoveIcon from "@mui/icons-material/BookmarkRemove";
 import Error404 from "../error/Error";
@@ -26,34 +26,35 @@ import Error404 from "../error/Error";
 export default function Serie() {
     const params = useParams();
     const theme = useTheme();
-    const navigate = useNavigate();
     const colors = tokens(theme.palette.mode);
     const { user, setUser } = useStore();
 
     const serieQuery = useQuery({
-        queryKey: ["serie", params.title],
+        queryKey: ["serie", params?.title!],
         queryFn: () => serieService.getSerieByTitle(params?.title!, {}),
+        refetchOnMount: "always",
+        refetchOnWindowFocus: "always",
     });
     const seriesQuery = useQuery({
         queryKey: ["series"],
         queryFn: () => serieService.getSeries({}),
     });
+    const isSerieBookmarkedQuery = useQuery({
+        queryKey: ["isSerieBookmarked", params?.title!],
+        queryFn: () => serieService.isSerieBookmared(params?.title!, user?.id),
+        refetchOnMount: "always",
+        refetchOnWindowFocus: "always",
+    });
+
     const serie: ISerie = serieQuery?.data! ?? null;
     const series: ISerie[] = seriesQuery?.data?.rows ?? [];
+    const isSerieBookmarked: boolean = isSerieBookmarkedQuery?.data?.isBookmarked! ?? false;
 
-    const isSerieBookamedQuery = useQuery({
-        queryKey: ["isSerieBookmarked", params.title],
-        queryFn: () => serieService.isSerieBookmared(serie?.id!, user?.id),
-    });
-    const isSerieBookmarked: boolean = isSerieBookamedQuery?.data?.isBookmarked! ?? false;
+    const refetchSerieDetailsAndBookmarkStatus = async () => {
+        await Promise.all([serieQuery.refetch(), isSerieBookmarkedQuery.refetch()]);
+    };
 
-    async function handleBookmark() {
-        if (!isSerieBookmarked) {
-            await bookmarkSerie();
-        }
-    }
-
-    async function bookmarkSerie() {
+    async function onBookmarkSerie() {
         if (!user || !serie) return;
 
         try {
@@ -61,8 +62,8 @@ export default function Serie() {
 
             if (response && !response.error) {
                 setUser(response);
+                await refetchSerieDetailsAndBookmarkStatus();
                 toast.success("Serie bookmarked successfully!");
-                navigate("/profile?tab=favSeries");
                 window.scrollTo(0, 0);
             } else {
                 toast.error("Serie not bookmarked successfully!");
@@ -89,9 +90,10 @@ export default function Serie() {
 
     if (
         serieQuery.isError ||
-        serieQuery.data.error ||
+        serieQuery.data?.error ||
         seriesQuery.isError ||
-        seriesQuery.data.error
+        seriesQuery.data?.error ||
+        isSerieBookmarkedQuery.isError
     ) {
         return <Error404 />;
     }
@@ -201,7 +203,7 @@ export default function Serie() {
                             <Typography
                                 textAlign={"center"}
                                 color={"secondary"}
-                                width={["50ch", "60ch", "70ch", "80ch"]}
+                                width={["40ch", "60ch", "70ch", "80ch"]}
                             >
                                 {serie.description}
                             </Typography>
@@ -234,10 +236,13 @@ export default function Serie() {
                             </Button>
                             {user?.userName && (
                                 <Button
-                                    onClick={handleBookmark}
+                                    onClick={async () => {
+                                        if (!isSerieBookmarked) {
+                                            await onBookmarkSerie();
+                                        }
+                                    }}
                                     color="secondary"
                                     variant="contained"
-                                    disabled={isSerieBookmarked}
                                     sx={{
                                         display: "flex",
                                         placeSelf: "center",
@@ -247,7 +252,7 @@ export default function Serie() {
                                     }}
                                 >
                                     {!isSerieBookmarked ? (
-                                        <BookmarkIcon color="success" />
+                                        <BookmarkAddIcon color="success" />
                                     ) : (
                                         <BookmarkRemoveIcon color="error" />
                                     )}

@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useStore } from "~/store/store";
 import type IMovie from "~/types/IMovie";
 import movieService from "~/services/api/movieService";
@@ -11,7 +11,7 @@ import {
     ListItem,
     Stack,
     Typography,
-    useMediaQuery,
+    // useMediaQuery,
     useTheme,
 } from "@mui/material";
 import { tokens } from "~/utils/theme";
@@ -19,53 +19,54 @@ import SEOHelmet from "~/components/seoHelmet/SEOHelmet";
 import { toast } from "react-toastify";
 import CardItem from "~/components/cardItem/CardItem";
 import YouTubeIcon from "@mui/icons-material/YouTube";
-import BookmarkIcon from "@mui/icons-material/Bookmark";
+import BookmarkAddIcon from "@mui/icons-material/BookmarkAdd";
 import { useQuery } from "@tanstack/react-query";
 import BookmarkRemoveIcon from "@mui/icons-material/BookmarkRemove";
 import Error404 from "../error/Error";
 
 export default function Movie() {
     const params = useParams();
-    const navigate = useNavigate();
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const { user, setUser } = useStore();
-    const isMobile = useMediaQuery("(max-width:600px)");
-    const isTablet = useMediaQuery("(max-width:1100px)");
+    // const isMobile = useMediaQuery("(max-width:600px)");
+    // const isTablet = useMediaQuery("(max-width:1100px)");
 
     const movieQuery = useQuery({
-        queryKey: ["movie", params.title],
-        queryFn: () => movieService.getMovieByTitle(params.title),
+        queryKey: ["movie", params?.title!],
+        queryFn: () => movieService.getMovieByTitle(params?.title!),
+        refetchOnMount: "always",
+        refetchOnWindowFocus: "always",
     });
     const latestMoviesQuery = useQuery({
         queryKey: ["latestMovies"],
         queryFn: () => movieService.getLatestMovies(),
     });
+    const isMovieBookmarkedQuery = useQuery({
+        queryKey: ["isMovieBookmarked", params?.title!],
+        queryFn: () => movieService.isMovieBookmared(params?.title!, user?.id!),
+        refetchOnMount: "always",
+        refetchOnWindowFocus: "always",
+    });
+
     const movie: IMovie = movieQuery?.data! ?? null;
     const latestMovies: IMovie[] = latestMoviesQuery?.data! ?? [];
+    const isMovieBookmarked: boolean = isMovieBookmarkedQuery?.data?.isBookmarked! ?? false;
 
-    const isMovieBookamedQuery = useQuery({
-        queryKey: ["isMovieBookmarked", params.title],
-        queryFn: () => movieService.isMovieBookmared(movie?.id!, user?.id),
-    });
-    const isMovieBookmarked: boolean = isMovieBookamedQuery?.data?.isBookmarked! ?? false;
+    const refetchMovieDetailsAndBookmarkStatus = async () => {
+        await Promise.all([movieQuery.refetch(), isMovieBookmarkedQuery.refetch()]);
+    };
 
-    async function handleBookmark() {
-        if (!isMovieBookmarked) {
-            await bookmarkMovie();
-        }
-    }
-
-    async function bookmarkMovie() {
+    async function onBookmarkMovie() {
         if (!user || !movie) return;
 
         try {
-            const response = await movieService.addToFavorites(movie.id, user.id);
+            const response = await movieService.addToFavorites(movie?.id!, user?.id);
 
             if (response && !response.error) {
                 setUser(response);
+                await refetchMovieDetailsAndBookmarkStatus();
                 toast.success("Movie bookmarked successfully!");
-                navigate("/profile?tab=favMovies");
                 window.scrollTo(0, 0);
             } else {
                 toast.error("Movie not bookmarked successfully!");
@@ -92,9 +93,9 @@ export default function Movie() {
 
     if (
         movieQuery.isError ||
-        movieQuery.data.error ||
+        movieQuery.data?.error ||
         latestMoviesQuery.isError ||
-        latestMoviesQuery.data.error
+        latestMoviesQuery.data?.error
     ) {
         return <Error404 />;
     }
@@ -210,7 +211,7 @@ export default function Movie() {
                             <Typography
                                 textAlign={"center"}
                                 color={"secondary"}
-                                width={["50ch", "60ch", "70ch", "80ch"]}
+                                width={["40ch", "60ch", "70ch", "80ch"]}
                             >
                                 {movie.description}
                             </Typography>
@@ -243,10 +244,13 @@ export default function Movie() {
                             </Button>
                             {user?.userName && (
                                 <Button
-                                    onClick={handleBookmark}
+                                    onClick={async () => {
+                                        if (!isMovieBookmarked) {
+                                            await onBookmarkMovie();
+                                        }
+                                    }}
                                     color="secondary"
                                     variant="contained"
-                                    disabled={isMovieBookmarked}
                                     sx={{
                                         display: "flex",
                                         placeSelf: "center",
@@ -256,7 +260,7 @@ export default function Movie() {
                                     }}
                                 >
                                     {!isMovieBookmarked ? (
-                                        <BookmarkIcon color="success" />
+                                        <BookmarkAddIcon color="success" />
                                     ) : (
                                         <BookmarkRemoveIcon color="error" />
                                     )}
