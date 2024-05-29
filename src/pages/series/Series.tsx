@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import type ISerie from "~/types/ISerie";
 import {
@@ -8,6 +7,7 @@ import {
     Pagination,
     Select,
     Stack,
+    SvgIcon,
     Typography,
 } from "@mui/material";
 import serieService from "~/services/api/serieService";
@@ -16,14 +16,16 @@ import { useSorting } from "~/hooks/useSorting";
 import { getRandomElements, toFirstWordUpperCase } from "~/utils/utils";
 import Carousel from "~/components/carousel/Carousel";
 import CardItem from "~/components/cardItem/CardItem";
-// import { useInView } from "react-intersection-observer";
-// import { motion, useAnimation } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
+import SwapVertIcon from "@mui/icons-material/SwapVert";
 
-// const sectionVariants = {
-//     hidden: { opacity: 0, y: 100 },
-//     visible: { opacity: 1, y: 0 },
-// };
+const valueToLabelMap: Record<any, string> = {
+    none: "None",
+    ratingImdbAsc: "Imdb rating (Asc)",
+    ratingImdbDesc: "Imdb rating (Desc)",
+    titleAsc: "Title (Asc)",
+    titleDesc: "Title (Desc)",
+};
 
 export default function Series() {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -65,17 +67,6 @@ export default function Series() {
         searchParams.set("page", String(value));
         setSearchParams(searchParams);
     };
-    // #endregion
-
-    // #region "Framer Motion animations for page"
-    // const [seriesRef, seriesInView] = useInView({ triggerOnce: false });
-    // const seriesControls = useAnimation();
-
-    // useEffect(() => {
-    //     if (seriesInView) {
-    //         seriesControls.start("visible");
-    //     }
-    // }, [seriesInView, seriesControls]);
     // #endregion
 
     // #region "Data state spinners, errrors check"
@@ -145,40 +136,47 @@ export default function Series() {
                             pl={18}
                         >
                             <Typography fontSize={22} color={"secondary"} variant="h2">
-                                All Series
+                                Series
                             </Typography>
                         </Box>
                         <Box
                             sx={{
                                 display: "flex",
-                                flexDirection: "row",
                                 justifyContent: "flex-end",
                                 alignItems: "center",
-                                columnGap: 1,
                                 mr: 4,
                             }}
                         >
-                            <Typography color={"secondary"} fontSize={16}>
-                                <Typography component={"span"}>Sort by:</Typography>
-                            </Typography>
-                            <Box sx={{ display: "flex", flexDirection: "row", columnGap: 2 }}>
-                                <Select
-                                    defaultValue={"none"}
-                                    value={
-                                        searchParams.get("sortBy") && searchParams.get("ascOrDesc")
-                                            ? searchParams.get("sortBy")! +
-                                              toFirstWordUpperCase(searchParams.get("ascOrDesc")!)
-                                            : "none"
-                                    }
-                                    onChange={handleChangeSorting}
-                                >
-                                    <MenuItem value={"none"}>None</MenuItem>
-                                    <MenuItem value={"ratingImdbAsc"}>Imdb rating (Asc)</MenuItem>
-                                    <MenuItem value={"ratingImdbDesc"}>Imdb rating (Desc)</MenuItem>
-                                    <MenuItem value={"titleAsc"}>Title (Asc)</MenuItem>
-                                    <MenuItem value={"titleDesc"}>Title (Desc)</MenuItem>
-                                </Select>
-                            </Box>
+                            <Select
+                                defaultValue={"none"}
+                                value={
+                                    searchParams.get("sortBy") && searchParams.get("ascOrDesc")
+                                        ? searchParams.get("sortBy")! +
+                                          toFirstWordUpperCase(searchParams.get("ascOrDesc")!)
+                                        : "none"
+                                }
+                                onChange={handleChangeSorting}
+                                sx={{
+                                    px: 2,
+                                    border: "none",
+                                }}
+                                renderValue={(value: string) => {
+                                    return (
+                                        <Box sx={{ display: "flex", gap: 0.5 }}>
+                                            <SvgIcon color="secondary">
+                                                <SwapVertIcon />
+                                            </SvgIcon>
+                                            {valueToLabelMap[value]}
+                                        </Box>
+                                    );
+                                }}
+                            >
+                                <MenuItem value={"none"}>None</MenuItem>
+                                <MenuItem value={"ratingImdbAsc"}>Imdb rating (Asc)</MenuItem>
+                                <MenuItem value={"ratingImdbDesc"}>Imdb rating (Desc)</MenuItem>
+                                <MenuItem value={"titleAsc"}>Title (Asc)</MenuItem>
+                                <MenuItem value={"titleDesc"}>Title (Desc)</MenuItem>
+                            </Select>
                         </Box>
                     </Stack>
                     <Box
@@ -191,14 +189,6 @@ export default function Series() {
                             rowGap: 4,
                         }}
                     >
-                        {/* <motion.div
-                            ref={seriesRef}
-                            animate={seriesControls}
-                            variants={sectionVariants}
-                            transition={{ duration: 0.5 }}
-                            initial="hidden"
-                            style={{ position: "relative" }}
-                        > */}
                         <Stack
                             direction="row"
                             flexWrap="wrap"
@@ -211,7 +201,6 @@ export default function Series() {
                                 <CardItem data={serie} type="serie" key={serie.id} />
                             ))}
                         </Stack>
-                        {/* </motion.div> */}
                         <Stack
                             spacing={2}
                             sx={{
