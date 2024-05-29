@@ -73,6 +73,25 @@ export default function Serie() {
         }
     }
 
+    async function onRemoveBookmarkSerie() {
+        if (!user || !serie) return;
+
+        try {
+            const response = await serieService.removeFromFavorites(serie.id, user.id);
+
+            if (response && !response.error) {
+                await refetchSerieDetailsAndBookmarkStatus();
+                setUser(response);
+                toast.success("Serie unbookmarked successfully!");
+                window.scrollTo(0, 0);
+            } else {
+                toast.error("Serie not unbookmarked successfully!");
+            }
+        } catch (error) {
+            toast.error("An error occurred while removing the serie from favorites.");
+        }
+    }
+
     if (serieQuery.isLoading || seriesQuery.isLoading) {
         return (
             <Box
@@ -239,6 +258,8 @@ export default function Serie() {
                                     onClick={async () => {
                                         if (!isSerieBookmarked) {
                                             await onBookmarkSerie();
+                                        } else {
+                                            await onRemoveBookmarkSerie();
                                         }
                                     }}
                                     color="secondary"
