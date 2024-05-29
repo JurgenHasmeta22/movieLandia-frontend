@@ -19,6 +19,7 @@ import CardItem from "~/components/cardItem/CardItem";
 import { useQuery } from "@tanstack/react-query";
 import SwapVertIcon from "@mui/icons-material/SwapVert";
 import Carousel from "~/components/carousel/Carousel";
+import Error404 from "../error/Error";
 
 const valueToLabelMap: Record<any, string> = {
     none: "None",
@@ -79,6 +80,10 @@ export default function Genre(): React.JSX.Element {
         );
     }
 
+    if (moviesByGenreQuery.isError || moviesByGenreQuery.data.error) {
+        return <Error404 />;
+    }
+
     if (moviesByGenre?.length === 0) {
         return (
             <Box
@@ -92,21 +97,6 @@ export default function Genre(): React.JSX.Element {
                 <Typography fontSize={40} color={"secondary"}>
                     There are no movies with this genre
                 </Typography>
-            </Box>
-        );
-    }
-
-    if (moviesByGenreQuery.isError) {
-        return (
-            <Box
-                sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    height: "100vh",
-                }}
-            >
-                <Typography variant="h1">An Error occurred the server is down!</Typography>
             </Box>
         );
     }

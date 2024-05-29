@@ -103,8 +103,8 @@ export default function Movies() {
     return (
         <>
             <SEOHelmet
-                title="MovieLand24 - Your Ultimate Destination for Movies"
-                description="Welcome to MovieLand24 - your ultimate destination for movies. Discover a vast collection of movies and enjoy streaming your favorites."
+                title="Watch the Latest Movies | High-Quality and Always Updated"
+                description="Discover and watch the latest and most amazing movies in high quality. Our collection is always updated with the newest episodes and releases."
                 name="MovieLand24"
                 type="website"
                 canonicalUrl="https://example.com/movies"

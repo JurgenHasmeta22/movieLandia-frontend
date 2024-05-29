@@ -20,6 +20,7 @@ import YouTubeIcon from "@mui/icons-material/YouTube";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import { useQuery } from "@tanstack/react-query";
 import BookmarkRemoveIcon from "@mui/icons-material/BookmarkRemove";
+import Error404 from "../error/Error";
 
 export default function Movie() {
     const params = useParams();
@@ -85,19 +86,13 @@ export default function Movie() {
         );
     }
 
-    if (movieQuery.isError || latestMoviesQuery.isError) {
-        return (
-            <Box
-                sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    height: "100vh",
-                }}
-            >
-                <Typography variant="h1">An Error occurred the server is down!</Typography>
-            </Box>
-        );
+    if (
+        movieQuery.isError ||
+        movieQuery.data.error ||
+        latestMoviesQuery.isError ||
+        latestMoviesQuery.data.error
+    ) {
+        return <Error404 />;
     }
 
     return (
