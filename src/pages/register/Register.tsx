@@ -110,9 +110,9 @@ export default function Register() {
                     />
                     <Paper
                         sx={{
-                            px: 14,
+                            px: 8,
                             py: 6,
-                            borderRadius: 12,
+                            borderRadius: 4,
                         }}
                     >
                         <Formik

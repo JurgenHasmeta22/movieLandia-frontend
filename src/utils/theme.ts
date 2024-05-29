@@ -242,7 +242,6 @@ export const themeSettings = (mode: any) => {
             MuiListItemButton: {
                 defaultProps: {
                     disableRipple: true,
-                    // disableFocusRipple: true,
                     disableTouchRipple: true,
                 },
             },
@@ -285,33 +284,10 @@ export const themeSettings = (mode: any) => {
                     root: {
                         color: mode === "dark" ? colors.grey[100] : colors.grey[800],
                         transition: "background-color 0.5s ease",
-                        "&:hover": {
-                            backgroundColor:
-                                mode === "dark" ? colors.grey[400] : colors.primary[900],
-                        },
                     },
-                    // underline: {
-                    //     "&:before": {
-                    //         borderBottom: "none",
-                    //     },
-                    //     "&:after": {
-                    //         borderBottom: "none",
-                    //     },
-                    //     "&:hover:not(.Mui-disabled):before": {
-                    //         borderBottom: "none",
-                    //     },
-                    // },
                 },
             },
             MuiTab: {
-                // styleOverrides: {
-                //     root: {
-                //         textTransform: "capitalize",
-                //         "&:selected": {
-                //             borderBottom: `3px solid ${colors.primary[600]}`,
-                //         },
-                //     },
-                // },
                 defaultProps: {
                     disableRipple: true,
                     disableFocusRipple: true,

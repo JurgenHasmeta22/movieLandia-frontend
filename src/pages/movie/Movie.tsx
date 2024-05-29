@@ -66,7 +66,6 @@ export default function Movie() {
                 toast.error("Movie not bookmarked successfully!");
             }
         } catch (error) {
-            console.error("An error occurred while adding the movie to favorites:", error);
             toast.error("An error occurred while adding the movie to favorites.");
         }
     }
@@ -175,8 +174,8 @@ export default function Movie() {
                                             color: colors.greenAccent[500],
                                         }}
                                     >
-                                        <Typography component={"span"} width={"20ch"}>
-                                            Duration: {movie.duration}
+                                        <Typography component={"span"} width={"8ch"}>
+                                            {movie.duration}
                                         </Typography>
                                     </ListItem>
                                     <ListItem
@@ -185,7 +184,7 @@ export default function Movie() {
                                         }}
                                     >
                                         <Typography component={"span"}>
-                                            Release Year: {movie.releaseYear}
+                                            {movie.releaseYear}
                                         </Typography>
                                     </ListItem>
                                     <ListItem
@@ -239,7 +238,7 @@ export default function Movie() {
                                         placeSelf: "center",
                                         width: "30%",
                                         columnGap: 1,
-                                        marginTop: 1,
+                                        marginTop: 3,
                                     }}
                                 >
                                     <YouTubeIcon color="error" />
