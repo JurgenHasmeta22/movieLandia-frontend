@@ -326,11 +326,10 @@ export default function Register() {
                                                     style={{
                                                         paddingLeft: 4,
                                                         textTransform: "capitalize",
-                                                        fontSize: 16,
-                                                        fontWeight: 700,
+                                                        fontSize: 14,
                                                     }}
                                                 >
-                                                    Continue
+                                                    Sign Up
                                                 </Typography>
                                             </Button>
                                             <Box>

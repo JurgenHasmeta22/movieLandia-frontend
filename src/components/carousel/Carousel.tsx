@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Box, IconButton, Button } from "@mui/material";
+import { Box, IconButton, Button, useMediaQuery } from "@mui/material";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import PlayCircleIcon from "@mui/icons-material/PlayCircle";
@@ -15,26 +15,31 @@ interface ICarouselProps {
 
 const Carousel = ({ data, type, visibleItems = 3 }: ICarouselProps) => {
     const [startIndex, setStartIndex] = useState(0);
+    const isMobile = useMediaQuery("(max-width:600px)");
+    const isTablet = useMediaQuery("(max-width:960px)");
+    const mobileVisibleItems = isMobile ? 1 : isTablet ? 2 : visibleItems;
 
     const handleNext = () => {
-        setStartIndex((prevIndex) => (prevIndex >= data.length - visibleItems ? 0 : prevIndex + 1));
+        setStartIndex((prevIndex) =>
+            prevIndex >= data.length - mobileVisibleItems ? 0 : prevIndex + 1,
+        );
     };
 
     const handlePrev = () => {
         setStartIndex((prevIndex) =>
-            prevIndex === 0 ? data.length - visibleItems : prevIndex - 1,
+            prevIndex === 0 ? data.length - mobileVisibleItems : prevIndex - 1,
         );
     };
 
     useEffect(() => {
         const interval = setInterval(() => {
             setStartIndex((prevIndex) =>
-                prevIndex >= data.length - visibleItems ? 0 : prevIndex + 1,
+                prevIndex >= data.length - mobileVisibleItems ? 0 : prevIndex + 1,
             );
         }, 3000);
 
         return () => clearInterval(interval);
-    }, [data, visibleItems]);
+    }, [data, mobileVisibleItems]);
 
     return (
         <Box
@@ -43,25 +48,35 @@ const Carousel = ({ data, type, visibleItems = 3 }: ICarouselProps) => {
             justifyContent="center"
             position="relative"
             overflow="hidden"
-            sx={{ gap: 2, px: 6 }}
+            sx={{ gap: 2, px: isMobile ? 2 : 6 }}
             flexWrap={"wrap"}
         >
-            {data.length > visibleItems && (
-                <IconButton onClick={handlePrev} size="large">
+            {data.length > mobileVisibleItems && (
+                <IconButton
+                    onClick={handlePrev}
+                    size="large"
+                    sx={{
+                        position: isMobile ? "absolute" : "static",
+                        left: isMobile ? "10px" : "auto",
+                        top: isMobile ? "calc(50% - 20px)" : "auto",
+                        zIndex: isMobile ? 10 : "auto",
+                    }}
+                >
                     <NavigateBeforeIcon />
                 </IconButton>
             )}
             {data
-                .slice(startIndex, startIndex + visibleItems)
+                .slice(startIndex, startIndex + mobileVisibleItems)
                 .map((element: IMovie | ISerie, index: number) => (
                     <Box
                         key={index}
                         position="relative"
                         sx={{
-                            mr: index === visibleItems - 1 ? 0 : 1,
+                            mr: index === mobileVisibleItems - 1 ? 0 : 1,
                             overflow: "hidden",
+                            width: isMobile ? "100%" : "auto",
                             "&:hover img": {
-                                filter: "blur(5px)",
+                                filter: "blur(3px)",
                             },
                             "&:hover .carousel-button": {
                                 display: "block",
@@ -71,7 +86,11 @@ const Carousel = ({ data, type, visibleItems = 3 }: ICarouselProps) => {
                         <img
                             src={element.photoSrc}
                             alt={`Slide ${startIndex + index}`}
-                            style={{ width: "280px", height: "auto", transition: "filter 1s ease" }}
+                            style={{
+                                width: "100%",
+                                height: "auto",
+                                transition: "filter 1s ease",
+                            }}
                         />
                         <Link
                             to={
@@ -99,8 +118,17 @@ const Carousel = ({ data, type, visibleItems = 3 }: ICarouselProps) => {
                         </Link>
                     </Box>
                 ))}
-            {data.length > visibleItems && (
-                <IconButton onClick={handleNext} size="large">
+            {data.length > mobileVisibleItems && (
+                <IconButton
+                    onClick={handleNext}
+                    size="large"
+                    sx={{
+                        position: isMobile ? "absolute" : "static",
+                        right: isMobile ? "10px" : "auto",
+                        top: isMobile ? "calc(50% - 20px)" : "auto",
+                        zIndex: isMobile ? 10 : "auto",
+                    }}
+                >
                     <NavigateNextIcon />
                 </IconButton>
             )}
