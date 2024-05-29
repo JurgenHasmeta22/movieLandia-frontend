@@ -31,7 +31,6 @@ export default function Series() {
     const [searchParams, setSearchParams] = useSearchParams();
     const handleChangeSorting = useSorting();
 
-    // #region "Data fetching and handling data
     const page = searchParams.get("page") || 1;
     const search = searchParams.get("search");
     const sortBy = searchParams.get("sortBy");
@@ -59,17 +58,13 @@ export default function Series() {
     const series: ISerie[] = seriesQuery.data?.rows! ?? [];
     const seriesCount: number = seriesQuery.data?.count! ?? 0;
     const seriesCarouselImages = getRandomElements(series, 5);
-    // #endregion
 
-    // #region "Pagination logic"
     const pageCount = Math.ceil(seriesCount / 10);
     const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
         searchParams.set("page", String(value));
         setSearchParams(searchParams);
     };
-    // #endregion
 
-    // #region "Data state spinners, errrors check"
     if (seriesQuery.isLoading) {
         return (
             <Box
@@ -99,7 +94,6 @@ export default function Series() {
             </Box>
         );
     }
-    // #endregion
 
     return (
         <>

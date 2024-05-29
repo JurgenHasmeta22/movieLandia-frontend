@@ -20,6 +20,7 @@ import YouTubeIcon from "@mui/icons-material/YouTube";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import { useQuery } from "@tanstack/react-query";
 import BookmarkRemoveIcon from "@mui/icons-material/BookmarkRemove";
+import Error404 from "../error/Error";
 
 export default function Serie() {
     const params = useParams();
@@ -85,19 +86,13 @@ export default function Serie() {
         );
     }
 
-    if (serieQuery.isError === true || seriesQuery.isError === true) {
-        return (
-            <Box
-                sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    height: "100vh",
-                }}
-            >
-                <Typography variant="h1">An Error occurred the server is down!</Typography>
-            </Box>
-        );
+    if (
+        serieQuery.isError ||
+        serieQuery.data.error ||
+        seriesQuery.isError ||
+        seriesQuery.data.error
+    ) {
+        return <Error404 />;
     }
 
     return (
@@ -176,9 +171,7 @@ export default function Serie() {
                                         color: colors.greenAccent[500],
                                     }}
                                 >
-                                    <Typography component={"span"}>
-                                        {serie.releaseYear}
-                                    </Typography>
+                                    <Typography component={"span"}>{serie.releaseYear}</Typography>
                                 </ListItem>
                                 <ListItem
                                     sx={{

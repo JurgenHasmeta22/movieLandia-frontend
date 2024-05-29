@@ -13,6 +13,7 @@ import { motion, useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import CardItem from "~/components/cardItem/CardItem";
 import { useQuery } from "@tanstack/react-query";
+import SEOHelmet from "~/components/seoHelmet/SEOHelmet";
 
 const sectionVariants = {
     hidden: { opacity: 0, y: 100 },
@@ -108,6 +109,13 @@ export default function Home() {
 
     return (
         <main>
+            <SEOHelmet
+                title="MovieLand24 - Your Ultimate Destination for Movies"
+                description="Welcome to MovieLand24 - your ultimate destination for movies. Discover a vast collection of movies and enjoy streaming your favorites."
+                name="MovieLand24"
+                type="website"
+                canonicalUrl={"https://example.com/"}
+            />
             <HomeHeroSection />
             <Container component={"section"}>
                 <Stack flexDirection={"column"} rowGap={10} mb={6} mt={6}>
