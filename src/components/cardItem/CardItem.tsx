@@ -11,6 +11,10 @@ interface ICardItemProps {
 
 const CardItem = ({ data, type }: ICardItemProps): React.JSX.Element => {
     const navigate = useNavigate();
+    const path =
+        type === "serie"
+            ? `/series/${data.title.split(" ").join("-")}`
+            : `/movies/${data.title.split(" ").join("-")}`;
 
     return (
         <motion.div whileHover={{ scale: 1.05 }} transition={{ duration: 0.2, ease: "easeInOut" }}>
@@ -25,15 +29,11 @@ const CardItem = ({ data, type }: ICardItemProps): React.JSX.Element => {
                     width: "100%",
                 }}
                 onClick={() => {
-                    const path =
-                        type === "serie"
-                            ? `/series/${data.title.split(" ").join("-")}`
-                            : `/movies/${data.title.split(" ").join("-")}`;
-
                     navigate(path);
                     window.scrollTo(0, 0);
                 }}
                 elevation={4}
+                // title={`Go to ${path}`}
             >
                 <CardMedia
                     component="img"
