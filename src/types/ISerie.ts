@@ -11,4 +11,5 @@ export default interface ISerie {
     ratingImdb: number;
     episodes: IEpisode[];
     genres: IGenre[];
+    reviews?: any[];
 }

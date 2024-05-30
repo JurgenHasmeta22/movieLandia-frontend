@@ -33,11 +33,11 @@ import "react-quill/dist/quill.snow.css";
 import ReactQuill from "react-quill";
 
 export default function Movie() {
+    const [review, setReview] = useState("");
     const params = useParams();
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const { user, setUser } = useStore();
-    const [review, setReview] = useState("");
 
     const movieQuery = useQuery({
         queryKey: ["movie", params?.title!],
@@ -428,6 +428,7 @@ export default function Movie() {
                                 placeSelf: "center",
                                 width: "20%",
                                 mt: 6,
+                                textTransform: "capitalize"
                             }}
                         >
                             Submit Review
