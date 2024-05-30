@@ -181,7 +181,7 @@ export default function Profile() {
                         flexDirection: "column",
                         boxShadow: 6,
                         rowGap: 1,
-                        width: "30%",
+                        width: ["100%", "100%", "30%", "30%"],
                     }}
                 >
                     <Box
@@ -284,7 +284,7 @@ export default function Profile() {
                         borderRadius: "34px",
                         padding: 4,
                         boxShadow: 6,
-                        width: "65%",
+                        width: ["100%", "100%", "65%", "65%"],
                     }}
                 >
                     <Tabs
