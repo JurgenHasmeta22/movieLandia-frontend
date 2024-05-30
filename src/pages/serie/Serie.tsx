@@ -105,7 +105,7 @@ export default function Serie() {
         if (!user || !serie) return;
 
         try {
-            const response = await serieService.addReview(serie?.id!, user?.id, review);
+            const response = await serieService.addReview(user?.id, serie?.id!, review);
 
             if (response && !response.error) {
                 setReview("");
