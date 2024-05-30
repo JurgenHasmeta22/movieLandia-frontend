@@ -2,7 +2,6 @@ import { Link, useParams } from "react-router-dom";
 import type ISerie from "~/types/ISerie";
 import serieService from "~/services/api/serieService";
 import {
-    Avatar,
     Box,
     Button,
     CircularProgress,
@@ -10,7 +9,6 @@ import {
     Divider,
     List,
     ListItem,
-    Paper,
     Stack,
     Typography,
     useTheme,
@@ -28,8 +26,9 @@ import Error404 from "../error/Error";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import MovieIcon from "@mui/icons-material/Movie";
 import "react-quill/dist/quill.snow.css";
-import ReactQuill from "react-quill";
 import { useState } from "react";
+import Review from "~/components/review/Review";
+import TextEditor from "~/components/textEditor/TextEditor";
 
 export default function Serie() {
     const [review, setReview] = useState("");
@@ -373,42 +372,7 @@ export default function Serie() {
                         <Typography fontSize={22} color={"secondary"} textAlign={"center"}>
                             Reviews
                         </Typography>
-                        <ReactQuill
-                            theme="snow"
-                            value={review}
-                            onChange={setReview}
-                            modules={{
-                                toolbar: [
-                                    [{ header: "1" }, { header: "2" }, { font: [] }],
-                                    [{ size: [] }],
-                                    ["bold", "italic", "underline", "strike", "blockquote"],
-                                    [{ list: "ordered" }, { list: "bullet" }],
-                                    ["link", "image", "video"],
-                                    ["clean"],
-                                ],
-                            }}
-                            formats={[
-                                "header",
-                                "font",
-                                "size",
-                                "bold",
-                                "italic",
-                                "underline",
-                                "strike",
-                                "blockquote",
-                                "list",
-                                "bullet",
-                                "link",
-                                "image",
-                                "video",
-                            ]}
-                            style={{
-                                backgroundColor:
-                                    theme.palette.mode === "dark" ? colors.primary[500] : "white",
-                                color: theme.palette.mode === "dark" ? "white" : "black",
-                                height: "200px",
-                            }}
-                        />
+                        <TextEditor value={review} onChange={setReview} />
                         <Button
                             onClick={onSubmitReview}
                             color="error"
@@ -425,19 +389,8 @@ export default function Serie() {
                         >
                             <Typography component={"span"}>Submit Review</Typography>
                         </Button>
-                        {serie.reviews?.map((review: any) => (
-                            <Paper key={review.id} sx={{ p: 2, mt: 2 }}>
-                                <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
-                                    <Avatar alt={review.user.userName} src={review.user.avatar} />
-                                    <Typography variant="h6" sx={{ ml: 2 }}>
-                                        {review.user.userName}
-                                    </Typography>
-                                </Box>
-                                <Typography
-                                    dangerouslySetInnerHTML={{ __html: review.content }}
-                                    sx={{ wordWrap: "break-word" }}
-                                />
-                            </Paper>
+                        {serie.reviews?.map((review: any, index: number) => (
+                            <Review key={index} review={review} />
                         ))}
                     </Box>
                     <Box
