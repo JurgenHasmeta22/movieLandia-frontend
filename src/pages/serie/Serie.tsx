@@ -110,12 +110,29 @@ export default function Serie() {
                 setReview("");
                 serieQuery.refetch();
                 toast.success("Review submitted successfully!");
-                window.scrollTo(0, 0);
             } else {
                 toast.error("Review submission failed!");
             }
         } catch (error) {
             toast.error("An error occurred while submitting the review.");
+        }
+    }
+
+    async function onSubmitRemoveReview() {
+        if (!user || !serie) return;
+
+        try {
+            const response = await serieService.removeReview(user?.id, serie?.id!);
+
+            if (response && !response.error) {
+                setReview("");
+                serieQuery.refetch();
+                toast.success("Review removed successfully!");
+            } else {
+                toast.error("Review removal failed!");
+            }
+        } catch (error) {
+            toast.error("An error occurred while trying to remove the review.");
         }
     }
 
@@ -390,7 +407,7 @@ export default function Serie() {
                             <Typography component={"span"}>Submit Review</Typography>
                         </Button>
                         {serie.reviews?.map((review: any, index: number) => (
-                            <Review key={index} review={review} />
+                            <Review key={index} review={review} handleRemoveReview={onSubmitRemoveReview}/>
                         ))}
                     </Box>
                     <Box
