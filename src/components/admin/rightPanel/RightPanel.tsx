@@ -14,19 +14,24 @@ import {
     StepLabel,
     Stepper,
     StepButton,
-    useTheme,
+    // useTheme,
     IconButton,
     SxProps,
+    FormLabel,
+    InputAdornment,
 } from "@mui/material";
-import { Formik, Form, Field, FormikProps } from "formik";
+import { Formik, Form, FormikProps } from "formik";
 import CloseIcon from "@mui/icons-material/Close";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import * as CONSTANTS from "~/constants/Constants";
+// import { tokens } from "~/utils/theme";
 
 type FieldConfig = {
     name: string;
     label: string;
     type?: string;
     options?: Array<{ label: string; value: any }>;
-    variant?: string;
+    variant?: any;
     disabled?: boolean;
     sx: {
         gridColumn: string;
@@ -86,9 +91,15 @@ const RightPanel: React.FC<DrawerProps> = ({
     title,
 }) => {
     const [activeStep, setActiveStep] = useState(0);
-    const theme = useTheme();
+    const [showPassword, setShowPassword] = useState(false);
+    // const theme = useTheme();
+    // const colors = tokens(theme.palette.mode);
+
+    const handleClickShowPassword = () => setShowPassword(!showPassword);
+    const handleMouseDownPassword = () => setShowPassword(!showPassword);
 
     const isLastStep = () => activeStep === (steps ? steps.length - 1 : 0);
+
     const handleNext = () => {
         setActiveStep((prevActiveStep: any) => prevActiveStep + 1);
     };
@@ -102,12 +113,17 @@ const RightPanel: React.FC<DrawerProps> = ({
     };
 
     return (
-        <Drawer variant={"temporary"} component={"aside"} anchor={"right"} open={true} onClose={onClose}>
+        <Drawer
+            variant={"temporary"}
+            component={"aside"}
+            anchor={"right"}
+            open={true}
+            onClose={onClose}
+        >
             <Box
                 sx={{
                     width: 500,
-                    p: 3,
-                    height: "100vh",
+                    p: 2,
                 }}
             >
                 <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
@@ -145,7 +161,7 @@ const RightPanel: React.FC<DrawerProps> = ({
                     }}
                     innerRef={formRef}
                 >
-                    {({ errors, touched, values }: any) => {
+                    {({ errors, touched, values, handleBlur, handleChange, dirty }: any) => {
                         useEffect(() => {
                             onDataChange && onDataChange(values);
                         }, [values]);
@@ -153,51 +169,122 @@ const RightPanel: React.FC<DrawerProps> = ({
                         return (
                             <Form>
                                 <Grid container spacing={3} mt={3}>
-                                    {(steps! ? steps[activeStep].fields : fields!).map((field, index: number) => (
-                                        <Grid item xs={6} key={index}>
-                                            {field.type === "select" ? (
-                                                <FormControl fullWidth size="medium">
-                                                    <InputLabel id={`${field.name}-label`}>
-                                                        {field.label}
-                                                    </InputLabel>
-                                                    <Field
-                                                        name={field.name}
-                                                        labelId={`${field.name}-label`}
-                                                        as={Select}
+                                    {(steps! ? steps[activeStep].fields : fields!).map(
+                                        (field, index: number) => (
+                                            <Grid item xs={6} key={index}>
+                                                {field.type === "select" ? (
+                                                    <FormControl>
+                                                        <InputLabel id={`${field.name}-label`}>
+                                                            {field.label}
+                                                        </InputLabel>
+                                                        <Select
+                                                            key={index}
+                                                            name={field.name}
+                                                            labelId={`${field.name}-label`}
+                                                            variant={field.variant}
+                                                            size="small"
+                                                            onBlur={handleBlur}
+                                                            onChange={handleChange}
+                                                            value={values[field.name]}
+                                                            sx={field.sx}
+                                                        >
+                                                            {field.options?.map(
+                                                                (option, index: number) => (
+                                                                    <MenuItem
+                                                                        key={index}
+                                                                        value={option.value}
+                                                                    >
+                                                                        {option.label}
+                                                                    </MenuItem>
+                                                                ),
+                                                            )}
+                                                        </Select>
+                                                    </FormControl>
+                                                ) : field.type === "password" ? (
+                                                    <Box
+                                                        display={"flex"}
+                                                        flexDirection={"column"}
+                                                        rowGap={1}
                                                     >
-                                                        {field.options?.map((option, index: number) => (
-                                                            <MenuItem
-                                                                key={index}
-                                                                value={option.value}
-                                                            >
-                                                                {option.label}
-                                                            </MenuItem>
-                                                        ))}
-                                                    </Field>
-                                                </FormControl>
-                                            ) : (
-                                                <Field
-                                                    as={TextField}
-                                                    name={field.name}
-                                                    label={field.label}
-                                                    fullWidth
-                                                    size="medium"
-                                                    type={field.type || "text"}
-                                                    helperText={
-                                                        touched[field.name] && errors[field.name]
-                                                    }
-                                                    error={
-                                                        touched[field.name] && !!errors[field.name]
-                                                    }
-                                                    InputLabelProps={
-                                                        field.type === "date"
-                                                            ? { shrink: true }
-                                                            : undefined
-                                                    }
-                                                />
-                                            )}
-                                        </Grid>
-                                    ))}
+                                                        <FormLabel>{field.label}</FormLabel>
+                                                        <TextField
+                                                            key={index}
+                                                            name={field.name}
+                                                            variant={field.variant}
+                                                            onBlur={handleBlur}
+                                                            onChange={handleChange}
+                                                            size="small"
+                                                            sx={field.sx}
+                                                            value={values[field.name]}
+                                                            type={
+                                                                showPassword ? "text" : "password"
+                                                            }
+                                                            autoComplete={"on"}
+                                                            // @ts-ignore
+                                                            helperText={
+                                                                touched[field.name] &&
+                                                                errors[field.name]
+                                                            }
+                                                            error={
+                                                                touched[field.name] &&
+                                                                !!errors[field.name]
+                                                            }
+                                                            InputProps={{
+                                                                endAdornment: (
+                                                                    <InputAdornment position="end">
+                                                                        <IconButton
+                                                                            aria-label="toggle password visibility"
+                                                                            onClick={
+                                                                                handleClickShowPassword
+                                                                            }
+                                                                            onMouseDown={
+                                                                                handleMouseDownPassword
+                                                                            }
+                                                                        >
+                                                                            {showPassword ? (
+                                                                                <Visibility color="primary" />
+                                                                            ) : (
+                                                                                <VisibilityOff color="primary" />
+                                                                            )}
+                                                                        </IconButton>
+                                                                    </InputAdornment>
+                                                                ),
+                                                            }}
+                                                        />
+                                                    </Box>
+                                                ) : (
+                                                    <Box
+                                                        display={"flex"}
+                                                        flexDirection={"column"}
+                                                        rowGap={1}
+                                                    >
+                                                        <FormLabel>{field.label}</FormLabel>
+                                                        <TextField
+                                                            key={index}
+                                                            name={field.name}
+                                                            type={field.type}
+                                                            onBlur={handleBlur}
+                                                            onChange={handleChange}
+                                                            value={values[field.name]}
+                                                            variant={field.variant}
+                                                            disabled={field.disabled}
+                                                            sx={{ ...field.sx }}
+                                                            size="small"
+                                                            // @ts-ignore
+                                                            helperText={
+                                                                touched[field.name] &&
+                                                                errors[field.name]
+                                                            }
+                                                            error={
+                                                                touched[field.name] &&
+                                                                !!errors[field.name]
+                                                            }
+                                                        />
+                                                    </Box>
+                                                )}
+                                            </Grid>
+                                        ),
+                                    )}
                                 </Grid>
                                 <Box mt={3} display={"flex"} gap={"10px"} justifyContent={"end"}>
                                     {(steps ? steps[activeStep].actions! : actions!).map(
@@ -206,13 +293,25 @@ const RightPanel: React.FC<DrawerProps> = ({
                                                 key={index}
                                                 onClick={action.onClick}
                                                 // @ts-ignore
-                                                color={action.color || "default"}
+                                                color={action.color || "primary"}
                                                 variant={action.variant || "text"}
                                                 sx={action.sx}
                                                 type={action.type}
                                                 endIcon={action.icon}
+                                                disabled={
+                                                    dirty ||
+                                                    action.label === CONSTANTS.FORM__DELETE__BUTTON
+                                                        ? false
+                                                        : true
+                                                }
                                             >
-                                                {action.label}
+                                                <Typography
+                                                    fontSize={16}
+                                                    fontWeight={500}
+                                                    sx={{ textTransform: "capitalize" }}
+                                                >
+                                                    {action.label}
+                                                </Typography>
                                             </Button>
                                         ),
                                     )}
