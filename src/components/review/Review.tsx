@@ -1,6 +1,7 @@
 import React from "react";
 import { format } from "date-fns";
-import { Avatar, Box, Paper, Typography } from "@mui/material";
+import { Avatar, Box, Paper, Typography, IconButton } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 
 interface ReviewProps {
     review: {
@@ -12,9 +13,10 @@ interface ReviewProps {
             avatar: string;
         };
     };
+    handleRemoveReview: () => void;
 }
 
-const Review: React.FC<ReviewProps> = ({ review }) => {
+const Review: React.FC<ReviewProps> = ({ review, handleRemoveReview }) => {
     return (
         <Paper key={review.id} sx={{ p: 2, mt: 2 }}>
             <Box
@@ -31,9 +33,14 @@ const Review: React.FC<ReviewProps> = ({ review }) => {
                         {review.user.userName}
                     </Typography>
                 </Box>
-                <Typography variant="body2" color="textSecondary" sx={{ ml: 2 }}>
-                    {format(new Date(review.createdAt), "MMMM dd, yyyy HH:mm")}
-                </Typography>
+                <Box sx={{ display: "flex", alignItems: "center" }}>
+                    <Typography variant="body2" color="textSecondary" sx={{ mr: 1 }}>
+                        {format(new Date(review.createdAt), "MMMM dd, yyyy HH:mm")}
+                    </Typography>
+                    <IconButton size="small" onClick={() => handleRemoveReview()}>
+                        <CloseIcon fontSize="small" />
+                    </IconButton>
+                </Box>
             </Box>
             <Typography
                 dangerouslySetInnerHTML={{ __html: review.content }}

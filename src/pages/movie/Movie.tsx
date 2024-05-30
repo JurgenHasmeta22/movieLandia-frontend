@@ -110,12 +110,29 @@ export default function Movie() {
                 setReview("");
                 movieQuery.refetch();
                 toast.success("Review submitted successfully!");
-                window.scrollTo(0, 0);
             } else {
                 toast.error("Review submission failed!");
             }
         } catch (error) {
             toast.error("An error occurred while submitting the review.");
+        }
+    }
+
+    async function onSubmitRemoveReview() {
+        if (!user || !movie) return;
+
+        try {
+            const response = await movieService.removeReview(movie?.id!, user?.id);
+
+            if (response && !response.error) {
+                setReview("");
+                movieQuery.refetch();
+                toast.success("Review removed successfully!");
+            } else {
+                toast.error("Review removal failed!");
+            }
+        } catch (error) {
+            toast.error("An error occurred while trying to remove the review.");
         }
     }
 
@@ -400,7 +417,11 @@ export default function Movie() {
                             <Typography component={"span"}>Submit Review</Typography>
                         </Button>
                         {movie.reviews?.map((review: any, index: number) => (
-                            <Review key={index} review={review} />
+                            <Review
+                                key={index}
+                                review={review}
+                                handleRemoveReview={onSubmitRemoveReview}
+                            />
                         ))}
                     </Box>
                     <Box

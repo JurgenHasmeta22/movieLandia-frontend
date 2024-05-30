@@ -208,6 +208,25 @@ const movieService = {
             return { error };
         }
     },
+    removeReview: async (
+        movieId: number | undefined,
+        userId: number | undefined,
+    ): Promise<any> => {
+        const payload = {
+            movieId,
+            userId,
+        };
+
+        try {
+            const response: any = await axios
+                .post(`${api.url}/removeReviewMovie`, payload)
+                .then((x) => x.data);
+
+            return response;
+        } catch (error) {
+            return { error };
+        }
+    },
 };
 
 export default movieService;

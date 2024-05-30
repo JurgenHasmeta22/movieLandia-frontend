@@ -236,6 +236,25 @@ const serieService = {
             return { error };
         }
     },
+    removeReview: async (
+        userId: number | undefined,
+        serieId: number | undefined,
+    ): Promise<any> => {
+        const payload = {
+            userId,
+            serieId,
+        };
+
+        try {
+            const response: any = await axios
+                .post(`${api.url}/removeReviewSerie`, payload)
+                .then((x) => x.data);
+
+            return response;
+        } catch (error) {
+            return { error };
+        }
+    },
 };
 
 export default serieService;
