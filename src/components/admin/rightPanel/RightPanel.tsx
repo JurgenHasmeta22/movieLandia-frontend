@@ -12,6 +12,7 @@ import {
     Typography,
     Step,
     StepLabel,
+    useTheme,
     Stepper,
     StepButton,
     IconButton,
@@ -23,6 +24,7 @@ import { Formik, Form, FormikProps } from "formik";
 import CloseIcon from "@mui/icons-material/Close";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import * as CONSTANTS from "~/constants/Constants";
+import { tokens } from "~/utils/theme";
 
 type FieldConfig = {
     name: string;
@@ -91,6 +93,8 @@ const RightPanel: React.FC<DrawerProps> = ({
 }) => {
     const [activeStep, setActiveStep] = useState(0);
     const [showPassword, setShowPassword] = useState(false);
+    const theme = useTheme();
+    const colors = tokens(theme.palette.mode);
 
     const handleClickShowPassword = () => setShowPassword(!showPassword);
     const handleMouseDownPassword = () => setShowPassword(!showPassword);
@@ -119,8 +123,11 @@ const RightPanel: React.FC<DrawerProps> = ({
         >
             <Box
                 sx={{
-                    width: 500,
-                    p: 2,
+                    width: "100%",
+                    height: "100%",
+                    px: 2,
+                    py: 4,
+                    bgcolor: colors.primary[400],
                 }}
             >
                 <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
