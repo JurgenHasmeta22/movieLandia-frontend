@@ -19,6 +19,7 @@ import Carousel from "~/components/carousel/Carousel";
 import CardItem from "~/components/cardItem/CardItem";
 import { useQuery } from "@tanstack/react-query";
 import SwapVertIcon from "@mui/icons-material/SwapVert";
+import SortSelect from "~/components/sortSelect/SortSelect";
 
 const valueToLabelMap: Record<any, string> = {
     none: "None",
@@ -142,36 +143,11 @@ export default function Series() {
                                 mr: 4,
                             }}
                         >
-                            <Select
-                                defaultValue={"none"}
-                                value={
-                                    searchParams.get("sortBy") && searchParams.get("ascOrDesc")
-                                        ? searchParams.get("sortBy")! +
-                                          toFirstWordUpperCase(searchParams.get("ascOrDesc")!)
-                                        : "none"
-                                }
+                            <SortSelect
+                                sortBy={searchParams.get("sortBy")}
+                                ascOrDesc={searchParams.get("ascOrDesc")}
                                 onChange={handleChangeSorting}
-                                sx={{
-                                    px: 2,
-                                    border: "none",
-                                }}
-                                renderValue={(value: string) => {
-                                    return (
-                                        <Box sx={{ display: "flex", gap: 0.5 }}>
-                                            <SvgIcon color="secondary">
-                                                <SwapVertIcon />
-                                            </SvgIcon>
-                                            {valueToLabelMap[value]}
-                                        </Box>
-                                    );
-                                }}
-                            >
-                                <MenuItem value={"none"}>None</MenuItem>
-                                <MenuItem value={"ratingImdbAsc"}>Imdb rating (Asc)</MenuItem>
-                                <MenuItem value={"ratingImdbDesc"}>Imdb rating (Desc)</MenuItem>
-                                <MenuItem value={"titleAsc"}>Title (Asc)</MenuItem>
-                                <MenuItem value={"titleDesc"}>Title (Desc)</MenuItem>
-                            </Select>
+                            />
                         </Box>
                     </Stack>
                     <Box

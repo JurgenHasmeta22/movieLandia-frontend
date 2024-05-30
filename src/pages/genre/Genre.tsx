@@ -19,9 +19,9 @@ import { getRandomElements, toFirstWordUpperCase } from "~/utils/utils";
 import CardItem from "~/components/cardItem/CardItem";
 import { useQuery } from "@tanstack/react-query";
 import SwapVertIcon from "@mui/icons-material/SwapVert";
-import Carousel from "~/components/carousel/Carousel";
 import Error404 from "../error/Error";
 import ISerie from "~/types/ISerie";
+import SortSelect from "~/components/sortSelect/SortSelect";
 
 const valueToLabelMap: Record<any, string> = {
     none: "None",
@@ -81,7 +81,8 @@ export default function Genre(): React.JSX.Element {
         moviesByGenre.length > 5 ? 5 : moviesByGenre.length,
     );
 
-    const pageCount = Math.ceil(moviesByGenreCount / 10);
+    const pageCountMovies = Math.ceil(moviesByGenreCount / 10);
+    const pageCountSeries = Math.ceil(seriesByGenreCount / 10);
     const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
         searchParams.set("page", String(value));
         setSearchParams(searchParams);
@@ -141,13 +142,6 @@ export default function Genre(): React.JSX.Element {
                         paddingTop: 4,
                     }}
                 >
-                    <Box mt={4} component={"section"}>
-                        <Carousel
-                            data={moviesCarouselImages}
-                            type="movies"
-                            visibleItems={moviesByGenre.length === 5 ? 3 : moviesByGenre.length}
-                        />
-                    </Box>
                     <Stack
                         display="flex"
                         flexDirection="row"
@@ -157,10 +151,9 @@ export default function Genre(): React.JSX.Element {
                     >
                         <Box
                             display="flex"
-                            justifyContent="center"
+                            justifyContent="start"
                             alignItems="center"
                             sx={{ flexGrow: 1 }}
-                            pl={18}
                         >
                             <Typography
                                 sx={{
@@ -180,35 +173,11 @@ export default function Genre(): React.JSX.Element {
                                 alignItems: "center",
                             }}
                         >
-                            <Select
-                                defaultValue={"none"}
-                                value={
-                                    searchParams.get("sortBy") && searchParams.get("ascOrDesc")
-                                        ? searchParams.get("sortBy")! +
-                                          toFirstWordUpperCase(searchParams.get("ascOrDesc")!)
-                                        : "none"
-                                }
+                            <SortSelect
+                                sortBy={searchParams.get("sortBy")}
+                                ascOrDesc={searchParams.get("ascOrDesc")}
                                 onChange={handleChangeSorting}
-                                sx={{
-                                    px: 2,
-                                }}
-                                renderValue={(value: string) => {
-                                    return (
-                                        <Box sx={{ display: "flex", gap: 0.5 }}>
-                                            <SvgIcon color="secondary">
-                                                <SwapVertIcon />
-                                            </SvgIcon>
-                                            {valueToLabelMap[value]}
-                                        </Box>
-                                    );
-                                }}
-                            >
-                                <MenuItem value={"none"}>None</MenuItem>
-                                <MenuItem value={"ratingImdbAsc"}>Imdb rating (Asc)</MenuItem>
-                                <MenuItem value={"ratingImdbDesc"}>Imdb rating (Desc)</MenuItem>
-                                <MenuItem value={"titleAsc"}>Title (Asc)</MenuItem>
-                                <MenuItem value={"titleDesc"}>Title (Desc)</MenuItem>
-                            </Select>
+                            />
                         </Box>
                     </Stack>
                     <Stack
@@ -235,7 +204,7 @@ export default function Genre(): React.JSX.Element {
                         <Pagination
                             page={searchParams.get("page") ? Number(searchParams.get("page")) : 1}
                             size="large"
-                            count={pageCount}
+                            count={pageCountMovies}
                             showFirstButton
                             showLastButton
                             onChange={handlePageChange}
@@ -250,10 +219,9 @@ export default function Genre(): React.JSX.Element {
                     >
                         <Box
                             display="flex"
-                            justifyContent="center"
+                            justifyContent="start"
                             alignItems="center"
                             sx={{ flexGrow: 1 }}
-                            pl={18}
                         >
                             <Typography
                                 sx={{
@@ -273,35 +241,11 @@ export default function Genre(): React.JSX.Element {
                                 alignItems: "center",
                             }}
                         >
-                            <Select
-                                defaultValue={"none"}
-                                value={
-                                    searchParams.get("sortBy") && searchParams.get("ascOrDesc")
-                                        ? searchParams.get("sortBy")! +
-                                          toFirstWordUpperCase(searchParams.get("ascOrDesc")!)
-                                        : "none"
-                                }
+                            <SortSelect
+                                sortBy={searchParams.get("sortBy")}
+                                ascOrDesc={searchParams.get("ascOrDesc")}
                                 onChange={handleChangeSorting}
-                                sx={{
-                                    px: 2,
-                                }}
-                                renderValue={(value: string) => {
-                                    return (
-                                        <Box sx={{ display: "flex", gap: 0.5 }}>
-                                            <SvgIcon color="secondary">
-                                                <SwapVertIcon />
-                                            </SvgIcon>
-                                            {valueToLabelMap[value]}
-                                        </Box>
-                                    );
-                                }}
-                            >
-                                <MenuItem value={"none"}>None</MenuItem>
-                                <MenuItem value={"ratingImdbAsc"}>Imdb rating (Asc)</MenuItem>
-                                <MenuItem value={"ratingImdbDesc"}>Imdb rating (Desc)</MenuItem>
-                                <MenuItem value={"titleAsc"}>Title (Asc)</MenuItem>
-                                <MenuItem value={"titleDesc"}>Title (Desc)</MenuItem>
-                            </Select>
+                            />
                         </Box>
                     </Stack>
                     <Stack
@@ -328,7 +272,7 @@ export default function Genre(): React.JSX.Element {
                         <Pagination
                             page={searchParams.get("page") ? Number(searchParams.get("page")) : 1}
                             size="large"
-                            count={pageCount}
+                            count={pageCountSeries}
                             showFirstButton
                             showLastButton
                             onChange={handlePageChange}
