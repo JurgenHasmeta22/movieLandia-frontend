@@ -218,7 +218,6 @@ export default function Genre(): React.JSX.Element {
                         alignContent={"center"}
                         rowGap={8}
                         columnGap={4}
-                        marginTop={4}
                     >
                         {moviesByGenre.map((movie: IMovie, index: number) => (
                             <CardItem data={movie} key={index} type="movie" />
@@ -312,7 +311,6 @@ export default function Genre(): React.JSX.Element {
                         alignContent={"center"}
                         rowGap={8}
                         columnGap={4}
-                        marginTop={4}
                     >
                         {seriesByGenre.map((serie: ISerie, index: number) => (
                             <CardItem data={serie} key={index} type="serie" />
