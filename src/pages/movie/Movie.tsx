@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useStore } from "~/store/store";
 import type IMovie from "~/types/IMovie";
 import movieService from "~/services/api/movieService";
@@ -7,6 +7,7 @@ import {
     Button,
     CircularProgress,
     Container,
+    Divider,
     List,
     ListItem,
     Stack,
@@ -23,6 +24,9 @@ import BookmarkAddIcon from "@mui/icons-material/BookmarkAdd";
 import { useQuery } from "@tanstack/react-query";
 import BookmarkRemoveIcon from "@mui/icons-material/BookmarkRemove";
 import Error404 from "../error/Error";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import MovieIcon from "@mui/icons-material/Movie";
 
 export default function Movie() {
     const params = useParams();
@@ -179,6 +183,46 @@ export default function Movie() {
                                     display: "flex",
                                     flexDirection: "row",
                                     placeSelf: "center",
+                                    placeItems: "center",
+                                }}
+                            >
+                                <MovieIcon fontSize="large" color="secondary" />
+                                {movie.genres?.map((genre: any, index: number) => (
+                                    <>
+                                        <ListItem
+                                            sx={{
+                                                color: colors.greenAccent[500],
+                                            }}
+                                            key={index}
+                                        >
+                                            <Link
+                                                to={`/genres/${genre.genre.name}`}
+                                                style={{
+                                                    textDecoration: "none",
+                                                    color: colors.primary[200],
+                                                    fontSize: 15,
+                                                }}
+                                            >
+                                                <Typography component={"span"}>
+                                                    {genre.genre.name}
+                                                </Typography>
+                                            </Link>
+                                        </ListItem>
+                                        {index < movie.genres!.length - 1 && (
+                                            <Divider
+                                                orientation="vertical"
+                                                flexItem
+                                                color="error"
+                                            />
+                                        )}
+                                    </>
+                                ))}
+                            </List>
+                            <List
+                                sx={{
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    placeSelf: "center",
                                 }}
                             >
                                 <ListItem
@@ -186,7 +230,8 @@ export default function Movie() {
                                         color: colors.greenAccent[500],
                                     }}
                                 >
-                                    <Typography component={"span"} width={"8ch"}>
+                                    <AccessTimeIcon fontSize="large" />
+                                    <Typography component={"span"} width={"8ch"} paddingLeft={1}>
                                         {movie.duration}
                                     </Typography>
                                 </ListItem>
@@ -195,7 +240,10 @@ export default function Movie() {
                                         color: colors.greenAccent[500],
                                     }}
                                 >
-                                    <Typography component={"span"}>{movie.releaseYear}</Typography>
+                                    <CalendarMonthIcon fontSize="large" />
+                                    <Typography component={"span"} paddingLeft={1}>
+                                        {movie.releaseYear}
+                                    </Typography>
                                 </ListItem>
                                 <ListItem
                                     sx={{
@@ -306,7 +354,7 @@ export default function Movie() {
                         flexDirection: "column",
                         rowGap: 2,
                         marginBottom: 2,
-                        height: "100vh"
+                        height: "100vh",
                     }}
                     component={"section"}
                 >

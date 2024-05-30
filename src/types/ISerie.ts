@@ -1,4 +1,5 @@
 import type IEpisode from "./IEpisode";
+import IGenre from "./IGenre";
 
 export default interface ISerie {
     id?: number;
@@ -9,4 +10,5 @@ export default interface ISerie {
     releaseYear: number;
     ratingImdb: number;
     episodes: IEpisode[];
+    genres: IGenre[];
 }

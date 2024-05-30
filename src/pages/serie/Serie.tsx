@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import type ISerie from "~/types/ISerie";
 import serieService from "~/services/api/serieService";
 import {
@@ -6,6 +6,7 @@ import {
     Button,
     CircularProgress,
     Container,
+    Divider,
     List,
     ListItem,
     Stack,
@@ -22,6 +23,8 @@ import BookmarkAddIcon from "@mui/icons-material/BookmarkAdd";
 import { useQuery } from "@tanstack/react-query";
 import BookmarkRemoveIcon from "@mui/icons-material/BookmarkRemove";
 import Error404 from "../error/Error";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import MovieIcon from "@mui/icons-material/Movie";
 
 export default function Serie() {
     const params = useParams();
@@ -180,6 +183,46 @@ export default function Serie() {
                                     display: "flex",
                                     flexDirection: "row",
                                     placeSelf: "center",
+                                    placeItems: "center",
+                                }}
+                            >
+                                <MovieIcon fontSize="large" color="secondary" />
+                                {serie.genres?.map((genre: any, index: number) => (
+                                    <>
+                                        <ListItem
+                                            sx={{
+                                                color: colors.greenAccent[500],
+                                            }}
+                                            key={index}
+                                        >
+                                            <Link
+                                                to={`/genres/${genre.genre.name}`}
+                                                style={{
+                                                    textDecoration: "none",
+                                                    color: colors.primary[200],
+                                                    fontSize: 15,
+                                                }}
+                                            >
+                                                <Typography component={"span"}>
+                                                    {genre.genre.name}
+                                                </Typography>
+                                            </Link>
+                                        </ListItem>
+                                        {index < serie.genres!.length - 1 && (
+                                            <Divider
+                                                orientation="vertical"
+                                                flexItem
+                                                color="error"
+                                            />
+                                        )}
+                                    </>
+                                ))}
+                            </List>
+                            <List
+                                sx={{
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    placeSelf: "center",
                                 }}
                             >
                                 <ListItem
@@ -187,7 +230,10 @@ export default function Serie() {
                                         color: colors.greenAccent[500],
                                     }}
                                 >
-                                    <Typography component={"span"}>{serie.releaseYear}</Typography>
+                                    <CalendarMonthIcon fontSize="large" />
+                                    <Typography component={"span"} paddingLeft={1}>
+                                        {serie.releaseYear}
+                                    </Typography>
                                 </ListItem>
                                 <ListItem
                                     sx={{
