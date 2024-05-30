@@ -99,8 +99,8 @@ export default function FavoritesTab({ type }: FavoritesTabProps) {
                                 }
                                 alt={type === "Movies" ? favItem.movie.title : favItem.serie.title}
                                 style={{
-                                    height: "220px",
-                                    width: "200px",
+                                    height: "200px",
+                                    width: "150px",
                                     objectFit: "cover",
                                 }}
                             />
