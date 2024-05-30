@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useStore } from "~/store/store";
 import type IMovie from "~/types/IMovie";
@@ -12,7 +13,8 @@ import {
     ListItem,
     Stack,
     Typography,
-    // useMediaQuery,
+    Paper,
+    Avatar,
     useTheme,
 } from "@mui/material";
 import { tokens } from "~/utils/theme";
@@ -27,14 +29,15 @@ import Error404 from "../error/Error";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import MovieIcon from "@mui/icons-material/Movie";
+import "react-quill/dist/quill.snow.css";
+import ReactQuill from "react-quill";
 
 export default function Movie() {
     const params = useParams();
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const { user, setUser } = useStore();
-    // const isMobile = useMediaQuery("(max-width:600px)");
-    // const isTablet = useMediaQuery("(max-width:1100px)");
+    const [review, setReview] = useState("");
 
     const movieQuery = useQuery({
         queryKey: ["movie", params?.title!],
@@ -99,6 +102,24 @@ export default function Movie() {
         }
     }
 
+    async function onSubmitReview() {
+        if (!user || !movie) return;
+
+        try {
+            const response = await movieService.addReview(movie?.id!, user?.id, review);
+
+            if (response && !response.error) {
+                setReview("");
+                toast.success("Review submitted successfully!");
+                window.scrollTo(0, 0);
+            } else {
+                toast.error("Review submission failed!");
+            }
+        } catch (error) {
+            toast.error("An error occurred while submitting the review.");
+        }
+    }
+
     if (movieQuery.isLoading || latestMoviesQuery.isLoading) {
         return (
             <Box
@@ -133,249 +154,328 @@ export default function Movie() {
                 canonicalUrl={`https://example.com/movies/${movie?.title}`}
             />
             <Container>
-                <Box
-                    sx={{
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        width: "100%",
-                        pt: 8,
-                        pb: 4,
-                    }}
-                    component={"section"}
-                >
+                <Stack flexDirection={"column"} rowGap={4}>
                     <Box
                         sx={{
                             display: "flex",
-                            flexDirection: "row",
-                            flexWrap: "wrap",
+                            flexDirection: "column",
                             alignItems: "center",
                             justifyContent: "center",
-                            height: "100%",
-                            width: "90%",
-                            columnGap: 6,
-                            padding: 6,
-                            backgroundColor: `${colors.primary[400]}`,
+                            width: "100%",
+                            pt: 8,
+                            pb: 4,
                         }}
+                        component={"section"}
                     >
-                        <img
-                            src={movie.photoSrc}
-                            alt={movie.title}
-                            style={{ width: 220, height: "auto" }}
-                        />
                         <Box
                             sx={{
                                 display: "flex",
-                                flexDirection: "column",
+                                flexDirection: "row",
+                                flexWrap: "wrap",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                height: "100%",
+                                width: "90%",
+                                columnGap: 6,
+                                padding: 6,
+                                backgroundColor: `${colors.primary[400]}`,
                             }}
                         >
-                            <Typography
-                                fontSize={24}
-                                color={"secondary"}
-                                textAlign={"center"}
-                                component={"h1"}
-                            >
-                                {movie.title}
-                            </Typography>
-                            <List
+                            <img
+                                src={movie.photoSrc}
+                                alt={movie.title}
+                                style={{ width: 220, height: "auto" }}
+                            />
+                            <Box
                                 sx={{
                                     display: "flex",
-                                    flexDirection: "row",
-                                    placeSelf: "center",
-                                    placeItems: "center",
+                                    flexDirection: "column",
                                 }}
                             >
-                                <MovieIcon fontSize="large" color="secondary" />
-                                {movie.genres?.map((genre: any, index: number) => (
-                                    <>
-                                        <ListItem
-                                            sx={{
-                                                color: colors.greenAccent[500],
-                                            }}
-                                            key={index}
-                                        >
-                                            <Link
-                                                to={`/genres/${genre.genre.name}`}
-                                                style={{
-                                                    textDecoration: "none",
-                                                    color: colors.primary[200],
-                                                    fontSize: 15,
-                                                }}
-                                            >
-                                                <Typography component={"span"}>
-                                                    {genre.genre.name}
-                                                </Typography>
-                                            </Link>
-                                        </ListItem>
-                                        {index < movie.genres!.length - 1 && (
-                                            <Divider
-                                                orientation="vertical"
-                                                flexItem
-                                                color="error"
-                                            />
-                                        )}
-                                    </>
-                                ))}
-                            </List>
-                            <List
-                                sx={{
-                                    display: "flex",
-                                    flexDirection: "row",
-                                    placeSelf: "center",
-                                }}
-                            >
-                                <ListItem
-                                    sx={{
-                                        color: colors.greenAccent[500],
-                                    }}
+                                <Typography
+                                    fontSize={24}
+                                    color={"secondary"}
+                                    textAlign={"center"}
+                                    component={"h1"}
                                 >
-                                    <AccessTimeIcon fontSize="large" />
-                                    <Typography component={"span"} width={"8ch"} paddingLeft={1}>
-                                        {movie.duration}
-                                    </Typography>
-                                </ListItem>
-                                <ListItem
+                                    {movie.title}
+                                </Typography>
+                                <List
                                     sx={{
-                                        color: colors.greenAccent[500],
-                                    }}
-                                >
-                                    <CalendarMonthIcon fontSize="large" />
-                                    <Typography component={"span"} paddingLeft={1}>
-                                        {movie.releaseYear}
-                                    </Typography>
-                                </ListItem>
-                                <ListItem
-                                    sx={{
-                                        color: colors.greenAccent[500],
                                         display: "flex",
                                         flexDirection: "row",
-                                        columnGap: 0.5,
+                                        placeSelf: "center",
+                                        placeItems: "center",
                                     }}
                                 >
-                                    <Box
-                                        display="flex"
-                                        flexDirection="row"
-                                        columnGap={0.5}
-                                        alignItems={"center"}
-                                        justifyContent={"start"}
-                                    >
-                                        <img
-                                            src="/assets/icons/imdb.svg"
-                                            alt="IMDb Icon"
-                                            style={{ width: "35px", height: "35px" }}
-                                        />
-                                        <Typography
-                                            color={"secondary"}
-                                            fontSize={12}
-                                            component="span"
-                                        >
-                                            {movie.ratingImdb !== 0 ? `${movie.ratingImdb}` : "N/A"}
-                                        </Typography>
-                                    </Box>
-                                </ListItem>
-                            </List>
-                            <Typography
-                                textAlign={"center"}
-                                color={"secondary"}
-                                width={["40ch", "60ch", "70ch", "80ch"]}
-                            >
-                                {movie.description}
-                            </Typography>
-                            <Button
-                                href={movie.trailerSrc}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                color="secondary"
-                                variant="contained"
-                                sx={{
-                                    display: "flex",
-                                    flexDirection: "row",
-                                    placeSelf: "center",
-                                    width: "30%",
-                                    columnGap: 1,
-                                    marginTop: 3,
-                                }}
-                            >
-                                <YouTubeIcon color="error" />
-                                <Typography
-                                    component={"span"}
-                                    color={colors.primary[600]}
-                                    fontWeight={700}
+                                    <MovieIcon fontSize="large" color="secondary" />
+                                    {movie.genres?.map((genre: any, index: number) => (
+                                        <>
+                                            <ListItem
+                                                sx={{
+                                                    color: colors.greenAccent[500],
+                                                }}
+                                                key={index}
+                                            >
+                                                <Link
+                                                    to={`/genres/${genre.genre.name}`}
+                                                    style={{
+                                                        textDecoration: "none",
+                                                        color: colors.primary[200],
+                                                        fontSize: 15,
+                                                    }}
+                                                >
+                                                    <Typography component={"span"}>
+                                                        {genre.genre.name}
+                                                    </Typography>
+                                                </Link>
+                                            </ListItem>
+                                            {index < movie.genres!.length - 1 && (
+                                                <Divider
+                                                    orientation="vertical"
+                                                    flexItem
+                                                    color="error"
+                                                />
+                                            )}
+                                        </>
+                                    ))}
+                                </List>
+                                <List
                                     sx={{
-                                        textTransform: "capitalize",
+                                        display: "flex",
+                                        flexDirection: "row",
+                                        placeSelf: "center",
                                     }}
                                 >
-                                    Watch Trailer
+                                    <ListItem
+                                        sx={{
+                                            color: colors.greenAccent[500],
+                                        }}
+                                    >
+                                        <AccessTimeIcon fontSize="large" />
+                                        <Typography
+                                            component={"span"}
+                                            width={"8ch"}
+                                            paddingLeft={1}
+                                        >
+                                            {movie.duration}
+                                        </Typography>
+                                    </ListItem>
+                                    <ListItem
+                                        sx={{
+                                            color: colors.greenAccent[500],
+                                        }}
+                                    >
+                                        <CalendarMonthIcon fontSize="large" />
+                                        <Typography component={"span"} paddingLeft={1}>
+                                            {movie.releaseYear}
+                                        </Typography>
+                                    </ListItem>
+                                    <ListItem
+                                        sx={{
+                                            color: colors.greenAccent[500],
+                                            display: "flex",
+                                            flexDirection: "row",
+                                            columnGap: 0.5,
+                                        }}
+                                    >
+                                        <Box
+                                            display="flex"
+                                            flexDirection="row"
+                                            columnGap={0.5}
+                                            alignItems={"center"}
+                                            justifyContent={"start"}
+                                        >
+                                            <img
+                                                src="/assets/icons/imdb.svg"
+                                                alt="IMDb Icon"
+                                                style={{ width: "35px", height: "35px" }}
+                                            />
+                                            <Typography
+                                                color={"secondary"}
+                                                fontSize={12}
+                                                component="span"
+                                            >
+                                                {movie.ratingImdb !== 0
+                                                    ? `${movie.ratingImdb}`
+                                                    : "N/A"}
+                                            </Typography>
+                                        </Box>
+                                    </ListItem>
+                                </List>
+                                <Typography
+                                    textAlign={"center"}
+                                    color={"secondary"}
+                                    width={["40ch", "60ch", "70ch", "80ch"]}
+                                >
+                                    {movie.description}
                                 </Typography>
-                            </Button>
-                            {user?.userName && (
                                 <Button
-                                    onClick={async () => {
-                                        if (!isMovieBookmarked) {
-                                            await onBookmarkMovie();
-                                        } else {
-                                            await onRemoveBookmarkMovie();
-                                        }
-                                    }}
+                                    href={movie.trailerSrc}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
                                     color="secondary"
                                     variant="contained"
                                     sx={{
                                         display: "flex",
+                                        flexDirection: "row",
                                         placeSelf: "center",
                                         width: "30%",
                                         columnGap: 1,
-                                        marginTop: 1,
+                                        marginTop: 3,
                                     }}
                                 >
-                                    {!isMovieBookmarked ? (
-                                        <BookmarkAddIcon color="success" />
-                                    ) : (
-                                        <BookmarkRemoveIcon color="error" />
-                                    )}
+                                    <YouTubeIcon color="error" />
                                     <Typography
-                                        component="span"
+                                        component={"span"}
+                                        color={colors.primary[600]}
+                                        fontWeight={700}
                                         sx={{
                                             textTransform: "capitalize",
                                         }}
-                                        color="primary"
-                                        fontWeight={700}
                                     >
-                                        {isMovieBookmarked ? "Bookmarked" : "Bookmark"}
+                                        Watch Trailer
                                     </Typography>
                                 </Button>
-                            )}
+                                {user?.userName && (
+                                    <Button
+                                        onClick={async () => {
+                                            if (!isMovieBookmarked) {
+                                                await onBookmarkMovie();
+                                            } else {
+                                                await onRemoveBookmarkMovie();
+                                            }
+                                        }}
+                                        color="secondary"
+                                        variant="contained"
+                                        sx={{
+                                            display: "flex",
+                                            placeSelf: "center",
+                                            width: "30%",
+                                            columnGap: 1,
+                                            marginTop: 1,
+                                        }}
+                                    >
+                                        {!isMovieBookmarked ? (
+                                            <BookmarkAddIcon color="success" />
+                                        ) : (
+                                            <BookmarkRemoveIcon color="error" />
+                                        )}
+                                        <Typography
+                                            component="span"
+                                            sx={{
+                                                textTransform: "capitalize",
+                                            }}
+                                            color="primary"
+                                            fontWeight={700}
+                                        >
+                                            {isMovieBookmarked ? "Bookmarked" : "Bookmark"}
+                                        </Typography>
+                                    </Button>
+                                )}
+                            </Box>
                         </Box>
                     </Box>
-                </Box>
-                <Box
-                    sx={{
-                        display: "flex",
-                        flexDirection: "column",
-                        rowGap: 2,
-                        marginBottom: 2,
-                        height: "100vh",
-                    }}
-                    component={"section"}
-                >
-                    <Typography fontSize={22} color={"secondary"} textAlign={"center"}>
-                        Latest Movies
-                    </Typography>
-                    <Stack
-                        direction="row"
-                        flexWrap="wrap"
-                        columnGap={3}
-                        rowGap={3}
-                        justifyContent="center"
-                        alignContent="center"
-                        mt={1}
-                        mb={4}
+                    <Box
+                        sx={{ display: "flex", flexDirection: "column", rowGap: 2, mb: 4 }}
+                        component={"section"}
                     >
-                        {latestMovies.slice(5, 10).map((latestMovie: any) => (
-                            <CardItem data={latestMovie} key={latestMovie.id} type="movie" />
+                        <Typography fontSize={22} color={"secondary"} textAlign={"center"}>
+                            Reviews
+                        </Typography>
+                        <ReactQuill
+                            theme="snow"
+                            value={review}
+                            onChange={setReview}
+                            modules={{
+                                toolbar: [
+                                    [{ header: "1" }, { header: "2" }, { font: [] }],
+                                    [{ size: [] }],
+                                    ["bold", "italic", "underline", "strike", "blockquote"],
+                                    [{ list: "ordered" }, { list: "bullet" }],
+                                    ["link", "image", "video"],
+                                    ["clean"],
+                                ],
+                            }}
+                            formats={[
+                                "header",
+                                "font",
+                                "size",
+                                "bold",
+                                "italic",
+                                "underline",
+                                "strike",
+                                "blockquote",
+                                "list",
+                                "bullet",
+                                "link",
+                                "image",
+                                "video",
+                            ]}
+                            style={{
+                                backgroundColor:
+                                    theme.palette.mode === "dark" ? colors.primary[500] : "white",
+                                color: theme.palette.mode === "dark" ? "white" : "black",
+                                height: "20vh",
+                            }}
+                        />
+                        <Button
+                            onClick={onSubmitReview}
+                            color="secondary"
+                            variant="contained"
+                            sx={{
+                                display: "flex",
+                                placeSelf: "center",
+                                width: "20%",
+                                mt: 6,
+                            }}
+                        >
+                            Submit Review
+                        </Button>
+                        {movie.reviews?.map((review: any) => (
+                            <Paper key={review.id} sx={{ p: 2, mt: 2 }}>
+                                <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
+                                    <Avatar alt={review.user.userName} src={review.user.avatar} />
+                                    <Typography variant="h6" sx={{ ml: 2 }}>
+                                        {review.user.userName}
+                                    </Typography>
+                                </Box>
+                                <Typography
+                                    dangerouslySetInnerHTML={{ __html: review.content }}
+                                    sx={{ wordWrap: "break-word" }}
+                                />
+                            </Paper>
                         ))}
-                    </Stack>
-                </Box>
+                    </Box>
+                    <Box
+                        sx={{
+                            display: "flex",
+                            flexDirection: "column",
+                            rowGap: 2,
+                            marginBottom: 2,
+                            height: "100vh",
+                        }}
+                        component={"section"}
+                    >
+                        <Typography fontSize={22} color={"secondary"} textAlign={"center"}>
+                            Latest Movies
+                        </Typography>
+                        <Stack
+                            direction="row"
+                            flexWrap="wrap"
+                            columnGap={3}
+                            rowGap={3}
+                            justifyContent="center"
+                            alignContent="center"
+                            mt={1}
+                            mb={4}
+                        >
+                            {latestMovies.slice(5, 10).map((latestMovie: any) => (
+                                <CardItem data={latestMovie} key={latestMovie.id} type="movie" />
+                            ))}
+                        </Stack>
+                    </Box>
+                </Stack>
             </Container>
         </>
     );

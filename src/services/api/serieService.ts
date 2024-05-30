@@ -223,6 +223,27 @@ const serieService = {
             return { error };
         }
     },
+    addReview: async (
+        movieId: number | undefined,
+        serieId: number | undefined,
+        review: string,
+    ): Promise<any> => {
+        const payload = {
+            movieId,
+            serieId,
+            content: review,
+        };
+
+        try {
+            const user: IUser = await axios
+                .post(`${api.url}/addReviewSerie`, payload)
+                .then((x) => x.data);
+
+            return user;
+        } catch (error) {
+            return { error };
+        }
+    },
 };
 
 export default serieService;

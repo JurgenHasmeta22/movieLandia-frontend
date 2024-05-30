@@ -67,7 +67,6 @@ const movieService = {
             const moviesResponse: IMoviesResponse = await axios.get(url).then((res) => res.data);
             return moviesResponse;
         } catch (error) {
-            // console.log(error);
             return { error };
         }
     },
@@ -78,7 +77,6 @@ const movieService = {
                 .then((x) => x.data);
             return movie;
         } catch (error) {
-            // console.log(error);
             return { error };
         }
     },
@@ -89,7 +87,6 @@ const movieService = {
                 .then((x) => x.data);
             return movie;
         } catch (error) {
-            // console.log(error);
             return { error };
         }
     },
@@ -100,7 +97,6 @@ const movieService = {
                 .then((x) => x.data);
             return latestMovies;
         } catch (error) {
-            // console.log(error);
             return { error };
         }
     },
@@ -120,7 +116,6 @@ const movieService = {
 
             return user;
         } catch (error) {
-            // console.log(error);
             return { error };
         }
     },
@@ -140,7 +135,6 @@ const movieService = {
 
             return user;
         } catch (error) {
-            // console.log(error);
             return { error };
         }
     },
@@ -160,7 +154,6 @@ const movieService = {
 
             return result;
         } catch (error) {
-            // console.log(error);
             return { error };
         }
     },
@@ -171,7 +164,6 @@ const movieService = {
             const movie: IMovie = await axios.patch(url, payload).then((res) => res.data);
             return movie;
         } catch (error) {
-            // console.log(error);
             return { error };
         }
     },
@@ -182,7 +174,6 @@ const movieService = {
             const movie: IMovie = await axios.post(url, payload).then((res) => res.data);
             return movie;
         } catch (error) {
-            // console.log(error);
             return { error };
         }
     },
@@ -193,7 +184,27 @@ const movieService = {
             const movie: IMovie = await axios.delete(url).then((res) => res.data);
             return movie;
         } catch (error) {
-            // console.log(error);
+            return { error };
+        }
+    },
+    addReview: async (
+        movieId: number | undefined,
+        userId: number | undefined,
+        review: string
+    ): Promise<any> => {
+        const payload = {
+            movieId,
+            userId,
+            content: review
+        };
+
+        try {
+            const user: IUser = await axios
+                .post(`${api.url}/addReviewMovie`, payload)
+                .then((x) => x.data);
+
+            return user;
+        } catch (error) {
             return { error };
         }
     },
