@@ -162,18 +162,26 @@ export default function Profile() {
                 type="website"
                 canonicalUrl="https://example.com/profile"
             />
-            <Stack flexDirection="row" width="100%" padding={8} columnGap={4}>
+            <Stack
+                flexDirection="row"
+                px={4}
+                py={10}
+                columnGap={4}
+                rowGap={4}
+                flexWrap={"wrap"}
+                width={"100%"}
+            >
                 <Stack
                     component="section"
                     sx={{
-                        width: "30%",
                         backgroundColor: `${colors.primary[400]}`,
-                        borderRadius: "22px",
+                        borderRadius: "34px",
                         padding: 4,
                         display: "flex",
                         flexDirection: "column",
                         boxShadow: 6,
-                        rowGap: 2,
+                        rowGap: 1,
+                        width: "30%",
                     }}
                 >
                     <Box
@@ -182,14 +190,21 @@ export default function Profile() {
                             flexDirection: "row",
                             justifyContent: "start",
                             alignItems: "center",
+                            flexWrap: "wrap",
                         }}
                     >
-                        <PersonOutlinedIcon color="secondary" fontSize="large" />
+                        <PersonOutlinedIcon
+                            color="secondary"
+                            sx={{
+                                fontSize: [14, 16, 18, 20],
+                            }}
+                        />
                         <Typography
                             color="secondary"
-                            fontWeight={500}
-                            fontSize={16}
                             component={"span"}
+                            sx={{
+                                fontSize: [14, 16, 18, 20],
+                            }}
                         >
                             {user.userName}
                         </Typography>
@@ -201,14 +216,21 @@ export default function Profile() {
                             justifyContent: "start",
                             alignItems: "center",
                             columnGap: 0.5,
+                            flexWrap: "wrap",
                         }}
                     >
-                        <EmailIcon color="secondary" fontSize="large" />
+                        <EmailIcon
+                            color="secondary"
+                            sx={{
+                                fontSize: [14, 16, 18, 20],
+                            }}
+                        />
                         <Typography
                             color="secondary"
-                            fontWeight={500}
-                            fontSize={16}
                             component={"span"}
+                            sx={{
+                                fontSize: [12, 14, 16, 18, 22],
+                            }}
                         >
                             {user.email}
                         </Typography>
@@ -216,8 +238,9 @@ export default function Profile() {
                     <Box>
                         <Typography
                             color="secondary"
-                            fontWeight={500}
-                            fontSize={16}
+                            sx={{
+                                fontSize: [12, 14, 16, 18, 22],
+                            }}
                             component={"span"}
                         >
                             Favorite Movies: {user.favMovies?.length}
@@ -226,9 +249,10 @@ export default function Profile() {
                     <Box>
                         <Typography
                             color="secondary"
-                            fontWeight={500}
-                            fontSize={16}
                             component={"span"}
+                            sx={{
+                                fontSize: [12, 14, 16, 18, 22],
+                            }}
                         >
                             Favorite Series: {user.favSeries?.length}
                         </Typography>
@@ -238,21 +262,29 @@ export default function Profile() {
                             onClick={() => {
                                 handleEditProfile();
                             }}
-                            color="secondary"
+                            color="error"
                             variant="outlined"
                         >
-                            <Typography component={"span"}>Edit Profile</Typography>
+                            <Typography
+                                component={"span"}
+                                sx={{
+                                    fontSize: [12, 14, 16, 18],
+                                    textTransform: "capitalize",
+                                }}
+                            >
+                                Edit Profile
+                            </Typography>
                         </Button>
                     </Box>
                 </Stack>
                 <Box
                     component="section"
                     sx={{
-                        width: "70%",
                         backgroundColor: colors.primary[400],
-                        borderRadius: "22px",
+                        borderRadius: "34px",
                         padding: 4,
                         boxShadow: 6,
+                        width: "65%",
                     }}
                 >
                     <Tabs
