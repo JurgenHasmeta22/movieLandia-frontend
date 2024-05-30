@@ -19,7 +19,6 @@ import EmailIcon from "@mui/icons-material/Email";
 import { useCallback, useRef } from "react";
 import { toast } from "react-toastify";
 import userService from "~/services/api/userService";
-import IUser from "~/types/IUser";
 import { useRightPanel } from "~/services/providers/RightPanelContext";
 import * as CONSTANTS from "~/constants/Constants";
 import * as Yup from "yup";
