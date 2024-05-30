@@ -14,7 +14,6 @@ import {
     StepLabel,
     Stepper,
     StepButton,
-    // useTheme,
     IconButton,
     SxProps,
     FormLabel,
@@ -24,7 +23,6 @@ import { Formik, Form, FormikProps } from "formik";
 import CloseIcon from "@mui/icons-material/Close";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import * as CONSTANTS from "~/constants/Constants";
-// import { tokens } from "~/utils/theme";
 
 type FieldConfig = {
     name: string;
@@ -33,6 +31,7 @@ type FieldConfig = {
     options?: Array<{ label: string; value: any }>;
     variant?: any;
     disabled?: boolean;
+    hidden?: boolean;
     sx: {
         gridColumn: string;
     };
@@ -92,8 +91,6 @@ const RightPanel: React.FC<DrawerProps> = ({
 }) => {
     const [activeStep, setActiveStep] = useState(0);
     const [showPassword, setShowPassword] = useState(false);
-    // const theme = useTheme();
-    // const colors = tokens(theme.palette.mode);
 
     const handleClickShowPassword = () => setShowPassword(!showPassword);
     const handleMouseDownPassword = () => setShowPassword(!showPassword);
@@ -265,6 +262,7 @@ const RightPanel: React.FC<DrawerProps> = ({
                                                             type={field.type}
                                                             onBlur={handleBlur}
                                                             onChange={handleChange}
+                                                            hidden={field.hidden}
                                                             value={values[field.name]}
                                                             variant={field.variant}
                                                             disabled={field.disabled}

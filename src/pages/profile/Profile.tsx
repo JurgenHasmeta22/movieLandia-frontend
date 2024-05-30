@@ -26,11 +26,15 @@ import * as Yup from "yup";
 import ClearAllIcon from "@mui/icons-material/ClearAll";
 import SaveAsIcon from "@mui/icons-material/SaveAs";
 import { FormikProps } from "formik";
+import IUserPatch from "~/types/IUserPatch";
 
 const userSchema = Yup.object().shape({
-    userName: Yup.string().required("required"),
-    email: Yup.string().required("required"),
-    password: Yup.string().required("required"),
+    userName: Yup.string()
+        .required("Username is a required field")
+        .min(3, "Username must be at least 3 characters")
+        .max(20, "Username can't be longer than 20 characters")
+        .matches(/^[a-zA-Z0-9_]+$/, "Username can only contain letters, numbers, and underscores"),
+    email: Yup.string().required("Email is a required field").email("Invalid email format"),
 });
 
 export default function Profile() {
@@ -67,16 +71,8 @@ export default function Profile() {
                 id: user?.id,
                 userName: user?.userName,
                 email: user?.email,
-                password: user?.password,
             },
             fields: [
-                {
-                    name: "id",
-                    label: "Id",
-                    variant: "filled",
-                    type: "text",
-                    disabled: true
-                },
                 {
                     name: "userName",
                     label: "Username",
@@ -89,21 +85,15 @@ export default function Profile() {
                     variant: "filled",
                     type: "text",
                 },
-                {
-                    name: "password",
-                    label: "Password",
-                    variant: "filled",
-                    type: "password",
-                },
             ],
             validationSchema: userSchema,
             onSave: async (values: any) => {
-                const payload: IUser = {
+                const payload: IUserPatch = {
                     userName: values.userName,
                     email: values.email,
-                    password: values.password,
                 };
-                const response = await userService.updateUser(payload, values.userId);
+
+                const response = await userService.updateUser(payload, values.id);
 
                 if (response) {
                     toast.success(CONSTANTS.UPDATE__SUCCESS);
