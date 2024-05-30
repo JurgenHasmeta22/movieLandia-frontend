@@ -2,6 +2,7 @@ import React from "react";
 import { Box, Card, CardContent, CardMedia, Stack, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 
 interface ICardItemProps {
     data: any;
@@ -53,10 +54,10 @@ const CardItem = ({ data, type }: ICardItemProps): React.JSX.Element => {
                         letterSpacing: 0.3,
                     }}
                 >
-                    <Typography variant="body1" color={"secondary"} fontWeight={600} fontSize={14}>
+                    <Typography variant="body1" color={"secondary"} fontWeight={600} fontSize={16}>
                         {data.title}
                     </Typography>
-                    {!type && data.genres && data.genres.length > 0 && (
+                    {data.genres && data.genres.length > 0 && (
                         <Stack
                             sx={{
                                 display: "flex",
@@ -86,22 +87,41 @@ const CardItem = ({ data, type }: ICardItemProps): React.JSX.Element => {
                             ))}
                         </Stack>
                     )}
-                    <Box
-                        display="flex"
-                        flexDirection="row"
-                        columnGap={0.5}
-                        alignItems={"center"}
-                        justifyContent={"start"}
-                    >
-                        <img
-                            src="/assets/icons/imdb.svg"
-                            alt="IMDb Icon"
-                            style={{ width: "35px", height: "35px" }}
-                        />
-                        <Typography color={"secondary"} fontSize={12} component="span">
-                            {data.ratingImdb !== 0 ? `${data.ratingImdb}` : "N/A"}
-                        </Typography>
-                    </Box>
+                    <Stack flexDirection={"row"} flexWrap={"wrap"} columnGap={1}>
+                        <Stack
+                            display="flex"
+                            flexDirection="row"
+                            columnGap={0.5}
+                            alignItems={"center"}
+                            justifyContent={"start"}
+                        >
+                            <CalendarMonthIcon
+                                sx={{
+                                    width: "25px",
+                                    height: "25px",
+                                }}
+                            />
+                            <Typography color={"secondary"} fontSize={12} component="span">
+                                {data.releaseYear}
+                            </Typography>
+                        </Stack>
+                        <Box
+                            display="flex"
+                            flexDirection="row"
+                            columnGap={0.5}
+                            alignItems={"center"}
+                            justifyContent={"start"}
+                        >
+                            <img
+                                src="/assets/icons/imdb.svg"
+                                alt="IMDb Icon"
+                                style={{ width: "28px", height: "28px" }}
+                            />
+                            <Typography color={"secondary"} fontSize={12} component="span">
+                                {data.ratingImdb !== 0 ? `${data.ratingImdb}` : "N/A"}
+                            </Typography>
+                        </Box>
+                    </Stack>
                 </CardContent>
             </Card>
         </motion.div>
