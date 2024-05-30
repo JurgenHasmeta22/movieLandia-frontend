@@ -51,7 +51,6 @@ const genreService = {
             const moviesResponse: IMoviesResponse = await axios.get(url).then((res) => res.data);
             return moviesResponse;
         } catch (error) {
-            // console.log(error);
             return { error };
         }
     },
@@ -61,6 +60,7 @@ const genreService = {
             sortBy,
             ascOrDesc,
             page,
+            type,
             pageSize,
             title,
             filterValue,
@@ -70,6 +70,7 @@ const genreService = {
             sortBy?: string;
             ascOrDesc?: string;
             page?: string;
+            type: string;
             pageSize?: string;
             title?: string;
             filterValue?: string;
@@ -85,6 +86,7 @@ const genreService = {
             page && `page=${page}`,
             pageSize && `pageSize=${pageSize}`,
             title && `title=${title}`,
+            type && `type=${type}`,
             filterValue && `filterValue=${filterValue}`,
             filterName && `filterName=${filterName}`,
             filterOperator && `filterOperator=${filterOperator}`,
@@ -100,7 +102,6 @@ const genreService = {
             const moviesResponse: IMoviesResponse = await axios.get(url).then((res) => res.data);
             return moviesResponse;
         } catch (error) {
-            // console.log(error);
             return { error };
         }
     },
@@ -111,7 +112,6 @@ const genreService = {
             const genre: IGenre = await axios.get(url).then((res) => res.data);
             return genre;
         } catch (error) {
-            // console.log(error);
             return { error };
         }
     },
@@ -122,7 +122,6 @@ const genreService = {
             const genre: IGenre = await axios.patch(url, payload).then((res) => res.data);
             return genre;
         } catch (error) {
-            // console.log(error);
             return { error };
         }
     },
@@ -133,7 +132,6 @@ const genreService = {
             const genre: IGenre = await axios.post(url, payload).then((res) => res.data);
             return genre;
         } catch (error) {
-            // console.log(error);
             return { error };
         }
     },
@@ -144,7 +142,6 @@ const genreService = {
             const genre: IGenre = await axios.delete(url).then((res) => res.data);
             return genre;
         } catch (error) {
-            // console.log(error);
             return { error };
         }
     },

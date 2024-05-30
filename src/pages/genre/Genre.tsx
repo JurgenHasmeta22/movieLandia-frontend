@@ -21,6 +21,7 @@ import { useQuery } from "@tanstack/react-query";
 import SwapVertIcon from "@mui/icons-material/SwapVert";
 import Carousel from "~/components/carousel/Carousel";
 import Error404 from "../error/Error";
+import ISerie from "~/types/ISerie";
 
 const valueToLabelMap: Record<any, string> = {
     none: "None",
@@ -40,11 +41,23 @@ export default function Genre(): React.JSX.Element {
     const ascOrDesc = searchParams.get("ascOrDesc");
 
     const fetchMoviesByGenre = async () => {
-        const queryParams: Record<string, string | number> = { page };
+        const queryParams: any = { page };
 
         if (page) queryParams.page = page;
         if (sortBy) queryParams.sortBy = sortBy;
         if (ascOrDesc) queryParams.ascOrDesc = ascOrDesc;
+        queryParams.type = "movie";
+
+        return genreService.getGenreByName(params?.name!, queryParams);
+    };
+
+    const fetchSeriesByGenre = async () => {
+        const queryParams: any = { page };
+
+        if (page) queryParams.page = page;
+        if (sortBy) queryParams.sortBy = sortBy;
+        if (ascOrDesc) queryParams.ascOrDesc = ascOrDesc;
+        queryParams.type = "serie";
 
         return genreService.getGenreByName(params?.name!, queryParams);
     };
@@ -55,6 +68,14 @@ export default function Genre(): React.JSX.Element {
     });
     const moviesByGenre: IMovie[] = moviesByGenreQuery.data?.movies! ?? [];
     const moviesByGenreCount: number = moviesByGenreQuery.data?.count! ?? 0;
+
+    const seriesByGenreQuery = useQuery({
+        queryKey: ["seriesByGenre", sortBy, ascOrDesc, page],
+        queryFn: () => fetchSeriesByGenre(),
+    });
+    const seriesByGenre: ISerie[] = seriesByGenreQuery.data?.series! ?? [];
+    const seriesByGenreCount: number = seriesByGenreQuery.data?.count! ?? 0;
+
     const moviesCarouselImages = getRandomElements(
         moviesByGenre,
         moviesByGenre.length > 5 ? 5 : moviesByGenre.length,
@@ -141,7 +162,14 @@ export default function Genre(): React.JSX.Element {
                             sx={{ flexGrow: 1 }}
                             pl={18}
                         >
-                            <Typography fontSize={22} color={"secondary"} variant="h2">
+                            <Typography
+                                sx={{
+                                    fontSize: [16, 18, 20, 24, 26],
+                                }}
+                                color={"secondary"}
+                                variant="h2"
+                                textAlign={"center"}
+                            >
                                 {`Movies of genre ${params.name}`}
                             </Typography>
                         </Box>
@@ -150,7 +178,6 @@ export default function Genre(): React.JSX.Element {
                                 display: "flex",
                                 justifyContent: "flex-end",
                                 alignItems: "center",
-                                mr: 4,
                             }}
                         >
                             <Select
@@ -187,14 +214,108 @@ export default function Genre(): React.JSX.Element {
                     <Stack
                         direction="row"
                         flexWrap="wrap"
-                        justifyContent={"center"}
+                        justifyContent={"start"}
                         alignContent={"center"}
                         rowGap={8}
                         columnGap={4}
                         marginTop={4}
                     >
-                        {moviesByGenre.map((movie: IMovie) => (
-                            <CardItem data={movie} key={movie.id} />
+                        {moviesByGenre.map((movie: IMovie, index: number) => (
+                            <CardItem data={movie} key={index} type="movie" />
+                        ))}
+                    </Stack>
+                    <Stack
+                        spacing={2}
+                        sx={{
+                            display: "flex",
+                            placeItems: "center",
+                            marginTop: 4,
+                            marginBottom: 4,
+                        }}
+                    >
+                        <Pagination
+                            page={searchParams.get("page") ? Number(searchParams.get("page")) : 1}
+                            size="large"
+                            count={pageCount}
+                            showFirstButton
+                            showLastButton
+                            onChange={handlePageChange}
+                        />
+                    </Stack>
+                    <Stack
+                        display="flex"
+                        flexDirection="row"
+                        alignItems="center"
+                        component="section"
+                        mt={4}
+                    >
+                        <Box
+                            display="flex"
+                            justifyContent="center"
+                            alignItems="center"
+                            sx={{ flexGrow: 1 }}
+                            pl={18}
+                        >
+                            <Typography
+                                sx={{
+                                    fontSize: [16, 18, 20, 24, 26],
+                                }}
+                                color={"secondary"}
+                                variant="h2"
+                                textAlign={"center"}
+                            >
+                                {`Series of genre ${params.name}`}
+                            </Typography>
+                        </Box>
+                        <Box
+                            sx={{
+                                display: "flex",
+                                justifyContent: "flex-end",
+                                alignItems: "center",
+                            }}
+                        >
+                            <Select
+                                defaultValue={"none"}
+                                value={
+                                    searchParams.get("sortBy") && searchParams.get("ascOrDesc")
+                                        ? searchParams.get("sortBy")! +
+                                          toFirstWordUpperCase(searchParams.get("ascOrDesc")!)
+                                        : "none"
+                                }
+                                onChange={handleChangeSorting}
+                                sx={{
+                                    px: 2,
+                                }}
+                                renderValue={(value: string) => {
+                                    return (
+                                        <Box sx={{ display: "flex", gap: 0.5 }}>
+                                            <SvgIcon color="secondary">
+                                                <SwapVertIcon />
+                                            </SvgIcon>
+                                            {valueToLabelMap[value]}
+                                        </Box>
+                                    );
+                                }}
+                            >
+                                <MenuItem value={"none"}>None</MenuItem>
+                                <MenuItem value={"ratingImdbAsc"}>Imdb rating (Asc)</MenuItem>
+                                <MenuItem value={"ratingImdbDesc"}>Imdb rating (Desc)</MenuItem>
+                                <MenuItem value={"titleAsc"}>Title (Asc)</MenuItem>
+                                <MenuItem value={"titleDesc"}>Title (Desc)</MenuItem>
+                            </Select>
+                        </Box>
+                    </Stack>
+                    <Stack
+                        direction="row"
+                        flexWrap="wrap"
+                        justifyContent={"start"}
+                        alignContent={"center"}
+                        rowGap={8}
+                        columnGap={4}
+                        marginTop={4}
+                    >
+                        {seriesByGenre.map((serie: ISerie, index: number) => (
+                            <CardItem data={serie} key={index} type="serie" />
                         ))}
                     </Stack>
                     <Stack
