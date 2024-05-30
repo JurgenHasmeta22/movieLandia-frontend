@@ -2,6 +2,7 @@ import React from "react";
 import { format } from "date-fns";
 import { Avatar, Box, Paper, Typography, IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import { useStore } from "~/store/store";
 
 interface ReviewProps {
     review: {
@@ -17,6 +18,8 @@ interface ReviewProps {
 }
 
 const Review: React.FC<ReviewProps> = ({ review, handleRemoveReview }) => {
+    const { user } = useStore();
+
     return (
         <Paper key={review.id} sx={{ p: 2, mt: 2 }}>
             <Box
@@ -37,9 +40,11 @@ const Review: React.FC<ReviewProps> = ({ review, handleRemoveReview }) => {
                     <Typography variant="body2" color="textSecondary" sx={{ mr: 1 }}>
                         {format(new Date(review.createdAt), "MMMM dd, yyyy HH:mm")}
                     </Typography>
-                    <IconButton size="small" onClick={() => handleRemoveReview()}>
-                        <CloseIcon fontSize="small" />
-                    </IconButton>
+                    {review.user.userName === user?.userName && (
+                        <IconButton size="small" onClick={() => handleRemoveReview()}>
+                            <CloseIcon fontSize="small" />
+                        </IconButton>
+                    )}
                 </Box>
             </Box>
             <Typography

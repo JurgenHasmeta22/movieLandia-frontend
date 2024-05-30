@@ -257,6 +257,28 @@ export default function Profile() {
                         </Typography>
                     </Box>
                     <Box>
+                        <Typography
+                            color="secondary"
+                            component={"span"}
+                            sx={{
+                                fontSize: [12, 14, 16, 18, 22],
+                            }}
+                        >
+                            Movies Reviews: {user.movieReviews?.length}
+                        </Typography>
+                    </Box>
+                    <Box>
+                        <Typography
+                            color="secondary"
+                            component={"span"}
+                            sx={{
+                                fontSize: [12, 14, 16, 18, 22],
+                            }}
+                        >
+                            Series Reviews: {user.serieReviews?.length}
+                        </Typography>
+                    </Box>
+                    <Box>
                         <Button
                             onClick={() => {
                                 handleEditProfile();
