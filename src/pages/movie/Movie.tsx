@@ -110,6 +110,7 @@ export default function Movie() {
 
             if (response && !response.error) {
                 setReview("");
+                movieQuery.refetch();
                 toast.success("Review submitted successfully!");
                 window.scrollTo(0, 0);
             } else {
@@ -416,25 +417,27 @@ export default function Movie() {
                                 backgroundColor:
                                     theme.palette.mode === "dark" ? colors.primary[500] : "white",
                                 color: theme.palette.mode === "dark" ? "white" : "black",
-                                height: "20vh",
+                                height: "200px",
                             }}
                         />
                         <Button
                             onClick={onSubmitReview}
-                            color="secondary"
+                            color="error"
                             variant="contained"
                             sx={{
                                 display: "flex",
                                 placeSelf: "center",
-                                width: "20%",
+                                fontSize: 16,
+                                fontWeight: 700,
+                                padding: 2,
                                 mt: 6,
-                                textTransform: "capitalize"
+                                textTransform: "capitalize",
                             }}
                         >
-                            Submit Review
+                            <Typography component={"span"}>Submit Review</Typography>
                         </Button>
-                        {movie.reviews?.map((review: any) => (
-                            <Paper key={review.id} sx={{ p: 2, mt: 2 }}>
+                        {movie.reviews?.map((review: any, index) => (
+                            <Paper key={index} sx={{ p: 2, mt: 2 }}>
                                 <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
                                     <Avatar alt={review.user.userName} src={review.user.avatar} />
                                     <Typography variant="h6" sx={{ ml: 2 }}>

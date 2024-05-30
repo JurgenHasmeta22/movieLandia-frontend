@@ -190,20 +190,20 @@ const movieService = {
     addReview: async (
         movieId: number | undefined,
         userId: number | undefined,
-        review: string
+        review: string,
     ): Promise<any> => {
         const payload = {
             movieId,
             userId,
-            content: review
+            content: review,
         };
 
         try {
-            const user: IUser = await axios
+            const response: any = await axios
                 .post(`${api.url}/addReviewMovie`, payload)
                 .then((x) => x.data);
 
-            return user;
+            return response;
         } catch (error) {
             return { error };
         }
