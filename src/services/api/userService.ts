@@ -51,7 +51,6 @@ const userService = {
             const response: IUserResponse = await axios.get(url).then((res) => res.data);
             return response;
         } catch (error) {
-            // console.log(error);
             return { error };
         }
     },
@@ -62,7 +61,6 @@ const userService = {
             const user: IUser = await axios.get(url).then((res) => res.data);
             return user;
         } catch (error) {
-            // console.log(error);
             return { error };
         }
     },
@@ -73,7 +71,6 @@ const userService = {
             const user: IUser = await axios.get(url).then((res) => res.data);
             return user;
         } catch (error) {
-            // console.log(error);
             return { error };
         }
     },
@@ -84,7 +81,6 @@ const userService = {
             const user: IUser = await axios.patch(url, payload).then((res) => res.data);
             return user;
         } catch (error) {
-            // console.log(error);
             return { error };
         }
     },
@@ -95,7 +91,6 @@ const userService = {
             const user: IUser = await axios.delete(url).then((res) => res.data);
             return user;
         } catch (error) {
-            // console.log(error);
             return { error };
         }
     },

@@ -101,7 +101,6 @@ const serieService = {
             const serie: ISerie = await axios.get(url).then((res) => res.data);
             return serie;
         } catch (error) {
-            // console.log(error);
             return { error };
         }
     },
@@ -112,7 +111,6 @@ const serieService = {
             const serie: ISerie = await axios.get(url).then((res) => res.data);
             return serie;
         } catch (error) {
-            // console.log(error);
             return { error };
         }
     },
@@ -127,7 +125,6 @@ const serieService = {
             const response: IMoviesResponse = await axios.get(url).then((res) => res.data);
             return response;
         } catch (error) {
-            // console.log(error);
             return { error };
         }
     },
@@ -138,7 +135,6 @@ const serieService = {
             const serie: ISerie = await axios.patch(url, payload).then((res) => res.data);
             return serie;
         } catch (error) {
-            // console.log(error);
             return { error };
         }
     },
@@ -149,7 +145,6 @@ const serieService = {
             const serie: ISerie = await axios.post(url, payload).then((res) => res.data);
             return serie;
         } catch (error) {
-            // console.log(error);
             return { error };
         }
     },
@@ -160,7 +155,6 @@ const serieService = {
             const serie: ISerie = await axios.delete(url).then((res) => res.data);
             return serie;
         } catch (error) {
-            // console.log(error);
             return { error };
         }
     },
@@ -179,7 +173,6 @@ const serieService = {
                 .then((x) => x.data);
             return user;
         } catch (error) {
-            // console.log(error);
             return { error };
         }
     },
@@ -199,7 +192,6 @@ const serieService = {
 
             return user;
         } catch (error) {
-            // console.log(error);
             return { error };
         }
     },
@@ -224,22 +216,22 @@ const serieService = {
         }
     },
     addReview: async (
-        movieId: number | undefined,
+        userId: number | undefined,
         serieId: number | undefined,
         review: string,
     ): Promise<any> => {
         const payload = {
-            movieId,
+            userId,
             serieId,
             content: review,
         };
 
         try {
-            const user: IUser = await axios
+            const response: any = await axios
                 .post(`${api.url}/addReviewSerie`, payload)
                 .then((x) => x.data);
 
-            return user;
+            return response;
         } catch (error) {
             return { error };
         }

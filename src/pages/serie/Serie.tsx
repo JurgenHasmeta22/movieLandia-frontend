@@ -109,6 +109,7 @@ export default function Serie() {
 
             if (response && !response.error) {
                 setReview("");
+                serieQuery.refetch();
                 toast.success("Review submitted successfully!");
                 window.scrollTo(0, 0);
             } else {
@@ -405,22 +406,24 @@ export default function Serie() {
                                 backgroundColor:
                                     theme.palette.mode === "dark" ? colors.primary[500] : "white",
                                 color: theme.palette.mode === "dark" ? "white" : "black",
-                                height: "20vh",
+                                height: "200px",
                             }}
                         />
                         <Button
                             onClick={onSubmitReview}
-                            color="secondary"
+                            color="error"
                             variant="contained"
                             sx={{
                                 display: "flex",
                                 placeSelf: "center",
-                                width: "20%",
+                                fontSize: 16,
+                                fontWeight: 700,
+                                padding: 2,
                                 mt: 6,
                                 textTransform: "capitalize",
                             }}
                         >
-                            Submit Review
+                            <Typography component={"span"}>Submit Review</Typography>
                         </Button>
                         {serie.reviews?.map((review: any) => (
                             <Paper key={review.id} sx={{ p: 2, mt: 2 }}>
