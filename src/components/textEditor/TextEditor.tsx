@@ -76,14 +76,12 @@ const TextEditor: React.FC<TextEditorProps> = forwardRef(({ value, onChange }, r
             onChange={onChange}
             modules={modules}
             formats={formats}
-            // placeholder="Write your Review"
             // @ts-ignore
             ref={ref}
             style={{
                 backgroundColor:
                     theme.palette.mode === "dark" ? theme.palette.primary.main : "white",
                 color: theme.palette.mode === "dark" ? "white" : "black",
-                height: "250px",
             }}
             // className={theme.palette.mode === "dark" ? "dark-icons" : "light-icons"}
         />

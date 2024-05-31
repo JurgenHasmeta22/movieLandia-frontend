@@ -515,11 +515,13 @@ export default function Movie() {
                         )}
                         {user && (!isMovieReviewed || isEditMode) && (
                             <Box marginTop={4}>
-                                <TextEditor
-                                    value={review}
-                                    onChange={setReview}
-                                    ref={textEditorRef}
-                                />
+                                <Box marginBottom={1}>
+                                    <TextEditor
+                                        value={review}
+                                        onChange={setReview}
+                                        ref={textEditorRef}
+                                    />
+                                </Box>
                                 {!isEditMode ? (
                                     <Box display={"flex"} justifyContent={"end"} mt={2}>
                                         <Button
@@ -529,10 +531,9 @@ export default function Movie() {
                                             sx={{
                                                 display: "flex",
                                                 placeSelf: "end",
-                                                fontSize: 16,
-                                                fontWeight: 700,
-                                                padding: 1,
-                                                mt: 6,
+                                                fontSize: 18,
+                                                fontWeight: 900,
+                                                padding: 1.5,
                                                 textTransform: "capitalize",
                                             }}
                                         >
@@ -548,6 +549,7 @@ export default function Movie() {
                                         columnGap={1}
                                         justifyContent={"end"}
                                         alignItems={"center"}
+                                        marginTop={2}
                                     >
                                         <Button
                                             onClick={() => {
@@ -560,10 +562,9 @@ export default function Movie() {
                                             sx={{
                                                 display: "flex",
                                                 placeSelf: "end",
-                                                fontSize: 16,
-                                                fontWeight: 700,
-                                                padding: 1,
-                                                mt: 6,
+                                                fontSize: 18,
+                                                fontWeight: 900,
+                                                padding: 1.5,
                                                 textTransform: "capitalize",
                                             }}
                                         >
@@ -578,10 +579,9 @@ export default function Movie() {
                                             sx={{
                                                 display: "flex",
                                                 placeSelf: "end",
-                                                fontSize: 16,
-                                                fontWeight: 700,
-                                                padding: 1,
-                                                mt: 6,
+                                                fontSize: 18,
+                                                fontWeight: 900,
+                                                padding: 1.5,
                                                 textTransform: "capitalize",
                                             }}
                                         >
@@ -598,7 +598,7 @@ export default function Movie() {
                             flexDirection: "column",
                             rowGap: 2,
                             marginBottom: 2,
-                            height: "100vh",
+                            // height: "100vh",
                         }}
                         component={"section"}
                     >
