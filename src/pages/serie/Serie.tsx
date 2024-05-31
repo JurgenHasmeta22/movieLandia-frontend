@@ -120,7 +120,7 @@ export default function Serie() {
 
             if (response && !response.error) {
                 setReview("");
-                serieQuery.refetch();
+                await refetchSerieDetailsAndBookmarkStatus();
                 toast.success("Review submitted successfully!");
             } else {
                 toast.error("Review submission failed!");
@@ -138,7 +138,7 @@ export default function Serie() {
 
             if (response && !response.error) {
                 setReview("");
-                serieQuery.refetch();
+                await refetchSerieDetailsAndBookmarkStatus();
                 toast.success("Review removed successfully!");
             } else {
                 toast.error("Review removal failed!");
@@ -156,7 +156,8 @@ export default function Serie() {
 
             if (response && !response.error) {
                 setReview("");
-                serieQuery.refetch();
+                setIsEditMode(false);
+                await refetchSerieDetailsAndBookmarkStatus();
                 toast.success("Review updated successfully!");
             } else {
                 toast.error("Review updation failed!");
@@ -439,22 +440,26 @@ export default function Serie() {
                             <Box marginTop={4}>
                                 <TextEditor value={review} onChange={setReview} />
                                 {!isEditMode ? (
-                                    <Button
-                                        onClick={onSubmitReview}
-                                        color="error"
-                                        variant="contained"
-                                        sx={{
-                                            display: "flex",
-                                            placeSelf: "end",
-                                            fontSize: 16,
-                                            fontWeight: 700,
-                                            padding: 1,
-                                            mt: 6,
-                                            textTransform: "capitalize",
-                                        }}
-                                    >
-                                        <Typography component={"span"}>Submit Review</Typography>
-                                    </Button>
+                                    <Box display={"flex"} justifyContent={"end"} mt={2}>
+                                        <Button
+                                            onClick={onSubmitReview}
+                                            color="error"
+                                            variant="contained"
+                                            sx={{
+                                                display: "flex",
+                                                placeSelf: "end",
+                                                fontSize: 16,
+                                                fontWeight: 700,
+                                                padding: 1,
+                                                mt: 6,
+                                                textTransform: "capitalize",
+                                            }}
+                                        >
+                                            <Typography component={"span"}>
+                                                Submit Review
+                                            </Typography>
+                                        </Button>
+                                    </Box>
                                 ) : (
                                     <Box
                                         display={"flex"}

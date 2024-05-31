@@ -120,7 +120,7 @@ export default function Movie() {
 
             if (response && !response.error) {
                 setReview("");
-                movieQuery.refetch();
+                await refetchMovieDetailsAndBookmarkStatus();
                 toast.success("Review submitted successfully!");
             } else {
                 toast.error("Review submission failed!");
@@ -138,7 +138,7 @@ export default function Movie() {
 
             if (response && !response.error) {
                 setReview("");
-                movieQuery.refetch();
+                await refetchMovieDetailsAndBookmarkStatus();
                 toast.success("Review removed successfully!");
             } else {
                 toast.error("Review removal failed!");
@@ -156,7 +156,8 @@ export default function Movie() {
 
             if (response && !response.error) {
                 setReview("");
-                movieQuery.refetch();
+                setIsEditMode(false);
+                await refetchMovieDetailsAndBookmarkStatus();
                 toast.success("Review updated successfully!");
             } else {
                 toast.error("Review updation failed!");
@@ -426,7 +427,7 @@ export default function Movie() {
                         sx={{
                             display: "flex",
                             flexDirection: "column",
-                            rowGap: movie.reviews?.length! > 0 ? 2 : 0,
+                            rowGap: 2,
                             mb: movie.reviews?.length! > 0 ? 4 : 0,
                         }}
                         component={"section"}
@@ -447,25 +448,29 @@ export default function Movie() {
                             />
                         ))}
                         {user && (!isMovieReviewed || isEditMode) && (
-                            <>
+                            <Box marginTop={4}>
                                 <TextEditor value={review} onChange={setReview} />
                                 {!isEditMode ? (
-                                    <Button
-                                        onClick={onSubmitReview}
-                                        color="error"
-                                        variant="contained"
-                                        sx={{
-                                            display: "flex",
-                                            placeSelf: "end",
-                                            fontSize: 16,
-                                            fontWeight: 700,
-                                            padding: 1,
-                                            mt: 6,
-                                            textTransform: "capitalize",
-                                        }}
-                                    >
-                                        <Typography component={"span"}>Submit Review</Typography>
-                                    </Button>
+                                    <Box display={"flex"} justifyContent={"end"} mt={2}>
+                                        <Button
+                                            onClick={onSubmitReview}
+                                            color="error"
+                                            variant="contained"
+                                            sx={{
+                                                display: "flex",
+                                                placeSelf: "end",
+                                                fontSize: 16,
+                                                fontWeight: 700,
+                                                padding: 1,
+                                                mt: 6,
+                                                textTransform: "capitalize",
+                                            }}
+                                        >
+                                            <Typography component={"span"}>
+                                                Submit Review
+                                            </Typography>
+                                        </Button>
+                                    </Box>
                                 ) : (
                                     <Box
                                         display={"flex"}
@@ -496,7 +501,7 @@ export default function Movie() {
                                             </Typography>
                                         </Button>
                                         <Button
-                                            onClick={onSubmitReview}
+                                            onClick={onSubmitUpdateReview}
                                             color="error"
                                             variant="contained"
                                             sx={{
@@ -513,7 +518,7 @@ export default function Movie() {
                                         </Button>
                                     </Box>
                                 )}
-                            </>
+                            </Box>
                         )}
                     </Box>
                     <Box
