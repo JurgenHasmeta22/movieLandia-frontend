@@ -505,13 +505,15 @@ export default function Serie() {
                         )}
                         {user && (!isSerieReviewed || isEditMode) && (
                             <Box marginTop={4}>
-                                <TextEditor
-                                    value={review}
-                                    onChange={setReview}
-                                    ref={textEditorRef}
-                                />
+                                <Box marginBottom={1}>
+                                    <TextEditor
+                                        value={review}
+                                        onChange={setReview}
+                                        ref={textEditorRef}
+                                    />
+                                </Box>
                                 {!isEditMode ? (
-                                    <Box display={"flex"} justifyContent={"end"} mt={2}>
+                                    <Box display={"flex"} justifyContent={"end"} marginTop={2}>
                                         <Button
                                             onClick={onSubmitReview}
                                             color="error"
@@ -519,10 +521,9 @@ export default function Serie() {
                                             sx={{
                                                 display: "flex",
                                                 placeSelf: "end",
-                                                fontSize: 16,
-                                                fontWeight: 700,
-                                                padding: 1,
-                                                mt: 6,
+                                                fontSize: 18,
+                                                fontWeight: 900,
+                                                padding: 1.5,
                                                 textTransform: "capitalize",
                                             }}
                                         >
@@ -551,10 +552,9 @@ export default function Serie() {
                                             sx={{
                                                 display: "flex",
                                                 placeSelf: "end",
-                                                fontSize: 16,
-                                                fontWeight: 700,
-                                                padding: 1,
-                                                mt: 6,
+                                                fontSize: 18,
+                                                fontWeight: 900,
+                                                padding: 1.5,
                                                 textTransform: "capitalize",
                                             }}
                                         >
@@ -569,10 +569,9 @@ export default function Serie() {
                                             sx={{
                                                 display: "flex",
                                                 placeSelf: "end",
-                                                fontSize: 16,
-                                                fontWeight: 700,
-                                                padding: 1,
-                                                mt: 6,
+                                                fontSize: 18,
+                                                fontWeight: 900,
+                                                padding: 1.5,
                                                 textTransform: "capitalize",
                                             }}
                                         >
@@ -590,7 +589,7 @@ export default function Serie() {
                             rowGap: 2,
                             marginBottom: 2,
                             marginTop: 2,
-                            height: "100vh",
+                            // height: "100vh", breaks layout in mobile footer gets up
                         }}
                         component={"section"}
                     >
