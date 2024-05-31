@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import type ISerie from "~/types/ISerie";
 import serieService from "~/services/api/serieService";
 import {
@@ -9,6 +9,7 @@ import {
     Divider,
     List,
     ListItem,
+    Pagination,
     Stack,
     Typography,
     useTheme,
@@ -37,10 +38,12 @@ export default function Serie() {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const { user, setUser } = useStore();
+    const [searchParams, setSearchParams] = useSearchParams();
+    const page = searchParams.get("page") || 1;
 
     const serieQuery = useQuery({
         queryKey: ["serie", params?.title!],
-        queryFn: () => serieService.getSerieByTitle(params?.title!, {}),
+        queryFn: () => serieService.getSerieByTitle(params?.title!, { page: String(page) }),
         refetchOnMount: "always",
         refetchOnWindowFocus: "always",
     });
@@ -65,6 +68,12 @@ export default function Serie() {
     const series: ISerie[] = seriesQuery?.data?.rows ?? [];
     const isSerieBookmarked: boolean = isSerieBookmarkedQuery?.data?.isBookmarked! ?? false;
     const isSerieReviewed: boolean = isSerieReviewedQuery?.data?.isReviewed! ?? false;
+
+    const pageCount = Math.ceil(serie?.reviews?.length! / 10);
+    const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
+        searchParams.set("page", String(value));
+        setSearchParams(searchParams);
+    };
 
     const refetchSerieDetailsAndBookmarkStatus = async () => {
         await Promise.all([
@@ -436,6 +445,31 @@ export default function Serie() {
                                 setReview={setReview}
                             />
                         ))}
+                        {serie.reviews?.length! > 0 && (
+                            <Stack
+                                spacing={2}
+                                sx={{
+                                    display: "flex",
+                                    placeItems: "center",
+                                    marginTop: 2,
+                                    marginBottom: 4,
+                                }}
+                            >
+                                <Pagination
+                                    page={
+                                        searchParams.get("page")
+                                            ? Number(searchParams.get("page"))
+                                            : 1
+                                    }
+                                    size="large"
+                                    count={pageCount}
+                                    showFirstButton
+                                    showLastButton
+                                    onChange={handlePageChange}
+                                    color="secondary"
+                                />
+                            </Stack>
+                        )}
                         {user && (!isSerieReviewed || isEditMode) && (
                             <Box marginTop={4}>
                                 <TextEditor value={review} onChange={setReview} />

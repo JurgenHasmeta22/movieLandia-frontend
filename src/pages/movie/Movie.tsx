@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import { useStore } from "~/store/store";
 import type IMovie from "~/types/IMovie";
 import movieService from "~/services/api/movieService";
@@ -11,6 +11,7 @@ import {
     Divider,
     List,
     ListItem,
+    Pagination,
     Stack,
     Typography,
     useTheme,
@@ -37,10 +38,12 @@ export default function Movie() {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const { user, setUser } = useStore();
+    const [searchParams, setSearchParams] = useSearchParams();
+    const page = searchParams.get("page") || 1;
 
     const movieQuery = useQuery({
         queryKey: ["movie", params?.title!],
-        queryFn: () => movieService.getMovieByTitle(params?.title!),
+        queryFn: () => movieService.getMovieByTitle(params?.title!, { page: String(page) }),
         refetchOnMount: "always",
         refetchOnWindowFocus: "always",
     });
@@ -65,6 +68,12 @@ export default function Movie() {
     const latestMovies: IMovie[] = latestMoviesQuery?.data! ?? [];
     const isMovieBookmarked: boolean = isMovieBookmarkedQuery?.data?.isBookmarked! ?? false;
     const isMovieReviewed: boolean = isMovieReviewedQuery?.data?.isReviewed! ?? false;
+
+    const pageCount = Math.ceil(movie?.reviews?.length! / 10);
+    const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
+        searchParams.set("page", String(value));
+        setSearchParams(searchParams);
+    };
 
     const refetchMovieDetailsAndBookmarkStatus = async () => {
         await Promise.all([
@@ -447,6 +456,31 @@ export default function Movie() {
                                 setReview={setReview}
                             />
                         ))}
+                        {movie.reviews?.length! > 0 && (
+                            <Stack
+                                spacing={2}
+                                sx={{
+                                    display: "flex",
+                                    placeItems: "center",
+                                    marginTop: 2,
+                                    marginBottom: 4,
+                                }}
+                            >
+                                <Pagination
+                                    page={
+                                        searchParams.get("page")
+                                            ? Number(searchParams.get("page"))
+                                            : 1
+                                    }
+                                    size="large"
+                                    count={pageCount}
+                                    showFirstButton
+                                    showLastButton
+                                    onChange={handlePageChange}
+                                    color="secondary"
+                                />
+                            </Stack>
+                        )}
                         {user && (!isMovieReviewed || isEditMode) && (
                             <Box marginTop={4}>
                                 <TextEditor value={review} onChange={setReview} />

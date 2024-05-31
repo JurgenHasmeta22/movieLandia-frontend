@@ -70,11 +70,49 @@ const movieService = {
             return { error };
         }
     },
-    getMovieByTitle: async (title: string | undefined): Promise<any> => {
+    getMovieByTitle: async (
+        titleMovie: string,
+        {
+            sortBy,
+            ascOrDesc,
+            page,
+            pageSize,
+            title,
+            filterValue,
+            filterName,
+            filterOperator,
+        }: {
+            sortBy?: string;
+            ascOrDesc?: string;
+            page?: string;
+            pageSize?: string;
+            title?: string;
+            filterValue?: string;
+            filterName?: string;
+            filterOperator?: string;
+        },
+    ): Promise<any> => {
+        let url = `${api.url}/getMovieByTitle/${titleMovie}`;
+
+        const queryParams = [
+            sortBy && `sortBy=${sortBy}`,
+            ascOrDesc && `ascOrDesc=${ascOrDesc}`,
+            page && `page=${page}`,
+            pageSize && `pageSize=${pageSize}`,
+            title && `title=${title}`,
+            filterValue && `filterValue=${filterValue}`,
+            filterName && `filterName=${filterName}`,
+            filterOperator && `filterOperator=${filterOperator}`,
+        ]
+            .filter(Boolean)
+            .join("&");
+
+        if (queryParams) {
+            url += `?${queryParams}`;
+        }
+
         try {
-            const movie: IMovie = await axios
-                .get(`${api.url}/getMovieByTitle/${title}`)
-                .then((x) => x.data);
+            const movie: IMovie = await axios.get(url).then((res) => res.data);
             return movie;
         } catch (error) {
             return { error };
