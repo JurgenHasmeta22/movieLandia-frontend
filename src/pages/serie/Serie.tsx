@@ -701,7 +701,7 @@ export default function Serie() {
                         }}
                         component={"section"}
                     >
-                        <Typography fontSize={22} color={"secondary"} textAlign={"center"}>
+                        <Typography fontSize={28} color={"secondary"} textAlign={"center"}>
                             Latest Series
                         </Typography>
                         <Stack
