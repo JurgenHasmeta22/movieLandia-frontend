@@ -489,6 +489,7 @@ export default function Movie() {
                                 setReview={setReview}
                                 handleFocusTextEditor={handleFocusTextEditor}
                                 ref={reviewRef}
+                                setRating={setRating}
                             />
                         ))}
                         {movie.reviews?.length! > 0 && (
@@ -579,7 +580,7 @@ export default function Movie() {
                                         </Button>
                                         <Button
                                             onClick={onSubmitUpdateReview}
-                                            color="error"
+                                            color="secondary"
                                             variant="contained"
                                             sx={{
                                                 display: "flex",

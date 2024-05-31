@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction, forwardRef } from "react";
 import { format } from "date-fns";
-import { Avatar, Box, Paper, Typography, IconButton, useTheme } from "@mui/material";
+import { Avatar, Box, Paper, Typography, IconButton, useTheme, Rating } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { useStore } from "~/store/store";
 import { tokens } from "~/utils/theme";
@@ -12,6 +12,7 @@ interface ReviewProps {
         content: string;
         createdAt: string;
         updatedAt: string;
+        rating: number;
         user: {
             userName: string;
             avatar: string;
@@ -19,6 +20,7 @@ interface ReviewProps {
     };
     handleRemoveReview: () => void;
     handleFocusTextEditor: () => void;
+    setRating: React.Dispatch<React.SetStateAction<number | null>>;
     ref: any;
     setIsEditMode: Dispatch<SetStateAction<boolean>>;
     isEditMode: boolean;
@@ -26,7 +28,7 @@ interface ReviewProps {
 }
 
 const Review = forwardRef<HTMLElement, ReviewProps>(
-    ({ review, handleRemoveReview, isEditMode, setIsEditMode, setReview }, ref) => {
+    ({ review, handleRemoveReview, isEditMode, setIsEditMode, setReview, setRating }, ref) => {
         const { user } = useStore();
         const theme = useTheme();
         const colors = tokens(theme.palette.mode);
@@ -90,6 +92,7 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
                                 onClick={() => {
                                     setIsEditMode(true);
                                     setReview(review.content);
+                                    setRating(review.rating);
                                     // handleFocusTextEditor();
                                 }}
                             >
@@ -112,6 +115,31 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
                         "& img": { maxWidth: "70%", height: "auto" },
                     }}
                 />
+                <Box
+                    sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "flex-end",
+                        mt: 3,
+                    }}
+                >
+                    <Typography
+                        variant="body2"
+                        color="secondary"
+                        fontSize={14}
+                        fontWeight={700}
+                        sx={{ mr: 1 }}
+                    >
+                        {review.rating.toFixed(1)}
+                    </Typography>
+                    <Rating
+                        name={`review-rating-${review.id}`}
+                        value={review.rating}
+                        readOnly
+                        max={10}
+                        precision={0.5}
+                    />
+                </Box>
             </Paper>
         );
     },
