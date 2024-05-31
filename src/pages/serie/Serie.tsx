@@ -32,16 +32,20 @@ import Review from "~/components/review/Review";
 import TextEditor from "~/components/textEditor/TextEditor";
 
 export default function Serie() {
+    // #region "State, refs, hooks, theme"
     const [review, setReview] = useState("");
     const [isEditMode, setIsEditMode] = useState(false);
     const textEditorRef = useRef<any>(null);
     const reviewRef = useRef<any>(null);
+
     const params = useParams();
     const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
     const { user, setUser } = useStore();
     const [searchParams, setSearchParams] = useSearchParams();
-    const page = searchParams.get("page") || 1;
+    const colors = tokens(theme.palette.mode);
+    // #endregion
+
+    // #region "Data fetching and queries"
 
     const serieQuery = useQuery({
         queryKey: ["serie", params?.title!],
@@ -70,13 +74,18 @@ export default function Serie() {
     const series: ISerie[] = seriesQuery?.data?.rows ?? [];
     const isSerieBookmarked: boolean = isSerieBookmarkedQuery?.data?.isBookmarked! ?? false;
     const isSerieReviewed: boolean = isSerieReviewedQuery?.data?.isReviewed! ?? false;
+    // #endregion
 
+    // #region "Pagination"
+    const page = searchParams.get("page") || 1;
     const pageCount = Math.ceil(serie?.reviews?.length! / 10);
     const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
         searchParams.set("page", String(value));
         setSearchParams(searchParams);
     };
+    // #endregion
 
+    // #region "Handlers functions"
     const refetchSerieDetailsAndBookmarkStatus = async () => {
         await Promise.all([
             serieQuery.refetch(),
@@ -189,6 +198,7 @@ export default function Serie() {
             textEditorRef.current.focus();
         }
     };
+    // #endregion
 
     useEffect(() => {
         if (isEditMode) {
