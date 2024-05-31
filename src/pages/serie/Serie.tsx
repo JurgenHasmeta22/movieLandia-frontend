@@ -30,11 +30,15 @@ import "react-quill/dist/quill.snow.css";
 import { useEffect, useRef, useState } from "react";
 import Review from "~/components/review/Review";
 import TextEditor from "~/components/textEditor/TextEditor";
+import { useModal } from "~/services/providers/ModalContext";
+import { WarningOutlined, CheckOutlined } from "@mui/icons-material";
+import * as CONSTANTS from "~/constants/Constants";
 
 export default function Serie() {
     // #region "State, refs, hooks, theme"
     const [review, setReview] = useState("");
     const [rating, setRating] = useState<number | null>(0);
+    const [open, setOpen] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);
     const textEditorRef = useRef<any>(null);
     const reviewRef = useRef<any>(null);
@@ -44,6 +48,7 @@ export default function Serie() {
     const { user, setUser } = useStore();
     const [searchParams, setSearchParams] = useSearchParams();
     const colors = tokens(theme.palette.mode);
+    const { openModal } = useModal();
     // #endregion
 
     // #region "Data fetching and queries"
@@ -155,19 +160,48 @@ export default function Serie() {
     async function onSubmitRemoveReview() {
         if (!user || !serie) return;
 
-        try {
-            const response = await serieService.removeReview(user?.id, serie?.id!);
+        openModal({
+            onClose: () => setOpen(false),
+            title: "Remove Review",
+            actions: [
+                {
+                    label: CONSTANTS.MODAL__DELETE__NO,
+                    onClick: () => setOpen(false),
+                    color: "secondary",
+                    variant: "contained",
+                    sx: {
+                        bgcolor: "#ff5252",
+                    },
+                    icon: <WarningOutlined />,
+                },
+                {
+                    label: CONSTANTS.MODAL__DELETE__YES,
+                    onClick: async () => {
+                        try {
+                            const response = await serieService.removeReview(user?.id, serie?.id!);
 
-            if (response && !response.error) {
-                setReview("");
-                await refetchSerieDetailsAndBookmarkStatus();
-                toast.success("Review removed successfully!");
-            } else {
-                toast.error("Review removal failed!");
-            }
-        } catch (error) {
-            toast.error("An error occurred while trying to remove the review.");
-        }
+                            if (response && !response.error) {
+                                setReview("");
+                                await refetchSerieDetailsAndBookmarkStatus();
+                                toast.success("Review removed successfully!");
+                            } else {
+                                toast.error("Review removal failed!");
+                            }
+                        } catch (error) {
+                            toast.error("An error occurred while trying to remove the review.");
+                        }
+                    },
+                    type: "submit",
+                    color: "secondary",
+                    variant: "contained",
+                    sx: {
+                        bgcolor: "#30969f",
+                    },
+                    icon: <CheckOutlined />,
+                },
+            ],
+            subTitle: "Are you sure that you want to delete this review ?",
+        });
     }
 
     async function onSubmitUpdateReview() {
@@ -549,9 +583,39 @@ export default function Serie() {
                                     >
                                         <Button
                                             onClick={() => {
-                                                setIsEditMode(false);
-                                                setReview("");
-                                                handleFocusReview();
+                                                openModal({
+                                                    onClose: () => setOpen(false),
+                                                    title: "Discard Changes",
+                                                    actions: [
+                                                        {
+                                                            label: CONSTANTS.MODAL__DELETE__NO,
+                                                            onClick: () => setOpen(false),
+                                                            color: "secondary",
+                                                            variant: "contained",
+                                                            sx: {
+                                                                bgcolor: "#ff5252",
+                                                            },
+                                                            icon: <WarningOutlined />,
+                                                        },
+                                                        {
+                                                            label: CONSTANTS.MODAL__DELETE__YES,
+                                                            onClick: async () => {
+                                                                setIsEditMode(false);
+                                                                setReview("");
+                                                                handleFocusReview();
+                                                            },
+                                                            type: "submit",
+                                                            color: "secondary",
+                                                            variant: "contained",
+                                                            sx: {
+                                                                bgcolor: "#30969f",
+                                                            },
+                                                            icon: <CheckOutlined />,
+                                                        },
+                                                    ],
+                                                    subTitle:
+                                                        "Are you sure that you want to discard changes on this review ?",
+                                                });
                                             }}
                                             color="error"
                                             variant="contained"
