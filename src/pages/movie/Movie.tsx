@@ -711,7 +711,7 @@ export default function Movie() {
                         }}
                         component={"section"}
                     >
-                        <Typography fontSize={22} color={"secondary"} textAlign={"center"}>
+                        <Typography fontSize={28} color={"secondary"} textAlign={"center"}>
                             Latest Movies
                         </Typography>
                         <Stack
