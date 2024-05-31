@@ -121,26 +121,18 @@ export default function Series() {
                         display="flex"
                         flexDirection="row"
                         alignItems="center"
+                        justifyContent={"space-between"}
                         component="section"
                         mt={4}
                     >
-                        <Box
-                            display="flex"
-                            justifyContent="center"
-                            alignItems="center"
-                            sx={{ flexGrow: 1 }}
-                            pl={18}
-                        >
-                            <Typography fontSize={22} color={"secondary"} variant="h2">
+                        <Box ml={1}>
+                            <Typography fontSize={28} color={"secondary"} variant="h2">
                                 Series
                             </Typography>
                         </Box>
                         <Box
                             sx={{
-                                display: "flex",
-                                justifyContent: "flex-end",
-                                alignItems: "center",
-                                mr: 4,
+                                mr: 1,
                             }}
                         >
                             <SortSelect
