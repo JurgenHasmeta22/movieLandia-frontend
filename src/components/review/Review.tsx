@@ -130,11 +130,11 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
                         fontWeight={700}
                         sx={{ mr: 1 }}
                     >
-                        {review.rating.toFixed(1)}
+                        {review?.rating?.toFixed(1)}
                     </Typography>
                     <Rating
                         name={`review-rating-${review.id}`}
-                        value={review.rating}
+                        value={review?.rating!}
                         readOnly
                         max={10}
                         precision={0.5}

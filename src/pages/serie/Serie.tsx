@@ -49,12 +49,12 @@ export default function Serie() {
     const [searchParams, setSearchParams] = useSearchParams();
     const colors = tokens(theme.palette.mode);
     const { openModal } = useModal();
+    const page = searchParams.get("page") || 1;
     // #endregion
 
     // #region "Data fetching and queries"
-
     const serieQuery = useQuery({
-        queryKey: ["serie", params?.title!],
+        queryKey: ["serie", params?.title!, page],
         queryFn: () => serieService.getSerieByTitle(params?.title!, { page: String(page) }),
         refetchOnMount: "always",
         refetchOnWindowFocus: "always",
@@ -83,8 +83,7 @@ export default function Serie() {
     // #endregion
 
     // #region "Pagination"
-    const page = searchParams.get("page") || 1;
-    const pageCount = Math.ceil(serie?.reviews?.length! / 10);
+    const pageCount = Math.ceil(serie?._count?.reviews! / 5);
     const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
         searchParams.set("page", String(value));
         setSearchParams(searchParams);

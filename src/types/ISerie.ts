@@ -9,6 +9,7 @@ export default interface ISerie {
     description: string;
     releaseYear: number;
     ratingImdb: number;
+    _count?: any;
     episodes: IEpisode[];
     genres: IGenre[];
     reviews?: any[];
