@@ -139,6 +139,7 @@ export default function Series() {
                                 sortBy={searchParams.get("sortBy")}
                                 ascOrDesc={searchParams.get("ascOrDesc")}
                                 onChange={handleChangeSorting}
+                                type="list"
                             />
                         </Box>
                     </Stack>

@@ -145,6 +145,7 @@ export default function Movies() {
                                     sortBy={searchParams.get("sortBy")}
                                     ascOrDesc={searchParams.get("ascOrDesc")}
                                     onChange={handleChangeSorting}
+                                    type="list"
                                 />
                             </Box>
                         </Stack>
