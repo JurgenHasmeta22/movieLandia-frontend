@@ -30,11 +30,15 @@ import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import MovieIcon from "@mui/icons-material/Movie";
 import Review from "~/components/review/Review";
 import TextEditor from "~/components/textEditor/TextEditor";
+import { useModal } from "~/services/providers/ModalContext";
+import { WarningOutlined, CheckOutlined } from "@mui/icons-material";
+import * as CONSTANTS from "~/constants/Constants";
 
 export default function Movie() {
     // #region "State, refs, hooks, theme"
     const [review, setReview] = useState("");
     const [rating, setRating] = useState<number | null>(0);
+    const [open, setOpen] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);
     const textEditorRef = useRef<any>(null);
     const reviewRef = useRef<any>(null);
@@ -44,6 +48,7 @@ export default function Movie() {
     const [searchParams, setSearchParams] = useSearchParams();
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
+    const { openModal } = useModal();
     // #endregion
 
     // #region "Data fetching and queries"
@@ -140,7 +145,7 @@ export default function Movie() {
 
             if (response && !response.error) {
                 setReview("");
-                setRating(null)
+                setRating(null);
                 await refetchMovieDetailsAndBookmarkStatus();
                 toast.success("Review submitted successfully!");
             } else {
@@ -154,19 +159,48 @@ export default function Movie() {
     async function onSubmitRemoveReview() {
         if (!user || !movie) return;
 
-        try {
-            const response = await movieService.removeReview(movie?.id!, user?.id);
+        openModal({
+            onClose: () => setOpen(false),
+            title: "Remove Review",
+            actions: [
+                {
+                    label: CONSTANTS.MODAL__DELETE__NO,
+                    onClick: () => setOpen(false),
+                    color: "secondary",
+                    variant: "contained",
+                    sx: {
+                        bgcolor: "#ff5252",
+                    },
+                    icon: <WarningOutlined />,
+                },
+                {
+                    label: CONSTANTS.MODAL__DELETE__YES,
+                    onClick: async () => {
+                        try {
+                            const response = await movieService.removeReview(movie?.id!, user?.id);
 
-            if (response && !response.error) {
-                setReview("");
-                await refetchMovieDetailsAndBookmarkStatus();
-                toast.success("Review removed successfully!");
-            } else {
-                toast.error("Review removal failed!");
-            }
-        } catch (error) {
-            toast.error("An error occurred while trying to remove the review.");
-        }
+                            if (response && !response.error) {
+                                setReview("");
+                                await refetchMovieDetailsAndBookmarkStatus();
+                                toast.success("Review removed successfully!");
+                            } else {
+                                toast.error("Review removal failed!");
+                            }
+                        } catch (error) {
+                            toast.error("An error occurred while trying to remove the review.");
+                        }
+                    },
+                    type: "submit",
+                    color: "secondary",
+                    variant: "contained",
+                    sx: {
+                        bgcolor: "#30969f",
+                    },
+                    icon: <CheckOutlined />,
+                },
+            ],
+            subTitle: "Are you sure that you want to delete this review ?",
+        });
     }
 
     async function onSubmitUpdateReview() {
@@ -559,9 +593,39 @@ export default function Movie() {
                                     >
                                         <Button
                                             onClick={() => {
-                                                setIsEditMode(false);
-                                                setReview("");
-                                                handleFocusReview();
+                                                openModal({
+                                                    onClose: () => setOpen(false),
+                                                    title: "Discard Changes",
+                                                    actions: [
+                                                        {
+                                                            label: CONSTANTS.MODAL__DELETE__NO,
+                                                            onClick: () => setOpen(false),
+                                                            color: "secondary",
+                                                            variant: "contained",
+                                                            sx: {
+                                                                bgcolor: "#ff5252",
+                                                            },
+                                                            icon: <WarningOutlined />,
+                                                        },
+                                                        {
+                                                            label: CONSTANTS.MODAL__DELETE__YES,
+                                                            onClick: async () => {
+                                                                setIsEditMode(false);
+                                                                setReview("");
+                                                                handleFocusReview();
+                                                            },
+                                                            type: "submit",
+                                                            color: "secondary",
+                                                            variant: "contained",
+                                                            sx: {
+                                                                bgcolor: "#30969f",
+                                                            },
+                                                            icon: <CheckOutlined />,
+                                                        },
+                                                    ],
+                                                    subTitle:
+                                                        "Are you sure that you want to discard changes on this review ?",
+                                                });
                                             }}
                                             color="error"
                                             variant="contained"
