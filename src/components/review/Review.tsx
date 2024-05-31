@@ -11,6 +11,7 @@ interface ReviewProps {
         id: number;
         content: string;
         createdAt: string;
+        updatedAt: string;
         user: {
             userName: string;
             avatar: string;
@@ -73,7 +74,18 @@ const Review: React.FC<ReviewProps> = ({
                 </Box>
                 <Box sx={{ display: "flex", alignItems: "center" }}>
                     <Typography variant="body2" color="secondary" sx={{ mr: 1 }}>
-                        {format(new Date(review.createdAt), "MMMM dd, yyyy HH:mm")}
+                        {review.updatedAt && (
+                            <Typography component={"span"} color={"error"}>
+                                Edited
+                            </Typography>
+                        )}
+                        {!review.updatedAt ? (
+                            format(new Date(review.createdAt), "MMMM dd, yyyy HH:mm")
+                        ) : (
+                            <Typography component={"span"} paddingLeft={1}>
+                                {format(new Date(review.updatedAt), "MMMM dd, yyyy HH:mm")}
+                            </Typography>
+                        )}
                     </Typography>
                     {review.user.userName === user?.userName && !isEditMode && (
                         <IconButton
