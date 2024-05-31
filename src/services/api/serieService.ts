@@ -236,10 +236,28 @@ const serieService = {
             return { error };
         }
     },
-    removeReview: async (
+    updateReview: async (
         userId: number | undefined,
         serieId: number | undefined,
+        review: string,
     ): Promise<any> => {
+        const payload = {
+            userId,
+            serieId,
+            content: review,
+        };
+
+        try {
+            const response: any = await axios
+                .post(`${api.url}/updateReviewSerie`, payload)
+                .then((x) => x.data);
+
+            return response;
+        } catch (error) {
+            return { error };
+        }
+    },
+    removeReview: async (userId: number | undefined, serieId: number | undefined): Promise<any> => {
         const payload = {
             userId,
             serieId,
@@ -251,6 +269,25 @@ const serieService = {
                 .then((x) => x.data);
 
             return response;
+        } catch (error) {
+            return { error };
+        }
+    },
+    isSerieReviewed: async (
+        serieTitle: string | undefined,
+        userId: number | undefined,
+    ): Promise<any> => {
+        const payload = {
+            serieTitle,
+            userId,
+        };
+
+        try {
+            const result: boolean = await axios
+                .post(`${api.url}/isSerieReviewed`, payload)
+                .then((x) => x.data);
+
+            return result;
         } catch (error) {
             return { error };
         }

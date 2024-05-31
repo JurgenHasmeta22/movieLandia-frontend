@@ -32,6 +32,7 @@ import TextEditor from "~/components/textEditor/TextEditor";
 
 export default function Serie() {
     const [review, setReview] = useState("");
+    const [isEditMode, setIsEditMode] = useState(false);
     const params = useParams();
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -53,13 +54,24 @@ export default function Serie() {
         refetchOnMount: "always",
         refetchOnWindowFocus: "always",
     });
+    const isSerieReviewedQuery = useQuery({
+        queryKey: ["isSerieReviewed", params?.title!],
+        queryFn: () => serieService.isSerieReviewed(params?.title!, user?.id),
+        refetchOnMount: "always",
+        refetchOnWindowFocus: "always",
+    });
 
     const serie: ISerie = serieQuery?.data! ?? null;
     const series: ISerie[] = seriesQuery?.data?.rows ?? [];
     const isSerieBookmarked: boolean = isSerieBookmarkedQuery?.data?.isBookmarked! ?? false;
+    const isSerieReviewed: boolean = isSerieReviewedQuery?.data?.isReviewed! ?? false;
 
     const refetchSerieDetailsAndBookmarkStatus = async () => {
-        await Promise.all([serieQuery.refetch(), isSerieBookmarkedQuery.refetch()]);
+        await Promise.all([
+            serieQuery.refetch(),
+            isSerieBookmarkedQuery.refetch(),
+            isSerieReviewedQuery.refetch(),
+        ]);
     };
 
     async function onBookmarkSerie() {
@@ -133,6 +145,24 @@ export default function Serie() {
             }
         } catch (error) {
             toast.error("An error occurred while trying to remove the review.");
+        }
+    }
+
+    async function onSubmitUpdateReview() {
+        if (!user || !serie) return;
+
+        try {
+            const response = await serieService.updateReview(user?.id, serie?.id!, review);
+
+            if (response && !response.error) {
+                setReview("");
+                serieQuery.refetch();
+                toast.success("Review updated successfully!");
+            } else {
+                toast.error("Review updation failed!");
+            }
+        } catch (error) {
+            toast.error("An error occurred while updating the review.");
         }
     }
 
@@ -383,32 +413,98 @@ export default function Serie() {
                         </Box>
                     </Box>
                     <Box
-                        sx={{ display: "flex", flexDirection: "column", rowGap: 2, mb: 4 }}
-                        component={"section"}
+                        sx={{
+                            display: "flex",
+                            flexDirection: "column",
+                            rowGap: 2,
+                            mb: serie.reviews?.length! > 0 ? 4 : 0,
+                        }}
                     >
-                        <Typography fontSize={22} color={"secondary"} textAlign={"center"}>
-                            Reviews
-                        </Typography>
-                        <TextEditor value={review} onChange={setReview} />
-                        <Button
-                            onClick={onSubmitReview}
-                            color="error"
-                            variant="contained"
-                            sx={{
-                                display: "flex",
-                                placeSelf: "center",
-                                fontSize: 16,
-                                fontWeight: 700,
-                                padding: 2,
-                                mt: 6,
-                                textTransform: "capitalize",
-                            }}
-                        >
-                            <Typography component={"span"}>Submit Review</Typography>
-                        </Button>
+                        {serie.reviews?.length! > 0 && (
+                            <Typography fontSize={22} color={"secondary"} textAlign={"center"}>
+                                Reviews
+                            </Typography>
+                        )}
                         {serie.reviews?.map((review: any, index: number) => (
-                            <Review key={index} review={review} handleRemoveReview={onSubmitRemoveReview}/>
+                            <Review
+                                key={index}
+                                review={review}
+                                handleRemoveReview={onSubmitRemoveReview}
+                                isEditMode={isEditMode}
+                                setIsEditMode={setIsEditMode}
+                                setReview={setReview}
+                            />
                         ))}
+                        {user && (!isSerieReviewed || isEditMode) && (
+                            <Box marginTop={4}>
+                                <TextEditor value={review} onChange={setReview} />
+                                {!isEditMode ? (
+                                    <Button
+                                        onClick={onSubmitReview}
+                                        color="error"
+                                        variant="contained"
+                                        sx={{
+                                            display: "flex",
+                                            placeSelf: "end",
+                                            fontSize: 16,
+                                            fontWeight: 700,
+                                            padding: 1,
+                                            mt: 6,
+                                            textTransform: "capitalize",
+                                        }}
+                                    >
+                                        <Typography component={"span"}>Submit Review</Typography>
+                                    </Button>
+                                ) : (
+                                    <Box
+                                        display={"flex"}
+                                        flexDirection={"row"}
+                                        columnGap={1}
+                                        justifyContent={"end"}
+                                        alignItems={"center"}
+                                        marginTop={2}
+                                    >
+                                        <Button
+                                            onClick={() => {
+                                                setIsEditMode(false);
+                                                setReview("");
+                                            }}
+                                            color="error"
+                                            variant="contained"
+                                            sx={{
+                                                display: "flex",
+                                                placeSelf: "end",
+                                                fontSize: 16,
+                                                fontWeight: 700,
+                                                padding: 1,
+                                                mt: 6,
+                                                textTransform: "capitalize",
+                                            }}
+                                        >
+                                            <Typography component={"span"}>
+                                                Discard Changes
+                                            </Typography>
+                                        </Button>
+                                        <Button
+                                            onClick={onSubmitUpdateReview}
+                                            color="error"
+                                            variant="contained"
+                                            sx={{
+                                                display: "flex",
+                                                placeSelf: "end",
+                                                fontSize: 16,
+                                                fontWeight: 700,
+                                                padding: 1,
+                                                mt: 6,
+                                                textTransform: "capitalize",
+                                            }}
+                                        >
+                                            <Typography component={"span"}>Save Changes</Typography>
+                                        </Button>
+                                    </Box>
+                                )}
+                            </Box>
+                        )}
                     </Box>
                     <Box
                         sx={{
