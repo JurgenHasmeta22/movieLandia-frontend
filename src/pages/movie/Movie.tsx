@@ -176,6 +176,7 @@ export default function Movie() {
             if (response && !response.error) {
                 setReview("");
                 setIsEditMode(false);
+                handleFocusReview();
                 await refetchMovieDetailsAndBookmarkStatus();
                 toast.success("Review updated successfully!");
             } else {
