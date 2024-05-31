@@ -35,6 +35,7 @@ export default function Serie() {
     const [review, setReview] = useState("");
     const [isEditMode, setIsEditMode] = useState(false);
     const textEditorRef = useRef<any>(null);
+    const reviewRef = useRef<any>(null);
     const params = useParams();
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -176,6 +177,12 @@ export default function Serie() {
             toast.error("An error occurred while updating the review.");
         }
     }
+
+    const handleFocusReview = () => {
+        if (reviewRef.current) {
+            reviewRef.current.focus();
+        }
+    };
 
     const handleFocusTextEditor = () => {
         if (textEditorRef.current) {
@@ -457,6 +464,7 @@ export default function Serie() {
                                 setIsEditMode={setIsEditMode}
                                 setReview={setReview}
                                 handleFocusTextEditor={handleFocusTextEditor}
+                                ref={reviewRef}
                             />
                         ))}
                         {serie.reviews?.length! > 0 && (
@@ -525,6 +533,7 @@ export default function Serie() {
                                             onClick={() => {
                                                 setIsEditMode(false);
                                                 setReview("");
+                                                handleFocusReview();
                                             }}
                                             color="error"
                                             variant="contained"
