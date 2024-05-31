@@ -34,6 +34,7 @@ import TextEditor from "~/components/textEditor/TextEditor";
 export default function Movie() {
     // #region "State, refs, hooks, theme"
     const [review, setReview] = useState("");
+    const [rating, setRating] = useState<number | null>(0);
     const [isEditMode, setIsEditMode] = useState(false);
     const textEditorRef = useRef<any>(null);
     const reviewRef = useRef<any>(null);
@@ -135,10 +136,11 @@ export default function Movie() {
         if (!user || !movie) return;
 
         try {
-            const response = await movieService.addReview(movie?.id!, user?.id, review);
+            const response = await movieService.addReview(movie?.id!, user?.id, review, rating);
 
             if (response && !response.error) {
                 setReview("");
+                setRating(null)
                 await refetchMovieDetailsAndBookmarkStatus();
                 toast.success("Review submitted successfully!");
             } else {
@@ -171,10 +173,11 @@ export default function Movie() {
         if (!user || !movie) return;
 
         try {
-            const response = await movieService.updateReview(movie?.id!, user?.id, review);
+            const response = await movieService.updateReview(movie?.id!, user?.id, review, rating);
 
             if (response && !response.error) {
                 setReview("");
+                setRating(null);
                 setIsEditMode(false);
                 handleFocusReview();
                 await refetchMovieDetailsAndBookmarkStatus();
@@ -520,6 +523,8 @@ export default function Movie() {
                                         value={review}
                                         onChange={setReview}
                                         ref={textEditorRef}
+                                        rating={rating}
+                                        setRating={setRating}
                                     />
                                 </Box>
                                 {!isEditMode ? (

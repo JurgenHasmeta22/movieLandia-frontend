@@ -229,11 +229,13 @@ const movieService = {
         movieId: number | undefined,
         userId: number | undefined,
         review: string,
+        rating: number | null
     ): Promise<any> => {
         const payload = {
             movieId,
             userId,
             content: review,
+            rating
         };
 
         try {
@@ -250,11 +252,13 @@ const movieService = {
         movieId: number | undefined,
         userId: number | undefined,
         review: string,
+        rating: number | null
     ): Promise<any> => {
         const payload = {
             movieId,
             userId,
             content: review,
+            rating
         };
 
         try {
