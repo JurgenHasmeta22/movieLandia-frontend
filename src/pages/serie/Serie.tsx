@@ -33,6 +33,8 @@ import TextEditor from "~/components/textEditor/TextEditor";
 import { useModal } from "~/services/providers/ModalContext";
 import { WarningOutlined, CheckOutlined } from "@mui/icons-material";
 import * as CONSTANTS from "~/constants/Constants";
+import SortSelect from "~/components/sortSelect/SortSelect";
+import { useSorting } from "~/hooks/useSorting";
 
 export default function Serie() {
     // #region "State, refs, hooks, theme"
@@ -40,22 +42,39 @@ export default function Serie() {
     const [rating, setRating] = useState<number | null>(0);
     const [open, setOpen] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);
+
     const textEditorRef = useRef<any>(null);
     const reviewRef = useRef<any>(null);
 
     const params = useParams();
-    const theme = useTheme();
     const { user, setUser } = useStore();
     const [searchParams, setSearchParams] = useSearchParams();
-    const colors = tokens(theme.palette.mode);
     const { openModal } = useModal();
+
+    const theme = useTheme();
+    const colors = tokens(theme.palette.mode);
+
+    const handleChangeSorting = useSorting();
     const page = searchParams.get("page") || 1;
+    const sortBy = searchParams.get("sortBy");
+    const ascOrDesc = searchParams.get("ascOrDesc");
     // #endregion
 
     // #region "Data fetching and queries"
+    const fetchSerie = async () => {
+        let response;
+        const queryParams: Record<string, string | number> = { page };
+
+        if (sortBy) queryParams.sortBy = sortBy;
+        if (ascOrDesc) queryParams.ascOrDesc = ascOrDesc;
+        response = await serieService.getSerieByTitle(params?.title!, queryParams);
+
+        return response;
+    };
+
     const serieQuery = useQuery({
-        queryKey: ["serie", params?.title!, page],
-        queryFn: () => serieService.getSerieByTitle(params?.title!, { page: String(page) }),
+        queryKey: ["serie", params?.title!, sortBy, ascOrDesc, page],
+        queryFn: () => fetchSerie(),
         refetchOnMount: "always",
         refetchOnWindowFocus: "always",
     });
@@ -498,9 +517,29 @@ export default function Serie() {
                         }}
                     >
                         {serie.reviews?.length! > 0 && (
-                            <Typography fontSize={22} color={"secondary"} textAlign={"center"}>
-                                Reviews
-                            </Typography>
+                            <Stack
+                                flexDirection={"row"}
+                                justifyContent={"space-between"}
+                                alignItems={"center"}
+                            >
+                                <Box>
+                                    <Typography
+                                        fontSize={28}
+                                        color={"secondary"}
+                                        textAlign={"center"}
+                                    >
+                                        Reviews
+                                    </Typography>
+                                </Box>
+                                <Box>
+                                    <SortSelect
+                                        sortBy={searchParams.get("sortBy")}
+                                        ascOrDesc={searchParams.get("ascOrDesc")}
+                                        onChange={handleChangeSorting}
+                                        type="details"
+                                    />
+                                </Box>
+                            </Stack>
                         )}
                         {serie.reviews?.map((review: any, index: number) => (
                             <Review

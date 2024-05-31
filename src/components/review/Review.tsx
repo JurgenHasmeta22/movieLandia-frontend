@@ -61,7 +61,7 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
                                 ml: 2,
                                 color:
                                     review.user.userName === user?.userName
-                                        ? colors.greenAccent[500]
+                                        ? colors.blueAccent[200]
                                         : colors.primary[100],
                                 fontWeight: review.user.userName === user?.userName ? 900 : 300,
                                 letterSpacing: 1,

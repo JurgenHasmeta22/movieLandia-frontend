@@ -3,7 +3,7 @@ import { Box, MenuItem, Select, SelectChangeEvent, SvgIcon } from "@mui/material
 import SwapVertIcon from "@mui/icons-material/SwapVert";
 import { toFirstWordUpperCase } from "~/utils/utils";
 
-const valueToLabelMap: Record<string, string> = {
+const valueToLabelList: Record<string, string> = {
     none: "None",
     ratingImdbAsc: "Imdb rating (Asc)",
     ratingImdbDesc: "Imdb rating (Desc)",
@@ -11,17 +11,41 @@ const valueToLabelMap: Record<string, string> = {
     titleDesc: "Title (Desc)",
 };
 
+const valueToLabelDetails: Record<string, string> = {
+    createdAtAsc: "Created At (Asc)",
+    createdAtDesc: "Created At (Desc)",
+    ratingAsc: "Rating (Asc)",
+    ratingDesc: "Rating (Desc)",
+};
+
 interface SortSelectProps {
     sortBy: string | null;
     ascOrDesc: string | null;
+    type: string;
     onChange: (event: SelectChangeEvent<string>) => void;
 }
 
-const SortSelect: React.FC<SortSelectProps> = ({ sortBy, ascOrDesc, onChange }) => {
+const SortSelect: React.FC<SortSelectProps> = ({ sortBy, ascOrDesc, onChange, type }) => {
+    const getDefaultValue = () => {
+        if (type === "list") {
+            return "none";
+        }
+
+        return "createdAtDesc";
+    };
+
+    const getValue = () => {
+        if (sortBy && ascOrDesc) {
+            return sortBy + toFirstWordUpperCase(ascOrDesc);
+        }
+
+        return getDefaultValue();
+    };
+
     return (
         <Select
-            defaultValue="none"
-            value={sortBy && ascOrDesc ? sortBy + toFirstWordUpperCase(ascOrDesc) : "none"}
+            defaultValue={`${type === "list" ? "none" : "createdAtDesc"}`}
+            value={getValue()}
             onChange={onChange}
             sx={{
                 px: 2,
@@ -31,15 +55,42 @@ const SortSelect: React.FC<SortSelectProps> = ({ sortBy, ascOrDesc, onChange }) 
                     <SvgIcon color="secondary">
                         <SwapVertIcon />
                     </SvgIcon>
-                    {valueToLabelMap[value]}
+                    {type === "list" ? valueToLabelList[value] : valueToLabelDetails[value]}
                 </Box>
             )}
         >
-            <MenuItem value="none">None</MenuItem>
-            <MenuItem value="ratingImdbAsc">Imdb rating (Asc)</MenuItem>
-            <MenuItem value="ratingImdbDesc">Imdb rating (Desc)</MenuItem>
-            <MenuItem value="titleAsc">Title (Asc)</MenuItem>
-            <MenuItem value="titleDesc">Title (Desc)</MenuItem>
+            {type === "list"
+                ? [
+                      <MenuItem key="none" value="none">
+                          None
+                      </MenuItem>,
+                      <MenuItem key="ratingImdbAsc" value="ratingImdbAsc">
+                          Imdb rating (Asc)
+                      </MenuItem>,
+                      <MenuItem key="ratingImdbDesc" value="ratingImdbDesc">
+                          Imdb rating (Desc)
+                      </MenuItem>,
+                      <MenuItem key="titleAsc" value="titleAsc">
+                          Title (Asc)
+                      </MenuItem>,
+                      <MenuItem key="titleDesc" value="titleDesc">
+                          Title (Desc)
+                      </MenuItem>,
+                  ]
+                : [
+                      <MenuItem key="createdAtAsc" value="createdAtAsc">
+                          Created At (Asc)
+                      </MenuItem>,
+                      <MenuItem key="createdAtDesc" value="createdAtDesc">
+                          Created At (Desc)
+                      </MenuItem>,
+                      <MenuItem key="ratingAtAsc" value="ratingAsc">
+                          Rating (Asc)
+                      </MenuItem>,
+                      <MenuItem key="ratingAtDesc" value="ratingDesc">
+                          Rating (Desc)
+                      </MenuItem>,
+                  ]}
         </Select>
     );
 };
