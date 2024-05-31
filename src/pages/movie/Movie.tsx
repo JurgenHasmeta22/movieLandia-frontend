@@ -32,17 +32,20 @@ import Review from "~/components/review/Review";
 import TextEditor from "~/components/textEditor/TextEditor";
 
 export default function Movie() {
+    // #region "State, refs, hooks, theme"
     const [review, setReview] = useState("");
     const [isEditMode, setIsEditMode] = useState(false);
     const textEditorRef = useRef<any>(null);
     const reviewRef = useRef<any>(null);
+
     const params = useParams();
-    const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
     const { user, setUser } = useStore();
     const [searchParams, setSearchParams] = useSearchParams();
-    const page = searchParams.get("page") || 1;
+    const theme = useTheme();
+    const colors = tokens(theme.palette.mode);
+    // #endregion
 
+    // #region "Data fetching and queries"
     const movieQuery = useQuery({
         queryKey: ["movie", params?.title!],
         queryFn: () => movieService.getMovieByTitle(params?.title!, { page: String(page) }),
@@ -70,13 +73,18 @@ export default function Movie() {
     const latestMovies: IMovie[] = latestMoviesQuery?.data! ?? [];
     const isMovieBookmarked: boolean = isMovieBookmarkedQuery?.data?.isBookmarked! ?? false;
     const isMovieReviewed: boolean = isMovieReviewedQuery?.data?.isReviewed! ?? false;
+    // #endregion
 
+    // #region "Pagination"
+    const page = searchParams.get("page") || 1;
     const pageCount = Math.ceil(movie?.reviews?.length! / 10);
     const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
         searchParams.set("page", String(value));
         setSearchParams(searchParams);
     };
+    // #endregion
 
+    // #region "Handlers functions"
     const refetchMovieDetailsAndBookmarkStatus = async () => {
         await Promise.all([
             movieQuery.refetch(),
@@ -189,6 +197,7 @@ export default function Movie() {
             reviewRef.current.focus();
         }
     };
+    // #endregion
 
     useEffect(() => {
         if (isEditMode) {
