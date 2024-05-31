@@ -34,6 +34,7 @@ import TextEditor from "~/components/textEditor/TextEditor";
 export default function Serie() {
     // #region "State, refs, hooks, theme"
     const [review, setReview] = useState("");
+    const [rating, setRating] = useState<number | null>(0);
     const [isEditMode, setIsEditMode] = useState(false);
     const textEditorRef = useRef<any>(null);
     const reviewRef = useRef<any>(null);
@@ -136,10 +137,11 @@ export default function Serie() {
         if (!user || !serie) return;
 
         try {
-            const response = await serieService.addReview(user?.id, serie?.id!, review);
+            const response = await serieService.addReview(user?.id, serie?.id!, review, rating);
 
             if (response && !response.error) {
                 setReview("");
+                setRating(null);
                 await refetchSerieDetailsAndBookmarkStatus();
                 toast.success("Review submitted successfully!");
             } else {
@@ -172,10 +174,11 @@ export default function Serie() {
         if (!user || !serie) return;
 
         try {
-            const response = await serieService.updateReview(user?.id, serie?.id!, review);
+            const response = await serieService.updateReview(user?.id, serie?.id!, review, rating);
 
             if (response && !response.error) {
                 setReview("");
+                setRating(null);
                 setIsEditMode(false);
                 handleFocusReview();
                 await refetchSerieDetailsAndBookmarkStatus();
@@ -510,6 +513,8 @@ export default function Serie() {
                                         value={review}
                                         onChange={setReview}
                                         ref={textEditorRef}
+                                        rating={rating}
+                                        setRating={setRating}
                                     />
                                 </Box>
                                 {!isEditMode ? (

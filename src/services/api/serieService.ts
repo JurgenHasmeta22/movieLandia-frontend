@@ -219,11 +219,13 @@ const serieService = {
         userId: number | undefined,
         serieId: number | undefined,
         review: string,
+        rating: number | null,
     ): Promise<any> => {
         const payload = {
             userId,
             serieId,
             content: review,
+            rating,
         };
 
         try {
@@ -240,11 +242,13 @@ const serieService = {
         userId: number | undefined,
         serieId: number | undefined,
         review: string,
+        rating: number | null,
     ): Promise<any> => {
         const payload = {
             userId,
             serieId,
             content: review,
+            rating,
         };
 
         try {

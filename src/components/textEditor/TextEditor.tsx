@@ -2,15 +2,19 @@ import React, { forwardRef, useEffect } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useTheme } from "@mui/material/styles";
+import Rating from "@mui/material/Rating";
+import Box from "@mui/material/Box";
 // import "./style.css";
 
 interface TextEditorProps {
     value: string;
     ref: any;
+    rating: number | null;
+    setRating: React.Dispatch<React.SetStateAction<number | null>>;
     onChange: (value: string) => void;
 }
 
-const TextEditor: React.FC<TextEditorProps> = forwardRef(({ value, onChange }, ref) => {
+const TextEditor: React.FC<TextEditorProps> = forwardRef(({ value, onChange, rating, setRating }, ref) => {
     const theme = useTheme();
 
     const modules = {
@@ -70,21 +74,33 @@ const TextEditor: React.FC<TextEditorProps> = forwardRef(({ value, onChange }, r
     }, [ref, value]);
 
     return (
-        <ReactQuill
-            theme="snow"
-            value={value}
-            onChange={onChange}
-            modules={modules}
-            formats={formats}
-            // @ts-ignore
-            ref={ref}
-            style={{
-                backgroundColor:
-                    theme.palette.mode === "dark" ? theme.palette.primary.main : "white",
-                color: theme.palette.mode === "dark" ? "white" : "black",
-            }}
-            // className={theme.palette.mode === "dark" ? "dark-icons" : "light-icons"}
-        />
+        <Box>
+            <ReactQuill
+                theme="snow"
+                value={value}
+                onChange={onChange}
+                modules={modules}
+                formats={formats}
+                // @ts-ignore
+                ref={ref}
+                style={{
+                    backgroundColor:
+                        theme.palette.mode === "dark" ? theme.palette.primary.main : "white",
+                    color: theme.palette.mode === "dark" ? "white" : "black",
+                    marginBottom: "10px",
+                }}
+                // className={theme.palette.mode === "dark" ? "dark-icons" : "light-icons"}
+            />
+            <Rating
+                name="review-rating"
+                value={rating}
+                onChange={(event, newValue) => {
+                    setRating(newValue);
+                }}
+                max={10}
+                precision={1}
+            />
+        </Box>
     );
 });
 
