@@ -107,7 +107,10 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
                 </Box>
                 <Typography
                     dangerouslySetInnerHTML={{ __html: review.content }}
-                    sx={{ wordWrap: "break-word" }}
+                    sx={{
+                        wordWrap: "break-word",
+                        "& img": { maxWidth: "70%", height: "auto" },
+                    }}
                 />
             </Paper>
         );

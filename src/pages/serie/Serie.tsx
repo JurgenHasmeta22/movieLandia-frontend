@@ -177,6 +177,7 @@ export default function Serie() {
             if (response && !response.error) {
                 setReview("");
                 setIsEditMode(false);
+                handleFocusReview();
                 await refetchSerieDetailsAndBookmarkStatus();
                 toast.success("Review updated successfully!");
             } else {

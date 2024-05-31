@@ -1,4 +1,4 @@
-import React, { forwardRef } from "react";
+import React, { forwardRef, useEffect } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useTheme } from "@mui/material/styles";
@@ -39,6 +39,35 @@ const TextEditor: React.FC<TextEditorProps> = forwardRef(({ value, onChange }, r
         "video",
     ];
 
+    useEffect(() => {
+        const resizeImages = () => {
+            //@ts-ignore
+            const quillEditor = ref?.current?.getEditor?.();
+
+            if (quillEditor) {
+                const images = quillEditor.container.querySelectorAll("img");
+                images.forEach((img: HTMLImageElement) => {
+                    img.style.maxWidth = "50%";
+                    img.style.maxHeight = "auto";
+                });
+            }
+        };
+
+        //@ts-ignore
+        const editorInstance = ref?.current?.getEditor?.();
+
+        if (editorInstance) {
+            resizeImages();
+            editorInstance.on("text-change", resizeImages);
+        }
+
+        return () => {
+            if (editorInstance) {
+                editorInstance.off("text-change", resizeImages);
+            }
+        };
+    }, [ref, value]);
+
     return (
         <ReactQuill
             theme="snow"
@@ -52,7 +81,7 @@ const TextEditor: React.FC<TextEditorProps> = forwardRef(({ value, onChange }, r
                 backgroundColor:
                     theme.palette.mode === "dark" ? theme.palette.primary.main : "white",
                 color: theme.palette.mode === "dark" ? "white" : "black",
-                height: "200px",
+                height: "250px",
             }}
         />
     );
