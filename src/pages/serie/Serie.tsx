@@ -479,6 +479,7 @@ export default function Serie() {
                                 setReview={setReview}
                                 handleFocusTextEditor={handleFocusTextEditor}
                                 ref={reviewRef}
+                                setRating={setRating}
                             />
                         ))}
                         {serie.reviews?.length! > 0 && (
@@ -569,7 +570,7 @@ export default function Serie() {
                                         </Button>
                                         <Button
                                             onClick={onSubmitUpdateReview}
-                                            color="error"
+                                            color="secondary"
                                             variant="contained"
                                             sx={{
                                                 display: "flex",
