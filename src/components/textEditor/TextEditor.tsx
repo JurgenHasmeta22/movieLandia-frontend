@@ -2,6 +2,7 @@ import React, { forwardRef, useEffect } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useTheme } from "@mui/material/styles";
+// import "./style.css";
 
 interface TextEditorProps {
     value: string;
@@ -75,6 +76,7 @@ const TextEditor: React.FC<TextEditorProps> = forwardRef(({ value, onChange }, r
             onChange={onChange}
             modules={modules}
             formats={formats}
+            // placeholder="Write your Review"
             // @ts-ignore
             ref={ref}
             style={{
@@ -83,6 +85,7 @@ const TextEditor: React.FC<TextEditorProps> = forwardRef(({ value, onChange }, r
                 color: theme.palette.mode === "dark" ? "white" : "black",
                 height: "250px",
             }}
+            // className={theme.palette.mode === "dark" ? "dark-icons" : "light-icons"}
         />
     );
 });
