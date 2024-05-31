@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useParams, useSearchParams } from "react-router-dom";
 import { useStore } from "~/store/store";
 import type IMovie from "~/types/IMovie";
@@ -34,6 +34,7 @@ import TextEditor from "~/components/textEditor/TextEditor";
 export default function Movie() {
     const [review, setReview] = useState("");
     const [isEditMode, setIsEditMode] = useState(false);
+    const textEditorRef = useRef<any>(null);
     const params = useParams();
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -175,6 +176,18 @@ export default function Movie() {
             toast.error("An error occurred while updating the review.");
         }
     }
+
+    const handleFocusTextEditor = () => {
+        if (textEditorRef.current) {
+            textEditorRef.current.focus();
+        }
+    };
+
+    useEffect(() => {
+        if (isEditMode) {
+            handleFocusTextEditor();
+        }
+    }, [isEditMode]);
 
     if (movieQuery.isLoading || latestMoviesQuery.isLoading) {
         return (
@@ -454,6 +467,7 @@ export default function Movie() {
                                 isEditMode={isEditMode}
                                 setIsEditMode={setIsEditMode}
                                 setReview={setReview}
+                                handleFocusTextEditor={handleFocusTextEditor}
                             />
                         ))}
                         {movie.reviews?.length! > 0 && (
@@ -483,7 +497,11 @@ export default function Movie() {
                         )}
                         {user && (!isMovieReviewed || isEditMode) && (
                             <Box marginTop={4}>
-                                <TextEditor value={review} onChange={setReview} />
+                                <TextEditor
+                                    value={review}
+                                    onChange={setReview}
+                                    ref={textEditorRef}
+                                />
                                 {!isEditMode ? (
                                     <Box display={"flex"} justifyContent={"end"} mt={2}>
                                         <Button

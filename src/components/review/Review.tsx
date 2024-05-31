@@ -18,6 +18,7 @@ interface ReviewProps {
         };
     };
     handleRemoveReview: () => void;
+    handleFocusTextEditor: () => void;
     setIsEditMode: Dispatch<SetStateAction<boolean>>;
     isEditMode: boolean;
     setReview: React.Dispatch<React.SetStateAction<string>>;
@@ -29,6 +30,7 @@ const Review: React.FC<ReviewProps> = ({
     isEditMode,
     setIsEditMode,
     setReview,
+    handleFocusTextEditor,
 }) => {
     const { user } = useStore();
     const theme = useTheme();
@@ -93,6 +95,7 @@ const Review: React.FC<ReviewProps> = ({
                             onClick={() => {
                                 setIsEditMode(true);
                                 setReview(review.content);
+                                handleFocusTextEditor();
                             }}
                         >
                             <EditIcon fontSize="medium" />
