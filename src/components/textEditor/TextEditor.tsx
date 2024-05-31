@@ -1,14 +1,15 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useTheme } from "@mui/material/styles";
 
 interface TextEditorProps {
     value: string;
+    ref: any;
     onChange: (value: string) => void;
 }
 
-const TextEditor: React.FC<TextEditorProps> = ({ value, onChange }) => {
+const TextEditor: React.FC<TextEditorProps> = forwardRef(({ value, onChange }, ref) => {
     const theme = useTheme();
 
     const modules = {
@@ -45,6 +46,8 @@ const TextEditor: React.FC<TextEditorProps> = ({ value, onChange }) => {
             onChange={onChange}
             modules={modules}
             formats={formats}
+            // @ts-ignore
+            ref={ref}
             style={{
                 backgroundColor:
                     theme.palette.mode === "dark" ? theme.palette.primary.main : "white",
@@ -53,6 +56,6 @@ const TextEditor: React.FC<TextEditorProps> = ({ value, onChange }) => {
             }}
         />
     );
-};
+});
 
 export default TextEditor;

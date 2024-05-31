@@ -27,13 +27,14 @@ import Error404 from "../error/Error";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import MovieIcon from "@mui/icons-material/Movie";
 import "react-quill/dist/quill.snow.css";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Review from "~/components/review/Review";
 import TextEditor from "~/components/textEditor/TextEditor";
 
 export default function Serie() {
     const [review, setReview] = useState("");
     const [isEditMode, setIsEditMode] = useState(false);
+    const textEditorRef = useRef<any>(null);
     const params = useParams();
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -175,6 +176,18 @@ export default function Serie() {
             toast.error("An error occurred while updating the review.");
         }
     }
+
+    const handleFocusTextEditor = () => {
+        if (textEditorRef.current) {
+            textEditorRef.current.focus();
+        }
+    };
+
+    useEffect(() => {
+        if (isEditMode) {
+            handleFocusTextEditor();
+        }
+    }, [isEditMode]);
 
     if (serieQuery.isLoading || seriesQuery.isLoading) {
         return (
@@ -443,6 +456,7 @@ export default function Serie() {
                                 isEditMode={isEditMode}
                                 setIsEditMode={setIsEditMode}
                                 setReview={setReview}
+                                handleFocusTextEditor={handleFocusTextEditor}
                             />
                         ))}
                         {serie.reviews?.length! > 0 && (
@@ -472,7 +486,11 @@ export default function Serie() {
                         )}
                         {user && (!isSerieReviewed || isEditMode) && (
                             <Box marginTop={4}>
-                                <TextEditor value={review} onChange={setReview} />
+                                <TextEditor
+                                    value={review}
+                                    onChange={setReview}
+                                    ref={textEditorRef}
+                                />
                                 {!isEditMode ? (
                                     <Box display={"flex"} justifyContent={"end"} mt={2}>
                                         <Button
