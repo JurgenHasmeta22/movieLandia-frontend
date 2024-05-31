@@ -35,6 +35,7 @@ export default function Movie() {
     const [review, setReview] = useState("");
     const [isEditMode, setIsEditMode] = useState(false);
     const textEditorRef = useRef<any>(null);
+    const reviewRef = useRef<any>(null);
     const params = useParams();
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -180,6 +181,12 @@ export default function Movie() {
     const handleFocusTextEditor = () => {
         if (textEditorRef.current) {
             textEditorRef.current.focus();
+        }
+    };
+
+    const handleFocusReview = () => {
+        if (reviewRef.current) {
+            reviewRef.current.focus();
         }
     };
 
@@ -468,6 +475,7 @@ export default function Movie() {
                                 setIsEditMode={setIsEditMode}
                                 setReview={setReview}
                                 handleFocusTextEditor={handleFocusTextEditor}
+                                ref={reviewRef}
                             />
                         ))}
                         {movie.reviews?.length! > 0 && (
@@ -535,6 +543,7 @@ export default function Movie() {
                                             onClick={() => {
                                                 setIsEditMode(false);
                                                 setReview("");
+                                                handleFocusReview();
                                             }}
                                             color="error"
                                             variant="contained"
