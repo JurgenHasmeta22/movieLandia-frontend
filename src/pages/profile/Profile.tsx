@@ -174,7 +174,7 @@ export default function Profile() {
                     component="section"
                     sx={{
                         backgroundColor: `${colors.primary[400]}`,
-                        borderRadius: "34px",
+                        borderRadius: "18px",
                         padding: 4,
                         display: "flex",
                         flexDirection: "column",
@@ -193,16 +193,16 @@ export default function Profile() {
                         }}
                     >
                         <PersonOutlinedIcon
-                            color="secondary"
+                            color="inherit"
                             sx={{
-                                fontSize: [14, 16, 18, 20],
+                                fontSize: [12, 14, 16, 18],
                             }}
                         />
                         <Typography
-                            color="secondary"
+                            color="inherit"
                             component={"span"}
                             sx={{
-                                fontSize: [14, 16, 18, 20],
+                                fontSize: [12, 14, 16, 18],
                             }}
                         >
                             {user.userName}
@@ -219,16 +219,16 @@ export default function Profile() {
                         }}
                     >
                         <EmailIcon
-                            color="secondary"
+                            color="inherit"
                             sx={{
-                                fontSize: [14, 16, 18, 20],
+                                fontSize: [12, 14, 16, 18],
                             }}
                         />
                         <Typography
-                            color="secondary"
+                            color="inherit"
                             component={"span"}
                             sx={{
-                                fontSize: [12, 14, 16, 18, 22],
+                                fontSize: [12, 14, 16, 18],
                             }}
                         >
                             {user.email}
@@ -236,7 +236,7 @@ export default function Profile() {
                     </Box>
                     <Box>
                         <Typography
-                            color="secondary"
+                            color="inherit"
                             sx={{
                                 fontSize: [12, 14, 16, 18, 22],
                             }}
@@ -247,10 +247,10 @@ export default function Profile() {
                     </Box>
                     <Box>
                         <Typography
-                            color="secondary"
+                            color="inherit"
                             component={"span"}
                             sx={{
-                                fontSize: [12, 14, 16, 18, 22],
+                                fontSize: [12, 14, 16, 18],
                             }}
                         >
                             Favorite Series: {user.favSeries?.length}
@@ -258,10 +258,10 @@ export default function Profile() {
                     </Box>
                     <Box>
                         <Typography
-                            color="secondary"
+                            color="inherit"
                             component={"span"}
                             sx={{
-                                fontSize: [12, 14, 16, 18, 22],
+                                fontSize: [12, 14, 16, 18],
                             }}
                         >
                             Movies Reviews: {user.movieReviews?.length}
@@ -269,10 +269,10 @@ export default function Profile() {
                     </Box>
                     <Box>
                         <Typography
-                            color="secondary"
+                            color="inherit"
                             component={"span"}
                             sx={{
-                                fontSize: [12, 14, 16, 18, 22],
+                                fontSize: [12, 14, 16, 18],
                             }}
                         >
                             Series Reviews: {user.serieReviews?.length}
@@ -302,7 +302,7 @@ export default function Profile() {
                     component="section"
                     sx={{
                         backgroundColor: colors.primary[400],
-                        borderRadius: "34px",
+                        borderRadius: "18px",
                         padding: 4,
                         boxShadow: 6,
                         width: ["100%", "100%", "65%", "65%"],
