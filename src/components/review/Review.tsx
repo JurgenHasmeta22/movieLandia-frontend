@@ -34,7 +34,17 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
         const colors = tokens(theme.palette.mode);
 
         return (
-            <Paper key={review.id} sx={{ p: 2, mt: 2, backgroundColor: `${colors.primary[400]}` }}>
+            <Paper
+                key={review.id}
+                sx={{
+                    p: 2,
+                    mt: 2,
+                    backgroundColor:
+                        review.user.userName === user?.userName
+                            ? colors.redAccent[700]
+                            : colors.primary[400],
+                }}
+            >
                 <Box
                     sx={{
                         display: "flex",
