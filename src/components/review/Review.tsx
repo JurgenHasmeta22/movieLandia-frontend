@@ -7,6 +7,9 @@ import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import { useStore } from "~/store/store";
 import { tokens } from "~/utils/theme";
+import movieService from "~/services/api/movieService";
+import { useQuery } from "@tanstack/react-query";
+import serieService from "~/services/api/serieService";
 
 interface ReviewProps {
     review: {
@@ -29,6 +32,8 @@ interface ReviewProps {
     setReview: React.Dispatch<React.SetStateAction<string>>;
     handleUpvote: (reviewId: number) => void;
     handleDownvote: (reviewId: number) => void;
+    type: string;
+    data: any;
 }
 
 // Define the rating labels and colors
@@ -51,14 +56,41 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
             setRating,
             handleUpvote,
             handleDownvote,
+            type,
+            data,
         },
         ref,
     ) => {
         const { user } = useStore();
         const theme = useTheme();
         const colors = tokens(theme.palette.mode);
-
         const { label, color } = getRatingLabelAndColor(review.rating);
+
+        let isMovieReviewUpvotedOrDownvotedQuery;
+        let isSerieReviewUpvotedOrDownvotedQuery;
+
+        if (type === "movie") {
+            isMovieReviewUpvotedOrDownvotedQuery = useQuery({
+                queryKey: ["isMovieReviewUpvotedOrDownvoted", user, data],
+                queryFn: () =>
+                    movieService.isMovieReviewUpvotedOrDownvoted(user?.id!, data.id, review.id),
+                refetchOnMount: "always",
+                refetchOnWindowFocus: "always",
+            });
+        } else if (type === "serie") {
+            isSerieReviewUpvotedOrDownvotedQuery = useQuery({
+                queryKey: ["isSerieReviewUpvotedOrDownvoted", user, data],
+                queryFn: () =>
+                    serieService.isSerieReviewUpvotedOrDownvoted(user?.id!, data.id, review.id),
+                refetchOnMount: "always",
+                refetchOnWindowFocus: "always",
+            });
+        }
+
+        const isSerieReviewUpvotedOrDownvoted: any =
+            isSerieReviewUpvotedOrDownvotedQuery?.data! ?? null;
+        const isMovieReviewUpvotedOrDownvoted: any =
+            isMovieReviewUpvotedOrDownvotedQuery?.data! ?? null;
 
         return (
             <Paper
@@ -215,10 +247,38 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
                             mt: 1,
                         }}
                     >
-                        <IconButton size="medium" onClick={() => handleUpvote(review.id)}>
+                        <IconButton
+                            size="medium"
+                            onClick={() => handleUpvote(review.id)}
+                            sx={{
+                                color:
+                                    (type === "movie" &&
+                                        isMovieReviewUpvotedOrDownvoted &&
+                                        isMovieReviewUpvotedOrDownvoted.isUpvoted) ||
+                                    (type === "serie" &&
+                                        isSerieReviewUpvotedOrDownvoted &&
+                                        isSerieReviewUpvotedOrDownvoted.isUpvoted)
+                                        ? colors.greenAccent[700]
+                                        : colors.primary[100],
+                            }}
+                        >
                             <ThumbUpIcon fontSize="medium" />
                         </IconButton>
-                        <IconButton size="medium" onClick={() => handleDownvote(review.id)}>
+                        <IconButton
+                            size="medium"
+                            onClick={() => handleDownvote(review.id)}
+                            sx={{
+                                color:
+                                    (type === "movie" &&
+                                        isMovieReviewUpvotedOrDownvoted &&
+                                        isMovieReviewUpvotedOrDownvoted.isDownvoted) ||
+                                    (type === "serie" &&
+                                        isSerieReviewUpvotedOrDownvoted &&
+                                        isSerieReviewUpvotedOrDownvoted.isDownvoted)
+                                        ? colors.redAccent[700]
+                                        : colors.primary[100],
+                            }}
+                        >
                             <ThumbDownIcon fontSize="medium" />
                         </IconButton>
                     </Box>
