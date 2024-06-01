@@ -252,26 +252,20 @@ export default function Movie() {
         if (!user || !movieReviewId) return;
 
         try {
-            const responseDeleteDownvote = await movieService.removeDownvoteMovieReview(
+            await movieService.removeDownvoteMovieReview(user?.id, movie?.id, movieReviewId);
+
+            const response = await movieService.addUpvoteMovieReview(
                 user?.id,
                 movie?.id,
                 movieReviewId,
             );
 
-            if (responseDeleteDownvote && !responseDeleteDownvote.errors) {
-                const response = await movieService.addUpvoteMovieReview(
-                    user?.id,
-                    movie?.id,
-                    movieReviewId,
-                );
-
-                if (response && !response.error) {
-                    await refetchMovieDetailsAndBookmarkStatus();
-                    toast.success("Upvoted successfully!");
-                    window.scrollTo(0, 0);
-                } else {
-                    toast.error("Upvoted unsuccessfully!");
-                }
+            if (response && response.status == 200) {
+                await refetchMovieDetailsAndBookmarkStatus();
+                toast.success("Upvoted successfully!");
+                window.scrollTo(0, 0);
+            } else {
+                toast.error("Upvoted unsuccessfully!");
             }
         } catch (error) {
             toast.error("An error occurred while adding the upvote to movie review.");
@@ -281,26 +275,20 @@ export default function Movie() {
         if (!user || (!movie && !movieReviewId)) return;
 
         try {
-            const responseDeleteUpvote = await movieService.removeUpvoteMovieReview(
+            await movieService.removeUpvoteMovieReview(user?.id, movie?.id, movieReviewId);
+
+            const response = await movieService.addDownvoteMovieReview(
                 user?.id,
                 movie?.id,
                 movieReviewId,
             );
 
-            if (responseDeleteUpvote && !responseDeleteUpvote.error) {
-                const response = await movieService.addDownvoteMovieReview(
-                    user?.id,
-                    movie?.id,
-                    movieReviewId,
-                );
-
-                if (response && !response.error) {
-                    await refetchMovieDetailsAndBookmarkStatus();
-                    toast.success("Downvoted successfully!");
-                    window.scrollTo(0, 0);
-                } else {
-                    toast.error("Downvoted unsuccessfully!");
-                }
+            if (response && response.status == 200) {
+                await refetchMovieDetailsAndBookmarkStatus();
+                toast.success("Downvoted successfully!");
+                window.scrollTo(0, 0);
+            } else {
+                toast.error("Downvoted unsuccessfully!");
             }
         } catch (error) {
             toast.error("An error occurred while adding the downvoted to movie review.");

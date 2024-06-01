@@ -258,20 +258,18 @@ export default function Serie() {
                 serieReviewId,
             );
 
-            if (responseDeleteDownvote && !responseDeleteDownvote.errors) {
-                const response = await serieService.addUpvoteSerieReview(
-                    user?.id,
-                    serie?.id,
-                    serieReviewId,
-                );
+            const response = await serieService.addUpvoteSerieReview(
+                user?.id,
+                serie?.id,
+                serieReviewId,
+            );
 
-                if (response && !response.error) {
-                    await refetchSerieDetailsAndBookmarkStatus();
-                    toast.success("Upvoted successfully!");
-                    window.scrollTo(0, 0);
-                } else {
-                    toast.error("Upvoted unsuccessfully!");
-                }
+            if (response && !response.error) {
+                await refetchSerieDetailsAndBookmarkStatus();
+                toast.success("Upvoted successfully!");
+                window.scrollTo(0, 0);
+            } else {
+                toast.error("Upvoted unsuccessfully!");
             }
         } catch (error) {
             toast.error("An error occurred while adding the upvote to movie review.");
@@ -287,20 +285,18 @@ export default function Serie() {
                 serieReviewId,
             );
 
-            if (responseDeleteUpvote && !responseDeleteUpvote.error) {
-                const response = await serieService.addDownvoteSerieReview(
-                    user?.id,
-                    serie?.id,
-                    serieReviewId,
-                );
+            const response = await serieService.addDownvoteSerieReview(
+                user?.id,
+                serie?.id,
+                serieReviewId,
+            );
 
-                if (response && !response.error) {
-                    await refetchSerieDetailsAndBookmarkStatus();
-                    toast.success("Downvoted successfully!");
-                    window.scrollTo(0, 0);
-                } else {
-                    toast.error("Downvoted unsuccessfully!");
-                }
+            if (response && !response.error) {
+                await refetchSerieDetailsAndBookmarkStatus();
+                toast.success("Downvoted successfully!");
+                window.scrollTo(0, 0);
+            } else {
+                toast.error("Downvoted unsuccessfully!");
             }
         } catch (error) {
             toast.error("An error occurred while adding the downvoted to movie review.");
