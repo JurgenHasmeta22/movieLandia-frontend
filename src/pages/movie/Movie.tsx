@@ -260,7 +260,7 @@ export default function Movie() {
                 movieReviewId,
             );
 
-            if (response && response.status == 200) {
+            if (response) {
                 await refetchMovieDetailsAndBookmarkStatus();
                 toast.success("Upvoted successfully!");
                 window.scrollTo(0, 0);
@@ -283,7 +283,7 @@ export default function Movie() {
                 movieReviewId,
             );
 
-            if (response && response.status == 200) {
+            if (response) {
                 await refetchMovieDetailsAndBookmarkStatus();
                 toast.success("Downvoted successfully!");
                 window.scrollTo(0, 0);
