@@ -252,11 +252,7 @@ export default function Serie() {
         if (!user || !serieReviewId) return;
 
         try {
-            const responseDeleteDownvote = await serieService.removeDownvoteSerieReview(
-                user?.id,
-                serie?.id,
-                serieReviewId,
-            );
+            await serieService.removeDownvoteSerieReview(user?.id, serie?.id, serieReviewId);
 
             const response = await serieService.addUpvoteSerieReview(
                 user?.id,
@@ -264,7 +260,7 @@ export default function Serie() {
                 serieReviewId,
             );
 
-            if (response && !response.error) {
+            if (response) {
                 await refetchSerieDetailsAndBookmarkStatus();
                 toast.success("Upvoted successfully!");
                 window.scrollTo(0, 0);
@@ -279,11 +275,7 @@ export default function Serie() {
         if (!user || (!serie && !serieReviewId)) return;
 
         try {
-            const responseDeleteUpvote = await serieService.removeUpvoteSerieReview(
-                user?.id,
-                serie?.id,
-                serieReviewId,
-            );
+            await serieService.removeUpvoteSerieReview(user?.id, serie?.id, serieReviewId);
 
             const response = await serieService.addDownvoteSerieReview(
                 user?.id,
@@ -291,7 +283,7 @@ export default function Serie() {
                 serieReviewId,
             );
 
-            if (response && !response.error) {
+            if (response) {
                 await refetchSerieDetailsAndBookmarkStatus();
                 toast.success("Downvoted successfully!");
                 window.scrollTo(0, 0);
