@@ -27,11 +27,22 @@ interface ReviewProps {
     setReview: React.Dispatch<React.SetStateAction<string>>;
 }
 
+// Define the rating labels and colors
+const getRatingLabelAndColor = (rating: number) => {
+    if (rating <= 2) return { label: "Very Bad", color: "error.main" };
+    if (rating <= 4) return { label: "Bad", color: "warning.main" };
+    if (rating <= 6) return { label: "Average", color: "info.main" };
+    if (rating <= 8) return { label: "Good", color: "success.light" };
+    return { label: "Very Good", color: "success.main" };
+};
+
 const Review = forwardRef<HTMLElement, ReviewProps>(
     ({ review, handleRemoveReview, isEditMode, setIsEditMode, setReview, setRating }, ref) => {
         const { user } = useStore();
         const theme = useTheme();
         const colors = tokens(theme.palette.mode);
+
+        const { label, color } = getRatingLabelAndColor(review.rating);
 
         return (
             <Paper
@@ -53,12 +64,11 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
                         mb: 1,
                     }}
                 >
-                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                    <Box sx={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: 1 }}>
                         <Avatar alt={review.user.userName} src={review.user.avatar} />
                         <Typography
                             variant="h6"
                             sx={{
-                                ml: 2,
                                 color:
                                     review.user.userName === user?.userName
                                         ? colors.blueAccent[200]
@@ -81,8 +91,12 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
                             </Typography>
                         )}
                     </Box>
-                    <Box sx={{ display: "flex", alignItems: "center" }}>
-                        <Typography variant="body2" color="secondary" sx={{ mr: 1 }}>
+                    <Box sx={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: 1 }}>
+                        <Typography
+                            variant="body2"
+                            color="secondary"
+                            sx={{ display: "flex", flexWrap: "wrap" }}
+                        >
                             {review.updatedAt && (
                                 <Typography component={"span"} color={"error"}>
                                     Edited
@@ -129,26 +143,38 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
                     sx={{
                         display: "flex",
                         alignItems: "center",
-                        justifyContent: "flex-end",
-                        mt: 3,
+                        justifyContent: "space-between",
+                        mt: 1,
                     }}
                 >
-                    <Typography
-                        variant="body2"
-                        color="secondary"
-                        fontSize={14}
-                        fontWeight={700}
-                        sx={{ mr: 1 }}
-                    >
-                        {review?.rating?.toFixed(1)}
-                    </Typography>
-                    <Rating
-                        name={`review-rating-${review.id}`}
-                        value={review?.rating!}
-                        readOnly
-                        max={10}
-                        precision={0.5}
-                    />
+                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                        <Typography
+                            variant="body2"
+                            fontSize={14}
+                            fontWeight={900}
+                            sx={{ mr: 1, color }}
+                        >
+                            {label}
+                        </Typography>
+                    </Box>
+                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                        <Typography
+                            variant="body2"
+                            color="secondary"
+                            fontSize={14}
+                            fontWeight={700}
+                            sx={{ mr: 1 }}
+                        >
+                            {review?.rating?.toFixed(1)}
+                        </Typography>
+                        <Rating
+                            name={`review-rating-${review.id}`}
+                            value={review?.rating!}
+                            readOnly
+                            max={10}
+                            precision={0.5}
+                        />
+                    </Box>
                 </Box>
             </Paper>
         );
