@@ -274,6 +274,7 @@ export default function Movie() {
             toast.error("An error occurred while adding the upvote to movie review.");
         }
     }
+
     async function onDownVoteMovie(movieReviewId: number, isAlreadyDownvoted: boolean) {
         if (!user || (!movie && !movieReviewId)) return;
 
