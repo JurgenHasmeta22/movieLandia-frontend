@@ -15,6 +15,11 @@ import {
     InputLabel,
     SxProps,
     Typography,
+    List,
+    ListItem,
+    ListItemAvatar,
+    Avatar,
+    ListItemText,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { Formik, Form, Field, FormikProps } from "formik";
@@ -35,6 +40,8 @@ type ModalProps = {
     actions?: ActionConfig[];
     formRef?: React.Ref<FormikProps<any>>;
     subTitle?: string;
+    hasList?: boolean;
+    dataList?: Array<{ avatar: string; userName: string }>;
     onClose?: () => void;
     onDataChange?: (values: any) => void;
     onSave?: (values: any) => void;
@@ -70,6 +77,8 @@ const Modal: React.FC<ModalProps> = ({
     formRef,
     onDataChange,
     subTitle,
+    hasList,
+    dataList,
 }) => {
     return (
         <Dialog open={true} onClose={onClose ? onClose : () => {}} fullWidth>
@@ -84,7 +93,25 @@ const Modal: React.FC<ModalProps> = ({
             </DialogTitle>
             <DialogContent>
                 <DialogContentText fontSize={"16px"}>{subTitle}</DialogContentText>
-                {validationSchema && initialValues && onDataChange ? (
+                {hasList ? (
+                    <List>
+                        {dataList &&
+                            dataList.map((item: any, index: number) => (
+                                <ListItem
+                                    key={index}
+                                    alignItems="center"
+                                    sx={{
+                                        justifyContent: "flex-start",
+                                    }}
+                                >
+                                    <ListItemAvatar>
+                                        <Avatar alt={item.user.userName} src={item.user.avatar} />
+                                    </ListItemAvatar>
+                                    <ListItemText primary={item.user.userName} />
+                                </ListItem>
+                            ))}
+                    </List>
+                ) : validationSchema && initialValues && onDataChange ? (
                     <Formik
                         initialValues={initialValues ? initialValues : {}}
                         validationSchema={validationSchema ? validationSchema : {}}
@@ -194,7 +221,7 @@ const Modal: React.FC<ModalProps> = ({
                                     action.onClick();
                                     onClose!();
                                 }}
-                                //@ts-ignore
+                                // @ts-ignore
                                 color={action.color || "secondary"}
                                 variant={action.variant || "text"}
                                 sx={action.sx}

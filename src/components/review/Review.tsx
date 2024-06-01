@@ -1,6 +1,15 @@
-import React, { Dispatch, SetStateAction, forwardRef, useEffect } from "react";
+import React, { Dispatch, SetStateAction, forwardRef, useEffect, useState } from "react";
 import { format } from "date-fns";
-import { Avatar, Box, Paper, Typography, IconButton, useTheme, Rating } from "@mui/material";
+import {
+    Avatar,
+    Box,
+    Paper,
+    Typography,
+    IconButton,
+    useTheme,
+    Rating,
+    Button,
+} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import EditIcon from "@mui/icons-material/Edit";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
@@ -11,6 +20,7 @@ import movieService from "~/services/api/movieService";
 import { useQuery } from "@tanstack/react-query";
 import serieService from "~/services/api/serieService";
 import { toast } from "react-toastify";
+import { useModal } from "~/services/providers/ModalContext";
 
 interface ReviewProps {
     review: {
@@ -19,6 +29,8 @@ interface ReviewProps {
         createdAt: string;
         updatedAt: string;
         rating: number;
+        upvotes: any[];
+        downvotes: any[];
         _count: {
             upvotes: number;
             downvotes: number;
@@ -66,10 +78,12 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
         },
         ref,
     ) => {
+        const [open, setOpen] = useState(false);
         const { user } = useStore();
         const theme = useTheme();
         const colors = tokens(theme.palette.mode);
         const { label, color } = getRatingLabelAndColor(review.rating);
+        const { openModal } = useModal();
 
         let isMovieReviewUpvotedOrDownvotedQuery: any;
         let isSerieReviewUpvotedOrDownvotedQuery: any;
@@ -104,6 +118,26 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
                 isSerieReviewUpvotedOrDownvotedQuery.refetch();
             }
         }, [data, review]);
+
+        async function onClickUpvotesReviewList() {
+            openModal({
+                onClose: () => setOpen(false),
+                title: "Users who upvoted this review",
+                subTitle: "Users list",
+                hasList: true,
+                dataList: review.upvotes,
+            });
+        }
+
+        async function onClickDownvotesReviewList() {
+            openModal({
+                onClose: () => setOpen(false),
+                title: "Users who downvoted this review",
+                subTitle: "Users list",
+                hasList: true,
+                dataList: review.downvotes,
+            });
+        }
 
         return (
             <Paper
@@ -298,7 +332,15 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
                         >
                             <ThumbUpIcon fontSize="medium" />
                         </IconButton>
-                        <Typography component={"span"}>{review._count.upvotes}</Typography>
+                        <Button
+                            disabled={review?.upvotes?.length === 0}
+                            onClick={() => {
+                                onClickUpvotesReviewList();
+                            }}
+                            color={"secondary"}
+                        >
+                            <Typography>{review._count.upvotes}</Typography>
+                        </Button>
                     </Box>
                     <Box display={"flex"} alignItems={"center"} columnGap={1}>
                         <IconButton
@@ -339,7 +381,15 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
                         >
                             <ThumbDownIcon fontSize="medium" />
                         </IconButton>
-                        <Typography component={"span"}>{review._count.downvotes}</Typography>
+                        <Button
+                            disabled={review?.downvotes?.length === 0}
+                            onClick={() => {
+                                onClickDownvotesReviewList();
+                            }}
+                            color={"error"}
+                        >
+                            <Typography>{review._count.downvotes}</Typography>
+                        </Button>
                     </Box>
                 </Box>
             </Paper>
