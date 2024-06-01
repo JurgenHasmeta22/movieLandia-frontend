@@ -129,7 +129,6 @@ export default function Serie() {
                 setUser(response);
                 await refetchSerieDetailsAndBookmarkStatus();
                 toast.success("Serie bookmarked successfully!");
-                window.scrollTo(0, 0);
             } else {
                 toast.error("Serie not bookmarked successfully!");
             }
@@ -148,7 +147,6 @@ export default function Serie() {
                 await refetchSerieDetailsAndBookmarkStatus();
                 setUser(response);
                 toast.success("Serie unbookmarked successfully!");
-                window.scrollTo(0, 0);
             } else {
                 toast.error("Serie not unbookmarked successfully!");
             }

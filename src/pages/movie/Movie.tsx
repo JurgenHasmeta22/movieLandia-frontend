@@ -129,7 +129,6 @@ export default function Movie() {
                 setUser(response);
                 await refetchMovieDetailsAndBookmarkStatus();
                 toast.success("Movie bookmarked successfully!");
-                window.scrollTo(0, 0);
             } else {
                 toast.error("Movie not bookmarked successfully!");
             }
@@ -148,7 +147,6 @@ export default function Movie() {
                 await refetchMovieDetailsAndBookmarkStatus();
                 setUser(response);
                 toast.success("Movie unbookmarked successfully!");
-                window.scrollTo(0, 0);
             } else {
                 toast.error("Movie not unbookmarked successfully!");
             }
