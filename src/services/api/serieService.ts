@@ -351,12 +351,12 @@ const serieService = {
     removeUpvoteSerieReview: async (
         userId: number | undefined,
         serieId: number | undefined,
-        movieReviewId: number,
+        serieReviewId: number,
     ): Promise<any> => {
         const payload = {
             userId,
             serieId,
-            movieReviewId,
+            serieReviewId,
         };
 
         try {
