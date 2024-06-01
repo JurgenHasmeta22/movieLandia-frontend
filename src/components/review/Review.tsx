@@ -103,7 +103,6 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
 
         return (
             <Paper
-                key={review.id}
                 sx={{
                     p: 2,
                     mt: 2,

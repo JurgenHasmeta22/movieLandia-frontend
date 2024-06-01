@@ -767,8 +767,8 @@ export default function Serie() {
                             mt={1}
                             mb={4}
                         >
-                            {series.slice(5, 10).map((latestSerie: any) => (
-                                <CardItem data={latestSerie} key={latestSerie.id} type={"serie"} />
+                            {series.slice(5, 10).map((latestSerie: any, index: number) => (
+                                <CardItem data={latestSerie} key={index} type={"serie"} />
                             ))}
                         </Stack>
                     </Box>
