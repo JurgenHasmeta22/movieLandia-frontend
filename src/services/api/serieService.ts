@@ -306,7 +306,7 @@ const serieService = {
     // #endregion
 
     // #region "Upvotes, Downvotes"
-    addUpvoteSerie: async (
+    addUpvoteSerieReview: async (
         userId: number | undefined,
         serieId: number | undefined,
         serieReviewId: number,
@@ -319,7 +319,7 @@ const serieService = {
 
         try {
             const response: any = await axios
-                .post(`${api.url}/addUpvoteSerie`, payload)
+                .post(`${api.url}/addUpvoteSerieReview`, payload)
                 .then((x) => x.data);
 
             return response;
@@ -327,7 +327,7 @@ const serieService = {
             return { error };
         }
     },
-    addDownvoteSerie: async (
+    addDownvoteSerieReview: async (
         userId: number | undefined,
         serieId: number | undefined,
         serieReviewId: number,
@@ -340,7 +340,7 @@ const serieService = {
 
         try {
             const response: any = await axios
-                .post(`${api.url}/addDownvoteSerie`, payload)
+                .post(`${api.url}/addDownvoteSerieReview`, payload)
                 .then((x) => x.data);
 
             return response;
@@ -348,7 +348,7 @@ const serieService = {
             return { error };
         }
     },
-    removeUpvoteSerie: async (
+    removeUpvoteSerieReview: async (
         userId: number | undefined,
         serieId: number | undefined,
         movieReviewId: number,
@@ -361,7 +361,7 @@ const serieService = {
 
         try {
             const response: any = await axios
-                .post(`${api.url}/removeUpvoteSerie`, payload)
+                .post(`${api.url}/removeUpvoteSerieReview`, payload)
                 .then((x) => x.data);
 
             return response;
@@ -369,7 +369,7 @@ const serieService = {
             return { error };
         }
     },
-    removeDownvoteSerie: async (
+    removeDownvoteSerieReview: async (
         userId: number | undefined,
         serieId: number | undefined,
         serieReviewId: number,
@@ -382,7 +382,28 @@ const serieService = {
 
         try {
             const response: any = await axios
-                .post(`${api.url}/removeDownvoteSerie`, payload)
+                .post(`${api.url}/removeDownvoteSerieReview`, payload)
+                .then((x) => x.data);
+
+            return response;
+        } catch (error) {
+            return { error };
+        }
+    },
+    isSerieReviewUpvotedOrDownvoted: async (
+        userId: number | undefined,
+        serieId: number | undefined,
+        serieReviewId: number,
+    ): Promise<any> => {
+        const payload = {
+            userId,
+            serieId,
+            serieReviewId,
+        };
+
+        try {
+            const response: any = await axios
+                .post(`${api.url}/isSerieReviewUpvotedOrDownvoted`, payload)
                 .then((x) => x.data);
 
             return response;

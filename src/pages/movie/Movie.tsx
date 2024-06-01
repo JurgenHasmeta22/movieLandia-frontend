@@ -252,14 +252,14 @@ export default function Movie() {
         if (!user || !movieReviewId) return;
 
         try {
-            const responseDeleteDownvote = await movieService.removeDownvoteMovie(
+            const responseDeleteDownvote = await movieService.removeDownvoteMovieReview(
                 user?.id,
                 movie?.id,
                 movieReviewId,
             );
 
             if (responseDeleteDownvote && !responseDeleteDownvote.errors) {
-                const response = await movieService.addUpvoteMovie(
+                const response = await movieService.addUpvoteMovieReview(
                     user?.id,
                     movie?.id,
                     movieReviewId,
@@ -281,14 +281,14 @@ export default function Movie() {
         if (!user || (!movie && !movieReviewId)) return;
 
         try {
-            const responseDeleteUpvote = await movieService.removeUpvoteMovie(
+            const responseDeleteUpvote = await movieService.removeUpvoteMovieReview(
                 user?.id,
                 movie?.id,
                 movieReviewId,
             );
 
             if (responseDeleteUpvote && !responseDeleteUpvote.error) {
-                const response = await movieService.addDownvoteMovie(
+                const response = await movieService.addDownvoteMovieReview(
                     user?.id,
                     movie?.id,
                     movieReviewId,
@@ -632,6 +632,8 @@ export default function Movie() {
                                 setRating={setRating}
                                 handleUpvote={onUpvoteMovie}
                                 handleDownvote={onDownVoteMovie}
+                                type="movie"
+                                data={movie}
                             />
                         ))}
                         {movie.reviews?.length! > 0 && (

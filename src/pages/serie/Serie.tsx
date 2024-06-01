@@ -252,14 +252,14 @@ export default function Serie() {
         if (!user || !serieReviewId) return;
 
         try {
-            const responseDeleteDownvote = await serieService.removeDownvoteSerie(
+            const responseDeleteDownvote = await serieService.removeDownvoteSerieReview(
                 user?.id,
                 serie?.id,
                 serieReviewId,
             );
 
             if (responseDeleteDownvote && !responseDeleteDownvote.errors) {
-                const response = await serieService.addUpvoteSerie(
+                const response = await serieService.addUpvoteSerieReview(
                     user?.id,
                     serie?.id,
                     serieReviewId,
@@ -281,14 +281,14 @@ export default function Serie() {
         if (!user || (!serie && !serieReviewId)) return;
 
         try {
-            const responseDeleteUpvote = await serieService.removeUpvoteSerie(
+            const responseDeleteUpvote = await serieService.removeUpvoteSerieReview(
                 user?.id,
                 serie?.id,
                 serieReviewId,
             );
 
             if (responseDeleteUpvote && !responseDeleteUpvote.error) {
-                const response = await serieService.addDownvoteSerie(
+                const response = await serieService.addDownvoteSerieReview(
                     user?.id,
                     serie?.id,
                     serieReviewId,
@@ -619,6 +619,8 @@ export default function Serie() {
                                 setRating={setRating}
                                 handleUpvote={onUpvoteSerie}
                                 handleDownvote={onDownVoteSerie}
+                                type="serie"
+                                data={serie}
                             />
                         ))}
                         {serie.reviews?.length! > 0 && (
