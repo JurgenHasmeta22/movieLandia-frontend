@@ -2,9 +2,11 @@ import React, { Dispatch, SetStateAction, forwardRef } from "react";
 import { format } from "date-fns";
 import { Avatar, Box, Paper, Typography, IconButton, useTheme, Rating } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import EditIcon from "@mui/icons-material/Edit";
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import { useStore } from "~/store/store";
 import { tokens } from "~/utils/theme";
-import EditIcon from "@mui/icons-material/Edit";
 
 interface ReviewProps {
     review: {
@@ -25,6 +27,8 @@ interface ReviewProps {
     setIsEditMode: Dispatch<SetStateAction<boolean>>;
     isEditMode: boolean;
     setReview: React.Dispatch<React.SetStateAction<string>>;
+    handleUpvote: (reviewId: number) => void;
+    handleDownvote: (reviewId: number) => void;
 }
 
 // Define the rating labels and colors
@@ -37,7 +41,19 @@ const getRatingLabelAndColor = (rating: number) => {
 };
 
 const Review = forwardRef<HTMLElement, ReviewProps>(
-    ({ review, handleRemoveReview, isEditMode, setIsEditMode, setReview, setRating }, ref) => {
+    (
+        {
+            review,
+            handleRemoveReview,
+            isEditMode,
+            setIsEditMode,
+            setReview,
+            setRating,
+            handleUpvote,
+            handleDownvote,
+        },
+        ref,
+    ) => {
         const { user } = useStore();
         const theme = useTheme();
         const colors = tokens(theme.palette.mode);
@@ -64,7 +80,14 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
                         mb: 1,
                     }}
                 >
-                    <Box sx={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: 1 }}>
+                    <Box
+                        sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            flexWrap: "wrap",
+                            gap: 1,
+                        }}
+                    >
                         <Avatar alt={review.user.userName} src={review.user.avatar} />
                         <Typography
                             variant="h6"
@@ -91,7 +114,14 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
                             </Typography>
                         )}
                     </Box>
-                    <Box sx={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: 1 }}>
+                    <Box
+                        sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            flexWrap: "wrap",
+                            gap: 1,
+                        }}
+                    >
                         <Typography
                             variant="body2"
                             color="secondary"
@@ -176,6 +206,23 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
                         />
                     </Box>
                 </Box>
+                {user && review.user.userName !== user?.userName && (
+                    <Box
+                        sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            mt: 1,
+                        }}
+                    >
+                        <IconButton size="medium" onClick={() => handleUpvote(review.id)}>
+                            <ThumbUpIcon fontSize="medium" />
+                        </IconButton>
+                        <IconButton size="medium" onClick={() => handleDownvote(review.id)}>
+                            <ThumbDownIcon fontSize="medium" />
+                        </IconButton>
+                    </Box>
+                )}
             </Paper>
         );
     },

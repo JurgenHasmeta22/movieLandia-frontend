@@ -42,7 +42,7 @@ export default function Movie() {
     const [rating, setRating] = useState<number | null>(0);
     const [open, setOpen] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);
-    
+
     const textEditorRef = useRef<any>(null);
     const reviewRef = useRef<any>(null);
 
@@ -118,6 +118,7 @@ export default function Movie() {
         ]);
     };
 
+    // #region "Bookmarks"
     async function onBookmarkMovie() {
         if (!user || !movie) return;
 
@@ -155,7 +156,9 @@ export default function Movie() {
             toast.error("An error occurred while removing the movie from favorites.");
         }
     }
+    // #endregion
 
+    // #region "Reviews"
     async function onSubmitReview() {
         if (!user || !movie) return;
 
@@ -242,6 +245,68 @@ export default function Movie() {
             toast.error("An error occurred while updating the review.");
         }
     }
+    // #endregion
+
+    // #region "upvotes, downvotes"
+    async function onUpvoteMovie(movieReviewId: number) {
+        if (!user || !movieReviewId) return;
+
+        try {
+            const responseDeleteDownvote = await movieService.removeDownvoteMovie(
+                user?.id,
+                movie?.id,
+                movieReviewId,
+            );
+
+            if (responseDeleteDownvote && !responseDeleteDownvote.errors) {
+                const response = await movieService.addUpvoteMovie(
+                    user?.id,
+                    movie?.id,
+                    movieReviewId,
+                );
+
+                if (response && !response.error) {
+                    await refetchMovieDetailsAndBookmarkStatus();
+                    toast.success("Upvoted successfully!");
+                    window.scrollTo(0, 0);
+                } else {
+                    toast.error("Upvoted unsuccessfully!");
+                }
+            }
+        } catch (error) {
+            toast.error("An error occurred while adding the upvote to movie review.");
+        }
+    }
+    async function onDownVoteMovie(movieReviewId: number) {
+        if (!user || (!movie && !movieReviewId)) return;
+
+        try {
+            const responseDeleteUpvote = await movieService.removeUpvoteMovie(
+                user?.id,
+                movie?.id,
+                movieReviewId,
+            );
+
+            if (responseDeleteUpvote && !responseDeleteUpvote.error) {
+                const response = await movieService.addDownvoteMovie(
+                    user?.id,
+                    movie?.id,
+                    movieReviewId,
+                );
+
+                if (response && !response.error) {
+                    await refetchMovieDetailsAndBookmarkStatus();
+                    toast.success("Downvoted successfully!");
+                    window.scrollTo(0, 0);
+                } else {
+                    toast.error("Downvoted unsuccessfully!");
+                }
+            }
+        } catch (error) {
+            toast.error("An error occurred while adding the downvoted to movie review.");
+        }
+    }
+    // #endregion
 
     const handleFocusTextEditor = () => {
         if (textEditorRef.current) {
@@ -256,6 +321,7 @@ export default function Movie() {
     };
     // #endregion
 
+    // #region "Checking state"
     useEffect(() => {
         if (isEditMode) {
             handleFocusTextEditor();
@@ -285,6 +351,7 @@ export default function Movie() {
     ) {
         return <Error404 />;
     }
+    // #endregion
 
     return (
         <>
@@ -563,6 +630,8 @@ export default function Movie() {
                                 handleFocusTextEditor={handleFocusTextEditor}
                                 ref={reviewRef}
                                 setRating={setRating}
+                                handleUpvote={onUpvoteMovie}
+                                handleDownvote={onDownVoteMovie}
                             />
                         ))}
                         {movie.reviews?.length! > 0 && (
