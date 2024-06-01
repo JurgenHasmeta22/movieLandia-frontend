@@ -10,6 +10,7 @@ const api = {
 };
 
 const movieService = {
+    // #region "CRUD"
     getMovies: async ({
         sortBy,
         ascOrDesc,
@@ -138,6 +139,39 @@ const movieService = {
             return { error };
         }
     },
+    updateMovie: async (payload: IMoviePatch, id: number): Promise<any> => {
+        let url = `${api.url}/updateMovieById/${id}`;
+
+        try {
+            const movie: IMovie = await axios.patch(url, payload).then((res) => res.data);
+            return movie;
+        } catch (error) {
+            return { error };
+        }
+    },
+    addMovie: async (payload: IMoviePost): Promise<any> => {
+        let url = `${api.url}/addMovie`;
+
+        try {
+            const movie: IMovie = await axios.post(url, payload).then((res) => res.data);
+            return movie;
+        } catch (error) {
+            return { error };
+        }
+    },
+    deleteMovie: async (id: number): Promise<any> => {
+        let url = `${api.url}/deleteMovieById/${id}`;
+
+        try {
+            const movie: IMovie = await axios.delete(url).then((res) => res.data);
+            return movie;
+        } catch (error) {
+            return { error };
+        }
+    },
+    // #endregion
+
+    // #region "Bookmarks"
     addToFavorites: async (
         movieId: number | undefined,
         userId: number | undefined,
@@ -195,47 +229,20 @@ const movieService = {
             return { error };
         }
     },
-    updateMovie: async (payload: IMoviePatch, id: number): Promise<any> => {
-        let url = `${api.url}/updateMovieById/${id}`;
+    // #endregion
 
-        try {
-            const movie: IMovie = await axios.patch(url, payload).then((res) => res.data);
-            return movie;
-        } catch (error) {
-            return { error };
-        }
-    },
-    addMovie: async (payload: IMoviePost): Promise<any> => {
-        let url = `${api.url}/addMovie`;
-
-        try {
-            const movie: IMovie = await axios.post(url, payload).then((res) => res.data);
-            return movie;
-        } catch (error) {
-            return { error };
-        }
-    },
-    deleteMovie: async (id: number): Promise<any> => {
-        let url = `${api.url}/deleteMovieById/${id}`;
-
-        try {
-            const movie: IMovie = await axios.delete(url).then((res) => res.data);
-            return movie;
-        } catch (error) {
-            return { error };
-        }
-    },
+    // #region "Reviews"
     addReview: async (
         movieId: number | undefined,
         userId: number | undefined,
         review: string,
-        rating: number | null
+        rating: number | null,
     ): Promise<any> => {
         const payload = {
             movieId,
             userId,
             content: review,
-            rating
+            rating,
         };
 
         try {
@@ -252,13 +259,13 @@ const movieService = {
         movieId: number | undefined,
         userId: number | undefined,
         review: string,
-        rating: number | null
+        rating: number | null,
     ): Promise<any> => {
         const payload = {
             movieId,
             userId,
             content: review,
-            rating
+            rating,
         };
 
         try {
@@ -306,6 +313,94 @@ const movieService = {
             return { error };
         }
     },
+    // #endregion
+
+    // #region "Upvotes, Downvotes"
+    addUpvoteMovie: async (
+        userId: number | undefined,
+        movieId: number | undefined,
+        movieReviewId: number,
+    ): Promise<any> => {
+        const payload = {
+            userId,
+            movieId,
+            movieReviewId,
+        };
+
+        try {
+            const response: any = await axios
+                .post(`${api.url}/addUpvoteMovie`, payload)
+                .then((x) => x.data);
+
+            return response;
+        } catch (error) {
+            return { error };
+        }
+    },
+    addDownvoteMovie: async (
+        userId: number | undefined,
+        movieId: number | undefined,
+        movieReviewId: number,
+    ): Promise<any> => {
+        const payload = {
+            userId,
+            movieId,
+            movieReviewId,
+        };
+
+        try {
+            const response: any = await axios
+                .post(`${api.url}/addDownvoteMovie`, payload)
+                .then((x) => x.data);
+
+            return response;
+        } catch (error) {
+            return { error };
+        }
+    },
+    removeUpvoteMovie: async (
+        userId: number | undefined,
+        movieId: number | undefined,
+        movieReviewId: number,
+    ): Promise<any> => {
+        const payload = {
+            userId,
+            movieId,
+            movieReviewId,
+        };
+
+        try {
+            const response: any = await axios
+                .post(`${api.url}/removeUpvoteMovie`, payload)
+                .then((x) => x.data);
+
+            return response;
+        } catch (error) {
+            return { error };
+        }
+    },
+    removeDownvoteMovie: async (
+        userId: number | undefined,
+        movieId: number | undefined,
+        movieReviewId: number,
+    ): Promise<any> => {
+        const payload = {
+            userId,
+            movieId,
+            movieReviewId,
+        };
+
+        try {
+            const response: any = await axios
+                .post(`${api.url}/removeDownvoteMovie`, payload)
+                .then((x) => x.data);
+
+            return response;
+        } catch (error) {
+            return { error };
+        }
+    },
+    // #endregion
 };
 
 export default movieService;

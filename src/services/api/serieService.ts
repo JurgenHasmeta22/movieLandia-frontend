@@ -10,6 +10,7 @@ const api = {
 };
 
 const serieService = {
+    // #region "CRUD"
     getSeries: async ({
         sortBy,
         ascOrDesc,
@@ -158,6 +159,9 @@ const serieService = {
             return { error };
         }
     },
+    // #endregion
+
+    // #region "Bookmarks"
     addToFavorites: async (
         serieId: number | undefined,
         userId: number | undefined,
@@ -215,6 +219,9 @@ const serieService = {
             return { error };
         }
     },
+    // #endregion
+
+    // #region "Reviews"
     addReview: async (
         userId: number | undefined,
         serieId: number | undefined,
@@ -296,6 +303,94 @@ const serieService = {
             return { error };
         }
     },
+    // #endregion
+
+    // #region "Upvotes, Downvotes"
+    addUpvoteSerie: async (
+        userId: number | undefined,
+        serieId: number | undefined,
+        serieReviewId: number,
+    ): Promise<any> => {
+        const payload = {
+            userId,
+            serieId,
+            serieReviewId,
+        };
+
+        try {
+            const response: any = await axios
+                .post(`${api.url}/addUpvoteSerie`, payload)
+                .then((x) => x.data);
+
+            return response;
+        } catch (error) {
+            return { error };
+        }
+    },
+    addDownvoteSerie: async (
+        userId: number | undefined,
+        serieId: number | undefined,
+        serieReviewId: number,
+    ): Promise<any> => {
+        const payload = {
+            userId,
+            serieId,
+            serieReviewId,
+        };
+
+        try {
+            const response: any = await axios
+                .post(`${api.url}/addDownvoteSerie`, payload)
+                .then((x) => x.data);
+
+            return response;
+        } catch (error) {
+            return { error };
+        }
+    },
+    removeUpvoteSerie: async (
+        userId: number | undefined,
+        serieId: number | undefined,
+        movieReviewId: number,
+    ): Promise<any> => {
+        const payload = {
+            userId,
+            serieId,
+            movieReviewId,
+        };
+
+        try {
+            const response: any = await axios
+                .post(`${api.url}/removeUpvoteSerie`, payload)
+                .then((x) => x.data);
+
+            return response;
+        } catch (error) {
+            return { error };
+        }
+    },
+    removeDownvoteSerie: async (
+        userId: number | undefined,
+        serieId: number | undefined,
+        serieReviewId: number,
+    ): Promise<any> => {
+        const payload = {
+            userId,
+            serieId,
+            serieReviewId,
+        };
+
+        try {
+            const response: any = await axios
+                .post(`${api.url}/removeDownvoteSerie`, payload)
+                .then((x) => x.data);
+
+            return response;
+        } catch (error) {
+            return { error };
+        }
+    },
+    // #endregion
 };
 
 export default serieService;

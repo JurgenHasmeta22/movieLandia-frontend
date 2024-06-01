@@ -118,6 +118,7 @@ export default function Serie() {
         ]);
     };
 
+    // #region "Bookmark"
     async function onBookmarkSerie() {
         if (!user || !serie) return;
 
@@ -155,7 +156,9 @@ export default function Serie() {
             toast.error("An error occurred while removing the serie from favorites.");
         }
     }
+    // #endregion
 
+    // #region "Reviews"
     async function onSubmitReview() {
         if (!user || !serie) return;
 
@@ -242,6 +245,68 @@ export default function Serie() {
             toast.error("An error occurred while updating the review.");
         }
     }
+    // #endregion
+
+    // #region "Upvotes, Downvotes"
+    async function onUpvoteSerie(serieReviewId: number) {
+        if (!user || !serieReviewId) return;
+
+        try {
+            const responseDeleteDownvote = await serieService.removeDownvoteSerie(
+                user?.id,
+                serie?.id,
+                serieReviewId,
+            );
+
+            if (responseDeleteDownvote && !responseDeleteDownvote.errors) {
+                const response = await serieService.addUpvoteSerie(
+                    user?.id,
+                    serie?.id,
+                    serieReviewId,
+                );
+
+                if (response && !response.error) {
+                    await refetchSerieDetailsAndBookmarkStatus();
+                    toast.success("Upvoted successfully!");
+                    window.scrollTo(0, 0);
+                } else {
+                    toast.error("Upvoted unsuccessfully!");
+                }
+            }
+        } catch (error) {
+            toast.error("An error occurred while adding the upvote to movie review.");
+        }
+    }
+    async function onDownVoteSerie(serieReviewId: number) {
+        if (!user || (!serie && !serieReviewId)) return;
+
+        try {
+            const responseDeleteUpvote = await serieService.removeUpvoteSerie(
+                user?.id,
+                serie?.id,
+                serieReviewId,
+            );
+
+            if (responseDeleteUpvote && !responseDeleteUpvote.error) {
+                const response = await serieService.addDownvoteSerie(
+                    user?.id,
+                    serie?.id,
+                    serieReviewId,
+                );
+
+                if (response && !response.error) {
+                    await refetchSerieDetailsAndBookmarkStatus();
+                    toast.success("Downvoted successfully!");
+                    window.scrollTo(0, 0);
+                } else {
+                    toast.error("Downvoted unsuccessfully!");
+                }
+            }
+        } catch (error) {
+            toast.error("An error occurred while adding the downvoted to movie review.");
+        }
+    }
+    // #endregion
 
     const handleFocusReview = () => {
         if (reviewRef.current) {
@@ -552,6 +617,8 @@ export default function Serie() {
                                 handleFocusTextEditor={handleFocusTextEditor}
                                 ref={reviewRef}
                                 setRating={setRating}
+                                handleUpvote={onUpvoteSerie}
+                                handleDownvote={onDownVoteSerie}
                             />
                         ))}
                         {serie.reviews?.length! > 0 && (
