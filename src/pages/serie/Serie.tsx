@@ -607,7 +607,7 @@ export default function Serie() {
                                 data={serie}
                             />
                         ))}
-                        {serie.reviews?.length! > 0 && (
+                        {serie._count?.reviews! > 0 && (
                             <Stack
                                 spacing={2}
                                 sx={{

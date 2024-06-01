@@ -250,11 +250,7 @@ export default function Movie() {
         if (!user || !movieReviewId) return;
 
         try {
-            await movieService.removeDownvoteMovieReview(
-                user?.id,
-                movie?.id,
-                movieReviewId,
-            );
+            await movieService.removeDownvoteMovieReview(user?.id, movie?.id, movieReviewId);
 
             const response = await movieService.addUpvoteMovieReview(
                 user?.id,
@@ -276,11 +272,7 @@ export default function Movie() {
         if (!user || (!movie && !movieReviewId)) return;
 
         try {
-            await movieService.removeUpvoteMovieReview(
-                user?.id,
-                movie?.id,
-                movieReviewId,
-            );
+            await movieService.removeUpvoteMovieReview(user?.id, movie?.id, movieReviewId);
 
             const response = await movieService.addDownvoteMovieReview(
                 user?.id,
@@ -628,7 +620,7 @@ export default function Movie() {
                                 data={movie}
                             />
                         ))}
-                        {movie.reviews?.length! > 0 && (
+                        {movie._count?.reviews! > 0 && (
                             <Stack
                                 spacing={2}
                                 sx={{
