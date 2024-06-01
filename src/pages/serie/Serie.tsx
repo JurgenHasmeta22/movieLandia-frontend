@@ -262,10 +262,9 @@ export default function Serie() {
 
             if (response) {
                 await refetchSerieDetailsAndBookmarkStatus();
-                toast.success("Upvoted successfully!");
-                window.scrollTo(0, 0);
+                toast.success("Upvote added successfully!");
             } else {
-                toast.error("Upvoted unsuccessfully!");
+                toast.error("Upvote added unsuccessfully!");
             }
         } catch (error) {
             toast.error("An error occurred while adding the upvote to movie review.");
@@ -285,10 +284,9 @@ export default function Serie() {
 
             if (response) {
                 await refetchSerieDetailsAndBookmarkStatus();
-                toast.success("Downvoted successfully!");
-                window.scrollTo(0, 0);
+                toast.success("Downvote added successfully!");
             } else {
-                toast.error("Downvoted unsuccessfully!");
+                toast.error("Downvote added unsuccessfully!");
             }
         } catch (error) {
             toast.error("An error occurred while adding the downvoted to movie review.");

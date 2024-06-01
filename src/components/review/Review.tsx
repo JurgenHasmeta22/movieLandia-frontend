@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, forwardRef } from "react";
+import React, { Dispatch, SetStateAction, forwardRef, useEffect } from "react";
 import { format } from "date-fns";
 import { Avatar, Box, Paper, Typography, IconButton, useTheme, Rating } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
@@ -10,6 +10,7 @@ import { tokens } from "~/utils/theme";
 import movieService from "~/services/api/movieService";
 import { useQuery } from "@tanstack/react-query";
 import serieService from "~/services/api/serieService";
+import { toast } from "react-toastify";
 
 interface ReviewProps {
     review: {
@@ -66,12 +67,12 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
         const colors = tokens(theme.palette.mode);
         const { label, color } = getRatingLabelAndColor(review.rating);
 
-        let isMovieReviewUpvotedOrDownvotedQuery;
-        let isSerieReviewUpvotedOrDownvotedQuery;
+        let isMovieReviewUpvotedOrDownvotedQuery: any;
+        let isSerieReviewUpvotedOrDownvotedQuery: any;
 
         if (type === "movie") {
             isMovieReviewUpvotedOrDownvotedQuery = useQuery({
-                queryKey: ["isMovieReviewUpvotedOrDownvoted", user, data],
+                queryKey: ["isMovieReviewUpvotedOrDownvoted", data, review],
                 queryFn: () =>
                     movieService.isMovieReviewUpvotedOrDownvoted(user?.id!, data.id, review.id),
                 refetchOnMount: "always",
@@ -79,7 +80,7 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
             });
         } else if (type === "serie") {
             isSerieReviewUpvotedOrDownvotedQuery = useQuery({
-                queryKey: ["isSerieReviewUpvotedOrDownvoted", user, data],
+                queryKey: ["isSerieReviewUpvotedOrDownvoted", data, review],
                 queryFn: () =>
                     serieService.isSerieReviewUpvotedOrDownvoted(user?.id!, data.id, review.id),
                 refetchOnMount: "always",
@@ -91,6 +92,14 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
             isSerieReviewUpvotedOrDownvotedQuery?.data! ?? null;
         const isMovieReviewUpvotedOrDownvoted: any =
             isMovieReviewUpvotedOrDownvotedQuery?.data! ?? null;
+
+        useEffect(() => {
+            if (type === "movie") {
+                isMovieReviewUpvotedOrDownvotedQuery.refetch();
+            } else if (type === "serie") {
+                isSerieReviewUpvotedOrDownvotedQuery.refetch();
+            }
+        }, [data, review]);
 
         return (
             <Paper
@@ -249,7 +258,43 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
                     >
                         <IconButton
                             size="medium"
-                            onClick={() => handleUpvote(review.id)}
+                            onClick={async () => {
+                                if (
+                                    type === "movie" &&
+                                    isMovieReviewUpvotedOrDownvoted &&
+                                    isMovieReviewUpvotedOrDownvoted.isUpvoted
+                                ) {
+                                    const response = await movieService.removeUpvoteMovieReview(
+                                        user?.id,
+                                        data?.id,
+                                        review.id,
+                                    );
+
+                                    if (response) {
+                                        toast.success("Upvote removed successfully!");
+                                    }
+
+                                    isMovieReviewUpvotedOrDownvotedQuery.refetch();
+                                } else if (
+                                    type === "serie" &&
+                                    isSerieReviewUpvotedOrDownvoted &&
+                                    isSerieReviewUpvotedOrDownvoted.isUpvoted
+                                ) {
+                                    const response = await serieService.removeUpvoteSerieReview(
+                                        user?.id,
+                                        data?.id,
+                                        review.id,
+                                    );
+
+                                    if (response) {
+                                        toast.success("Upvote removed successfully!");
+                                    }
+
+                                    isSerieReviewUpvotedOrDownvotedQuery.refetch();
+                                } else {
+                                    handleUpvote(review.id);
+                                }
+                            }}
                             sx={{
                                 color:
                                     (type === "movie" &&
@@ -266,7 +311,43 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
                         </IconButton>
                         <IconButton
                             size="medium"
-                            onClick={() => handleDownvote(review.id)}
+                            onClick={async () => {
+                                if (
+                                    type === "movie" &&
+                                    isMovieReviewUpvotedOrDownvoted &&
+                                    isMovieReviewUpvotedOrDownvoted.isDownvoted
+                                ) {
+                                    const response = await movieService.removeDownvoteMovieReview(
+                                        user?.id,
+                                        data?.id,
+                                        review.id,
+                                    );
+
+                                    if (response) {
+                                        toast.success("Downvoted removed successfully!");
+                                    }
+
+                                    isMovieReviewUpvotedOrDownvotedQuery.refetch();
+                                } else if (
+                                    type === "serie" &&
+                                    isSerieReviewUpvotedOrDownvoted &&
+                                    isSerieReviewUpvotedOrDownvoted.isDownvoted
+                                ) {
+                                    const response = await serieService.removeDownvoteSerieReview(
+                                        user?.id,
+                                        data?.id,
+                                        review.id,
+                                    );
+
+                                    if (response) {
+                                        toast.success("Downvoted removed successfully!");
+                                    }
+
+                                    isSerieReviewUpvotedOrDownvotedQuery.refetch();
+                                } else {
+                                    handleDownvote(review.id);
+                                }
+                            }}
                             sx={{
                                 color:
                                     (type === "movie" &&

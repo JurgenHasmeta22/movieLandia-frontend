@@ -252,7 +252,11 @@ export default function Movie() {
         if (!user || !movieReviewId) return;
 
         try {
-            await movieService.removeDownvoteMovieReview(user?.id, movie?.id, movieReviewId);
+            await movieService.removeDownvoteMovieReview(
+                user?.id,
+                movie?.id,
+                movieReviewId,
+            );
 
             const response = await movieService.addUpvoteMovieReview(
                 user?.id,
@@ -262,10 +266,9 @@ export default function Movie() {
 
             if (response) {
                 await refetchMovieDetailsAndBookmarkStatus();
-                toast.success("Upvoted successfully!");
-                window.scrollTo(0, 0);
+                toast.success("Upvote added successfully!");
             } else {
-                toast.error("Upvoted unsuccessfully!");
+                toast.error("Upvoted added unsuccessfully!");
             }
         } catch (error) {
             toast.error("An error occurred while adding the upvote to movie review.");
@@ -275,7 +278,11 @@ export default function Movie() {
         if (!user || (!movie && !movieReviewId)) return;
 
         try {
-            await movieService.removeUpvoteMovieReview(user?.id, movie?.id, movieReviewId);
+            await movieService.removeUpvoteMovieReview(
+                user?.id,
+                movie?.id,
+                movieReviewId,
+            );
 
             const response = await movieService.addDownvoteMovieReview(
                 user?.id,
@@ -285,10 +292,9 @@ export default function Movie() {
 
             if (response) {
                 await refetchMovieDetailsAndBookmarkStatus();
-                toast.success("Downvoted successfully!");
-                window.scrollTo(0, 0);
+                toast.success("Downvoted added successfully!");
             } else {
-                toast.error("Downvoted unsuccessfully!");
+                toast.error("Downvoted added unsuccessfully!");
             }
         } catch (error) {
             toast.error("An error occurred while adding the downvoted to movie review.");
