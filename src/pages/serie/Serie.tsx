@@ -246,45 +246,57 @@ export default function Serie() {
     // #endregion
 
     // #region "Upvotes, Downvotes"
-    async function onUpvoteSerie(serieReviewId: number) {
+    async function onUpvoteSerie(serieReviewId: number, isAlreadyUpvoted: boolean) {
         if (!user || !serieReviewId) return;
 
         try {
-            await serieService.removeDownvoteSerieReview(user?.id, serie?.id, serieReviewId);
-
-            const response = await serieService.addUpvoteSerieReview(
-                user?.id,
-                serie?.id,
-                serieReviewId,
-            );
-
-            if (response) {
+            if (isAlreadyUpvoted) {
+                await serieService.removeUpvoteSerieReview(user?.id, serie?.id, serieReviewId);
                 await refetchSerieDetailsAndBookmarkStatus();
-                toast.success("Upvote added successfully!");
+                toast.success("Upvote removed successfully!");
             } else {
-                toast.error("Upvote added unsuccessfully!");
+                await serieService.removeDownvoteSerieReview(user?.id, serie?.id, serieReviewId);
+
+                const response = await serieService.addUpvoteSerieReview(
+                    user?.id,
+                    serie?.id,
+                    serieReviewId,
+                );
+
+                if (response) {
+                    await refetchSerieDetailsAndBookmarkStatus();
+                    toast.success("Upvote added successfully!");
+                } else {
+                    toast.error("Upvote added unsuccessfully!");
+                }
             }
         } catch (error) {
             toast.error("An error occurred while adding the upvote to movie review.");
         }
     }
-    async function onDownVoteSerie(serieReviewId: number) {
+    async function onDownVoteSerie(serieReviewId: number, isAlreadyDownvoted: boolean) {
         if (!user || (!serie && !serieReviewId)) return;
 
         try {
-            await serieService.removeUpvoteSerieReview(user?.id, serie?.id, serieReviewId);
-
-            const response = await serieService.addDownvoteSerieReview(
-                user?.id,
-                serie?.id,
-                serieReviewId,
-            );
-
-            if (response) {
+            if (isAlreadyDownvoted) {
+                await serieService.removeDownvoteSerieReview(user?.id, serie?.id, serieReviewId);
                 await refetchSerieDetailsAndBookmarkStatus();
-                toast.success("Downvote added successfully!");
+                toast.success("Downvote removed successfully!");
             } else {
-                toast.error("Downvote added unsuccessfully!");
+                await serieService.removeUpvoteSerieReview(user?.id, serie?.id, serieReviewId);
+
+                const response = await serieService.addDownvoteSerieReview(
+                    user?.id,
+                    serie?.id,
+                    serieReviewId,
+                );
+
+                if (response) {
+                    await refetchSerieDetailsAndBookmarkStatus();
+                    toast.success("Downvote added successfully!");
+                } else {
+                    toast.error("Downvote added unsuccessfully!");
+                }
             }
         } catch (error) {
             toast.error("An error occurred while adding the downvoted to movie review.");

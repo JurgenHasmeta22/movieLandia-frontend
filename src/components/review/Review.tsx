@@ -19,6 +19,10 @@ interface ReviewProps {
         createdAt: string;
         updatedAt: string;
         rating: number;
+        _count: {
+            upvotes: number;
+            downvotes: number;
+        };
         user: {
             userName: string;
             avatar: string;
@@ -31,8 +35,8 @@ interface ReviewProps {
     setIsEditMode: Dispatch<SetStateAction<boolean>>;
     isEditMode: boolean;
     setReview: React.Dispatch<React.SetStateAction<string>>;
-    handleUpvote: (reviewId: number) => void;
-    handleDownvote: (reviewId: number) => void;
+    handleUpvote: (reviewId: number, isAlreadyUpvotedOrDownvoted: boolean) => void;
+    handleDownvote: (reviewId: number, isAlreadyUpvotedOrDownvoted: boolean) => void;
     type: string;
     data: any;
 }
@@ -252,116 +256,91 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
                         alignItems: "center",
                         justifyContent: "center",
                         mt: 1,
+                        columnGap: 4,
                     }}
                 >
-                    <IconButton
-                        size="medium"
-                        disabled={user && review.user.userName !== user?.userName ? false : true}
-                        onClick={async () => {
-                            if (
-                                type === "movie" &&
-                                isMovieReviewUpvotedOrDownvoted &&
-                                isMovieReviewUpvotedOrDownvoted.isUpvoted
-                            ) {
-                                const response = await movieService.removeUpvoteMovieReview(
-                                    user?.id,
-                                    data?.id,
-                                    review.id,
-                                );
-
-                                if (response) {
-                                    toast.success("Upvote removed successfully!");
-                                }
-
-                                isMovieReviewUpvotedOrDownvotedQuery.refetch();
-                            } else if (
-                                type === "serie" &&
-                                isSerieReviewUpvotedOrDownvoted &&
-                                isSerieReviewUpvotedOrDownvoted.isUpvoted
-                            ) {
-                                const response = await serieService.removeUpvoteSerieReview(
-                                    user?.id,
-                                    data?.id,
-                                    review.id,
-                                );
-
-                                if (response) {
-                                    toast.success("Upvote removed successfully!");
-                                }
-
-                                isSerieReviewUpvotedOrDownvotedQuery.refetch();
-                            } else {
-                                handleUpvote(review.id);
+                    <Box display={"flex"} alignItems={"center"} columnGap={1}>
+                        <IconButton
+                            size="medium"
+                            disabled={
+                                user && review.user.userName !== user?.userName ? false : true
                             }
-                        }}
-                        sx={{
-                            color:
-                                (type === "movie" &&
+                            onClick={async () => {
+                                if (
+                                    type === "movie" &&
                                     isMovieReviewUpvotedOrDownvoted &&
-                                    isMovieReviewUpvotedOrDownvoted.isUpvoted) ||
-                                (type === "serie" &&
+                                    isMovieReviewUpvotedOrDownvoted.isUpvoted
+                                ) {
+                                    handleUpvote(review.id, true);
+                                    isMovieReviewUpvotedOrDownvotedQuery.refetch();
+                                } else if (
+                                    type === "serie" &&
                                     isSerieReviewUpvotedOrDownvoted &&
-                                    isSerieReviewUpvotedOrDownvoted.isUpvoted)
-                                    ? colors.greenAccent[700]
-                                    : colors.primary[100],
-                        }}
-                    >
-                        <ThumbUpIcon fontSize="medium" />
-                    </IconButton>
-                    <IconButton
-                        size="medium"
-                        disabled={user && review.user.userName !== user?.userName ? false : true}
-                        onClick={async () => {
-                            if (
-                                type === "movie" &&
-                                isMovieReviewUpvotedOrDownvoted &&
-                                isMovieReviewUpvotedOrDownvoted.isDownvoted
-                            ) {
-                                const response = await movieService.removeDownvoteMovieReview(
-                                    user?.id,
-                                    data?.id,
-                                    review.id,
-                                );
-
-                                if (response) {
-                                    toast.success("Downvoted removed successfully!");
+                                    isSerieReviewUpvotedOrDownvoted.isUpvoted
+                                ) {
+                                    handleUpvote(review.id, true);
+                                    isSerieReviewUpvotedOrDownvotedQuery.refetch();
+                                } else {
+                                    handleUpvote(review.id, false);
                                 }
-
-                                isMovieReviewUpvotedOrDownvotedQuery.refetch();
-                            } else if (
-                                type === "serie" &&
-                                isSerieReviewUpvotedOrDownvoted &&
-                                isSerieReviewUpvotedOrDownvoted.isDownvoted
-                            ) {
-                                const response = await serieService.removeDownvoteSerieReview(
-                                    user?.id,
-                                    data?.id,
-                                    review.id,
-                                );
-
-                                if (response) {
-                                    toast.success("Downvoted removed successfully!");
-                                }
-
-                                isSerieReviewUpvotedOrDownvotedQuery.refetch();
-                            } else {
-                                handleDownvote(review.id);
+                            }}
+                            sx={{
+                                color:
+                                    (type === "movie" &&
+                                        isMovieReviewUpvotedOrDownvoted &&
+                                        isMovieReviewUpvotedOrDownvoted.isUpvoted) ||
+                                    (type === "serie" &&
+                                        isSerieReviewUpvotedOrDownvoted &&
+                                        isSerieReviewUpvotedOrDownvoted.isUpvoted)
+                                        ? colors.greenAccent[700]
+                                        : colors.primary[100],
+                            }}
+                        >
+                            <ThumbUpIcon fontSize="medium" />
+                        </IconButton>
+                        <Typography component={"span"}>{review._count.upvotes}</Typography>
+                    </Box>
+                    <Box display={"flex"} alignItems={"center"} columnGap={1}>
+                        <IconButton
+                            size="medium"
+                            disabled={
+                                user && review.user.userName !== user?.userName ? false : true
                             }
-                        }}
-                        sx={{
-                            color:
-                                (type === "movie" &&
+                            onClick={async () => {
+                                if (
+                                    type === "movie" &&
                                     isMovieReviewUpvotedOrDownvoted &&
-                                    isMovieReviewUpvotedOrDownvoted.isDownvoted) ||
-                                (type === "serie" &&
+                                    isMovieReviewUpvotedOrDownvoted.isDownvoted
+                                ) {
+                                    handleDownvote(review.id, true);
+                                    isMovieReviewUpvotedOrDownvotedQuery.refetch();
+                                } else if (
+                                    type === "serie" &&
                                     isSerieReviewUpvotedOrDownvoted &&
-                                    isSerieReviewUpvotedOrDownvoted.isDownvoted)
-                                    ? colors.redAccent[700]
-                                    : colors.primary[100],
-                        }}
-                    >
-                        <ThumbDownIcon fontSize="medium" />
-                    </IconButton>
+                                    isSerieReviewUpvotedOrDownvoted.isDownvoted
+                                ) {
+                                    handleDownvote(review.id, true);
+                                    isSerieReviewUpvotedOrDownvotedQuery.refetch();
+                                } else {
+                                    handleDownvote(review.id, false);
+                                }
+                            }}
+                            sx={{
+                                color:
+                                    (type === "movie" &&
+                                        isMovieReviewUpvotedOrDownvoted &&
+                                        isMovieReviewUpvotedOrDownvoted.isDownvoted) ||
+                                    (type === "serie" &&
+                                        isSerieReviewUpvotedOrDownvoted &&
+                                        isSerieReviewUpvotedOrDownvoted.isDownvoted)
+                                        ? colors.redAccent[700]
+                                        : colors.primary[100],
+                            }}
+                        >
+                            <ThumbDownIcon fontSize="medium" />
+                        </IconButton>
+                        <Typography component={"span"}>{review._count.downvotes}</Typography>
+                    </Box>
                 </Box>
             </Paper>
         );
