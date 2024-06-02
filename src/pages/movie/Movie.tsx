@@ -35,6 +35,7 @@ import { WarningOutlined, CheckOutlined } from "@mui/icons-material";
 import * as CONSTANTS from "~/constants/Constants";
 import { useSorting } from "~/hooks/useSorting";
 import SortSelect from "~/components/sortSelect/SortSelect";
+import StarRateIcon from "@mui/icons-material/StarRate";
 
 export default function Movie() {
     // #region "State, refs, hooks, theme"
@@ -102,7 +103,7 @@ export default function Movie() {
     // #endregion
 
     // #region "Pagination"
-    const pageCount = Math.ceil(movie?._count?.reviews! / 5);
+    const pageCount = Math.ceil(movie?.totalReviews! / 5);
     const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
         searchParams.set("page", String(value));
         setSearchParams(searchParams);
@@ -508,6 +509,47 @@ export default function Movie() {
                                             </Typography>
                                         </Box>
                                     </ListItem>
+                                    <ListItem
+                                        sx={{
+                                            display: "flex",
+                                            flexDirection: "row",
+                                            columnGap: 0.5,
+                                        }}
+                                    >
+                                        <Box
+                                            display="flex"
+                                            flexDirection="row"
+                                            columnGap={0.5}
+                                            alignItems={"center"}
+                                            justifyContent={"start"}
+                                        >
+                                            <StarRateIcon
+                                                sx={{
+                                                    color: "primary",
+                                                }}
+                                            />
+                                            <Typography
+                                                color={"secondary"}
+                                                fontSize={16}
+                                                component="span"
+                                                sx={{
+                                                    color: "primary",
+                                                }}
+                                            >
+                                                {movie.averageRating}
+                                            </Typography>
+                                            <Typography
+                                                color={"secondary"}
+                                                fontSize={16}
+                                                component="span"
+                                                sx={{
+                                                    color: "primary",
+                                                }}
+                                            >
+                                                ({movie.totalReviews})
+                                            </Typography>
+                                        </Box>
+                                    </ListItem>
                                 </List>
                                 <Typography
                                     textAlign={"center"}
@@ -633,7 +675,7 @@ export default function Movie() {
                                 data={movie}
                             />
                         ))}
-                        {movie._count?.reviews! > 0 && (
+                        {movie.totalReviews! > 0 && (
                             <Stack
                                 spacing={2}
                                 sx={{
