@@ -44,6 +44,7 @@ function App() {
     const [theme, colorMode] = useMode();
     const location = useLocation();
 
+    // Validate User, is the user logged in
     useEffect(() => {
         const validateUser = async () => {
             const response: any = await authenticationService.validateUser();
@@ -57,6 +58,11 @@ function App() {
         };
 
         validateUser();
+    }, []);
+
+    // This fixed when refreshing on any page even on Bottom it goes to the top
+    useEffect(() => {
+        window.history.scrollRestoration = "manual";
     }, []);
 
     return (
