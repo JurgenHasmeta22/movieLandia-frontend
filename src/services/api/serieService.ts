@@ -68,6 +68,8 @@ const serieService = {
             filterValue,
             filterName,
             filterOperator,
+            upvotesPage,
+            downvotesPage,
         }: {
             sortBy?: string;
             ascOrDesc?: string;
@@ -77,6 +79,8 @@ const serieService = {
             filterValue?: string;
             filterName?: string;
             filterOperator?: string;
+            upvotesPage?: number;
+            downvotesPage?: number;
         },
     ): Promise<any> => {
         let url = `${api.url}/getSerieByTitle/${titleSerie}`;
@@ -90,6 +94,8 @@ const serieService = {
             filterValue && `filterValue=${filterValue}`,
             filterName && `filterName=${filterName}`,
             filterOperator && `filterOperator=${filterOperator}`,
+            upvotesPage && `upvotesPage=${upvotesPage}`,
+            downvotesPage && `downvotesPage=${downvotesPage}`,
         ]
             .filter(Boolean)
             .join("&");

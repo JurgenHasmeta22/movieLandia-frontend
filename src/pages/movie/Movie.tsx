@@ -70,13 +70,15 @@ export default function Movie() {
 
         if (sortBy) queryParams.sortBy = sortBy;
         if (ascOrDesc) queryParams.ascOrDesc = ascOrDesc;
-        response = await movieService.getMovieByTitle(params?.title!, queryParams);
+        if (upvotesPage !== 1) queryParams.upvotesPage = upvotesPage;
+        if (downvotesPage !== 1) queryParams.downvotesPage = downvotesPage;
 
+        response = await movieService.getMovieByTitle(params?.title!, queryParams);
         return response;
     };
 
     const movieQuery = useQuery({
-        queryKey: ["movie", params?.title!, sortBy, ascOrDesc, page],
+        queryKey: ["movie", params?.title!, sortBy, ascOrDesc, page, upvotesPage, downvotesPage],
         queryFn: () => fetchMovie(),
         refetchOnMount: "always",
         refetchOnWindowFocus: "always",
@@ -681,7 +683,6 @@ export default function Movie() {
                                 setUpvotesPage={setUpvotesPage}
                                 downvotesPage={downvotesPage}
                                 setDownvotesPage={setDownvotesPage}
-                                dataRefetch={movieQuery.refetch()}
                             />
                         ))}
                         {movie.totalReviews! > 0 && (

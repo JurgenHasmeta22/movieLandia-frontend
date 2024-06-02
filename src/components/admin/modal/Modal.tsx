@@ -21,6 +21,7 @@ import {
     Avatar,
     ListItemText,
     CircularProgress,
+    Box,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { Formik, Form, Field, FormikProps } from "formik";
@@ -37,7 +38,6 @@ type ModalProps = {
     onClose?: () => void;
     onDataChange?: (values: any) => void;
     onSave?: (values: any) => void;
-    fetchMoreData?: () => void;
     open: boolean;
     initialValues?: any;
     fields?: FieldConfig[];
@@ -49,7 +49,8 @@ type ModalProps = {
     hasList?: boolean;
     dataList?: Array<{ avatar: string; userName: string }>;
     hasMore: boolean;
-    // dataListTotal?: number;
+    votesPage?: number;
+    setVotesPage?: any;
 };
 
 type ActionConfig = {
@@ -83,8 +84,8 @@ const Modal: React.FC<ModalProps> = ({
     subTitle,
     hasList,
     dataList,
-    fetchMoreData,
-    // dataListTotal,
+    votesPage,
+    setVotesPage,
     hasMore,
 }) => {
     return (
@@ -103,10 +104,26 @@ const Modal: React.FC<ModalProps> = ({
                 {hasList ? (
                     <InfiniteScroll
                         dataLength={dataList ? dataList.length : 0}
-                        next={fetchMoreData ? fetchMoreData : () => {}}
+                        next={
+                            votesPage && setVotesPage
+                                ? () => {
+                                      setVotesPage(votesPage + 1);
+                                  }
+                                : () => {}
+                        }
                         hasMore={hasMore}
-                        loader={<CircularProgress size={20} thickness={2} />}
-                        style={{ overflow: "auto" }}
+                        loader={
+                            <Box
+                                display={"flex"}
+                                alignItems={"center"}
+                                justifyContent={"center"}
+                                mt={1}
+                            >
+                                <CircularProgress size={30} thickness={2} color="secondary" />
+                            </Box>
+                        }
+                        // style={{ overflow: "auto" }}
+                        height={330}
                         endMessage={
                             <Typography sx={{ textAlign: "center" }} variant="body1">
                                 You have seen it all
