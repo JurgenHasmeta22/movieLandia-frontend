@@ -39,10 +39,12 @@ import StarRateIcon from "@mui/icons-material/StarRate";
 
 export default function Serie() {
     // #region "State, refs, hooks, theme"
-    const [review, setReview] = useState("");
+    const [review, setReview] = useState<string>("");
     const [rating, setRating] = useState<number | null>(0);
-    const [open, setOpen] = useState(false);
-    const [isEditMode, setIsEditMode] = useState(false);
+    const [open, setOpen] = useState<boolean>(false);
+    const [isEditMode, setIsEditMode] = useState<boolean>(false);
+    const [upvotesPage, setUpvotesPage] = useState<number>(1);
+    const [downvotesPage, setDownvotesPage] = useState<number>(1);
 
     const textEditorRef = useRef<any>(null);
     const reviewRef = useRef<any>(null);
@@ -523,7 +525,9 @@ export default function Serie() {
                                                     color: "primary",
                                                 }}
                                             >
-                                                {serie.averageRating === 0 ? "N/A" : serie.averageRating}
+                                                {serie.averageRating === 0
+                                                    ? "N/A"
+                                                    : serie.averageRating}
                                             </Typography>
                                             <Typography
                                                 color={"secondary"}
@@ -659,6 +663,11 @@ export default function Serie() {
                                 handleDownvote={onDownVoteSerie}
                                 type="serie"
                                 data={serie}
+                                upvotesPage={upvotesPage}
+                                setUpvotesPage={setUpvotesPage}
+                                downvotesPage={downvotesPage}
+                                setDownvotesPage={setDownvotesPage}
+                                dataRefetch={serieQuery.refetch()}
                             />
                         ))}
                         {serie.totalReviews! > 0 && (
