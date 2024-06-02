@@ -19,8 +19,8 @@ import { tokens } from "~/utils/theme";
 import movieService from "~/services/api/movieService";
 import { useQuery } from "@tanstack/react-query";
 import serieService from "~/services/api/serieService";
-import { toast } from "react-toastify";
 import { useModal } from "~/services/providers/ModalContext";
+import { motion } from "framer-motion";
 
 interface ReviewProps {
     review: {
@@ -40,25 +40,25 @@ interface ReviewProps {
             avatar: string;
         };
     };
-    handleRemoveReview: () => void;
-    handleFocusTextEditor: () => void;
     setRating: React.Dispatch<React.SetStateAction<number | null>>;
     ref: any;
     setIsEditMode: Dispatch<SetStateAction<boolean>>;
     isEditMode: boolean;
     setReview: React.Dispatch<React.SetStateAction<string>>;
-    handleUpvote: (reviewId: number, isAlreadyUpvotedOrDownvoted: boolean) => void;
-    handleDownvote: (reviewId: number, isAlreadyUpvotedOrDownvoted: boolean) => void;
     type: string;
     data: any;
+    handleRemoveReview: () => void;
+    handleFocusTextEditor: () => void;
+    handleUpvote: (reviewId: number, isAlreadyUpvotedOrDownvoted: boolean) => void;
+    handleDownvote: (reviewId: number, isAlreadyUpvotedOrDownvoted: boolean) => void;
 }
 
-// Define the rating labels and colors
 const getRatingLabelAndColor = (rating: number) => {
     if (rating <= 2) return { label: "Very Bad", color: "error.main" };
     if (rating <= 4) return { label: "Bad", color: "warning.main" };
     if (rating <= 6) return { label: "Average", color: "info.main" };
     if (rating <= 8) return { label: "Good", color: "success.light" };
+
     return { label: "Very Good", color: "success.main" };
 };
 
@@ -78,13 +78,20 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
         },
         ref,
     ) => {
+        // #region "State, hooks, theme"
         const [open, setOpen] = useState(false);
+        const [isClickedUpvote, setIsClickedUpvote] = useState(false);
+        const [isClickedDownvote, setIsClickedDownvote] = useState(false);
+
         const { user } = useStore();
+        const { openModal } = useModal();
+
         const theme = useTheme();
         const colors = tokens(theme.palette.mode);
         const { label, color } = getRatingLabelAndColor(review.rating);
-        const { openModal } = useModal();
+        // #endregion
 
+        // #region "Data manipulation, fetching, queries"
         let isMovieReviewUpvotedOrDownvotedQuery: any;
         let isSerieReviewUpvotedOrDownvotedQuery: any;
 
@@ -118,7 +125,9 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
                 isSerieReviewUpvotedOrDownvotedQuery.refetch();
             }
         }, [data, review]);
+        // #endregion
 
+        // #region "Event handlers"
         async function onClickUpvotesReviewList() {
             openModal({
                 onClose: () => setOpen(false),
@@ -138,6 +147,59 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
                 dataList: review.downvotes,
             });
         }
+
+        async function handleClickUpVoteReview() {
+            setIsClickedUpvote(true);
+
+            if (
+                type === "movie" &&
+                isMovieReviewUpvotedOrDownvoted &&
+                isMovieReviewUpvotedOrDownvoted.isUpvoted
+            ) {
+                handleUpvote(review.id, true);
+                isMovieReviewUpvotedOrDownvotedQuery.refetch();
+            } else if (
+                type === "serie" &&
+                isSerieReviewUpvotedOrDownvoted &&
+                isSerieReviewUpvotedOrDownvoted.isUpvoted
+            ) {
+                handleUpvote(review.id, true);
+                isSerieReviewUpvotedOrDownvotedQuery.refetch();
+            } else {
+                handleUpvote(review.id, false);
+            }
+
+            setTimeout(() => {
+                setIsClickedUpvote(false);
+            }, 500);
+        }
+
+        async function handleClickDownVoteReview() {
+            setIsClickedDownvote(true);
+
+            if (
+                type === "movie" &&
+                isMovieReviewUpvotedOrDownvoted &&
+                isMovieReviewUpvotedOrDownvoted.isDownvoted
+            ) {
+                handleDownvote(review.id, true);
+                isMovieReviewUpvotedOrDownvotedQuery.refetch();
+            } else if (
+                type === "serie" &&
+                isSerieReviewUpvotedOrDownvoted &&
+                isSerieReviewUpvotedOrDownvoted.isDownvoted
+            ) {
+                handleDownvote(review.id, true);
+                isSerieReviewUpvotedOrDownvotedQuery.refetch();
+            } else {
+                handleDownvote(review.id, false);
+            }
+
+            setTimeout(() => {
+                setIsClickedDownvote(false);
+            }, 500);
+        }
+        // #endregion
 
         return (
             <Paper
@@ -294,99 +356,89 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
                     }}
                 >
                     <Box display={"flex"} alignItems={"center"} columnGap={1}>
-                        <IconButton
-                            size="medium"
-                            disabled={
-                                user && review.user.userName !== user?.userName ? false : true
-                            }
-                            onClick={async () => {
-                                if (
-                                    type === "movie" &&
-                                    isMovieReviewUpvotedOrDownvoted &&
-                                    isMovieReviewUpvotedOrDownvoted.isUpvoted
-                                ) {
-                                    handleUpvote(review.id, true);
-                                    isMovieReviewUpvotedOrDownvotedQuery.refetch();
-                                } else if (
-                                    type === "serie" &&
-                                    isSerieReviewUpvotedOrDownvoted &&
-                                    isSerieReviewUpvotedOrDownvoted.isUpvoted
-                                ) {
-                                    handleUpvote(review.id, true);
-                                    isSerieReviewUpvotedOrDownvotedQuery.refetch();
-                                } else {
-                                    handleUpvote(review.id, false);
-                                }
-                            }}
-                            sx={{
-                                color:
-                                    (type === "movie" &&
-                                        isMovieReviewUpvotedOrDownvoted &&
-                                        isMovieReviewUpvotedOrDownvoted.isUpvoted) ||
-                                    (type === "serie" &&
-                                        isSerieReviewUpvotedOrDownvoted &&
-                                        isSerieReviewUpvotedOrDownvoted.isUpvoted)
-                                        ? colors.greenAccent[700]
-                                        : colors.primary[100],
-                            }}
+                        <motion.div
+                            whileTap={{ scale: 0.9 }}
+                            animate={isClickedUpvote ? { rotate: 360, scale: [1, 1.5, 1] } : {}}
+                            transition={{ duration: 0.5, ease: "easeInOut" }}
                         >
-                            <ThumbUpIcon fontSize="medium" />
-                        </IconButton>
+                            <IconButton
+                                size="medium"
+                                disabled={
+                                    user && review.user.userName !== user?.userName ? false : true
+                                }
+                                onClick={async () => {
+                                    handleClickUpVoteReview();
+                                }}
+                                sx={{
+                                    color:
+                                        (type === "movie" &&
+                                            isMovieReviewUpvotedOrDownvoted &&
+                                            isMovieReviewUpvotedOrDownvoted.isUpvoted) ||
+                                        (type === "serie" &&
+                                            isSerieReviewUpvotedOrDownvoted &&
+                                            isSerieReviewUpvotedOrDownvoted.isUpvoted)
+                                            ? colors.greenAccent[700]
+                                            : colors.primary[100],
+                                }}
+                            >
+                                <ThumbUpIcon fontSize="medium" />
+                            </IconButton>
+                        </motion.div>
                         <Button
                             disabled={review?.upvotes?.length === 0}
                             onClick={() => {
                                 onClickUpvotesReviewList();
                             }}
                             color={"secondary"}
+                            sx={{
+                                "&:hover": {
+                                    backgroundColor: "transparent",
+                                },
+                            }}
                         >
                             <Typography>{review._count.upvotes}</Typography>
                         </Button>
                     </Box>
                     <Box display={"flex"} alignItems={"center"} columnGap={1}>
-                        <IconButton
-                            size="medium"
-                            disabled={
-                                user && review.user.userName !== user?.userName ? false : true
-                            }
-                            onClick={async () => {
-                                if (
-                                    type === "movie" &&
-                                    isMovieReviewUpvotedOrDownvoted &&
-                                    isMovieReviewUpvotedOrDownvoted.isDownvoted
-                                ) {
-                                    handleDownvote(review.id, true);
-                                    isMovieReviewUpvotedOrDownvotedQuery.refetch();
-                                } else if (
-                                    type === "serie" &&
-                                    isSerieReviewUpvotedOrDownvoted &&
-                                    isSerieReviewUpvotedOrDownvoted.isDownvoted
-                                ) {
-                                    handleDownvote(review.id, true);
-                                    isSerieReviewUpvotedOrDownvotedQuery.refetch();
-                                } else {
-                                    handleDownvote(review.id, false);
-                                }
-                            }}
-                            sx={{
-                                color:
-                                    (type === "movie" &&
-                                        isMovieReviewUpvotedOrDownvoted &&
-                                        isMovieReviewUpvotedOrDownvoted.isDownvoted) ||
-                                    (type === "serie" &&
-                                        isSerieReviewUpvotedOrDownvoted &&
-                                        isSerieReviewUpvotedOrDownvoted.isDownvoted)
-                                        ? colors.redAccent[700]
-                                        : colors.primary[100],
-                            }}
+                        <motion.div
+                            whileTap={{ scale: 0.9 }}
+                            animate={isClickedDownvote ? { rotate: 360, scale: [1, 1.2, 1] } : {}}
+                            transition={{ duration: 0.5, ease: "easeInOut" }}
                         >
-                            <ThumbDownIcon fontSize="medium" />
-                        </IconButton>
+                            <IconButton
+                                size="medium"
+                                disabled={
+                                    user && review.user.userName !== user?.userName ? false : true
+                                }
+                                onClick={async () => {
+                                    handleClickDownVoteReview();
+                                }}
+                                sx={{
+                                    color:
+                                        (type === "movie" &&
+                                            isMovieReviewUpvotedOrDownvoted &&
+                                            isMovieReviewUpvotedOrDownvoted.isDownvoted) ||
+                                        (type === "serie" &&
+                                            isSerieReviewUpvotedOrDownvoted &&
+                                            isSerieReviewUpvotedOrDownvoted.isDownvoted)
+                                            ? colors.redAccent[700]
+                                            : colors.primary[100],
+                                }}
+                            >
+                                <ThumbDownIcon fontSize="medium" />
+                            </IconButton>
+                        </motion.div>
                         <Button
                             disabled={review?.downvotes?.length === 0}
                             onClick={() => {
                                 onClickDownvotesReviewList();
                             }}
                             color={"error"}
+                            sx={{
+                                "&:hover": {
+                                    backgroundColor: "transparent",
+                                },
+                            }}
                         >
                             <Typography>{review._count.downvotes}</Typography>
                         </Button>
