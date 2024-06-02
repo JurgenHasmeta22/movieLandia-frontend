@@ -536,7 +536,7 @@ export default function Movie() {
                                                     color: "primary",
                                                 }}
                                             >
-                                                {movie.averageRating}
+                                                {movie.averageRating === 0 ? "N/A" : movie.averageRating}
                                             </Typography>
                                             <Typography
                                                 color={"secondary"}

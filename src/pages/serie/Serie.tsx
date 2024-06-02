@@ -523,7 +523,7 @@ export default function Serie() {
                                                     color: "primary",
                                                 }}
                                             >
-                                                {serie.averageRating}
+                                                {serie.averageRating === 0 ? "N/A" : serie.averageRating}
                                             </Typography>
                                             <Typography
                                                 color={"secondary"}
