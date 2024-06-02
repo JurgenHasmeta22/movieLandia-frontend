@@ -129,9 +129,9 @@ export default function Serie() {
             if (response && !response.error) {
                 setUser(response);
                 await refetchSerieDetailsAndBookmarkStatus();
-                toast.success("Serie bookmarked successfully!");
+                // toast.success("Serie bookmarked successfully!");
             } else {
-                toast.error("Serie not bookmarked successfully!");
+                // toast.error("Serie not bookmarked successfully!");
             }
         } catch (error) {
             toast.error("An error occurred while adding the serie to favorites.");
@@ -147,9 +147,9 @@ export default function Serie() {
             if (response && !response.error) {
                 await refetchSerieDetailsAndBookmarkStatus();
                 setUser(response);
-                toast.success("Serie unbookmarked successfully!");
+                // toast.success("Serie unbookmarked successfully!");
             } else {
-                toast.error("Serie not unbookmarked successfully!");
+                // toast.error("Serie not unbookmarked successfully!");
             }
         } catch (error) {
             toast.error("An error occurred while removing the serie from favorites.");
@@ -266,9 +266,9 @@ export default function Serie() {
 
                 if (response) {
                     await refetchSerieDetailsAndBookmarkStatus();
-                    toast.success("Upvote added successfully!");
+                    // toast.success("Upvote added successfully!");
                 } else {
-                    toast.error("Upvote added unsuccessfully!");
+                    // toast.error("Upvote added unsuccessfully!");
                 }
             }
         } catch (error) {
@@ -282,7 +282,7 @@ export default function Serie() {
             if (isAlreadyDownvoted) {
                 await serieService.removeDownvoteSerieReview(user?.id, serie?.id, serieReviewId);
                 await refetchSerieDetailsAndBookmarkStatus();
-                toast.success("Downvote removed successfully!");
+                // toast.success("Downvote removed successfully!");
             } else {
                 await serieService.removeUpvoteSerieReview(user?.id, serie?.id, serieReviewId);
 
@@ -294,9 +294,9 @@ export default function Serie() {
 
                 if (response) {
                     await refetchSerieDetailsAndBookmarkStatus();
-                    toast.success("Downvote added successfully!");
+                    // toast.success("Downvote added successfully!");
                 } else {
-                    toast.error("Downvote added unsuccessfully!");
+                    // toast.error("Downvote added unsuccessfully!");
                 }
             }
         } catch (error) {
@@ -631,7 +631,7 @@ export default function Serie() {
                                         color={"secondary"}
                                         textAlign={"center"}
                                     >
-                                        Reviews
+                                        Reviews ({serie.totalReviews})
                                     </Typography>
                                 </Box>
                                 <Box>
