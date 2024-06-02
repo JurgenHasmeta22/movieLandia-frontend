@@ -51,7 +51,6 @@ interface ReviewProps {
     setDownvotesPage: React.Dispatch<React.SetStateAction<number>>;
     type: string;
     data: any;
-    dataRefetch: Promise<QueryObserverResult<any, Error>>;
     handleRemoveReview: () => void;
     handleFocusTextEditor: () => void;
     handleUpvote: (reviewId: number, isAlreadyUpvotedOrDownvoted: boolean) => void;
@@ -80,7 +79,10 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
             handleDownvote,
             type,
             data,
-            dataRefetch,
+            upvotesPage,
+            setUpvotesPage,
+            downvotesPage,
+            setDownvotesPage,
         },
         ref,
     ) => {
@@ -144,9 +146,9 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
                 subTitle: "Users list",
                 hasList: true,
                 dataList: review.upvotes,
-                // dataListTotal: review._count.upvotes,
-                fetchMoreData: dataRefetch,
                 hasMore: hasMoreUpvotes,
+                votesPage: upvotesPage,
+                setVotesPage: setUpvotesPage,
             });
         }
 
@@ -157,9 +159,9 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
                 subTitle: "Users list",
                 hasList: true,
                 dataList: review.downvotes,
-                // dataListTotal: review._count.downvotes,
-                fetchMoreData: dataRefetch,
                 hasMore: hasMoreDownvotes,
+                votesPage: downvotesPage,
+                setVotesPage: setDownvotesPage,
             });
         }
 

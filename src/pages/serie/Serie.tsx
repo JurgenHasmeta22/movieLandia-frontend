@@ -70,13 +70,15 @@ export default function Serie() {
 
         if (sortBy) queryParams.sortBy = sortBy;
         if (ascOrDesc) queryParams.ascOrDesc = ascOrDesc;
-        response = await serieService.getSerieByTitle(params?.title!, queryParams);
+        if (upvotesPage !== 1) queryParams.upvotesPage = upvotesPage;
+        if (downvotesPage !== 1) queryParams.downvotesPage = downvotesPage;
 
+        response = await serieService.getSerieByTitle(params?.title!, queryParams);
         return response;
     };
 
     const serieQuery = useQuery({
-        queryKey: ["serie", params?.title!, sortBy, ascOrDesc, page],
+        queryKey: ["serie", params?.title!, sortBy, ascOrDesc, page, upvotesPage, downvotesPage],
         queryFn: () => fetchSerie(),
         refetchOnMount: "always",
         refetchOnWindowFocus: "always",
@@ -667,7 +669,6 @@ export default function Serie() {
                                 setUpvotesPage={setUpvotesPage}
                                 downvotesPage={downvotesPage}
                                 setDownvotesPage={setDownvotesPage}
-                                dataRefetch={serieQuery.refetch()}
                             />
                         ))}
                         {serie.totalReviews! > 0 && (
