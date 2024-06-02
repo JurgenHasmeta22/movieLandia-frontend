@@ -35,6 +35,7 @@ import { WarningOutlined, CheckOutlined } from "@mui/icons-material";
 import * as CONSTANTS from "~/constants/Constants";
 import SortSelect from "~/components/sortSelect/SortSelect";
 import { useSorting } from "~/hooks/useSorting";
+import StarRateIcon from "@mui/icons-material/StarRate";
 
 export default function Serie() {
     // #region "State, refs, hooks, theme"
@@ -102,7 +103,7 @@ export default function Serie() {
     // #endregion
 
     // #region "Pagination"
-    const pageCount = Math.ceil(serie?._count?.reviews! / 5);
+    const pageCount = Math.ceil(serie?.totalReviews! / 5);
     const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
         searchParams.set("page", String(value));
         setSearchParams(searchParams);
@@ -495,6 +496,47 @@ export default function Serie() {
                                             </Typography>
                                         </Box>
                                     </ListItem>
+                                    <ListItem
+                                        sx={{
+                                            display: "flex",
+                                            flexDirection: "row",
+                                            columnGap: 0.5,
+                                        }}
+                                    >
+                                        <Box
+                                            display="flex"
+                                            flexDirection="row"
+                                            columnGap={0.5}
+                                            alignItems={"center"}
+                                            justifyContent={"start"}
+                                        >
+                                            <StarRateIcon
+                                                sx={{
+                                                    color: "primary",
+                                                }}
+                                            />
+                                            <Typography
+                                                color={"secondary"}
+                                                fontSize={16}
+                                                component="span"
+                                                sx={{
+                                                    color: "primary",
+                                                }}
+                                            >
+                                                {serie.averageRating}
+                                            </Typography>
+                                            <Typography
+                                                color={"secondary"}
+                                                fontSize={16}
+                                                component="span"
+                                                sx={{
+                                                    color: "primary",
+                                                }}
+                                            >
+                                                ({serie.totalReviews})
+                                            </Typography>
+                                        </Box>
+                                    </ListItem>
                                 </List>
                                 <Typography
                                     textAlign={"center"}
@@ -619,7 +661,7 @@ export default function Serie() {
                                 data={serie}
                             />
                         ))}
-                        {serie._count?.reviews! > 0 && (
+                        {serie.totalReviews! > 0 && (
                             <Stack
                                 spacing={2}
                                 sx={{
