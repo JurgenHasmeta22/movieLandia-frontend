@@ -93,7 +93,7 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
 
         const { user } = useStore();
         const { openModal } = useModal();
-
+        
         const theme = useTheme();
         const colors = tokens(theme.palette.mode);
         const { label, color } = getRatingLabelAndColor(review.rating);
@@ -129,13 +129,14 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
         const hasMoreUpvotes = review?._count.upvotes !== review?.upvotes?.length;
         const hasMoreDownvotes = review?._count.downvotes !== review?.downvotes?.length;
 
-        useEffect(() => {
-            if (type === "movie") {
-                isMovieReviewUpvotedOrDownvotedQuery.refetch();
-            } else if (type === "serie") {
-                isSerieReviewUpvotedOrDownvotedQuery.refetch();
-            }
-        }, [data, review]);
+        // No sense to have this unless you want 10-15 more calls and rerenders will check this eleminated the flickers
+        // useEffect(() => {
+        //     if (type === "movie") {
+        //         isMovieReviewUpvotedOrDownvotedQuery.refetch();
+        //     } else if (type === "serie") {
+        //         isSerieReviewUpvotedOrDownvotedQuery.refetch();
+        //     }
+        // }, [data, review]);
         // #endregion
 
         // #region "Event handlers"
@@ -188,7 +189,7 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
 
             setTimeout(() => {
                 setIsClickedUpvote(false);
-            }, 500);
+            }, 300);
         }
 
         async function handleClickDownVoteReview() {
@@ -214,7 +215,7 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
 
             setTimeout(() => {
                 setIsClickedDownvote(false);
-            }, 500);
+            }, 300);
         }
         // #endregion
 
