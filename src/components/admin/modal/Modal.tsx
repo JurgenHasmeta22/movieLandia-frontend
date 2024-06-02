@@ -47,7 +47,7 @@ type ModalProps = {
     formRef?: React.Ref<FormikProps<any>>;
     subTitle?: string;
     hasList?: boolean;
-    dataList?: Array<{ avatar: string; userName: string }>;
+    dataList?: any;
     hasMore: boolean;
     votesPage?: number;
     setVotesPage?: any;
