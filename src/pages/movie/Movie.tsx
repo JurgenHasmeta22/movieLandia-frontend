@@ -39,10 +39,12 @@ import StarRateIcon from "@mui/icons-material/StarRate";
 
 export default function Movie() {
     // #region "State, refs, hooks, theme"
-    const [review, setReview] = useState("");
+    const [review, setReview] = useState<string>("");
     const [rating, setRating] = useState<number | null>(0);
-    const [open, setOpen] = useState(false);
-    const [isEditMode, setIsEditMode] = useState(false);
+    const [open, setOpen] = useState<boolean>(false);
+    const [isEditMode, setIsEditMode] = useState<boolean>(false);
+    const [upvotesPage, setUpvotesPage] = useState<number>(1);
+    const [downvotesPage, setDownvotesPage] = useState<number>(1);
 
     const textEditorRef = useRef<any>(null);
     const reviewRef = useRef<any>(null);
@@ -536,7 +538,9 @@ export default function Movie() {
                                                     color: "primary",
                                                 }}
                                             >
-                                                {movie.averageRating === 0 ? "N/A" : movie.averageRating}
+                                                {movie.averageRating === 0
+                                                    ? "N/A"
+                                                    : movie.averageRating}
                                             </Typography>
                                             <Typography
                                                 color={"secondary"}
@@ -673,6 +677,11 @@ export default function Movie() {
                                 handleDownvote={onDownVoteMovie}
                                 type="movie"
                                 data={movie}
+                                upvotesPage={upvotesPage}
+                                setUpvotesPage={setUpvotesPage}
+                                downvotesPage={downvotesPage}
+                                setDownvotesPage={setDownvotesPage}
+                                dataRefetch={movieQuery.refetch()}
                             />
                         ))}
                         {movie.totalReviews! > 0 && (

@@ -17,7 +17,7 @@ import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import { useStore } from "~/store/store";
 import { tokens } from "~/utils/theme";
 import movieService from "~/services/api/movieService";
-import { useQuery } from "@tanstack/react-query";
+import { QueryObserverResult, useQuery } from "@tanstack/react-query";
 import serieService from "~/services/api/serieService";
 import { useModal } from "~/services/providers/ModalContext";
 import { motion } from "framer-motion";
@@ -41,12 +41,17 @@ interface ReviewProps {
         };
     };
     setRating: React.Dispatch<React.SetStateAction<number | null>>;
+    upvotesPage: number;
+    downvotesPage: number;
     ref: any;
     setIsEditMode: Dispatch<SetStateAction<boolean>>;
     isEditMode: boolean;
     setReview: React.Dispatch<React.SetStateAction<string>>;
+    setUpvotesPage: React.Dispatch<React.SetStateAction<number>>;
+    setDownvotesPage: React.Dispatch<React.SetStateAction<number>>;
     type: string;
     data: any;
+    dataRefetch: Promise<QueryObserverResult<any, Error>>;
     handleRemoveReview: () => void;
     handleFocusTextEditor: () => void;
     handleUpvote: (reviewId: number, isAlreadyUpvotedOrDownvoted: boolean) => void;
@@ -75,6 +80,7 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
             handleDownvote,
             type,
             data,
+            dataRefetch,
         },
         ref,
     ) => {
@@ -118,6 +124,9 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
         const isMovieReviewUpvotedOrDownvoted: any =
             isMovieReviewUpvotedOrDownvotedQuery?.data! ?? null;
 
+        const hasMoreUpvotes = review?._count.upvotes !== review?.upvotes?.length;
+        const hasMoreDownvotes = review?._count.downvotes !== review?.downvotes?.length;
+
         useEffect(() => {
             if (type === "movie") {
                 isMovieReviewUpvotedOrDownvotedQuery.refetch();
@@ -135,6 +144,9 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
                 subTitle: "Users list",
                 hasList: true,
                 dataList: review.upvotes,
+                // dataListTotal: review._count.upvotes,
+                fetchMoreData: dataRefetch,
+                hasMore: hasMoreUpvotes,
             });
         }
 
@@ -145,6 +157,9 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
                 subTitle: "Users list",
                 hasList: true,
                 dataList: review.downvotes,
+                // dataListTotal: review._count.downvotes,
+                fetchMoreData: dataRefetch,
+                hasMore: hasMoreDownvotes,
             });
         }
 

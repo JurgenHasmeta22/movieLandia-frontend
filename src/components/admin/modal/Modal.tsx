@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
     Button,
     Dialog,
@@ -20,9 +20,11 @@ import {
     ListItemAvatar,
     Avatar,
     ListItemText,
+    CircularProgress,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { Formik, Form, Field, FormikProps } from "formik";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 type FieldConfig = {
     name: string;
@@ -32,6 +34,10 @@ type FieldConfig = {
 };
 
 type ModalProps = {
+    onClose?: () => void;
+    onDataChange?: (values: any) => void;
+    onSave?: (values: any) => void;
+    fetchMoreData?: () => void;
     open: boolean;
     initialValues?: any;
     fields?: FieldConfig[];
@@ -42,14 +48,13 @@ type ModalProps = {
     subTitle?: string;
     hasList?: boolean;
     dataList?: Array<{ avatar: string; userName: string }>;
-    onClose?: () => void;
-    onDataChange?: (values: any) => void;
-    onSave?: (values: any) => void;
+    hasMore: boolean;
+    // dataListTotal?: number;
 };
 
 type ActionConfig = {
-    label: string;
     onClick: () => void;
+    label: string;
     type?: string;
     color?:
         | "inherit"
@@ -67,7 +72,6 @@ type ActionConfig = {
 
 const Modal: React.FC<ModalProps> = ({
     onClose,
-    // open,
     initialValues,
     fields,
     validationSchema,
@@ -79,13 +83,16 @@ const Modal: React.FC<ModalProps> = ({
     subTitle,
     hasList,
     dataList,
+    fetchMoreData,
+    // dataListTotal,
+    hasMore,
 }) => {
     return (
         <Dialog open={true} onClose={onClose ? onClose : () => {}} fullWidth>
             <DialogTitle fontSize={"22px"}>
                 {title}
                 <IconButton
-                    style={{ position: "absolute", right: 0, top: 0 }}
+                    style={{ position: "absolute", right: 2, top: 2 }}
                     onClick={onClose ? onClose : () => {}}
                 >
                     <CloseIcon color="action" />
@@ -94,23 +101,39 @@ const Modal: React.FC<ModalProps> = ({
             <DialogContent>
                 <DialogContentText fontSize={"16px"}>{subTitle}</DialogContentText>
                 {hasList ? (
-                    <List>
-                        {dataList &&
-                            dataList.map((item: any, index: number) => (
-                                <ListItem
-                                    key={index}
-                                    alignItems="center"
-                                    sx={{
-                                        justifyContent: "flex-start",
-                                    }}
-                                >
-                                    <ListItemAvatar>
-                                        <Avatar alt={item.user.userName} src={item.user.avatar} />
-                                    </ListItemAvatar>
-                                    <ListItemText primary={item.user.userName} />
-                                </ListItem>
-                            ))}
-                    </List>
+                    <InfiniteScroll
+                        dataLength={dataList ? dataList.length : 0}
+                        next={fetchMoreData ? fetchMoreData : () => {}}
+                        hasMore={hasMore}
+                        loader={<CircularProgress size={20} thickness={2} />}
+                        style={{ overflow: "auto" }}
+                        endMessage={
+                            <Typography sx={{ textAlign: "center" }} variant="body1">
+                                You have seen it all
+                            </Typography>
+                        }
+                    >
+                        <List>
+                            {dataList &&
+                                dataList.map((item: any, index: number) => (
+                                    <ListItem
+                                        key={index}
+                                        alignItems="center"
+                                        sx={{
+                                            justifyContent: "flex-start",
+                                        }}
+                                    >
+                                        <ListItemAvatar>
+                                            <Avatar
+                                            // alt={item.user.userName}
+                                            // src={item.user.avatar}
+                                            />
+                                        </ListItemAvatar>
+                                        <ListItemText primary={item.user.userName} />
+                                    </ListItem>
+                                ))}
+                        </List>
+                    </InfiniteScroll>
                 ) : validationSchema && initialValues && onDataChange ? (
                     <Formik
                         initialValues={initialValues ? initialValues : {}}
