@@ -254,7 +254,7 @@ export default function Serie() {
             if (isAlreadyUpvoted) {
                 await serieService.removeUpvoteSerieReview(user?.id, serie?.id, serieReviewId);
                 await refetchSerieDetailsAndBookmarkStatus();
-                toast.success("Upvote removed successfully!");
+                // toast.success("Upvote removed successfully!");
             } else {
                 await serieService.removeDownvoteSerieReview(user?.id, serie?.id, serieReviewId);
 
