@@ -129,9 +129,9 @@ export default function Movie() {
             if (response && !response.error) {
                 setUser(response);
                 await refetchMovieDetailsAndBookmarkStatus();
-                toast.success("Movie bookmarked successfully!");
+                // toast.success("Movie bookmarked successfully!");
             } else {
-                toast.error("Movie not bookmarked successfully!");
+                // toast.error("Movie not bookmarked successfully!");
             }
         } catch (error) {
             toast.error("An error occurred while adding the movie to favorites.");
@@ -147,9 +147,9 @@ export default function Movie() {
             if (response && !response.error) {
                 await refetchMovieDetailsAndBookmarkStatus();
                 setUser(response);
-                toast.success("Movie unbookmarked successfully!");
+                // toast.success("Movie unbookmarked successfully!");
             } else {
-                toast.error("Movie not unbookmarked successfully!");
+                // toast.error("Movie not unbookmarked successfully!");
             }
         } catch (error) {
             toast.error("An error occurred while removing the movie from favorites.");
@@ -254,7 +254,7 @@ export default function Movie() {
             if (isAlreadyUpvoted) {
                 await movieService.removeUpvoteMovieReview(user?.id, movie?.id, movieReviewId);
                 await refetchMovieDetailsAndBookmarkStatus();
-                toast.success("Upvote removed successfully!");
+                // toast.success("Upvote removed successfully!");
             } else {
                 await movieService.removeDownvoteMovieReview(user?.id, movie?.id, movieReviewId);
 
@@ -266,9 +266,9 @@ export default function Movie() {
 
                 if (response) {
                     await refetchMovieDetailsAndBookmarkStatus();
-                    toast.success("Upvote added successfully!");
+                    // toast.success("Upvote added successfully!");
                 } else {
-                    toast.error("Upvoted added unsuccessfully!");
+                    // toast.error("Upvoted added unsuccessfully!");
                 }
             }
         } catch (error) {
@@ -283,7 +283,7 @@ export default function Movie() {
             if (isAlreadyDownvoted) {
                 await movieService.removeDownvoteMovieReview(user?.id, movie?.id, movieReviewId);
                 await refetchMovieDetailsAndBookmarkStatus();
-                toast.success("Downvote removed successfully!");
+                // toast.success("Downvote removed successfully!");
             } else {
                 await movieService.removeUpvoteMovieReview(user?.id, movie?.id, movieReviewId);
 
@@ -295,9 +295,9 @@ export default function Movie() {
 
                 if (response) {
                     await refetchMovieDetailsAndBookmarkStatus();
-                    toast.success("Downvoted added successfully!");
+                    // toast.success("Downvoted added successfully!");
                 } else {
-                    toast.error("Downvoted added unsuccessfully!");
+                    // toast.error("Downvoted added unsuccessfully!");
                 }
             }
         } catch (error) {
@@ -645,7 +645,7 @@ export default function Movie() {
                                         color={"secondary"}
                                         textAlign={"center"}
                                     >
-                                        Reviews
+                                        Reviews ({movie.totalReviews})
                                     </Typography>
                                 </Box>
                                 <Box>
