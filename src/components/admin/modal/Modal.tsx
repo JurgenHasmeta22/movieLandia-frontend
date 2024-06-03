@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
     Button,
     Dialog,
@@ -26,6 +26,7 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import { Formik, Form, Field, FormikProps } from "formik";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { useStore } from "~/store/store";
 
 type FieldConfig = {
     name: string;
@@ -47,10 +48,6 @@ type ModalProps = {
     formRef?: React.Ref<FormikProps<any>>;
     subTitle?: string;
     hasList?: boolean;
-    dataList?: any;
-    hasMore: boolean;
-    votesPage?: number;
-    setVotesPage?: any;
 };
 
 type ActionConfig = {
@@ -83,11 +80,10 @@ const Modal: React.FC<ModalProps> = ({
     onDataChange,
     subTitle,
     hasList,
-    dataList,
-    votesPage,
-    setVotesPage,
-    hasMore,
 }) => {
+    const { selectedReview, setUpvotesPageModal, upvotesPageModal, hasMoreUpvotesModal } =
+        useStore();
+
     return (
         <Dialog open={true} onClose={onClose ? onClose : () => {}} fullWidth>
             <DialogTitle fontSize={"22px"}>
@@ -103,15 +99,11 @@ const Modal: React.FC<ModalProps> = ({
                 <DialogContentText fontSize={"16px"}>{subTitle}</DialogContentText>
                 {hasList ? (
                     <InfiniteScroll
-                        dataLength={dataList ? dataList.length : 0}
-                        next={
-                            votesPage && setVotesPage
-                                ? () => {
-                                      setVotesPage(votesPage + 1);
-                                  }
-                                : () => {}
-                        }
-                        hasMore={hasMore}
+                        dataLength={selectedReview.upvotes ? selectedReview.upvotes.length : 0}
+                        next={() => {
+                            setUpvotesPageModal(upvotesPageModal + 1);
+                        }}
+                        hasMore={hasMoreUpvotesModal}
                         loader={
                             <Box
                                 display={"flex"}
@@ -131,24 +123,23 @@ const Modal: React.FC<ModalProps> = ({
                         }
                     >
                         <List>
-                            {dataList &&
-                                dataList.map((item: any, index: number) => (
-                                    <ListItem
-                                        key={index}
-                                        alignItems="center"
-                                        sx={{
-                                            justifyContent: "flex-start",
-                                        }}
-                                    >
-                                        <ListItemAvatar>
-                                            <Avatar
-                                            // alt={item.user.userName}
-                                            // src={item.user.avatar}
-                                            />
-                                        </ListItemAvatar>
-                                        <ListItemText primary={item.user.userName} />
-                                    </ListItem>
-                                ))}
+                            {selectedReview?.upvotes?.map((item: any, index: number) => (
+                                <ListItem
+                                    key={index}
+                                    alignItems="center"
+                                    sx={{
+                                        justifyContent: "flex-start",
+                                    }}
+                                >
+                                    <ListItemAvatar>
+                                        <Avatar
+                                        // alt={item.user.userName}
+                                        // src={item.user.avatar}
+                                        />
+                                    </ListItemAvatar>
+                                    <ListItemText primary={item.user.userName} />
+                                </ListItem>
+                            ))}
                         </List>
                     </InfiniteScroll>
                 ) : validationSchema && initialValues && onDataChange ? (

@@ -9,6 +9,14 @@ export const useStore = create<AppStoreState>(
         isPageShrunk: window.innerWidth < 768 ? true : false,
         isOpenSidebarAdmin: true,
         openDrawer: false,
+        selectedReview: null,
+        hasMoreUpvotesModal: false,
+        hasMoreDownvotesModal: false,
+        upvotesPageModal: 1,
+        downvotesPageModal: 1,
+        setSelectedReview: (data) => {
+            set({ selectedReview: data });
+        },
         setUser: (data) => {
             set({ user: data });
         },
@@ -26,6 +34,18 @@ export const useStore = create<AppStoreState>(
         },
         setOpenDrawer: (data) => {
             set({ openDrawer: data });
+        },
+        setUpvotesPageModal: (data) => {
+            set({ upvotesPageModal: data });
+        },
+        setDownvotesPageModal: (data) => {
+            set({ downvotesPageModal: data });
+        },
+        setHasMoreUpvotesModal: (data) => {
+            set({ hasMoreUpvotesModal: data });
+        },
+        setHasMoreDownvotesModal: (data) => {
+            set({ hasMoreDownvotesModal: data });
         },
     }),
 );
