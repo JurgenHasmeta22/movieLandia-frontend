@@ -41,20 +41,18 @@ interface ReviewProps {
         };
     };
     setRating: React.Dispatch<React.SetStateAction<number | null>>;
-    upvotesPage: number;
-    downvotesPage: number;
     ref: any;
     setIsEditMode: Dispatch<SetStateAction<boolean>>;
     isEditMode: boolean;
     setReview: React.Dispatch<React.SetStateAction<string>>;
-    setUpvotesPage: React.Dispatch<React.SetStateAction<number>>;
-    setDownvotesPage: React.Dispatch<React.SetStateAction<number>>;
     type: string;
     data: any;
     handleRemoveReview: () => void;
     handleFocusTextEditor: () => void;
     handleUpvote: (reviewId: number, isAlreadyUpvotedOrDownvoted: boolean) => void;
     handleDownvote: (reviewId: number, isAlreadyUpvotedOrDownvoted: boolean) => void;
+    handleOpenUpvotesModal: (review: any) => void;
+    handleOpenDownvotesModal: (review: any) => void;
 }
 
 const getRatingLabelAndColor = (rating: number) => {
@@ -62,7 +60,6 @@ const getRatingLabelAndColor = (rating: number) => {
     if (rating <= 4) return { label: "Bad", color: "warning.main" };
     if (rating <= 6) return { label: "Average", color: "info.main" };
     if (rating <= 8) return { label: "Good", color: "success.light" };
-
     return { label: "Very Good", color: "success.main" };
 };
 
@@ -79,10 +76,8 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
             handleDownvote,
             type,
             data,
-            upvotesPage,
-            setUpvotesPage,
-            downvotesPage,
-            setDownvotesPage,
+            handleOpenUpvotesModal,
+            handleOpenDownvotesModal,
         },
         ref,
     ) => {
@@ -93,7 +88,7 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
 
         const { user } = useStore();
         const { openModal } = useModal();
-        
+
         const theme = useTheme();
         const colors = tokens(theme.palette.mode);
         const { label, color } = getRatingLabelAndColor(review.rating);
@@ -125,45 +120,15 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
             isSerieReviewUpvotedOrDownvotedQuery?.data! ?? null;
         const isMovieReviewUpvotedOrDownvoted: any =
             isMovieReviewUpvotedOrDownvotedQuery?.data! ?? null;
-
-        const hasMoreUpvotes = review?._count.upvotes !== review?.upvotes?.length;
-        const hasMoreDownvotes = review?._count.downvotes !== review?.downvotes?.length;
-
-        // No sense to have this unless you want 10-15 more calls and rerenders will check this eleminated the flickers
-        // useEffect(() => {
-        //     if (type === "movie") {
-        //         isMovieReviewUpvotedOrDownvotedQuery.refetch();
-        //     } else if (type === "serie") {
-        //         isSerieReviewUpvotedOrDownvotedQuery.refetch();
-        //     }
-        // }, [data, review]);
         // #endregion
 
         // #region "Event handlers"
         async function onClickUpvotesReviewList() {
-            openModal({
-                onClose: () => setOpen(false),
-                title: "Users who upvoted this review",
-                subTitle: "Users list",
-                hasList: true,
-                dataList: review.upvotes,
-                hasMore: hasMoreUpvotes,
-                votesPage: upvotesPage,
-                setVotesPage: setUpvotesPage,
-            });
+            handleOpenUpvotesModal(review);
         }
 
         async function onClickDownvotesReviewList() {
-            openModal({
-                onClose: () => setOpen(false),
-                title: "Users who downvoted this review",
-                subTitle: "Users list",
-                hasList: true,
-                dataList: review.downvotes,
-                hasMore: hasMoreDownvotes,
-                votesPage: downvotesPage,
-                setVotesPage: setDownvotesPage,
-            });
+            handleOpenDownvotesModal(review);
         }
 
         async function handleClickUpVoteReview() {

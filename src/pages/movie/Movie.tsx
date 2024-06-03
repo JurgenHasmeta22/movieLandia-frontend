@@ -43,14 +43,22 @@ export default function Movie() {
     const [rating, setRating] = useState<number | null>(0);
     const [open, setOpen] = useState<boolean>(false);
     const [isEditMode, setIsEditMode] = useState<boolean>(false);
-    const [upvotesPage, setUpvotesPage] = useState<number>(1);
-    const [downvotesPage, setDownvotesPage] = useState<number>(1);
+    const [openVotesModal, setIsOpenVotesModal] = useState(false);
 
     const textEditorRef = useRef<any>(null);
     const reviewRef = useRef<any>(null);
 
     const params = useParams();
-    const { user, setUser } = useStore();
+    const {
+        user,
+        setUser,
+        setSelectedReview,
+        selectedReview,
+        upvotesPageModal,
+        downvotesPageModal,
+        setHasMoreUpvotesModal,
+        setHasMoreDownvotesModal,
+    } = useStore();
     const [searchParams, setSearchParams] = useSearchParams();
     const { openModal } = useModal();
 
@@ -70,15 +78,36 @@ export default function Movie() {
 
         if (sortBy) queryParams.sortBy = sortBy;
         if (ascOrDesc) queryParams.ascOrDesc = ascOrDesc;
-        if (upvotesPage !== 1) queryParams.upvotesPage = upvotesPage;
-        if (downvotesPage !== 1) queryParams.downvotesPage = downvotesPage;
+        if (upvotesPageModal !== 1) queryParams.upvotesPage = upvotesPageModal;
+        if (downvotesPageModal !== 1) queryParams.downvotesPage = downvotesPageModal;
 
         response = await movieService.getMovieByTitle(params?.title!, queryParams);
+
+        if (selectedReview) {
+            const reviewItem = response?.reviews?.find(
+                (item: any) => item.id === selectedReview.id,
+            );
+
+            if (reviewItem) {
+                const hasMoreUpvotes = reviewItem?._count?.upvotes! !== reviewItem?.upvotes?.length;
+                setSelectedReview(reviewItem);
+                setHasMoreUpvotesModal(hasMoreUpvotes);
+            }
+        }
+
         return response;
     };
 
     const movieQuery = useQuery({
-        queryKey: ["movie", params?.title!, sortBy, ascOrDesc, page, upvotesPage, downvotesPage],
+        queryKey: [
+            "movie",
+            params?.title!,
+            sortBy,
+            ascOrDesc,
+            page,
+            upvotesPageModal,
+            downvotesPageModal,
+        ],
         queryFn: () => fetchMovie(),
         refetchOnMount: "always",
         refetchOnWindowFocus: "always",
@@ -353,6 +382,39 @@ export default function Movie() {
     ) {
         return <Error404 />;
     }
+    // #endregion
+
+    // #region "Modal handlers"
+    const handleOpenUpvotesModal = (reviewData: any) => {
+        const hasMoreUpvotes = reviewData?._count?.upvotes! !== reviewData?.upvotes?.length;
+        setSelectedReview(reviewData);
+        setHasMoreUpvotesModal(hasMoreUpvotes);
+
+        openModal({
+            onClose: () => handleCloseModal(),
+            title: "Users who upvoted this review",
+            subTitle: "Users list",
+            hasList: true,
+        });
+    };
+
+    const handleOpenDownvotesModal = (reviewData: any) => {
+        const hasMoreDownvotes = reviewData?._count?.downvotes! !== reviewData?.downvotes?.length;
+        setSelectedReview(reviewData);
+        setHasMoreDownvotesModal(hasMoreDownvotes);
+
+        openModal({
+            onClose: () => setIsOpenVotesModal(false),
+            title: "Users who downvoted this review",
+            subTitle: "Users list",
+            hasList: true,
+        });
+    };
+
+    const handleCloseModal = () => {
+        setIsOpenVotesModal(false);
+        setSelectedReview(null);
+    };
     // #endregion
 
     return (
@@ -679,10 +741,8 @@ export default function Movie() {
                                 handleDownvote={onDownVoteMovie}
                                 type="movie"
                                 data={movie}
-                                upvotesPage={upvotesPage}
-                                setUpvotesPage={setUpvotesPage}
-                                downvotesPage={downvotesPage}
-                                setDownvotesPage={setDownvotesPage}
+                                handleOpenUpvotesModal={handleOpenUpvotesModal}
+                                handleOpenDownvotesModal={handleOpenDownvotesModal}
                             />
                         ))}
                         {movie.totalReviews! > 0 && (
