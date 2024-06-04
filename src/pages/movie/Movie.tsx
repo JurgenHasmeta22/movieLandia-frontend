@@ -1,6 +1,4 @@
-import { useEffect, useRef, useState } from "react";
-import { useParams, useSearchParams } from "react-router-dom";
-import { useStore } from "~/store/store";
+import { useEffect } from "react";
 import type IMovie from "~/types/IMovie";
 import movieService from "~/services/api/movieService";
 import { Box, CircularProgress, Container, Pagination, Stack, Typography } from "@mui/material";
@@ -11,31 +9,37 @@ import { useQuery } from "@tanstack/react-query";
 import Error404 from "../error/Error";
 import Review from "~/components/review/Review";
 import TextEditor from "~/components/textEditor/TextEditor";
-import { useModal } from "~/services/providers/ModalContext";
 import { WarningOutlined, CheckOutlined } from "@mui/icons-material";
 import * as CONSTANTS from "~/constants/Constants";
-import { useSorting } from "~/hooks/useSorting";
 import SortSelect from "~/components/sortSelect/SortSelect";
 import DetailsPageCard from "~/components/detailsPageCard/DetailsPageCard";
 import { TextEditorButtons } from "~/components/textEditorButtons/TextEditorButtons";
+import { useDetailsPageData } from "~/hooks/useDetailsPageData";
+import { useDetailsPageFetching } from "~/hooks/useDetailsPageFetching";
 
 export default function Movie() {
     // #region "State, refs, hooks, theme"
-    const [review, setReview] = useState<string>("");
-    const [rating, setRating] = useState<number | null>(0);
-    const [open, setOpen] = useState<boolean>(false);
-    const [isEditMode, setIsEditMode] = useState<boolean>(false);
-    const [openVotesModal, setIsOpenVotesModal] = useState(false);
-
-    const textEditorRef = useRef<any>(null);
-    const reviewRef = useRef<any>(null);
-
-    const params = useParams();
-
     const {
+        rating,
+        setRating,
+        review,
+        setReview,
+        setOpen,
+        isEditMode,
+        setIsEditMode,
+        setIsOpenVotesModal,
+        textEditorRef,
+        reviewRef,
+        params,
+        searchParams,
+        setSearchParams,
+        openModal,
+        handleChangeSorting,
+        page,
+        sortBy,
+        ascOrDesc,
         user,
         setUser,
-        selectedReview,
         setSelectedReview,
         upvotesPageModal,
         setUpvotesPageModal,
@@ -43,67 +47,19 @@ export default function Movie() {
         downvotesPageModal,
         setDownvotesPageModal,
         setHasMoreDownvotesModal,
-        listModalDataType,
         setListModalDataType,
-    } = useStore();
+    } = useDetailsPageData();
 
-    const [searchParams, setSearchParams] = useSearchParams();
-    const { openModal } = useModal();
-
-    const handleChangeSorting = useSorting();
-    const page = searchParams.get("page") || 1;
-    const sortBy = searchParams.get("sortBy");
-    const ascOrDesc = searchParams.get("ascOrDesc");
+    const { fetchDetailData } = useDetailsPageFetching({
+        params,
+        type: "movie",
+        page,
+        sortBy,
+        ascOrDesc,
+    });
     // #endregion
 
     // #region "Data fetching and queries"
-    const fetchMovie = async () => {
-        let response;
-        const queryParams: Record<string, string | number> = { page };
-
-        if (sortBy) {
-            queryParams.sortBy = sortBy;
-        }
-
-        if (ascOrDesc) {
-            queryParams.ascOrDesc = ascOrDesc;
-        }
-
-        if (upvotesPageModal !== 1) {
-            queryParams.upvotesPage = upvotesPageModal;
-        }
-
-        if (downvotesPageModal !== 1) {
-            queryParams.downvotesPage = downvotesPageModal;
-        }
-
-        response = await movieService.getMovieByTitle(params?.title!, queryParams);
-
-        if (selectedReview) {
-            const reviewItem = response?.reviews?.find(
-                (item: any) => item.id === selectedReview.id,
-            );
-
-            if (reviewItem) {
-                if (listModalDataType === "upvotes") {
-                    const hasMoreUpvotes =
-                        reviewItem?._count?.upvotes! !== reviewItem?.upvotes?.length;
-
-                    setHasMoreUpvotesModal(hasMoreUpvotes);
-                    setSelectedReview(reviewItem);
-                } else if (listModalDataType === "downvotes") {
-                    const hasMoreDownvotes =
-                        reviewItem?._count?.downvotes! !== reviewItem?.downvotes?.length;
-
-                    setHasMoreDownvotesModal(hasMoreDownvotes);
-                    setSelectedReview(reviewItem);
-                }
-            }
-        }
-
-        return response;
-    };
-
     const movieQuery = useQuery({
         queryKey: [
             "movie",
@@ -114,7 +70,7 @@ export default function Movie() {
             upvotesPageModal,
             downvotesPageModal,
         ],
-        queryFn: () => fetchMovie(),
+        queryFn: () => fetchDetailData(),
         refetchOnMount: "always",
         refetchOnWindowFocus: "always",
     });
