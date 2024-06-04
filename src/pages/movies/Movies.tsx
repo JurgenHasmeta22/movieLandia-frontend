@@ -10,6 +10,7 @@ import SortSelect from "~/components/sortSelect/SortSelect";
 import { useListPageData } from "~/hooks/useListPageData";
 import { useListPageFetching } from "~/hooks/useListPageFetching";
 import PaginationControl from "~/components/paginationControl/PaginationControl";
+import LatestList from "~/components/latestList/LatestList";
 
 export default function Movies() {
     const { searchParams, setSearchParams, handleChangeSorting, page, search, sortBy, ascOrDesc } =
@@ -117,40 +118,35 @@ export default function Movies() {
                             />
                         </Box>
                     </Stack>
-                    <PaginationControl
-                        currentPage={Number(page)!}
-                        pageCount={pageCount}
-                        onPageChange={handlePageChange}
-                    />
                     <Box
                         component={"section"}
                         sx={{
                             display: "flex",
                             flexDirection: "column",
-                            rowGap: 2,
-                            marginBottom: 4,
+                            placeItems: "center",
+                            placeContent: "center",
+                            rowGap: 4,
                         }}
                     >
-                        <Box sx={{ display: "flex", placeContent: "center" }}>
-                            <Typography fontSize={22} color={"secondary"} variant="h2">
-                                Latest Movies
-                            </Typography>
-                        </Box>
                         <Stack
                             direction="row"
                             flexWrap="wrap"
-                            rowGap={8}
-                            columnGap={4}
                             justifyContent={"center"}
                             alignContent={"center"}
-                            marginTop={3}
-                            mb={4}
+                            rowGap={8}
+                            columnGap={4}
                         >
-                            {latestMovies?.map((latestMovie: IMovie) => (
-                                <CardItem data={latestMovie} key={latestMovie.id} />
+                            {movies.map((movie: IMovie) => (
+                                <CardItem data={movie} type="movie" key={movie.id} />
                             ))}
                         </Stack>
+                        <PaginationControl
+                            currentPage={Number(page)!}
+                            pageCount={pageCount}
+                            onPageChange={handlePageChange}
+                        />
                     </Box>
+                    <LatestList data={latestMovies} type="Movies" />
                 </Box>
             </Container>
         </>

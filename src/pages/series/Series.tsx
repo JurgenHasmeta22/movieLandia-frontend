@@ -1,5 +1,5 @@
 import type ISerie from "~/types/ISerie";
-import { Box, CircularProgress, Container, Pagination, Stack, Typography } from "@mui/material";
+import { Box, CircularProgress, Container, Stack, Typography } from "@mui/material";
 import SEOHelmet from "~/components/seoHelmet/SEOHelmet";
 import { getRandomElements } from "~/utils/utils";
 import Carousel from "~/components/carousel/Carousel";
