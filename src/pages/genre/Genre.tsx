@@ -11,6 +11,7 @@ import { useQuery } from "@tanstack/react-query";
 import Error404 from "../error/Error";
 import ISerie from "~/types/ISerie";
 import SortSelect from "~/components/sortSelect/SortSelect";
+import PaginationControl from "~/components/paginationControl/PaginationControl";
 
 export default function Genre(): React.JSX.Element {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -195,24 +196,11 @@ export default function Genre(): React.JSX.Element {
                             <CardItem data={movie} key={index} type="movie" />
                         ))}
                     </Stack>
-                    <Stack
-                        spacing={2}
-                        sx={{
-                            display: "flex",
-                            placeItems: "center",
-                            marginTop: 4,
-                            marginBottom: 4,
-                        }}
-                    >
-                        <Pagination
-                            page={searchParams.get("page") ? Number(searchParams.get("page")) : 1}
-                            size="large"
-                            count={pageCountMovies}
-                            showFirstButton
-                            showLastButton
-                            onChange={handlePageChange}
-                        />
-                    </Stack>
+                    <PaginationControl
+                        currentPage={Number(page)!}
+                        pageCount={pageCountMovies}
+                        onPageChange={handlePageChange}
+                    />
                     <Stack
                         display="flex"
                         flexDirection="row"
@@ -264,24 +252,11 @@ export default function Genre(): React.JSX.Element {
                             <CardItem data={serie} key={index} type="serie" />
                         ))}
                     </Stack>
-                    <Stack
-                        spacing={2}
-                        sx={{
-                            display: "flex",
-                            placeItems: "center",
-                            marginTop: 4,
-                            marginBottom: 4,
-                        }}
-                    >
-                        <Pagination
-                            page={searchParams.get("page") ? Number(searchParams.get("page")) : 1}
-                            size="large"
-                            count={pageCountSeries}
-                            showFirstButton
-                            showLastButton
-                            onChange={handlePageChange}
-                        />
-                    </Stack>
+                    <PaginationControl
+                        currentPage={Number(page)!}
+                        pageCount={pageCountSeries}
+                        onPageChange={handlePageChange}
+                    />
                 </Box>
             </Container>
         </>

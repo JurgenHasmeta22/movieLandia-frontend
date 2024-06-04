@@ -2,6 +2,7 @@ import { Box, CircularProgress, Container, Pagination, Stack, Typography } from 
 import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "react-router-dom";
 import CardItem from "~/components/cardItem/CardItem";
+import PaginationControl from "~/components/paginationControl/PaginationControl";
 import movieService from "~/services/api/movieService";
 import serieService from "~/services/api/serieService";
 import IMovie from "~/types/IMovie";
@@ -126,29 +127,11 @@ export function Search() {
                                     <CardItem data={movie} type="movie" key={movie.id} />
                                 ))}
                             </Stack>
-                            <Stack
-                                spacing={2}
-                                sx={{
-                                    display: "flex",
-                                    placeItems: "center",
-                                    marginTop: 2,
-                                    marginBottom: 4,
-                                }}
-                            >
-                                <Pagination
-                                    page={
-                                        searchParams.get("pageMovies")
-                                            ? Number(searchParams.get("pageMovies"))
-                                            : 1
-                                    }
-                                    size="large"
-                                    count={pageCountMovies}
-                                    showFirstButton
-                                    showLastButton
-                                    onChange={handlePageChangeMovies}
-                                    color="secondary"
-                                />
-                            </Stack>
+                            <PaginationControl
+                                currentPage={Number(pageMovies)!}
+                                pageCount={pageCountMovies}
+                                onPageChange={handlePageChangeMovies}
+                            />
                         </Box>
                     </Box>
                 ) : (
@@ -189,29 +172,11 @@ export function Search() {
                                     <CardItem data={serie} type="serie" key={serie.id} />
                                 ))}
                             </Stack>
-                            <Stack
-                                spacing={2}
-                                sx={{
-                                    display: "flex",
-                                    placeItems: "center",
-                                    marginTop: 2,
-                                    marginBottom: 4,
-                                }}
-                            >
-                                <Pagination
-                                    page={
-                                        searchParams.get("pageSeries")
-                                            ? Number(searchParams.get("pageSeries"))
-                                            : 1
-                                    }
-                                    size="large"
-                                    count={pageCountSeries}
-                                    showFirstButton
-                                    showLastButton
-                                    onChange={handlePageChangeSeries}
-                                    color="secondary"
-                                />
-                            </Stack>
+                            <PaginationControl
+                                currentPage={Number(pageSeries)!}
+                                pageCount={pageCountSeries}
+                                onPageChange={handlePageChangeSeries}
+                            />
                         </Box>
                     </Box>
                 ) : (

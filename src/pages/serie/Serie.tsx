@@ -17,6 +17,7 @@ import DetailsPageCard from "~/components/detailsPageCard/DetailsPageCard";
 import { TextEditorButtons } from "~/components/textEditorButtons/TextEditorButtons";
 import { useDetailsPageData } from "~/hooks/useDetailsPageData";
 import { useDetailsPageFetching } from "~/hooks/useDetailsPageFetching";
+import PaginationControl from "~/components/paginationControl/PaginationControl";
 
 export default function Serie() {
     // #region "State, refs, hooks, theme"
@@ -454,29 +455,11 @@ export default function Serie() {
                             />
                         ))}
                         {serie.totalReviews! > 0 && (
-                            <Stack
-                                spacing={2}
-                                sx={{
-                                    display: "flex",
-                                    placeItems: "center",
-                                    marginTop: 2,
-                                    marginBottom: 4,
-                                }}
-                            >
-                                <Pagination
-                                    page={
-                                        searchParams.get("page")
-                                            ? Number(searchParams.get("page"))
-                                            : 1
-                                    }
-                                    size="large"
-                                    count={pageCount}
-                                    showFirstButton
-                                    showLastButton
-                                    onChange={handlePageChange}
-                                    color="secondary"
-                                />
-                            </Stack>
+                            <PaginationControl
+                                currentPage={Number(page)!}
+                                pageCount={pageCount}
+                                onPageChange={handlePageChange}
+                            />
                         )}
                         {user && (!isSerieReviewed || isEditMode) && (
                             <Box marginTop={4}>
