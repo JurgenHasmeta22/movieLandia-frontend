@@ -4,48 +4,52 @@ import type AppStoreState from "~/types/IStore";
 export const useStore = create<AppStoreState>(
     (set, get): AppStoreState => ({
         user: null,
-        isUserLoading: true,
-        mobileOpen: window.innerWidth < 768 ? true : false,
-        isPageShrunk: window.innerWidth < 768 ? true : false,
-        isOpenSidebarAdmin: true,
-        openDrawer: false,
-        selectedReview: null,
-        hasMoreUpvotesModal: false,
-        hasMoreDownvotesModal: false,
-        upvotesPageModal: 1,
-        downvotesPageModal: 1,
-        setSelectedReview: (data) => {
-            set({ selectedReview: data });
-        },
         setUser: (data) => {
             set({ user: data });
         },
+        isUserLoading: true,
         setIsUserLoading: (data) => {
             set({ isUserLoading: data });
         },
+        mobileOpen: window.innerWidth < 768 ? true : false,
         setMobileOpen: (data) => {
             set({ mobileOpen: data });
         },
+        isPageShrunk: window.innerWidth < 768 ? true : false,
         setIsPageShrunk: (data) => {
             set({ isPageShrunk: data });
         },
+        isOpenSidebarAdmin: true,
         setIsOpenSidebarAdmin: (data) => {
             set({ isOpenSidebarAdmin: data });
         },
+        openDrawer: false,
         setOpenDrawer: (data) => {
             set({ openDrawer: data });
         },
-        setUpvotesPageModal: (data) => {
-            set({ upvotesPageModal: data });
+        selectedReview: null,
+        setSelectedReview: (data) => {
+            set({ selectedReview: data });
         },
-        setDownvotesPageModal: (data) => {
-            set({ downvotesPageModal: data });
-        },
+        hasMoreUpvotesModal: false,
         setHasMoreUpvotesModal: (data) => {
             set({ hasMoreUpvotesModal: data });
         },
+        hasMoreDownvotesModal: false,
         setHasMoreDownvotesModal: (data) => {
             set({ hasMoreDownvotesModal: data });
+        },
+        upvotesPageModal: 1,
+        setUpvotesPageModal: (data) => {
+            set({ upvotesPageModal: data });
+        },
+        downvotesPageModal: 1,
+        setDownvotesPageModal: (data) => {
+            set({ downvotesPageModal: data });
+        },
+        listModalDataType: null,
+        setListModalDataType: (data) => {
+            set({ listModalDataType: data });
         },
     }),
 );
