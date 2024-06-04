@@ -5,10 +5,10 @@ interface IReviews {
     data: any;
     sortBy: string;
     ascOrDesc: string;
-    handleChangeSorting: (event: SelectChangeEvent) => void;
+    handleChangeSorting: (type: string, event: SelectChangeEvent) => void;
 }
 
-export function ReviewsSorting({ data, sortBy, ascOrDesc, handleChangeSorting }: IReviews) {
+export function Reviews({ data, sortBy, ascOrDesc, handleChangeSorting }: IReviews) {
     return (
         <Stack flexDirection={"row"} justifyContent={"space-between"} alignItems={"center"}>
             <Box>
@@ -20,7 +20,7 @@ export function ReviewsSorting({ data, sortBy, ascOrDesc, handleChangeSorting }:
                 <SortSelect
                     sortBy={sortBy}
                     ascOrDesc={ascOrDesc}
-                    onChange={handleChangeSorting}
+                    onChange={(event) => handleChangeSorting("details", event)}
                     type="details"
                 />
             </Box>
@@ -28,4 +28,4 @@ export function ReviewsSorting({ data, sortBy, ascOrDesc, handleChangeSorting }:
     );
 }
 
-export default ReviewsSorting
+export default Reviews

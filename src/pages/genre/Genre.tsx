@@ -19,8 +19,8 @@ export default function Genre(): React.JSX.Element {
 
     const pageMovies = searchParams.get("pageMovies") || 1;
     const pageSeries = searchParams.get("pageSeries") || 1;
-    const sortBy = searchParams.get("sortBy");
-    const ascOrDesc = searchParams.get("ascOrDesc");
+    const sortBy = searchParams.get("moviesSortBy");
+    const ascOrDesc = searchParams.get("moviesAscOrDesc");
 
     const fetchMoviesByGenre = async () => {
         const queryParams: any = { pageMovies };
@@ -159,9 +159,9 @@ export default function Genre(): React.JSX.Element {
                             }}
                         >
                             <SortSelect
-                                sortBy={searchParams.get("sortBy")}
-                                ascOrDesc={searchParams.get("ascOrDesc")}
-                                onChange={handleChangeSorting}
+                                sortBy={searchParams.get("moviesSortBy")}
+                                ascOrDesc={searchParams.get("moviesAscOrDesc")}
+                                onChange={(event) => handleChangeSorting("movies", event)}
                                 type="list"
                             />
                         </Box>
@@ -215,9 +215,9 @@ export default function Genre(): React.JSX.Element {
                             }}
                         >
                             <SortSelect
-                                sortBy={searchParams.get("sortBy")}
-                                ascOrDesc={searchParams.get("ascOrDesc")}
-                                onChange={handleChangeSorting}
+                                sortBy={searchParams.get("seriesSortBy")}
+                                ascOrDesc={searchParams.get("seriesAscOrDesc")}
+                                onChange={(event) => handleChangeSorting("series", event)}
                                 type="list"
                             />
                         </Box>

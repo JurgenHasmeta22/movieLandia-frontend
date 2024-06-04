@@ -15,8 +15,8 @@ import { useDetailsPageData } from "~/hooks/useDetailsPageData";
 import { useDetailsPageFetching } from "~/hooks/useDetailsPageFetching";
 import PaginationControl from "~/components/paginationControl/PaginationControl";
 import TextEditorForm from "~/components/textEditorForm/TextEditorForm";
-import ReviewsSorting from "~/components/reviews/Reviews";
-import LatestListDetail from "~/components/latestList/LatestList";
+import Reviews from "~/components/reviews/Reviews";
+import LatestListDetail from "~/components/latestListDetail/LatestListDetail";
 
 export default function Serie() {
     // #region "State, refs, hooks, theme"
@@ -25,11 +25,9 @@ export default function Serie() {
         setRating,
         review,
         setReview,
-        open,
         setOpen,
         isEditMode,
         setIsEditMode,
-        openVotesModal,
         setIsOpenVotesModal,
         textEditorRef,
         reviewRef,
@@ -43,7 +41,6 @@ export default function Serie() {
         ascOrDesc,
         user,
         setUser,
-        selectedReview,
         setSelectedReview,
         upvotesPageModal,
         setUpvotesPageModal,
@@ -51,7 +48,6 @@ export default function Serie() {
         downvotesPageModal,
         setDownvotesPageModal,
         setHasMoreDownvotesModal,
-        listModalDataType,
         setListModalDataType,
     } = useDetailsPageData();
 
@@ -410,7 +406,7 @@ export default function Serie() {
                         }}
                     >
                         {serie.reviews?.length! > 0 && (
-                            <ReviewsSorting
+                            <Reviews
                                 data={serie}
                                 sortBy={sortBy!}
                                 ascOrDesc={ascOrDesc!}

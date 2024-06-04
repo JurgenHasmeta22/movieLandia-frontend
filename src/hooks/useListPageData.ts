@@ -6,17 +6,11 @@ export function useListPageData() {
     const handleChangeSorting = useSorting();
 
     const page = searchParams.get("page") || 1;
-    const search = searchParams.get("search");
-    const sortBy = searchParams.get("sortBy");
-    const ascOrDesc = searchParams.get("ascOrDesc");
 
     return {
         searchParams,
         setSearchParams,
         handleChangeSorting,
         page,
-        search,
-        sortBy,
-        ascOrDesc
     };
 }
