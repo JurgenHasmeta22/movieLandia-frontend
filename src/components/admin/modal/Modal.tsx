@@ -81,8 +81,16 @@ const Modal: React.FC<ModalProps> = ({
     subTitle,
     hasList,
 }) => {
-    const { selectedReview, setUpvotesPageModal, upvotesPageModal, hasMoreUpvotesModal } =
-        useStore();
+    const {
+        selectedReview,
+        upvotesPageModal,
+        setUpvotesPageModal,
+        downvotesPageModal,
+        setDownvotesPageModal,
+        hasMoreUpvotesModal,
+        hasMoreDownvotesModal,
+        listModalDataType,
+    } = useStore();
 
     return (
         <Dialog open={true} onClose={onClose ? onClose : () => {}} fullWidth>
@@ -99,11 +107,31 @@ const Modal: React.FC<ModalProps> = ({
                 <DialogContentText fontSize={"16px"}>{subTitle}</DialogContentText>
                 {hasList ? (
                     <InfiniteScroll
-                        dataLength={selectedReview.upvotes ? selectedReview.upvotes.length : 0}
+                        dataLength={
+                            listModalDataType &&
+                            listModalDataType === "upvotes" &&
+                            selectedReview.upvotes
+                                ? selectedReview.upvotes.length
+                                : listModalDataType &&
+                                    listModalDataType === "downvotes" &&
+                                    selectedReview.downvotes
+                                  ? selectedReview.downvotes.length
+                                  : 0
+                        }
                         next={() => {
-                            setUpvotesPageModal(upvotesPageModal + 1);
+                            if (listModalDataType === "upvotes") {
+                                setUpvotesPageModal(upvotesPageModal + 1);
+                            } else if (listModalDataType === "downvotes") {
+                                setDownvotesPageModal(downvotesPageModal + 1);
+                            }
                         }}
-                        hasMore={hasMoreUpvotesModal}
+                        hasMore={
+                            listModalDataType && listModalDataType === "upvotes"
+                                ? hasMoreUpvotesModal
+                                : listModalDataType && listModalDataType === "downvotes"
+                                  ? hasMoreDownvotesModal
+                                  : false
+                        }
                         loader={
                             <Box
                                 display={"flex"}
@@ -114,8 +142,7 @@ const Modal: React.FC<ModalProps> = ({
                                 <CircularProgress size={30} thickness={2} color="secondary" />
                             </Box>
                         }
-                        // style={{ overflow: "auto" }}
-                        height={330}
+                        height={300}
                         endMessage={
                             <Typography sx={{ textAlign: "center" }} variant="body1">
                                 You have seen it all
@@ -123,23 +150,41 @@ const Modal: React.FC<ModalProps> = ({
                         }
                     >
                         <List>
-                            {selectedReview?.upvotes?.map((item: any, index: number) => (
-                                <ListItem
-                                    key={index}
-                                    alignItems="center"
-                                    sx={{
-                                        justifyContent: "flex-start",
-                                    }}
-                                >
-                                    <ListItemAvatar>
-                                        <Avatar
-                                        // alt={item.user.userName}
-                                        // src={item.user.avatar}
-                                        />
-                                    </ListItemAvatar>
-                                    <ListItemText primary={item.user.userName} />
-                                </ListItem>
-                            ))}
+                            {listModalDataType && listModalDataType === "upvotes"
+                                ? selectedReview?.upvotes?.map((item: any, index: number) => (
+                                      <ListItem
+                                          key={index}
+                                          alignItems="center"
+                                          sx={{
+                                              justifyContent: "flex-start",
+                                          }}
+                                      >
+                                          <ListItemAvatar>
+                                              <Avatar
+                                              // alt={item.user.userName}
+                                              // src={item.user.avatar}
+                                              />
+                                          </ListItemAvatar>
+                                          <ListItemText primary={item.user.userName} />
+                                      </ListItem>
+                                  ))
+                                : selectedReview?.downvotes?.map((item: any, index: number) => (
+                                      <ListItem
+                                          key={index}
+                                          alignItems="center"
+                                          sx={{
+                                              justifyContent: "flex-start",
+                                          }}
+                                      >
+                                          <ListItemAvatar>
+                                              <Avatar
+                                              // alt={item.user.userName}
+                                              // src={item.user.avatar}
+                                              />
+                                          </ListItemAvatar>
+                                          <ListItemText primary={item.user.userName} />
+                                      </ListItem>
+                                  ))}
                         </List>
                     </InfiniteScroll>
                 ) : validationSchema && initialValues && onDataChange ? (

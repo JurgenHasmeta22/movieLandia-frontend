@@ -49,16 +49,20 @@ export default function Movie() {
     const reviewRef = useRef<any>(null);
 
     const params = useParams();
+
     const {
         user,
         setUser,
-        setSelectedReview,
         selectedReview,
+        setSelectedReview,
         upvotesPageModal,
-        downvotesPageModal,
         setHasMoreUpvotesModal,
+        downvotesPageModal,
         setHasMoreDownvotesModal,
+        listModalDataType,
+        setListModalDataType,
     } = useStore();
+
     const [searchParams, setSearchParams] = useSearchParams();
     const { openModal } = useModal();
 
@@ -89,9 +93,19 @@ export default function Movie() {
             );
 
             if (reviewItem) {
-                const hasMoreUpvotes = reviewItem?._count?.upvotes! !== reviewItem?.upvotes?.length;
-                setSelectedReview(reviewItem);
-                setHasMoreUpvotesModal(hasMoreUpvotes);
+                if (listModalDataType === "upvotes") {
+                    const hasMoreUpvotes =
+                        reviewItem?._count?.upvotes! !== reviewItem?.upvotes?.length;
+
+                    setHasMoreUpvotesModal(hasMoreUpvotes);
+                    setSelectedReview(reviewItem);
+                } else if (listModalDataType === "downvotes") {
+                    const hasMoreDownvotes =
+                        reviewItem?._count?.downvotes! !== reviewItem?.downvotes?.length;
+
+                    setHasMoreDownvotesModal(hasMoreDownvotes);
+                    setSelectedReview(reviewItem);
+                }
             }
         }
 
@@ -112,16 +126,19 @@ export default function Movie() {
         refetchOnMount: "always",
         refetchOnWindowFocus: "always",
     });
+
     const latestMoviesQuery = useQuery({
         queryKey: ["latestMovies"],
         queryFn: () => movieService.getLatestMovies(),
     });
+
     const isMovieBookmarkedQuery = useQuery({
         queryKey: ["isMovieBookmarked", params?.title!],
         queryFn: () => movieService.isMovieBookmared(params?.title!, user?.id!),
         refetchOnMount: "always",
         refetchOnWindowFocus: "always",
     });
+
     const isMovieReviewedQuery = useQuery({
         queryKey: ["isMovieReviewed", params?.title!],
         queryFn: () => movieService.isMovieReviewed(params?.title!, user?.id!),
@@ -137,6 +154,7 @@ export default function Movie() {
 
     // #region "Pagination"
     const pageCount = Math.ceil(movie?.totalReviews! / 5);
+
     const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
         searchParams.set("page", String(value));
         setSearchParams(searchParams);
@@ -162,9 +180,6 @@ export default function Movie() {
             if (response && !response.error) {
                 setUser(response);
                 await refetchMovieDetailsAndBookmarkStatus();
-                // toast.success("Movie bookmarked successfully!");
-            } else {
-                // toast.error("Movie not bookmarked successfully!");
             }
         } catch (error) {
             toast.error("An error occurred while adding the movie to favorites.");
@@ -180,9 +195,6 @@ export default function Movie() {
             if (response && !response.error) {
                 await refetchMovieDetailsAndBookmarkStatus();
                 setUser(response);
-                // toast.success("Movie unbookmarked successfully!");
-            } else {
-                // toast.error("Movie not unbookmarked successfully!");
             }
         } catch (error) {
             toast.error("An error occurred while removing the movie from favorites.");
@@ -287,7 +299,6 @@ export default function Movie() {
             if (isAlreadyUpvoted) {
                 await movieService.removeUpvoteMovieReview(user?.id, movie?.id, movieReviewId);
                 await refetchMovieDetailsAndBookmarkStatus();
-                // toast.success("Upvote removed successfully!");
             } else {
                 await movieService.removeDownvoteMovieReview(user?.id, movie?.id, movieReviewId);
 
@@ -299,9 +310,6 @@ export default function Movie() {
 
                 if (response) {
                     await refetchMovieDetailsAndBookmarkStatus();
-                    // toast.success("Upvote added successfully!");
-                } else {
-                    // toast.error("Upvoted added unsuccessfully!");
                 }
             }
         } catch (error) {
@@ -316,7 +324,6 @@ export default function Movie() {
             if (isAlreadyDownvoted) {
                 await movieService.removeDownvoteMovieReview(user?.id, movie?.id, movieReviewId);
                 await refetchMovieDetailsAndBookmarkStatus();
-                // toast.success("Downvote removed successfully!");
             } else {
                 await movieService.removeUpvoteMovieReview(user?.id, movie?.id, movieReviewId);
 
@@ -328,9 +335,6 @@ export default function Movie() {
 
                 if (response) {
                     await refetchMovieDetailsAndBookmarkStatus();
-                    // toast.success("Downvoted added successfully!");
-                } else {
-                    // toast.error("Downvoted added unsuccessfully!");
                 }
             }
         } catch (error) {
@@ -386,9 +390,10 @@ export default function Movie() {
 
     // #region "Modal handlers"
     const handleOpenUpvotesModal = (reviewData: any) => {
+        setListModalDataType("upvotes");
         const hasMoreUpvotes = reviewData?._count?.upvotes! !== reviewData?.upvotes?.length;
-        setSelectedReview(reviewData);
         setHasMoreUpvotesModal(hasMoreUpvotes);
+        setSelectedReview(reviewData);
 
         openModal({
             onClose: () => handleCloseModal(),
@@ -399,12 +404,13 @@ export default function Movie() {
     };
 
     const handleOpenDownvotesModal = (reviewData: any) => {
+        setListModalDataType("downvotes");
         const hasMoreDownvotes = reviewData?._count?.downvotes! !== reviewData?.downvotes?.length;
-        setSelectedReview(reviewData);
         setHasMoreDownvotesModal(hasMoreDownvotes);
+        setSelectedReview(reviewData);
 
         openModal({
-            onClose: () => setIsOpenVotesModal(false),
+            onClose: () => handleCloseModal(),
             title: "Users who downvoted this review",
             subTitle: "Users list",
             hasList: true,
@@ -413,6 +419,7 @@ export default function Movie() {
 
     const handleCloseModal = () => {
         setIsOpenVotesModal(false);
+        setListModalDataType(null);
         setSelectedReview(null);
     };
     // #endregion
@@ -904,8 +911,8 @@ export default function Movie() {
                             mt={1}
                             mb={4}
                         >
-                            {latestMovies.slice(5, 10).map((latestMovie: any) => (
-                                <CardItem data={latestMovie} key={latestMovie.id} type="movie" />
+                            {latestMovies.slice(5, 10).map((latestMovie: any, index: number) => (
+                                <CardItem data={latestMovie} key={index} type="movie" />
                             ))}
                         </Stack>
                     </Box>
