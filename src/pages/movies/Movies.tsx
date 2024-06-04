@@ -15,7 +15,6 @@ export default function Movies() {
         useListPageData();
 
     const { fetchListData } = useListPageFetching({
-        search,
         type: "movies",
         page,
         sortBy,
@@ -120,46 +119,6 @@ export default function Movies() {
                                 />
                             </Box>
                         </Stack>
-                    )}
-                    {movies.length !== 0 ? (
-                        <Box display={"flex"} flexDirection={"column"}>
-                            {searchParams.get("search")! && (
-                                <Box ml={1} mt={4}>
-                                    <Typography fontSize={28} color="secondary" variant="h2">
-                                        Movies
-                                    </Typography>
-                                </Box>
-                            )}
-                            <Stack
-                                direction="row"
-                                flexWrap="wrap"
-                                justifyContent={"flex-start"}
-                                alignContent={"center"}
-                                rowGap={8}
-                                columnGap={4}
-                                sx={{
-                                    marginTop: `${searchParams.get("search") ? 2.5 : 0.2}rem`,
-                                }}
-                            >
-                                {movies.map((movie: IMovie) => (
-                                    <CardItem data={movie} key={movie.id} />
-                                ))}
-                            </Stack>
-                        </Box>
-                    ) : (
-                        <Box
-                            sx={{
-                                height: "50vh",
-                                display: "flex",
-                                placeItems: "center",
-                                placeContent: "center",
-                            }}
-                            component={"section"}
-                        >
-                            <Typography component={"h1"} fontSize={24} textAlign={"center"}>
-                                No Search Result, no movie found with that criteria.
-                            </Typography>
-                        </Box>
                     )}
                     <Stack
                         spacing={2}
