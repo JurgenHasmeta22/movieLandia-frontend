@@ -6,7 +6,7 @@ import Rating from "@mui/material/Rating";
 import Box from "@mui/material/Box";
 import { Typography } from "@mui/material";
 
-interface TextEditorProps {
+interface ITextEditorProps {
     value: string;
     ref: any;
     rating: number | null;
@@ -41,7 +41,7 @@ const formats = [
     "video",
 ];
 
-const TextEditor: React.FC<TextEditorProps> = forwardRef(
+const TextEditor: React.FC<ITextEditorProps> = forwardRef(
     ({ value, onChange, rating, setRating }, ref) => {
         const theme = useTheme();
 

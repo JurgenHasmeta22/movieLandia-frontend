@@ -1,23 +1,22 @@
 import type ISerie from "~/types/ISerie";
 import serieService from "~/services/api/serieService";
-import { Box, CircularProgress, Container, Pagination, Stack, Typography } from "@mui/material";
+import { Box, CircularProgress, Container, Stack } from "@mui/material";
 import SEOHelmet from "~/components/seoHelmet/SEOHelmet";
 import { toast } from "react-toastify";
-import CardItem from "~/components/cardItem/CardItem";
 import { useQuery } from "@tanstack/react-query";
 import Error404 from "../error/Error";
 import "react-quill/dist/quill.snow.css";
 import { useEffect } from "react";
 import Review from "~/components/review/Review";
-import TextEditor from "~/components/textEditor/TextEditor";
 import { WarningOutlined, CheckOutlined } from "@mui/icons-material";
 import * as CONSTANTS from "~/constants/Constants";
-import SortSelect from "~/components/sortSelect/SortSelect";
 import DetailsPageCard from "~/components/detailsPageCard/DetailsPageCard";
-import { TextEditorButtons } from "~/components/textEditorButtons/TextEditorButtons";
 import { useDetailsPageData } from "~/hooks/useDetailsPageData";
 import { useDetailsPageFetching } from "~/hooks/useDetailsPageFetching";
 import PaginationControl from "~/components/paginationControl/PaginationControl";
+import TextEditorForm from "~/components/textEditorForm/TextEditorForm";
+import ReviewsSorting from "~/components/reviews/Reviews";
+import LatestListDetail from "~/components/latestList/LatestList";
 
 export default function Serie() {
     // #region "State, refs, hooks, theme"
@@ -411,29 +410,12 @@ export default function Serie() {
                         }}
                     >
                         {serie.reviews?.length! > 0 && (
-                            <Stack
-                                flexDirection={"row"}
-                                justifyContent={"space-between"}
-                                alignItems={"center"}
-                            >
-                                <Box>
-                                    <Typography
-                                        fontSize={28}
-                                        color={"secondary"}
-                                        textAlign={"center"}
-                                    >
-                                        Reviews ({serie.totalReviews})
-                                    </Typography>
-                                </Box>
-                                <Box>
-                                    <SortSelect
-                                        sortBy={searchParams.get("sortBy")}
-                                        ascOrDesc={searchParams.get("ascOrDesc")}
-                                        onChange={handleChangeSorting}
-                                        type="details"
-                                    />
-                                </Box>
-                            </Stack>
+                            <ReviewsSorting
+                                data={serie}
+                                sortBy={sortBy!}
+                                ascOrDesc={ascOrDesc!}
+                                handleChangeSorting={handleChangeSorting}
+                            />
                         )}
                         {serie.reviews?.map((review: any, index: number) => (
                             <Review
@@ -462,57 +444,22 @@ export default function Serie() {
                             />
                         )}
                         {user && (!isSerieReviewed || isEditMode) && (
-                            <Box marginTop={4}>
-                                <Box marginBottom={1}>
-                                    <TextEditor
-                                        value={review}
-                                        onChange={setReview}
-                                        ref={textEditorRef}
-                                        rating={rating}
-                                        setRating={setRating}
-                                    />
-                                </Box>
-                                <TextEditorButtons
-                                    isEditMode={isEditMode}
-                                    setOpen={setOpen}
-                                    setIsEditMode={setIsEditMode}
-                                    setReview={setReview}
-                                    onSubmitReview={onSubmitReview}
-                                    handleFocusReview={handleFocusReview}
-                                    onSubmitUpdateReview={onSubmitUpdateReview}
-                                />
-                            </Box>
+                            <TextEditorForm
+                                review={review}
+                                setReview={setReview}
+                                rating={rating}
+                                setRating={setRating}
+                                isEditMode={isEditMode}
+                                setIsEditMode={setIsEditMode}
+                                setOpen={setOpen}
+                                textEditorRef={textEditorRef}
+                                handleFocusReview={handleFocusReview}
+                                onSubmitReview={onSubmitReview}
+                                onSubmitUpdateReview={onSubmitUpdateReview}
+                            />
                         )}
                     </Box>
-                    <Box
-                        sx={{
-                            display: "flex",
-                            flexDirection: "column",
-                            rowGap: 2,
-                            marginBottom: 2,
-                            marginTop: 2,
-                            // height: "100vh", breaks layout in mobile footer gets up
-                        }}
-                        component={"section"}
-                    >
-                        <Typography fontSize={28} color={"secondary"} textAlign={"center"}>
-                            Latest Series
-                        </Typography>
-                        <Stack
-                            direction="row"
-                            flexWrap="wrap"
-                            columnGap={3}
-                            rowGap={3}
-                            justifyContent="center"
-                            alignContent="center"
-                            mt={1}
-                            mb={4}
-                        >
-                            {series.slice(5, 10).map((latestSerie: any, index: number) => (
-                                <CardItem data={latestSerie} key={index} type={"serie"} />
-                            ))}
-                        </Stack>
-                    </Box>
+                    <LatestListDetail data={series} type="Series" />
                 </Stack>
             </Container>
         </>
