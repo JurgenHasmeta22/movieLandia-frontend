@@ -1,48 +1,30 @@
-import { useSearchParams } from "react-router-dom";
 import movieService from "~/services/api/movieService";
 import type IMovie from "~/types/IMovie";
 import { Box, CircularProgress, Container, Pagination, Stack, Typography } from "@mui/material";
 import { getRandomElements } from "~/utils/utils";
 import SEOHelmet from "~/components/seoHelmet/SEOHelmet";
-import { useSorting } from "~/hooks/useSorting";
 import Carousel from "~/components/carousel/Carousel";
 import CardItem from "~/components/cardItem/CardItem";
 import { useQuery } from "@tanstack/react-query";
 import SortSelect from "~/components/sortSelect/SortSelect";
+import { useListPageData } from "~/hooks/useListPageData";
+import { useListPageFetching } from "~/hooks/useListPageFetching";
 
 export default function Movies() {
-    const [searchParams, setSearchParams] = useSearchParams();
-    const handleChangeSorting = useSorting();
+    const { searchParams, setSearchParams, handleChangeSorting, page, search, sortBy, ascOrDesc } =
+        useListPageData();
 
-    const page = searchParams.get("page") || 1;
-    const search = searchParams.get("search");
-    const sortBy = searchParams.get("sortBy");
-    const ascOrDesc = searchParams.get("ascOrDesc");
-
-    const fetchMovies = async () => {
-        let response;
-        const queryParams: Record<string, string | number> = { page };
-
-        if (search) {
-            response = await movieService.searchMoviesByTitle(search, String(page));
-        } else {
-            if (sortBy) {
-                queryParams.sortBy = sortBy;
-            }
-
-            if (ascOrDesc) {
-                queryParams.ascOrDesc = ascOrDesc;
-            }
-
-            response = await movieService.getMovies(queryParams);
-        }
-
-        return response;
-    };
+    const { fetchListData } = useListPageFetching({
+        search,
+        type: "movies",
+        page,
+        sortBy,
+        ascOrDesc,
+    });
 
     const moviesQuery = useQuery({
         queryKey: ["movies", search, sortBy, ascOrDesc, page],
-        queryFn: () => fetchMovies(),
+        queryFn: () => fetchListData(),
     });
 
     const latestMoviesQuery = useQuery({
@@ -56,7 +38,6 @@ export default function Movies() {
     const moviesCarouselImages = getRandomElements(movies, 5);
 
     const pageCount = Math.ceil(moviesCount / 10);
-
     const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
         searchParams.set("page", String(value));
         setSearchParams(searchParams);
