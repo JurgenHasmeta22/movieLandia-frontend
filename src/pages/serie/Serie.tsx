@@ -1,48 +1,46 @@
-import { useParams, useSearchParams } from "react-router-dom";
 import type ISerie from "~/types/ISerie";
 import serieService from "~/services/api/serieService";
-import {
-    Box,
-    CircularProgress,
-    Container,
-    Pagination,
-    Stack,
-    Typography,
-    useTheme,
-} from "@mui/material";
-import { tokens } from "~/utils/theme";
+import { Box, CircularProgress, Container, Pagination, Stack, Typography } from "@mui/material";
 import SEOHelmet from "~/components/seoHelmet/SEOHelmet";
 import { toast } from "react-toastify";
-import { useStore } from "~/store/store";
 import CardItem from "~/components/cardItem/CardItem";
 import { useQuery } from "@tanstack/react-query";
 import Error404 from "../error/Error";
 import "react-quill/dist/quill.snow.css";
-import { useEffect, useRef, useState } from "react";
+import { useEffect } from "react";
 import Review from "~/components/review/Review";
 import TextEditor from "~/components/textEditor/TextEditor";
-import { useModal } from "~/services/providers/ModalContext";
 import { WarningOutlined, CheckOutlined } from "@mui/icons-material";
 import * as CONSTANTS from "~/constants/Constants";
 import SortSelect from "~/components/sortSelect/SortSelect";
-import { useSorting } from "~/hooks/useSorting";
 import DetailsPageCard from "~/components/detailsPageCard/DetailsPageCard";
 import { TextEditorButtons } from "~/components/textEditorButtons/TextEditorButtons";
+import { useDetailsPageData } from "~/hooks/useDetailsPageData";
+import { useDetailsPageFetching } from "~/hooks/useDetailsPageFetching";
 
 export default function Serie() {
     // #region "State, refs, hooks, theme"
-    const [review, setReview] = useState<string>("");
-    const [rating, setRating] = useState<number | null>(0);
-    const [open, setOpen] = useState<boolean>(false);
-    const [isEditMode, setIsEditMode] = useState<boolean>(false);
-    const [openVotesModal, setIsOpenVotesModal] = useState(false);
-
-    const textEditorRef = useRef<any>(null);
-    const reviewRef = useRef<any>(null);
-
-    const params = useParams();
-
     const {
+        rating,
+        setRating,
+        review,
+        setReview,
+        open,
+        setOpen,
+        isEditMode,
+        setIsEditMode,
+        openVotesModal,
+        setIsOpenVotesModal,
+        textEditorRef,
+        reviewRef,
+        params,
+        searchParams,
+        setSearchParams,
+        openModal,
+        handleChangeSorting,
+        page,
+        sortBy,
+        ascOrDesc,
         user,
         setUser,
         selectedReview,
@@ -55,67 +53,18 @@ export default function Serie() {
         setHasMoreDownvotesModal,
         listModalDataType,
         setListModalDataType,
-    } = useStore();
+    } = useDetailsPageData();
 
-    const [searchParams, setSearchParams] = useSearchParams();
-    const { openModal } = useModal();
-
-    const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
-
-    const handleChangeSorting = useSorting();
-    const page = searchParams.get("page") || 1;
-    const sortBy = searchParams.get("sortBy");
-    const ascOrDesc = searchParams.get("ascOrDesc");
+    const { fetchDetailData } = useDetailsPageFetching({
+        params,
+        type: "serie",
+        page,
+        sortBy,
+        ascOrDesc,
+    });
     // #endregion
 
     // #region "Data fetching and queries"
-    const fetchSerie = async () => {
-        let response;
-        const queryParams: Record<string, string | number> = { page };
-
-        if (sortBy) {
-            queryParams.sortBy = sortBy;
-        }
-
-        if (ascOrDesc) {
-            queryParams.ascOrDesc = ascOrDesc;
-        }
-
-        if (upvotesPageModal !== 1) {
-            queryParams.upvotesPage = upvotesPageModal;
-        }
-
-        if (downvotesPageModal !== 1) {
-            queryParams.downvotesPage = downvotesPageModal;
-        }
-
-        response = await serieService.getSerieByTitle(params?.title!, queryParams);
-
-        if (selectedReview) {
-            const reviewItem = response?.reviews?.find(
-                (item: any) => item.id === selectedReview.id,
-            );
-
-            if (reviewItem) {
-                if (listModalDataType === "upvotes") {
-                    const hasMoreUpvotes =
-                        reviewItem?._count?.upvotes! !== reviewItem?.upvotes?.length;
-
-                    setHasMoreUpvotesModal(hasMoreUpvotes);
-                    setSelectedReview(reviewItem);
-                } else if (listModalDataType === "downvotes") {
-                    const hasMoreDownvotes =
-                        reviewItem?._count?.downvotes! !== reviewItem?.downvotes?.length;
-
-                    setHasMoreDownvotesModal(hasMoreDownvotes);
-                    setSelectedReview(reviewItem);
-                }
-            }
-        }
-
-        return response;
-    };
 
     const serieQuery = useQuery({
         queryKey: [
@@ -127,7 +76,7 @@ export default function Serie() {
             upvotesPageModal,
             downvotesPageModal,
         ],
-        queryFn: () => fetchSerie(),
+        queryFn: () => fetchDetailData(),
         refetchOnMount: "always",
         refetchOnWindowFocus: "always",
     });
