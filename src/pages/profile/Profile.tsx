@@ -37,13 +37,17 @@ const userSchema = Yup.object().shape({
 });
 
 export default function Profile() {
+    const { user, setUser } = useStore();
+
     const [searchParams, setSearchParams] = useSearchParams();
     const navigate = useNavigate();
-    const { user, setUser } = useStore();
-    const theme = useTheme();
     const { openRightPanel } = useRightPanel();
+
     const formikRef = useRef<FormikProps<any>>(null);
+
+    const theme = useTheme();
     const colors = tokens(theme.palette.mode);
+
     const tabValue =
         searchParams?.get("tab")! === "favMovies"
             ? 0

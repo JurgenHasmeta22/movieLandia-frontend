@@ -36,7 +36,7 @@ const loginSchema = yup.object().shape({
 
 export default function Login() {
     const [showPassword, setShowPassword] = useState(false);
-    const { user, setUser } = useStore();
+    const { setUser } = useStore();
     const navigate = useNavigate();
     const { setItem } = useLocalStorage("token");
 

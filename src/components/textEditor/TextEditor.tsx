@@ -5,7 +5,6 @@ import { useTheme } from "@mui/material/styles";
 import Rating from "@mui/material/Rating";
 import Box from "@mui/material/Box";
 import { Typography } from "@mui/material";
-// import "./style.css";
 
 interface TextEditorProps {
     value: string;
@@ -15,36 +14,36 @@ interface TextEditorProps {
     onChange: (value: string) => void;
 }
 
+const modules = {
+    toolbar: [
+        [{ header: "1" }, { header: "2" }, { font: [] }],
+        [{ size: [] }],
+        ["bold", "italic", "underline", "strike", "blockquote"],
+        [{ list: "ordered" }, { list: "bullet" }],
+        ["link", "image", "video"],
+        ["clean"],
+    ],
+};
+
+const formats = [
+    "header",
+    "font",
+    "size",
+    "bold",
+    "italic",
+    "underline",
+    "strike",
+    "blockquote",
+    "list",
+    "bullet",
+    "link",
+    "image",
+    "video",
+];
+
 const TextEditor: React.FC<TextEditorProps> = forwardRef(
     ({ value, onChange, rating, setRating }, ref) => {
         const theme = useTheme();
-
-        const modules = {
-            toolbar: [
-                [{ header: "1" }, { header: "2" }, { font: [] }],
-                [{ size: [] }],
-                ["bold", "italic", "underline", "strike", "blockquote"],
-                [{ list: "ordered" }, { list: "bullet" }],
-                ["link", "image", "video"],
-                ["clean"],
-            ],
-        };
-
-        const formats = [
-            "header",
-            "font",
-            "size",
-            "bold",
-            "italic",
-            "underline",
-            "strike",
-            "blockquote",
-            "list",
-            "bullet",
-            "link",
-            "image",
-            "video",
-        ];
 
         useEffect(() => {
             const resizeImages = () => {
@@ -91,7 +90,6 @@ const TextEditor: React.FC<TextEditorProps> = forwardRef(
                         color: theme.palette.mode === "dark" ? "white" : "black",
                         marginBottom: "10px",
                     }}
-                    // className={theme.palette.mode === "dark" ? "dark-icons" : "light-icons"}
                 />
                 <Box
                     sx={{

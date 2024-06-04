@@ -1,35 +1,16 @@
 import React from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import type IMovie from "~/types/IMovie";
-import {
-    Box,
-    CircularProgress,
-    Container,
-    MenuItem,
-    Pagination,
-    Select,
-    Stack,
-    SvgIcon,
-    Typography,
-} from "@mui/material";
+import { Box, CircularProgress, Container, Pagination, Stack, Typography } from "@mui/material";
 import genreService from "~/services/api/genreService";
 import SEOHelmet from "~/components/seoHelmet/SEOHelmet";
 import { useSorting } from "~/hooks/useSorting";
-import { getRandomElements, toFirstWordUpperCase } from "~/utils/utils";
+import { getRandomElements } from "~/utils/utils";
 import CardItem from "~/components/cardItem/CardItem";
 import { useQuery } from "@tanstack/react-query";
-import SwapVertIcon from "@mui/icons-material/SwapVert";
 import Error404 from "../error/Error";
 import ISerie from "~/types/ISerie";
 import SortSelect from "~/components/sortSelect/SortSelect";
-
-const valueToLabelMap: Record<any, string> = {
-    none: "None",
-    ratingImdbAsc: "Imdb rating (Asc)",
-    ratingImdbDesc: "Imdb rating (Desc)",
-    titleAsc: "Title (Asc)",
-    titleDesc: "Title (Desc)",
-};
 
 export default function Genre(): React.JSX.Element {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -43,9 +24,18 @@ export default function Genre(): React.JSX.Element {
     const fetchMoviesByGenre = async () => {
         const queryParams: any = { page };
 
-        if (page) queryParams.page = page;
-        if (sortBy) queryParams.sortBy = sortBy;
-        if (ascOrDesc) queryParams.ascOrDesc = ascOrDesc;
+        if (page) {
+            queryParams.page = page;
+        }
+
+        if (sortBy) {
+            queryParams.sortBy = sortBy;
+        }
+
+        if (ascOrDesc) {
+            queryParams.ascOrDesc = ascOrDesc;
+        }
+
         queryParams.type = "movie";
 
         return genreService.getGenreByName(params?.name!, queryParams);
@@ -54,9 +44,18 @@ export default function Genre(): React.JSX.Element {
     const fetchSeriesByGenre = async () => {
         const queryParams: any = { page };
 
-        if (page) queryParams.page = page;
-        if (sortBy) queryParams.sortBy = sortBy;
-        if (ascOrDesc) queryParams.ascOrDesc = ascOrDesc;
+        if (page) {
+            queryParams.page = page;
+        }
+
+        if (sortBy) {
+            queryParams.sortBy = sortBy;
+        }
+
+        if (ascOrDesc) {
+            queryParams.ascOrDesc = ascOrDesc;
+        }
+
         queryParams.type = "serie";
 
         return genreService.getGenreByName(params?.name!, queryParams);
@@ -66,6 +65,7 @@ export default function Genre(): React.JSX.Element {
         queryKey: ["moviesByGenre", sortBy, ascOrDesc, page],
         queryFn: () => fetchMoviesByGenre(),
     });
+
     const moviesByGenre: IMovie[] = moviesByGenreQuery.data?.movies! ?? [];
     const moviesByGenreCount: number = moviesByGenreQuery.data?.count! ?? 0;
 
@@ -73,6 +73,7 @@ export default function Genre(): React.JSX.Element {
         queryKey: ["seriesByGenre", sortBy, ascOrDesc, page],
         queryFn: () => fetchSeriesByGenre(),
     });
+
     const seriesByGenre: ISerie[] = seriesByGenreQuery.data?.series! ?? [];
     const seriesByGenreCount: number = seriesByGenreQuery.data?.count! ?? 0;
 
@@ -83,6 +84,7 @@ export default function Genre(): React.JSX.Element {
 
     const pageCountMovies = Math.ceil(moviesByGenreCount / 10);
     const pageCountSeries = Math.ceil(seriesByGenreCount / 10);
+
     const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
         searchParams.set("page", String(value));
         setSearchParams(searchParams);
@@ -177,6 +179,7 @@ export default function Genre(): React.JSX.Element {
                                 sortBy={searchParams.get("sortBy")}
                                 ascOrDesc={searchParams.get("ascOrDesc")}
                                 onChange={handleChangeSorting}
+                                type="list"
                             />
                         </Box>
                     </Stack>
@@ -245,6 +248,7 @@ export default function Genre(): React.JSX.Element {
                                 sortBy={searchParams.get("sortBy")}
                                 ascOrDesc={searchParams.get("ascOrDesc")}
                                 onChange={handleChangeSorting}
+                                type="list"
                             />
                         </Box>
                     </Stack>

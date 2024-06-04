@@ -47,7 +47,7 @@ const registerSchema = yup.object().shape({
 export default function Register() {
     const [showPassword, setShowPassword] = useState(false);
     const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
-    const { user, setUser } = useStore();
+    const { setUser } = useStore();
     const navigate = useNavigate();
     const { setItem } = useLocalStorage("token");
 

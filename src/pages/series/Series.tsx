@@ -1,33 +1,14 @@
 import { useSearchParams } from "react-router-dom";
 import type ISerie from "~/types/ISerie";
-import {
-    Box,
-    CircularProgress,
-    Container,
-    MenuItem,
-    Pagination,
-    Select,
-    Stack,
-    SvgIcon,
-    Typography,
-} from "@mui/material";
+import { Box, CircularProgress, Container, Pagination, Stack, Typography } from "@mui/material";
 import serieService from "~/services/api/serieService";
 import SEOHelmet from "~/components/seoHelmet/SEOHelmet";
 import { useSorting } from "~/hooks/useSorting";
-import { getRandomElements, toFirstWordUpperCase } from "~/utils/utils";
+import { getRandomElements } from "~/utils/utils";
 import Carousel from "~/components/carousel/Carousel";
 import CardItem from "~/components/cardItem/CardItem";
 import { useQuery } from "@tanstack/react-query";
-import SwapVertIcon from "@mui/icons-material/SwapVert";
 import SortSelect from "~/components/sortSelect/SortSelect";
-
-const valueToLabelMap: Record<any, string> = {
-    none: "None",
-    ratingImdbAsc: "Imdb rating (Asc)",
-    ratingImdbDesc: "Imdb rating (Desc)",
-    titleAsc: "Title (Asc)",
-    titleDesc: "Title (Desc)",
-};
 
 export default function Series() {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -45,8 +26,14 @@ export default function Series() {
         if (search) {
             response = await serieService.searchSeriesByTitle(search, String(page));
         } else {
-            if (sortBy) queryParams.sortBy = sortBy;
-            if (ascOrDesc) queryParams.ascOrDesc = ascOrDesc;
+            if (sortBy) {
+                queryParams.sortBy = sortBy;
+            }
+
+            if (ascOrDesc) {
+                queryParams.ascOrDesc = ascOrDesc;
+            }
+
             response = await serieService.getSeries(queryParams);
         }
 
@@ -57,11 +44,13 @@ export default function Series() {
         queryKey: ["series", search, sortBy, ascOrDesc, page],
         queryFn: () => fetchSeries(),
     });
+
     const series: ISerie[] = seriesQuery.data?.rows! ?? [];
     const seriesCount: number = seriesQuery.data?.count! ?? 0;
     const seriesCarouselImages = getRandomElements(series, 5);
 
     const pageCount = Math.ceil(seriesCount / 10);
+
     const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
         searchParams.set("page", String(value));
         setSearchParams(searchParams);

@@ -2,30 +2,30 @@ import { Typography, Button, Box } from "@mui/material";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 
+const containerVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+        opacity: 1,
+        y: 0,
+        transition: {
+            delay: 0.2,
+            duration: 0.8,
+            type: "spring",
+        },
+    },
+};
+
+const itemVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: (custom: number) => ({
+        opacity: 1,
+        y: 0,
+        transition: { delay: custom * 0.2 },
+    }),
+};
+
 const HomeHeroSection = () => {
     const navigate = useNavigate();
-
-    const containerVariants = {
-        hidden: { opacity: 0, y: 20 },
-        visible: {
-            opacity: 1,
-            y: 0,
-            transition: {
-                delay: 0.2,
-                duration: 0.8,
-                type: "spring",
-            },
-        },
-    };
-
-    const itemVariants = {
-        hidden: { opacity: 0, y: 50 },
-        visible: (custom: number) => ({
-            opacity: 1,
-            y: 0,
-            transition: { delay: custom * 0.2 },
-        }),
-    };
 
     return (
         <Box

@@ -34,21 +34,22 @@ import LocalMoviesIcon from "@mui/icons-material/LocalMovies";
 import SubtitlesIcon from "@mui/icons-material/Subtitles";
 import { useLocalStorage } from "~/hooks/useLocalStorage";
 import HeaderMenu from "../headerMenu/HeaderMenu";
+import { useQuery } from "@tanstack/react-query";
 
 const Header = (): React.JSX.Element => {
     const [options, setOptions] = useState<any>([]);
-    const [genres, setGenres] = useState<IGenre[]>([]);
     const [anchorElProfile, setAnchorElProfile] = useState<null | HTMLElement>(null);
     const [anchorElGenres, setAnchorElGenres] = useState<null | HTMLElement>(null);
-    const [anchorElGenresMobile, setAnchorElGenresMobile] = useState<null | HTMLElement>(null);
+
+    const { user, setUser, isUserLoading, mobileOpen, setMobileOpen, setOpenDrawer } = useStore();
 
     const isPageShrunk = useResizeWindow();
-    const { user, setUser, isUserLoading, mobileOpen, setMobileOpen, setOpenDrawer } = useStore();
     const navigate = useNavigate();
     const [searchParams, setSearchParams] = useSearchParams();
     const { removeItem } = useLocalStorage("token");
 
     const colorMode = useContext(ColorModeContext);
+
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
@@ -65,22 +66,12 @@ const Header = (): React.JSX.Element => {
         window.scrollTo(0, 0);
     }
 
-    async function getGenres(): Promise<void> {
-        try {
-            const response = await genreService.getGenres({});
-            setGenres(response.rows);
-        } catch (error) {
-            console.log(error);
-        }
-    }
+    const genresQuery = useQuery({
+        queryKey: ["genres"],
+        queryFn: () => genreService.getGenres({}),
+    });
 
-    async function fetchData(): Promise<void> {
-        try {
-            await getGenres();
-        } catch (error) {
-            console.log(error);
-        }
-    }
+    const genres: IGenre[] = genresQuery.data?.rows! ?? [];
 
     const openMenuGenres = (event: React.MouseEvent<HTMLLIElement>) => {
         setAnchorElGenres(event.currentTarget);
@@ -99,17 +90,12 @@ const Header = (): React.JSX.Element => {
     };
 
     useEffect(() => {
-        fetchData().catch((error) => {
-            console.log(error);
-        });
-    }, []);
-
-    useEffect(() => {
         for (const genre of genres) {
             const option = {
                 value: genre.name,
                 label: genre.name,
             };
+
             setOptions([...options, option]);
         }
     }, []);

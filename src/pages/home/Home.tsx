@@ -4,13 +4,11 @@ import { useEffect } from "react";
 import ISerie from "~/types/ISerie";
 import IGenre from "~/types/IGenre";
 import IMovie from "~/types/IMovie";
-import { Link } from "react-router-dom";
 import movieService from "~/services/api/movieService";
 import serieService from "~/services/api/serieService";
 import genreService from "~/services/api/genreService";
-import { motion, useAnimation } from "framer-motion";
+import { useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import CardItem from "~/components/cardItem/CardItem";
 import { useQuery } from "@tanstack/react-query";
 import SEOHelmet from "~/components/seoHelmet/SEOHelmet";
 import ListHomeSection from "./components/ListHomeSection";
@@ -25,10 +23,12 @@ export default function Home() {
         queryKey: ["movies"],
         queryFn: () => movieService.getMovies({}),
     });
+
     const seriesQuery = useQuery({
         queryKey: ["series"],
         queryFn: () => serieService.getSeries({}),
     });
+
     const genresQuery = useQuery({
         queryKey: ["genres"],
         queryFn: () => genreService.getGenres({}),

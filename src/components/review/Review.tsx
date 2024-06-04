@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, forwardRef, useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, forwardRef, useState } from "react";
 import { format } from "date-fns";
 import {
     Avatar,
@@ -17,9 +17,8 @@ import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import { useStore } from "~/store/store";
 import { tokens } from "~/utils/theme";
 import movieService from "~/services/api/movieService";
-import { QueryObserverResult, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import serieService from "~/services/api/serieService";
-import { useModal } from "~/services/providers/ModalContext";
 import { motion } from "framer-motion";
 
 interface ReviewProps {
@@ -56,10 +55,22 @@ interface ReviewProps {
 }
 
 const getRatingLabelAndColor = (rating: number) => {
-    if (rating <= 2) return { label: "Very Bad", color: "error.main" };
-    if (rating <= 4) return { label: "Bad", color: "warning.main" };
-    if (rating <= 6) return { label: "Average", color: "info.main" };
-    if (rating <= 8) return { label: "Good", color: "success.light" };
+    if (rating <= 2) {
+        return { label: "Very Bad", color: "error.main" };
+    }
+
+    if (rating <= 4) {
+        return { label: "Bad", color: "warning.main" };
+    }
+
+    if (rating <= 6) {
+        return { label: "Average", color: "info.main" };
+    }
+
+    if (rating <= 8) {
+        return { label: "Good", color: "success.light" };
+    }
+
     return { label: "Very Good", color: "success.main" };
 };
 
@@ -82,12 +93,9 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
         ref,
     ) => {
         // #region "State, hooks, theme"
-        const [open, setOpen] = useState(false);
         const [isClickedUpvote, setIsClickedUpvote] = useState(false);
         const [isClickedDownvote, setIsClickedDownvote] = useState(false);
-
         const { user } = useStore();
-        const { openModal } = useModal();
 
         const theme = useTheme();
         const colors = tokens(theme.palette.mode);
