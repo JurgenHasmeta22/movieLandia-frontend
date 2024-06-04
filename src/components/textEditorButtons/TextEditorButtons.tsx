@@ -122,3 +122,5 @@ export function TextEditorButtons({
         </>
     );
 }
+
+export default TextEditorButtons;

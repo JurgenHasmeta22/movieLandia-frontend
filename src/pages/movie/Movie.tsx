@@ -1,22 +1,21 @@
 import { useEffect } from "react";
 import type IMovie from "~/types/IMovie";
 import movieService from "~/services/api/movieService";
-import { Box, CircularProgress, Container, Pagination, Stack, Typography } from "@mui/material";
+import { Box, CircularProgress, Container, Stack } from "@mui/material";
 import SEOHelmet from "~/components/seoHelmet/SEOHelmet";
 import { toast } from "react-toastify";
-import CardItem from "~/components/cardItem/CardItem";
 import { useQuery } from "@tanstack/react-query";
 import Error404 from "../error/Error";
 import Review from "~/components/review/Review";
-import TextEditor from "~/components/textEditor/TextEditor";
 import { WarningOutlined, CheckOutlined } from "@mui/icons-material";
 import * as CONSTANTS from "~/constants/Constants";
-import SortSelect from "~/components/sortSelect/SortSelect";
 import DetailsPageCard from "~/components/detailsPageCard/DetailsPageCard";
-import { TextEditorButtons } from "~/components/textEditorButtons/TextEditorButtons";
 import { useDetailsPageData } from "~/hooks/useDetailsPageData";
 import { useDetailsPageFetching } from "~/hooks/useDetailsPageFetching";
 import PaginationControl from "~/components/paginationControl/PaginationControl";
+import TextEditorForm from "~/components/textEditorForm/TextEditorForm";
+import LatestListDetail from "~/components/latestList/LatestList";
+import ReviewsSorting from "~/components/reviews/Reviews";
 
 export default function Movie() {
     // #region "State, refs, hooks, theme"
@@ -406,29 +405,12 @@ export default function Movie() {
                         component={"section"}
                     >
                         {movie.reviews?.length! > 0 && (
-                            <Stack
-                                flexDirection={"row"}
-                                justifyContent={"space-between"}
-                                alignItems={"center"}
-                            >
-                                <Box>
-                                    <Typography
-                                        fontSize={28}
-                                        color={"secondary"}
-                                        textAlign={"center"}
-                                    >
-                                        Reviews ({movie.totalReviews})
-                                    </Typography>
-                                </Box>
-                                <Box>
-                                    <SortSelect
-                                        sortBy={searchParams.get("sortBy")}
-                                        ascOrDesc={searchParams.get("ascOrDesc")}
-                                        onChange={handleChangeSorting}
-                                        type="details"
-                                    />
-                                </Box>
-                            </Stack>
+                            <ReviewsSorting
+                                data={movie}
+                                sortBy={sortBy!}
+                                ascOrDesc={ascOrDesc!}
+                                handleChangeSorting={handleChangeSorting}
+                            />
                         )}
                         {movie.reviews?.map((review: any, index: number) => (
                             <Review
@@ -457,56 +439,22 @@ export default function Movie() {
                             />
                         )}
                         {user && (!isMovieReviewed || isEditMode) && (
-                            <Box marginTop={4}>
-                                <Box marginBottom={1}>
-                                    <TextEditor
-                                        value={review}
-                                        onChange={setReview}
-                                        ref={textEditorRef}
-                                        rating={rating}
-                                        setRating={setRating}
-                                    />
-                                </Box>
-                                <TextEditorButtons
-                                    isEditMode={isEditMode}
-                                    setOpen={setOpen}
-                                    setIsEditMode={setIsEditMode}
-                                    setReview={setReview}
-                                    onSubmitReview={onSubmitReview}
-                                    handleFocusReview={handleFocusReview}
-                                    onSubmitUpdateReview={onSubmitUpdateReview}
-                                />
-                            </Box>
+                            <TextEditorForm
+                                review={review}
+                                setReview={setReview}
+                                rating={rating}
+                                setRating={setRating}
+                                isEditMode={isEditMode}
+                                setIsEditMode={setIsEditMode}
+                                setOpen={setOpen}
+                                textEditorRef={textEditorRef}
+                                handleFocusReview={handleFocusReview}
+                                onSubmitReview={onSubmitReview}
+                                onSubmitUpdateReview={onSubmitUpdateReview}
+                            />
                         )}
                     </Box>
-                    <Box
-                        sx={{
-                            display: "flex",
-                            flexDirection: "column",
-                            rowGap: 2,
-                            marginBottom: 2,
-                            // height: "100vh",
-                        }}
-                        component={"section"}
-                    >
-                        <Typography fontSize={28} color={"secondary"} textAlign={"center"}>
-                            Latest Movies
-                        </Typography>
-                        <Stack
-                            direction="row"
-                            flexWrap="wrap"
-                            columnGap={3}
-                            rowGap={3}
-                            justifyContent="center"
-                            alignContent="center"
-                            mt={1}
-                            mb={4}
-                        >
-                            {latestMovies.slice(5, 10).map((latestMovie: any, index: number) => (
-                                <CardItem data={latestMovie} key={index} type="movie" />
-                            ))}
-                        </Stack>
-                    </Box>
+                    <LatestListDetail data={latestMovies} type="Movies" />
                 </Stack>
             </Container>
         </>
