@@ -19,8 +19,10 @@ export default function Genre(): React.JSX.Element {
 
     const pageMovies = searchParams.get("pageMovies") || 1;
     const pageSeries = searchParams.get("pageSeries") || 1;
-    const sortBy = searchParams.get("moviesSortBy");
-    const ascOrDesc = searchParams.get("moviesAscOrDesc");
+    const moviesSortBy = searchParams.get("moviesSortBy");
+    const moviesAscOrDesc = searchParams.get("moviesAscOrDesc");
+    const seriesSortBy = searchParams.get("seriesSortBy");
+    const seriesAscOrDesc = searchParams.get("seriesAscOrDesc");
 
     const fetchMoviesByGenre = async () => {
         const queryParams: any = { pageMovies };
@@ -29,12 +31,12 @@ export default function Genre(): React.JSX.Element {
             queryParams.page = pageMovies;
         }
 
-        if (sortBy) {
-            queryParams.sortBy = sortBy;
+        if (moviesSortBy) {
+            queryParams.sortBy = moviesSortBy;
         }
 
-        if (ascOrDesc) {
-            queryParams.ascOrDesc = ascOrDesc;
+        if (moviesAscOrDesc) {
+            queryParams.ascOrDesc = moviesAscOrDesc;
         }
 
         queryParams.type = "movie";
@@ -48,12 +50,12 @@ export default function Genre(): React.JSX.Element {
             queryParams.page = pageSeries;
         }
 
-        if (sortBy) {
-            queryParams.sortBy = sortBy;
+        if (seriesSortBy) {
+            queryParams.sortBy = seriesSortBy;
         }
 
-        if (ascOrDesc) {
-            queryParams.ascOrDesc = ascOrDesc;
+        if (seriesAscOrDesc) {
+            queryParams.ascOrDesc = seriesAscOrDesc;
         }
 
         queryParams.type = "serie";
@@ -61,14 +63,14 @@ export default function Genre(): React.JSX.Element {
     };
 
     const moviesByGenreQuery = useQuery({
-        queryKey: ["moviesByGenre", sortBy, ascOrDesc, pageMovies],
+        queryKey: ["moviesByGenre", moviesSortBy, moviesAscOrDesc, pageMovies],
         queryFn: () => fetchMoviesByGenre(),
     });
     const moviesByGenre: IMovie[] = moviesByGenreQuery.data?.movies! ?? [];
     const moviesByGenreCount: number = moviesByGenreQuery.data?.count! ?? 0;
 
     const seriesByGenreQuery = useQuery({
-        queryKey: ["seriesByGenre", sortBy, ascOrDesc, pageSeries],
+        queryKey: ["seriesByGenre", seriesSortBy, seriesAscOrDesc, pageSeries],
         queryFn: () => fetchSeriesByGenre(),
     });
     const seriesByGenre: ISerie[] = seriesByGenreQuery.data?.series! ?? [];
