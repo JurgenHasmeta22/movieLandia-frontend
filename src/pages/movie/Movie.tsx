@@ -14,8 +14,8 @@ import { useDetailsPageData } from "~/hooks/useDetailsPageData";
 import { useDetailsPageFetching } from "~/hooks/useDetailsPageFetching";
 import PaginationControl from "~/components/paginationControl/PaginationControl";
 import TextEditorForm from "~/components/textEditorForm/TextEditorForm";
-import LatestListDetail from "~/components/latestList/LatestList";
-import ReviewsSorting from "~/components/reviews/Reviews";
+import LatestListDetail from "~/components/latestListDetail/LatestListDetail";
+import Reviews from "~/components/reviews/Reviews";
 
 export default function Movie() {
     // #region "State, refs, hooks, theme"
@@ -405,7 +405,7 @@ export default function Movie() {
                         component={"section"}
                     >
                         {movie.reviews?.length! > 0 && (
-                            <ReviewsSorting
+                            <Reviews
                                 data={movie}
                                 sortBy={sortBy!}
                                 ascOrDesc={ascOrDesc!}

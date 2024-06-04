@@ -1,6 +1,6 @@
 import movieService from "~/services/api/movieService";
 import type IMovie from "~/types/IMovie";
-import { Box, CircularProgress, Container, Pagination, Stack, Typography } from "@mui/material";
+import { Box, CircularProgress, Container, Stack, Typography } from "@mui/material";
 import { getRandomElements } from "~/utils/utils";
 import SEOHelmet from "~/components/seoHelmet/SEOHelmet";
 import Carousel from "~/components/carousel/Carousel";
@@ -13,19 +13,28 @@ import PaginationControl from "~/components/paginationControl/PaginationControl"
 import LatestList from "~/components/latestList/LatestList";
 
 export default function Movies() {
-    const { searchParams, setSearchParams, handleChangeSorting, page, search, sortBy, ascOrDesc } =
-        useListPageData();
+    const { searchParams, setSearchParams, page, handleChangeSorting } = useListPageData();
+    const sortBy = searchParams.get("moviesSortBy");
+    const ascOrDesc = searchParams.get("moviesAscOrDesc");
 
-    const { fetchListData } = useListPageFetching({
-        type: "movies",
-        page,
-        sortBy,
-        ascOrDesc,
-    });
+    const fetchMovies = async () => {
+        const queryParams: Record<string, string | number> = { page };
+
+        if (sortBy) {
+            queryParams.sortBy = sortBy;
+        }
+
+        if (ascOrDesc) {
+            queryParams.ascOrDesc = ascOrDesc;
+        }
+
+        const response = await movieService.getMovies(queryParams);
+        return response;
+    };
 
     const moviesQuery = useQuery({
-        queryKey: ["movies", search, sortBy, ascOrDesc, page],
-        queryFn: () => fetchListData(),
+        queryKey: ["movies", sortBy, ascOrDesc, page],
+        queryFn: () => fetchMovies(),
     });
 
     const latestMoviesQuery = useQuery({
@@ -111,9 +120,9 @@ export default function Movies() {
                         </Box>
                         <Box mr={1}>
                             <SortSelect
-                                sortBy={searchParams.get("sortBy")}
-                                ascOrDesc={searchParams.get("ascOrDesc")}
-                                onChange={handleChangeSorting}
+                                sortBy={sortBy!}
+                                ascOrDesc={ascOrDesc!}
+                                onChange={(event) => handleChangeSorting("movies", event)}
                                 type="list"
                             />
                         </Box>

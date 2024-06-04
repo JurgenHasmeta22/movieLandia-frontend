@@ -9,21 +9,32 @@ import SortSelect from "~/components/sortSelect/SortSelect";
 import { useListPageData } from "~/hooks/useListPageData";
 import { useListPageFetching } from "~/hooks/useListPageFetching";
 import PaginationControl from "~/components/paginationControl/PaginationControl";
+import { addScaleCorrector } from "framer-motion";
+import serieService from "~/services/api/serieService";
 
 export default function Series() {
-    const { searchParams, setSearchParams, handleChangeSorting, page, search, sortBy, ascOrDesc } =
-        useListPageData();
+    const { searchParams, setSearchParams, handleChangeSorting, page } = useListPageData();
+    const sortBy = searchParams.get("seriesSortBy");
+    const ascOrDesc = searchParams.get("seriesAscOrDesc");
 
-    const { fetchListData } = useListPageFetching({
-        type: "series",
-        page,
-        sortBy,
-        ascOrDesc,
-    });
+    const fetchSeries = async () => {
+        const queryParams: Record<string, string | number> = { page };
+
+        if (sortBy) {
+            queryParams.sortBy = sortBy;
+        }
+
+        if (ascOrDesc) {
+            queryParams.ascOrDesc = ascOrDesc;
+        }
+
+        const response = await serieService.getSeries(queryParams);
+        return response;
+    };
 
     const seriesQuery = useQuery({
-        queryKey: ["series", search, sortBy, ascOrDesc, page],
-        queryFn: () => fetchListData(),
+        queryKey: ["series", sortBy, ascOrDesc, page],
+        queryFn: () => fetchSeries(),
     });
 
     const series: ISerie[] = seriesQuery.data?.rows! ?? [];
@@ -105,9 +116,9 @@ export default function Series() {
                             }}
                         >
                             <SortSelect
-                                sortBy={searchParams.get("sortBy")}
-                                ascOrDesc={searchParams.get("ascOrDesc")}
-                                onChange={handleChangeSorting}
+                                sortBy={sortBy!}
+                                ascOrDesc={ascOrDesc!}
+                                onChange={(event) => handleChangeSorting("series", event)}
                                 type="list"
                             />
                         </Box>

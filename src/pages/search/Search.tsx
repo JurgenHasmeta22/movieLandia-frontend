@@ -127,9 +127,9 @@ export function Search() {
                                 }}
                             >
                                 <SortSelect
-                                    sortBy={searchParams.get("sortBy")}
-                                    ascOrDesc={searchParams.get("ascOrDesc")}
-                                    onChange={handleChangeSorting}
+                                    sortBy={searchParams.get("moviesSortBy")}
+                                    ascOrDesc={searchParams.get("moviesAscOrDesc")}
+                                    onChange={(event) => handleChangeSorting("movies", event)}
                                     type="list"
                                 />
                             </Box>
@@ -192,9 +192,9 @@ export function Search() {
                                 }}
                             >
                                 <SortSelect
-                                    sortBy={searchParams.get("sortBy")}
-                                    ascOrDesc={searchParams.get("ascOrDesc")}
-                                    onChange={handleChangeSorting}
+                                    sortBy={searchParams.get("seriesSortBy")}
+                                    ascOrDesc={searchParams.get("seriesAscOrDesc")}
+                                    onChange={(event) => handleChangeSorting("series", event)}
                                     type="list"
                                 />
                             </Box>
