@@ -14,7 +14,6 @@ export default function Series() {
         useListPageData();
 
     const { fetchListData } = useListPageFetching({
-        search,
         type: "series",
         page,
         sortBy,
@@ -130,7 +129,7 @@ export default function Series() {
                             rowGap={8}
                             columnGap={4}
                         >
-                            {series.map((serie: any) => (
+                            {series.map((serie: ISerie) => (
                                 <CardItem data={serie} type="serie" key={serie.id} />
                             ))}
                         </Stack>

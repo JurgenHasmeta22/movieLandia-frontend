@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Link, useNavigate, NavLink, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, NavLink, useSearchParams, useLocation } from "react-router-dom";
 import { useStore } from "~/store/store";
 import type IGenre from "~/types/IGenre";
 import {
@@ -37,6 +37,7 @@ import HeaderMenu from "../headerMenu/HeaderMenu";
 import { useQuery } from "@tanstack/react-query";
 
 const Header = (): React.JSX.Element => {
+    // #region "State, refs, hooks, theme"
     const [options, setOptions] = useState<any>([]);
     const [anchorElProfile, setAnchorElProfile] = useState<null | HTMLElement>(null);
     const [anchorElGenres, setAnchorElGenres] = useState<null | HTMLElement>(null);
@@ -45,14 +46,16 @@ const Header = (): React.JSX.Element => {
 
     const isPageShrunk = useResizeWindow();
     const navigate = useNavigate();
+    const location = useLocation();
     const [searchParams, setSearchParams] = useSearchParams();
     const { removeItem } = useLocalStorage("token");
 
     const colorMode = useContext(ColorModeContext);
-
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
+    // #endregion
 
+    // #region "Event handlers"
     function handleLogout(): void {
         removeItem();
         setUser(null);
@@ -65,13 +68,6 @@ const Header = (): React.JSX.Element => {
         navigate("/profile");
         window.scrollTo(0, 0);
     }
-
-    const genresQuery = useQuery({
-        queryKey: ["genres"],
-        queryFn: () => genreService.getGenres({}),
-    });
-
-    const genres: IGenre[] = genresQuery.data?.rows! ?? [];
 
     const openMenuGenres = (event: React.MouseEvent<HTMLLIElement>) => {
         setAnchorElGenres(event.currentTarget);
@@ -88,6 +84,14 @@ const Header = (): React.JSX.Element => {
     const closeMenuProfile = () => {
         setAnchorElProfile(null);
     };
+    // #endregion
+
+    const genresQuery = useQuery({
+        queryKey: ["genres"],
+        queryFn: () => genreService.getGenres({}),
+    });
+
+    const genres: IGenre[] = genresQuery.data?.rows! ?? [];
 
     useEffect(() => {
         for (const genre of genres) {
@@ -321,14 +325,12 @@ const Header = (): React.JSX.Element => {
                                 <TextField
                                     placeholder="What are you going to watch today?"
                                     size="small"
-                                    value={
-                                        searchParams.get("search") ? searchParams.get("search") : ""
-                                    }
+                                    value={searchParams.get("term") ? searchParams.get("term") : ""}
                                     onChange={(e) => {
                                         const value = e.target.value;
 
                                         if (value.length > 0) {
-                                            navigate(`/movies?search=${value}`);
+                                            navigate(`/search?term=${value}`);
                                             window.scrollTo(0, 0);
                                         } else {
                                             navigate("/movies");
@@ -348,7 +350,7 @@ const Header = (): React.JSX.Element => {
                                                 <Clear
                                                     sx={{ cursor: "pointer" }}
                                                     onClick={() => {
-                                                        if (searchParams.get("search")) {
+                                                        if (searchParams.get("term")) {
                                                             navigate("/movies");
                                                             window.scrollTo(0, 0);
                                                         }
