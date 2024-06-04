@@ -56,8 +56,10 @@ export default function Movie() {
         selectedReview,
         setSelectedReview,
         upvotesPageModal,
+        setUpvotesPageModal,
         setHasMoreUpvotesModal,
         downvotesPageModal,
+        setDownvotesPageModal,
         setHasMoreDownvotesModal,
         listModalDataType,
         setListModalDataType,
@@ -343,51 +345,6 @@ export default function Movie() {
     }
     // #endregion
 
-    const handleFocusTextEditor = () => {
-        if (textEditorRef.current) {
-            textEditorRef.current.focus();
-        }
-    };
-
-    const handleFocusReview = () => {
-        if (reviewRef.current) {
-            reviewRef.current.focus();
-        }
-    };
-    // #endregion
-
-    // #region "Checking state"
-    useEffect(() => {
-        if (isEditMode) {
-            handleFocusTextEditor();
-        }
-    }, [isEditMode]);
-
-    if (movieQuery.isLoading || latestMoviesQuery.isLoading) {
-        return (
-            <Box
-                sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    height: "100vh",
-                }}
-            >
-                <CircularProgress size={80} thickness={4} color="secondary" />
-            </Box>
-        );
-    }
-
-    if (
-        movieQuery.isError ||
-        movieQuery.data?.error ||
-        latestMoviesQuery.isError ||
-        latestMoviesQuery.data?.error
-    ) {
-        return <Error404 />;
-    }
-    // #endregion
-
     // #region "Modal handlers"
     const handleOpenUpvotesModal = (reviewData: any) => {
         setListModalDataType("upvotes");
@@ -420,8 +377,58 @@ export default function Movie() {
     const handleCloseModal = () => {
         setIsOpenVotesModal(false);
         setListModalDataType(null);
+        setUpvotesPageModal(1);
+        setDownvotesPageModal(1);
         setSelectedReview(null);
     };
+    // #endregion
+
+    // #region "Focus functions"
+    const handleFocusTextEditor = () => {
+        if (textEditorRef.current) {
+            textEditorRef.current.focus();
+        }
+    };
+
+    const handleFocusReview = () => {
+        if (reviewRef.current) {
+            reviewRef.current.focus();
+        }
+    };
+
+    useEffect(() => {
+        if (isEditMode) {
+            handleFocusTextEditor();
+        }
+    }, [isEditMode]);
+    // #endregion
+
+    // #endregion
+
+    // #region "Errors query checking"
+    if (movieQuery.isLoading || latestMoviesQuery.isLoading) {
+        return (
+            <Box
+                sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "100vh",
+                }}
+            >
+                <CircularProgress size={80} thickness={4} color="secondary" />
+            </Box>
+        );
+    }
+
+    if (
+        movieQuery.isError ||
+        movieQuery.data?.error ||
+        latestMoviesQuery.isError ||
+        latestMoviesQuery.data?.error
+    ) {
+        return <Error404 />;
+    }
     // #endregion
 
     return (

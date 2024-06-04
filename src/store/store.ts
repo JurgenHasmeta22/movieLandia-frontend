@@ -31,11 +31,11 @@ export const useStore = create<AppStoreState>(
         setSelectedReview: (data) => {
             set({ selectedReview: data });
         },
-        hasMoreUpvotesModal: false,
+        hasMoreUpvotesModal: true,
         setHasMoreUpvotesModal: (data) => {
             set({ hasMoreUpvotesModal: data });
         },
-        hasMoreDownvotesModal: false,
+        hasMoreDownvotesModal: true,
         setHasMoreDownvotesModal: (data) => {
             set({ hasMoreDownvotesModal: data });
         },
