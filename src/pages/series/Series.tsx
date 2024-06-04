@@ -8,6 +8,7 @@ import { useQuery } from "@tanstack/react-query";
 import SortSelect from "~/components/sortSelect/SortSelect";
 import { useListPageData } from "~/hooks/useListPageData";
 import { useListPageFetching } from "~/hooks/useListPageFetching";
+import PaginationControl from "~/components/paginationControl/PaginationControl";
 
 export default function Series() {
     const { searchParams, setSearchParams, handleChangeSorting, page, search, sortBy, ascOrDesc } =
@@ -133,26 +134,11 @@ export default function Series() {
                                 <CardItem data={serie} type="serie" key={serie.id} />
                             ))}
                         </Stack>
-                        <Stack
-                            spacing={2}
-                            sx={{
-                                display: "flex",
-                                placeItems: "center",
-                                marginTop: 2,
-                                marginBottom: 4,
-                            }}
-                        >
-                            <Pagination
-                                page={
-                                    searchParams.get("page") ? Number(searchParams.get("page")) : 1
-                                }
-                                size="large"
-                                count={pageCount}
-                                showFirstButton
-                                showLastButton
-                                onChange={handlePageChange}
-                            />
-                        </Stack>
+                        <PaginationControl
+                            currentPage={Number(page)!}
+                            pageCount={pageCount}
+                            onPageChange={handlePageChange}
+                        />
                     </Box>
                 </Box>
             </Container>
