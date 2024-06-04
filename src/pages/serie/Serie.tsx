@@ -43,14 +43,28 @@ export default function Serie() {
     const [rating, setRating] = useState<number | null>(0);
     const [open, setOpen] = useState<boolean>(false);
     const [isEditMode, setIsEditMode] = useState<boolean>(false);
-    const [upvotesPage, setUpvotesPage] = useState<number>(1);
-    const [downvotesPage, setDownvotesPage] = useState<number>(1);
+    const [openVotesModal, setIsOpenVotesModal] = useState(false);
 
     const textEditorRef = useRef<any>(null);
     const reviewRef = useRef<any>(null);
 
     const params = useParams();
-    const { user, setUser } = useStore();
+
+    const {
+        user,
+        setUser,
+        selectedReview,
+        setSelectedReview,
+        upvotesPageModal,
+        setUpvotesPageModal,
+        setHasMoreUpvotesModal,
+        downvotesPageModal,
+        setDownvotesPageModal,
+        setHasMoreDownvotesModal,
+        listModalDataType,
+        setListModalDataType,
+    } = useStore();
+
     const [searchParams, setSearchParams] = useSearchParams();
     const { openModal } = useModal();
 
@@ -70,29 +84,63 @@ export default function Serie() {
 
         if (sortBy) queryParams.sortBy = sortBy;
         if (ascOrDesc) queryParams.ascOrDesc = ascOrDesc;
-        if (upvotesPage !== 1) queryParams.upvotesPage = upvotesPage;
-        if (downvotesPage !== 1) queryParams.downvotesPage = downvotesPage;
+        if (upvotesPageModal !== 1) queryParams.upvotesPage = upvotesPageModal;
+        if (downvotesPageModal !== 1) queryParams.downvotesPage = downvotesPageModal;
 
         response = await serieService.getSerieByTitle(params?.title!, queryParams);
+
+        if (selectedReview) {
+            const reviewItem = response?.reviews?.find(
+                (item: any) => item.id === selectedReview.id,
+            );
+
+            if (reviewItem) {
+                if (listModalDataType === "upvotes") {
+                    const hasMoreUpvotes =
+                        reviewItem?._count?.upvotes! !== reviewItem?.upvotes?.length;
+
+                    setHasMoreUpvotesModal(hasMoreUpvotes);
+                    setSelectedReview(reviewItem);
+                } else if (listModalDataType === "downvotes") {
+                    const hasMoreDownvotes =
+                        reviewItem?._count?.downvotes! !== reviewItem?.downvotes?.length;
+
+                    setHasMoreDownvotesModal(hasMoreDownvotes);
+                    setSelectedReview(reviewItem);
+                }
+            }
+        }
+
         return response;
     };
 
     const serieQuery = useQuery({
-        queryKey: ["serie", params?.title!, sortBy, ascOrDesc, page, upvotesPage, downvotesPage],
+        queryKey: [
+            "serie",
+            params?.title!,
+            sortBy,
+            ascOrDesc,
+            page,
+            upvotesPageModal,
+            downvotesPageModal,
+        ],
         queryFn: () => fetchSerie(),
         refetchOnMount: "always",
         refetchOnWindowFocus: "always",
     });
+
     const seriesQuery = useQuery({
         queryKey: ["series"],
         queryFn: () => serieService.getSeries({}),
     });
+
     const isSerieBookmarkedQuery = useQuery({
         queryKey: ["isSerieBookmarked", params?.title!],
         queryFn: () => serieService.isSerieBookmared(params?.title!, user?.id),
         refetchOnMount: "always",
         refetchOnWindowFocus: "always",
     });
+
     const isSerieReviewedQuery = useQuery({
         queryKey: ["isSerieReviewed", params?.title!],
         queryFn: () => serieService.isSerieReviewed(params?.title!, user?.id),
@@ -108,6 +156,7 @@ export default function Serie() {
 
     // #region "Pagination"
     const pageCount = Math.ceil(serie?.totalReviews! / 5);
+
     const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
         searchParams.set("page", String(value));
         setSearchParams(searchParams);
@@ -133,9 +182,6 @@ export default function Serie() {
             if (response && !response.error) {
                 setUser(response);
                 await refetchSerieDetailsAndBookmarkStatus();
-                // toast.success("Serie bookmarked successfully!");
-            } else {
-                // toast.error("Serie not bookmarked successfully!");
             }
         } catch (error) {
             toast.error("An error occurred while adding the serie to favorites.");
@@ -151,9 +197,6 @@ export default function Serie() {
             if (response && !response.error) {
                 await refetchSerieDetailsAndBookmarkStatus();
                 setUser(response);
-                // toast.success("Serie unbookmarked successfully!");
-            } else {
-                // toast.error("Serie not unbookmarked successfully!");
             }
         } catch (error) {
             toast.error("An error occurred while removing the serie from favorites.");
@@ -258,7 +301,6 @@ export default function Serie() {
             if (isAlreadyUpvoted) {
                 await serieService.removeUpvoteSerieReview(user?.id, serie?.id, serieReviewId);
                 await refetchSerieDetailsAndBookmarkStatus();
-                // toast.success("Upvote removed successfully!");
             } else {
                 await serieService.removeDownvoteSerieReview(user?.id, serie?.id, serieReviewId);
 
@@ -270,9 +312,6 @@ export default function Serie() {
 
                 if (response) {
                     await refetchSerieDetailsAndBookmarkStatus();
-                    // toast.success("Upvote added successfully!");
-                } else {
-                    // toast.error("Upvote added unsuccessfully!");
                 }
             }
         } catch (error) {
@@ -286,7 +325,6 @@ export default function Serie() {
             if (isAlreadyDownvoted) {
                 await serieService.removeDownvoteSerieReview(user?.id, serie?.id, serieReviewId);
                 await refetchSerieDetailsAndBookmarkStatus();
-                // toast.success("Downvote removed successfully!");
             } else {
                 await serieService.removeUpvoteSerieReview(user?.id, serie?.id, serieReviewId);
 
@@ -298,9 +336,6 @@ export default function Serie() {
 
                 if (response) {
                     await refetchSerieDetailsAndBookmarkStatus();
-                    // toast.success("Downvote added successfully!");
-                } else {
-                    // toast.error("Downvote added unsuccessfully!");
                 }
             }
         } catch (error) {
@@ -309,6 +344,45 @@ export default function Serie() {
     }
     // #endregion
 
+    // #region "Modal handlers"
+    const handleOpenUpvotesModal = (reviewData: any) => {
+        setListModalDataType("upvotes");
+        const hasMoreUpvotes = reviewData?._count?.upvotes! !== reviewData?.upvotes?.length;
+        setHasMoreUpvotesModal(hasMoreUpvotes);
+        setSelectedReview(reviewData);
+
+        openModal({
+            onClose: () => handleCloseModal(),
+            title: "Users who upvoted this review",
+            subTitle: "Users list",
+            hasList: true,
+        });
+    };
+
+    const handleOpenDownvotesModal = (reviewData: any) => {
+        setListModalDataType("downvotes");
+        const hasMoreDownvotes = reviewData?._count?.downvotes! !== reviewData?.downvotes?.length;
+        setHasMoreDownvotesModal(hasMoreDownvotes);
+        setSelectedReview(reviewData);
+
+        openModal({
+            onClose: () => handleCloseModal(),
+            title: "Users who downvoted this review",
+            subTitle: "Users list",
+            hasList: true,
+        });
+    };
+
+    const handleCloseModal = () => {
+        setIsOpenVotesModal(false);
+        setListModalDataType(null);
+        setUpvotesPageModal(1);
+        setDownvotesPageModal(1);
+        setSelectedReview(null);
+    };
+    // #endregion
+
+    // #region "Focus functions"
     const handleFocusReview = () => {
         if (reviewRef.current) {
             reviewRef.current.focus();
@@ -320,14 +394,17 @@ export default function Serie() {
             textEditorRef.current.focus();
         }
     };
-    // #endregion
 
     useEffect(() => {
         if (isEditMode) {
             handleFocusTextEditor();
         }
     }, [isEditMode]);
+    // #endregion
 
+    // #endregion
+
+    // #region "Errors query checking"
     if (serieQuery.isLoading || seriesQuery.isLoading) {
         return (
             <Box
@@ -352,6 +429,7 @@ export default function Serie() {
     ) {
         return <Error404 />;
     }
+    // #endregion
 
     return (
         <>
@@ -665,10 +743,8 @@ export default function Serie() {
                                 handleDownvote={onDownVoteSerie}
                                 type="serie"
                                 data={serie}
-                                upvotesPage={upvotesPage}
-                                setUpvotesPage={setUpvotesPage}
-                                downvotesPage={downvotesPage}
-                                setDownvotesPage={setDownvotesPage}
+                                handleOpenUpvotesModal={handleOpenUpvotesModal}
+                                handleOpenDownvotesModal={handleOpenDownvotesModal}
                             />
                         ))}
                         {serie.totalReviews! > 0 && (
