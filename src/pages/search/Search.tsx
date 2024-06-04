@@ -1,8 +1,10 @@
-import { Box, CircularProgress, Container, Pagination, Stack, Typography } from "@mui/material";
+import { Box, CircularProgress, Container, Stack, Typography } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "react-router-dom";
 import CardItem from "~/components/cardItem/CardItem";
 import PaginationControl from "~/components/paginationControl/PaginationControl";
+import SortSelect from "~/components/sortSelect/SortSelect";
+import { useSorting } from "~/hooks/useSorting";
 import movieService from "~/services/api/movieService";
 import serieService from "~/services/api/serieService";
 import IMovie from "~/types/IMovie";
@@ -10,6 +12,8 @@ import ISerie from "~/types/ISerie";
 
 export function Search() {
     const [searchParams, setSearchParams] = useSearchParams();
+    const handleChangeSorting = useSorting();
+
     const term = searchParams.get("term");
     const pageMovies = searchParams.get("pageMovies") || 1;
     const pageSeries = searchParams.get("pageSeries") || 1;
@@ -38,14 +42,13 @@ export function Search() {
         queryKey: ["movies", term, pageMovies],
         queryFn: () => searchMoviesByTitle(),
     });
+    const movies: IMovie[] = moviesQuery.data?.movies! ?? [];
+    const moviesCount: number = moviesQuery.data?.count! ?? 0;
 
     const seriesQuery = useQuery({
         queryKey: ["series", term, pageSeries],
         queryFn: () => searchSeriesByTitle(),
     });
-
-    const movies: IMovie[] = moviesQuery.data?.movies! ?? [];
-    const moviesCount: number = moviesQuery.data?.count! ?? 0;
     const series: ISerie[] = seriesQuery.data?.series! ?? [];
     const seriesCount: number = seriesQuery.data?.count! ?? 0;
 
@@ -106,10 +109,30 @@ export function Search() {
             >
                 {movies.length !== 0 ? (
                     <Box display={"flex"} flexDirection={"column"} rowGap={2}>
-                        <Box ml={1} mt={4}>
+                        <Box
+                            ml={1}
+                            mt={4}
+                            display="flex"
+                            justifyContent="space-between"
+                            alignItems="center"
+                        >
                             <Typography fontSize={28} color="secondary" variant="h2">
                                 Movies
                             </Typography>
+                            <Box
+                                sx={{
+                                    display: "flex",
+                                    justifyContent: "flex-end",
+                                    alignItems: "center",
+                                }}
+                            >
+                                <SortSelect
+                                    sortBy={searchParams.get("sortBy")}
+                                    ascOrDesc={searchParams.get("ascOrDesc")}
+                                    onChange={handleChangeSorting}
+                                    type="list"
+                                />
+                            </Box>
                         </Box>
                         <Box>
                             <Stack
@@ -151,10 +174,30 @@ export function Search() {
                 )}
                 {series.length !== 0 ? (
                     <Box display={"flex"} flexDirection={"column"} rowGap={2}>
-                        <Box ml={1} mt={4}>
+                        <Box
+                            ml={1}
+                            mt={4}
+                            display="flex"
+                            justifyContent="space-between"
+                            alignItems="center"
+                        >
                             <Typography fontSize={28} color="secondary" variant="h2">
                                 Series
                             </Typography>
+                            <Box
+                                sx={{
+                                    display: "flex",
+                                    justifyContent: "flex-end",
+                                    alignItems: "center",
+                                }}
+                            >
+                                <SortSelect
+                                    sortBy={searchParams.get("sortBy")}
+                                    ascOrDesc={searchParams.get("ascOrDesc")}
+                                    onChange={handleChangeSorting}
+                                    type="list"
+                                />
+                            </Box>
                         </Box>
                         <Box>
                             <Stack

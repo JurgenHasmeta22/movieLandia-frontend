@@ -5,7 +5,6 @@ import { Box, CircularProgress, Container, Pagination, Stack, Typography } from 
 import genreService from "~/services/api/genreService";
 import SEOHelmet from "~/components/seoHelmet/SEOHelmet";
 import { useSorting } from "~/hooks/useSorting";
-import { getRandomElements } from "~/utils/utils";
 import CardItem from "~/components/cardItem/CardItem";
 import { useQuery } from "@tanstack/react-query";
 import Error404 from "../error/Error";
@@ -18,15 +17,16 @@ export default function Genre(): React.JSX.Element {
     const handleChangeSorting = useSorting();
     const params = useParams();
 
-    const page = searchParams.get("page") || 1;
+    const pageMovies = searchParams.get("pageMovies") || 1;
+    const pageSeries = searchParams.get("pageSeries") || 1;
     const sortBy = searchParams.get("sortBy");
     const ascOrDesc = searchParams.get("ascOrDesc");
 
     const fetchMoviesByGenre = async () => {
-        const queryParams: any = { page };
+        const queryParams: any = { pageMovies };
 
-        if (page) {
-            queryParams.page = page;
+        if (pageMovies) {
+            queryParams.page = pageMovies;
         }
 
         if (sortBy) {
@@ -38,15 +38,14 @@ export default function Genre(): React.JSX.Element {
         }
 
         queryParams.type = "movie";
-
         return genreService.getGenreByName(params?.name!, queryParams);
     };
 
     const fetchSeriesByGenre = async () => {
-        const queryParams: any = { page };
+        const queryParams: any = { pageSeries };
 
-        if (page) {
-            queryParams.page = page;
+        if (pageSeries) {
+            queryParams.page = pageSeries;
         }
 
         if (sortBy) {
@@ -58,36 +57,32 @@ export default function Genre(): React.JSX.Element {
         }
 
         queryParams.type = "serie";
-
         return genreService.getGenreByName(params?.name!, queryParams);
     };
 
     const moviesByGenreQuery = useQuery({
-        queryKey: ["moviesByGenre", sortBy, ascOrDesc, page],
+        queryKey: ["moviesByGenre", sortBy, ascOrDesc, pageMovies],
         queryFn: () => fetchMoviesByGenre(),
     });
-
     const moviesByGenre: IMovie[] = moviesByGenreQuery.data?.movies! ?? [];
     const moviesByGenreCount: number = moviesByGenreQuery.data?.count! ?? 0;
 
     const seriesByGenreQuery = useQuery({
-        queryKey: ["seriesByGenre", sortBy, ascOrDesc, page],
+        queryKey: ["seriesByGenre", sortBy, ascOrDesc, pageSeries],
         queryFn: () => fetchSeriesByGenre(),
     });
-
     const seriesByGenre: ISerie[] = seriesByGenreQuery.data?.series! ?? [];
     const seriesByGenreCount: number = seriesByGenreQuery.data?.count! ?? 0;
 
-    const moviesCarouselImages = getRandomElements(
-        moviesByGenre,
-        moviesByGenre.length > 5 ? 5 : moviesByGenre.length,
-    );
-
     const pageCountMovies = Math.ceil(moviesByGenreCount / 10);
     const pageCountSeries = Math.ceil(seriesByGenreCount / 10);
+    const handlePageChangeMovies = (event: React.ChangeEvent<unknown>, value: number) => {
+        searchParams.set("pageMovies", String(value));
+        setSearchParams(searchParams);
+    };
 
-    const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
-        searchParams.set("page", String(value));
+    const handlePageChangeSeries = (event: React.ChangeEvent<unknown>, value: number) => {
+        searchParams.set("pageSeries", String(value));
         setSearchParams(searchParams);
     };
 
@@ -145,30 +140,17 @@ export default function Genre(): React.JSX.Element {
                         paddingTop: 4,
                     }}
                 >
-                    <Stack
-                        display="flex"
-                        flexDirection="row"
-                        alignItems="center"
-                        component="section"
-                        mt={4}
-                    >
-                        <Box
-                            display="flex"
-                            justifyContent="start"
-                            alignItems="center"
-                            sx={{ flexGrow: 1 }}
+                    <Box display="flex" justifyContent="space-between" alignItems="center" mt={4}>
+                        <Typography
+                            sx={{
+                                fontSize: [16, 18, 20, 24, 26],
+                            }}
+                            color={"secondary"}
+                            variant="h2"
+                            textAlign={"center"}
                         >
-                            <Typography
-                                sx={{
-                                    fontSize: [16, 18, 20, 24, 26],
-                                }}
-                                color={"secondary"}
-                                variant="h2"
-                                textAlign={"center"}
-                            >
-                                {`Movies of genre ${params.name}`}
-                            </Typography>
-                        </Box>
+                            {`Movies of genre ${params.name}`}
+                        </Typography>
                         <Box
                             sx={{
                                 display: "flex",
@@ -183,7 +165,7 @@ export default function Genre(): React.JSX.Element {
                                 type="list"
                             />
                         </Box>
-                    </Stack>
+                    </Box>
                     <Stack
                         direction="row"
                         flexWrap="wrap"
@@ -197,9 +179,9 @@ export default function Genre(): React.JSX.Element {
                         ))}
                     </Stack>
                     <PaginationControl
-                        currentPage={Number(page)!}
+                        currentPage={Number(pageMovies)!}
                         pageCount={pageCountMovies}
-                        onPageChange={handlePageChange}
+                        onPageChange={handlePageChangeMovies}
                     />
                     <Stack
                         display="flex"
@@ -253,9 +235,9 @@ export default function Genre(): React.JSX.Element {
                         ))}
                     </Stack>
                     <PaginationControl
-                        currentPage={Number(page)!}
+                        currentPage={Number(pageSeries)!}
                         pageCount={pageCountSeries}
-                        onPageChange={handlePageChange}
+                        onPageChange={handlePageChangeSeries}
                     />
                 </Box>
             </Container>
