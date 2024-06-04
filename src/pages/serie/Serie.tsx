@@ -1,14 +1,10 @@
-import { Link, useParams, useSearchParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import type ISerie from "~/types/ISerie";
 import serieService from "~/services/api/serieService";
 import {
     Box,
-    Button,
     CircularProgress,
     Container,
-    Divider,
-    List,
-    ListItem,
     Pagination,
     Stack,
     Typography,
@@ -19,13 +15,8 @@ import SEOHelmet from "~/components/seoHelmet/SEOHelmet";
 import { toast } from "react-toastify";
 import { useStore } from "~/store/store";
 import CardItem from "~/components/cardItem/CardItem";
-import YouTubeIcon from "@mui/icons-material/YouTube";
-import BookmarkAddIcon from "@mui/icons-material/BookmarkAdd";
 import { useQuery } from "@tanstack/react-query";
-import BookmarkRemoveIcon from "@mui/icons-material/BookmarkRemove";
 import Error404 from "../error/Error";
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import MovieIcon from "@mui/icons-material/Movie";
 import "react-quill/dist/quill.snow.css";
 import { useEffect, useRef, useState } from "react";
 import Review from "~/components/review/Review";
@@ -35,7 +26,8 @@ import { WarningOutlined, CheckOutlined } from "@mui/icons-material";
 import * as CONSTANTS from "~/constants/Constants";
 import SortSelect from "~/components/sortSelect/SortSelect";
 import { useSorting } from "~/hooks/useSorting";
-import StarRateIcon from "@mui/icons-material/StarRate";
+import DetailsPageCard from "~/components/detailsPageCard/DetailsPageCard";
+import { TextEditorButtons } from "~/components/textEditorButtons/TextEditorButtons";
 
 export default function Serie() {
     // #region "State, refs, hooks, theme"
@@ -82,10 +74,21 @@ export default function Serie() {
         let response;
         const queryParams: Record<string, string | number> = { page };
 
-        if (sortBy) queryParams.sortBy = sortBy;
-        if (ascOrDesc) queryParams.ascOrDesc = ascOrDesc;
-        if (upvotesPageModal !== 1) queryParams.upvotesPage = upvotesPageModal;
-        if (downvotesPageModal !== 1) queryParams.downvotesPage = downvotesPageModal;
+        if (sortBy) {
+            queryParams.sortBy = sortBy;
+        }
+
+        if (ascOrDesc) {
+            queryParams.ascOrDesc = ascOrDesc;
+        }
+
+        if (upvotesPageModal !== 1) {
+            queryParams.upvotesPage = upvotesPageModal;
+        }
+
+        if (downvotesPageModal !== 1) {
+            queryParams.downvotesPage = downvotesPageModal;
+        }
 
         response = await serieService.getSerieByTitle(params?.title!, queryParams);
 
@@ -442,259 +445,13 @@ export default function Serie() {
             />
             <Container>
                 <Stack flexDirection={"column"} rowGap={4}>
-                    <Box
-                        sx={{
-                            display: "flex",
-                            flexDirection: "column",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            height: "auto",
-                            width: "100%",
-                            pt: 8,
-                            pb: 4,
-                        }}
-                        component={"section"}
-                    >
-                        <Box
-                            sx={{
-                                display: "flex",
-                                flexDirection: "row",
-                                flexWrap: "wrap",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                height: "100%",
-                                width: "90%",
-                                columnGap: 6,
-                                padding: 6,
-                                backgroundColor: `${colors.primary[400]}`,
-                            }}
-                        >
-                            <Box>
-                                <img
-                                    src={serie.photoSrc}
-                                    alt={serie.title}
-                                    style={{ width: 220, height: "auto" }}
-                                />
-                            </Box>
-                            <Box
-                                sx={{
-                                    display: "flex",
-                                    flexDirection: "column",
-                                }}
-                            >
-                                <Typography
-                                    fontSize={36}
-                                    color={"secondary"}
-                                    textAlign={"center"}
-                                    component={"h1"}
-                                >
-                                    {serie.title}
-                                </Typography>
-                                <List
-                                    sx={{
-                                        display: "flex",
-                                        flexDirection: "row",
-                                        placeSelf: "center",
-                                        placeItems: "center",
-                                    }}
-                                >
-                                    <MovieIcon fontSize="large" color="secondary" />
-                                    {serie.genres?.map((genre: any, index: number) => (
-                                        <>
-                                            <ListItem
-                                                sx={{
-                                                    color: colors.greenAccent[500],
-                                                }}
-                                                key={index}
-                                            >
-                                                <Link
-                                                    to={`/genres/${genre.genre.name}`}
-                                                    style={{
-                                                        textDecoration: "none",
-                                                        color: colors.primary[200],
-                                                        fontSize: 15,
-                                                    }}
-                                                >
-                                                    <Typography component={"span"}>
-                                                        {genre.genre.name}
-                                                    </Typography>
-                                                </Link>
-                                            </ListItem>
-                                            {index < serie.genres!.length - 1 && (
-                                                <Divider
-                                                    orientation="vertical"
-                                                    flexItem
-                                                    color="error"
-                                                />
-                                            )}
-                                        </>
-                                    ))}
-                                </List>
-                                <List
-                                    sx={{
-                                        display: "flex",
-                                        flexDirection: "row",
-                                        placeSelf: "center",
-                                    }}
-                                >
-                                    <ListItem
-                                        sx={{
-                                            color: colors.greenAccent[500],
-                                        }}
-                                    >
-                                        <CalendarMonthIcon fontSize="large" />
-                                        <Typography component={"span"} paddingLeft={1}>
-                                            {serie.releaseYear}
-                                        </Typography>
-                                    </ListItem>
-                                    <ListItem
-                                        sx={{
-                                            color: colors.greenAccent[500],
-                                            display: "flex",
-                                            flexDirection: "row",
-                                            columnGap: 0.5,
-                                        }}
-                                    >
-                                        <Box
-                                            display="flex"
-                                            flexDirection="row"
-                                            columnGap={0.5}
-                                            alignItems={"center"}
-                                            justifyContent={"start"}
-                                        >
-                                            <img
-                                                src="/assets/icons/imdb.svg"
-                                                alt="IMDb Icon"
-                                                style={{ width: "35px", height: "35px" }}
-                                            />
-                                            <Typography
-                                                color={"secondary"}
-                                                fontSize={12}
-                                                component="span"
-                                            >
-                                                {serie.ratingImdb !== 0
-                                                    ? `${serie.ratingImdb}`
-                                                    : "N/A"}
-                                            </Typography>
-                                        </Box>
-                                    </ListItem>
-                                    <ListItem
-                                        sx={{
-                                            display: "flex",
-                                            flexDirection: "row",
-                                            columnGap: 0.5,
-                                        }}
-                                    >
-                                        <Box
-                                            display="flex"
-                                            flexDirection="row"
-                                            columnGap={0.5}
-                                            alignItems={"center"}
-                                            justifyContent={"start"}
-                                        >
-                                            <StarRateIcon
-                                                sx={{
-                                                    color: "primary",
-                                                }}
-                                            />
-                                            <Typography
-                                                color={"secondary"}
-                                                fontSize={16}
-                                                component="span"
-                                                sx={{
-                                                    color: "primary",
-                                                }}
-                                            >
-                                                {serie.averageRating === 0
-                                                    ? "N/A"
-                                                    : serie.averageRating}
-                                            </Typography>
-                                            <Typography
-                                                color={"secondary"}
-                                                fontSize={16}
-                                                component="span"
-                                                sx={{
-                                                    color: "primary",
-                                                }}
-                                            >
-                                                ({serie.totalReviews})
-                                            </Typography>
-                                        </Box>
-                                    </ListItem>
-                                </List>
-                                <Typography
-                                    textAlign={"center"}
-                                    color={"secondary"}
-                                    width={["40ch", "60ch", "70ch", "80ch"]}
-                                >
-                                    {serie.description}
-                                </Typography>
-                                <Button
-                                    href={serie.trailerSrc}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    color="secondary"
-                                    variant="contained"
-                                    sx={{
-                                        display: "flex",
-                                        flexDirection: "row",
-                                        columnGap: 1,
-                                        width: "30%",
-                                        placeSelf: "center",
-                                        marginTop: 3,
-                                    }}
-                                >
-                                    <YouTubeIcon color="error" />
-                                    <Typography
-                                        component={"span"}
-                                        color={colors.primary[600]}
-                                        fontWeight={700}
-                                        sx={{
-                                            textTransform: "capitalize",
-                                        }}
-                                    >
-                                        Watch Trailer
-                                    </Typography>
-                                </Button>
-                                {user?.userName && (
-                                    <Button
-                                        onClick={async () => {
-                                            if (!isSerieBookmarked) {
-                                                await onBookmarkSerie();
-                                            } else {
-                                                await onRemoveBookmarkSerie();
-                                            }
-                                        }}
-                                        color="secondary"
-                                        variant="contained"
-                                        sx={{
-                                            display: "flex",
-                                            placeSelf: "center",
-                                            width: "30%",
-                                            columnGap: 1,
-                                            marginTop: 1,
-                                        }}
-                                    >
-                                        {!isSerieBookmarked ? (
-                                            <BookmarkAddIcon color="success" />
-                                        ) : (
-                                            <BookmarkRemoveIcon color="error" />
-                                        )}
-                                        <Typography
-                                            component="span"
-                                            sx={{
-                                                textTransform: "capitalize",
-                                            }}
-                                            color="primary"
-                                            fontWeight={700}
-                                        >
-                                            {isSerieBookmarked ? "Bookmarked" : "Bookmark"}
-                                        </Typography>
-                                    </Button>
-                                )}
-                            </Box>
-                        </Box>
-                    </Box>
+                    <DetailsPageCard
+                        data={serie}
+                        type="serie"
+                        isSerieBookmarked={isSerieBookmarked}
+                        onBookmarkSerie={onBookmarkSerie}
+                        onRemoveBookmarkSerie={onRemoveBookmarkSerie}
+                    />
                     <Box
                         sx={{
                             display: "flex",
@@ -783,103 +540,15 @@ export default function Serie() {
                                         setRating={setRating}
                                     />
                                 </Box>
-                                {!isEditMode ? (
-                                    <Box display={"flex"} justifyContent={"end"} marginTop={2}>
-                                        <Button
-                                            onClick={onSubmitReview}
-                                            color="error"
-                                            variant="contained"
-                                            sx={{
-                                                display: "flex",
-                                                placeSelf: "end",
-                                                fontSize: 18,
-                                                fontWeight: 900,
-                                                padding: 1.5,
-                                                textTransform: "capitalize",
-                                            }}
-                                        >
-                                            <Typography component={"span"}>
-                                                Submit Review
-                                            </Typography>
-                                        </Button>
-                                    </Box>
-                                ) : (
-                                    <Box
-                                        display={"flex"}
-                                        flexDirection={"row"}
-                                        columnGap={1}
-                                        justifyContent={"end"}
-                                        alignItems={"center"}
-                                        marginTop={2}
-                                    >
-                                        <Button
-                                            onClick={() => {
-                                                openModal({
-                                                    onClose: () => setOpen(false),
-                                                    title: "Discard Changes",
-                                                    actions: [
-                                                        {
-                                                            label: CONSTANTS.MODAL__DELETE__NO,
-                                                            onClick: () => setOpen(false),
-                                                            color: "secondary",
-                                                            variant: "contained",
-                                                            sx: {
-                                                                bgcolor: "#ff5252",
-                                                            },
-                                                            icon: <WarningOutlined />,
-                                                        },
-                                                        {
-                                                            label: CONSTANTS.MODAL__DELETE__YES,
-                                                            onClick: async () => {
-                                                                setIsEditMode(false);
-                                                                setReview("");
-                                                                handleFocusReview();
-                                                            },
-                                                            type: "submit",
-                                                            color: "secondary",
-                                                            variant: "contained",
-                                                            sx: {
-                                                                bgcolor: "#30969f",
-                                                            },
-                                                            icon: <CheckOutlined />,
-                                                        },
-                                                    ],
-                                                    subTitle:
-                                                        "Are you sure that you want to discard changes on this review ?",
-                                                });
-                                            }}
-                                            color="error"
-                                            variant="contained"
-                                            sx={{
-                                                display: "flex",
-                                                placeSelf: "end",
-                                                fontSize: 18,
-                                                fontWeight: 900,
-                                                padding: 1.5,
-                                                textTransform: "capitalize",
-                                            }}
-                                        >
-                                            <Typography component={"span"}>
-                                                Discard Changes
-                                            </Typography>
-                                        </Button>
-                                        <Button
-                                            onClick={onSubmitUpdateReview}
-                                            color="secondary"
-                                            variant="contained"
-                                            sx={{
-                                                display: "flex",
-                                                placeSelf: "end",
-                                                fontSize: 18,
-                                                fontWeight: 900,
-                                                padding: 1.5,
-                                                textTransform: "capitalize",
-                                            }}
-                                        >
-                                            <Typography component={"span"}>Save Changes</Typography>
-                                        </Button>
-                                    </Box>
-                                )}
+                                <TextEditorButtons
+                                    isEditMode={isEditMode}
+                                    setOpen={setOpen}
+                                    setIsEditMode={setIsEditMode}
+                                    setReview={setReview}
+                                    onSubmitReview={onSubmitReview}
+                                    handleFocusReview={handleFocusReview}
+                                    onSubmitUpdateReview={onSubmitUpdateReview}
+                                />
                             </Box>
                         )}
                     </Box>
