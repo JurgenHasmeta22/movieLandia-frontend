@@ -106,87 +106,90 @@ const Modal: React.FC<ModalProps> = ({
             <DialogContent>
                 <DialogContentText fontSize={"16px"}>{subTitle}</DialogContentText>
                 {hasList ? (
-                    <InfiniteScroll
-                        dataLength={
-                            listModalDataType &&
-                            listModalDataType === "upvotes" &&
-                            selectedReview.upvotes
-                                ? selectedReview.upvotes.length
-                                : listModalDataType &&
-                                    listModalDataType === "downvotes" &&
-                                    selectedReview.downvotes
-                                  ? selectedReview.downvotes.length
-                                  : 0
-                        }
-                        next={() => {
-                            if (listModalDataType === "upvotes") {
-                                setUpvotesPageModal(upvotesPageModal + 1);
-                            } else if (listModalDataType === "downvotes") {
-                                setDownvotesPageModal(downvotesPageModal + 1);
+                    <Box id="scrollableDiv">
+                        <InfiniteScroll
+                            dataLength={
+                                listModalDataType &&
+                                listModalDataType === "upvotes" &&
+                                selectedReview.upvotes
+                                    ? selectedReview.upvotes.length
+                                    : listModalDataType &&
+                                        listModalDataType === "downvotes" &&
+                                        selectedReview.downvotes
+                                      ? selectedReview.downvotes.length
+                                      : 0
                             }
-                        }}
-                        hasMore={
-                            listModalDataType && listModalDataType === "upvotes"
-                                ? hasMoreUpvotesModal
-                                : listModalDataType && listModalDataType === "downvotes"
-                                  ? hasMoreDownvotesModal
-                                  : false
-                        }
-                        loader={
-                            <Box
-                                display={"flex"}
-                                alignItems={"center"}
-                                justifyContent={"center"}
-                                mt={1}
-                            >
-                                <CircularProgress size={30} thickness={2} color="secondary" />
-                            </Box>
-                        }
-                        height={300}
-                        endMessage={
-                            <Typography sx={{ textAlign: "center" }} variant="body1">
-                                You have seen it all
-                            </Typography>
-                        }
-                    >
-                        <List>
-                            {listModalDataType && listModalDataType === "upvotes"
-                                ? selectedReview?.upvotes?.map((item: any, index: number) => (
-                                      <ListItem
-                                          key={index}
-                                          alignItems="center"
-                                          sx={{
-                                              justifyContent: "flex-start",
-                                          }}
-                                      >
-                                          <ListItemAvatar>
-                                              <Avatar
-                                              // alt={item.user.userName}
-                                              // src={item.user.avatar}
-                                              />
-                                          </ListItemAvatar>
-                                          <ListItemText primary={item.user.userName} />
-                                      </ListItem>
-                                  ))
-                                : selectedReview?.downvotes?.map((item: any, index: number) => (
-                                      <ListItem
-                                          key={index}
-                                          alignItems="center"
-                                          sx={{
-                                              justifyContent: "flex-start",
-                                          }}
-                                      >
-                                          <ListItemAvatar>
-                                              <Avatar
-                                              // alt={item.user.userName}
-                                              // src={item.user.avatar}
-                                              />
-                                          </ListItemAvatar>
-                                          <ListItemText primary={item.user.userName} />
-                                      </ListItem>
-                                  ))}
-                        </List>
-                    </InfiniteScroll>
+                            next={() => {
+                                if (listModalDataType === "upvotes") {
+                                    setUpvotesPageModal(upvotesPageModal + 1);
+                                } else if (listModalDataType === "downvotes") {
+                                    setDownvotesPageModal(downvotesPageModal + 1);
+                                }
+                            }}
+                            hasMore={
+                                listModalDataType && listModalDataType === "upvotes"
+                                    ? hasMoreUpvotesModal
+                                    : listModalDataType && listModalDataType === "downvotes"
+                                      ? hasMoreDownvotesModal
+                                      : false
+                            }
+                            loader={
+                                <Box
+                                    display={"flex"}
+                                    alignItems={"center"}
+                                    justifyContent={"center"}
+                                    mt={1}
+                                >
+                                    <CircularProgress size={30} thickness={2} color="secondary" />
+                                </Box>
+                            }
+                            height={300}
+                            endMessage={
+                                <Typography sx={{ textAlign: "center" }} variant="body1">
+                                    You have seen it all
+                                </Typography>
+                            }
+                            scrollableTarget="scrollableDiv"
+                        >
+                            <List>
+                                {listModalDataType && listModalDataType === "upvotes"
+                                    ? selectedReview?.upvotes?.map((item: any, index: number) => (
+                                          <ListItem
+                                              key={index}
+                                              alignItems="center"
+                                              sx={{
+                                                  justifyContent: "flex-start",
+                                              }}
+                                          >
+                                              <ListItemAvatar>
+                                                  <Avatar
+                                                  // alt={item.user.userName}
+                                                  // src={item.user.avatar}
+                                                  />
+                                              </ListItemAvatar>
+                                              <ListItemText primary={item.user.userName} />
+                                          </ListItem>
+                                      ))
+                                    : selectedReview?.downvotes?.map((item: any, index: number) => (
+                                          <ListItem
+                                              key={index}
+                                              alignItems="center"
+                                              sx={{
+                                                  justifyContent: "flex-start",
+                                              }}
+                                          >
+                                              <ListItemAvatar>
+                                                  <Avatar
+                                                  // alt={item.user.userName}
+                                                  // src={item.user.avatar}
+                                                  />
+                                              </ListItemAvatar>
+                                              <ListItemText primary={item.user.userName} />
+                                          </ListItem>
+                                      ))}
+                            </List>
+                        </InfiniteScroll>
+                    </Box>
                 ) : validationSchema && initialValues && onDataChange ? (
                     <Formik
                         initialValues={initialValues ? initialValues : {}}
