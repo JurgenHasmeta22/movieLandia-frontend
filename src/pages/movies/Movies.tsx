@@ -152,7 +152,6 @@ export default function Movies() {
                             currentPage={Number(page)!}
                             pageCount={pageCount}
                             onPageChange={handlePageChange}
-                            // ref={paginationRef}
                         />
                     </Box>
                     <LatestList data={latestMovies} type="Movies" />

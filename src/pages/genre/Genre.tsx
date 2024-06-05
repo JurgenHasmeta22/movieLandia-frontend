@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import type IMovie from "~/types/IMovie";
 import { Box, CircularProgress, Container, Stack, Typography } from "@mui/material";
@@ -13,6 +13,7 @@ import SortSelect from "~/components/sortSelect/SortSelect";
 import PaginationControl from "~/components/paginationControl/PaginationControl";
 
 export default function Genre(): React.JSX.Element {
+    // #region "State, hooks, searchparams"
     const [searchParams, setSearchParams] = useSearchParams();
     const handleChangeSorting = useSorting();
     const params = useParams();
@@ -23,7 +24,9 @@ export default function Genre(): React.JSX.Element {
     const moviesAscOrDesc = searchParams.get("moviesAscOrDesc");
     const seriesSortBy = searchParams.get("seriesSortBy");
     const seriesAscOrDesc = searchParams.get("seriesAscOrDesc");
+    // #endregion
 
+    // #region "Data fetching"
     const fetchMoviesByGenre = async () => {
         const queryParams: any = { page: pageMovies };
 
@@ -67,20 +70,23 @@ export default function Genre(): React.JSX.Element {
     });
     const seriesByGenre: ISerie[] = seriesByGenreQuery.data?.series! ?? [];
     const seriesByGenreCount: number = seriesByGenreQuery.data?.count! ?? 0;
+    // #endregion
 
+    // #region "Pagination"
     const pageCountMovies = Math.ceil(moviesByGenreCount / 10);
-    const pageCountSeries = Math.ceil(seriesByGenreCount / 10);
-
     const handlePageChangeMovies = (event: React.ChangeEvent<unknown>, value: number) => {
         searchParams.set("pageMovies", String(value));
         setSearchParams(searchParams);
     };
 
+    const pageCountSeries = Math.ceil(seriesByGenreCount / 10);
     const handlePageChangeSeries = (event: React.ChangeEvent<unknown>, value: number) => {
         searchParams.set("pageSeries", String(value));
         setSearchParams(searchParams);
     };
+    // #endregion
 
+    // #region "Fetching state checking"
     if (moviesByGenreQuery.isLoading) {
         return (
             <Box
@@ -116,6 +122,7 @@ export default function Genre(): React.JSX.Element {
             </Box>
         );
     }
+    // #endregion
 
     return (
         <>
