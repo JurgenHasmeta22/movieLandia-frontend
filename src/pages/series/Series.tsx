@@ -7,15 +7,18 @@ import CardItem from "~/components/cardItem/CardItem";
 import { useQuery } from "@tanstack/react-query";
 import SortSelect from "~/components/sortSelect/SortSelect";
 import { useListPageData } from "~/hooks/useListPageData";
-import { useListPageFetching } from "~/hooks/useListPageFetching";
 import PaginationControl from "~/components/paginationControl/PaginationControl";
-import { addScaleCorrector } from "framer-motion";
 import serieService from "~/services/api/serieService";
+import { useEffect, useRef, useState } from "react";
 
 export default function Series() {
     const { searchParams, setSearchParams, handleChangeSorting, page } = useListPageData();
     const sortBy = searchParams.get("seriesSortBy");
     const ascOrDesc = searchParams.get("seriesAscOrDesc");
+
+    const [focusTarget, setFocusTarget] = useState<"pagination" | "select" | null>(null);
+    const paginationRef = useRef<HTMLDivElement | null>(null);
+    const selectRef = useRef<HTMLDivElement | null>(null);
 
     const fetchSeries = async () => {
         const queryParams: Record<string, string | number> = { page };
@@ -44,8 +47,17 @@ export default function Series() {
     const pageCount = Math.ceil(seriesCount / 10);
     const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
         searchParams.set("page", String(value));
+        setFocusTarget("pagination");
         setSearchParams(searchParams);
     };
+
+    useEffect(() => {
+        if (focusTarget === "pagination" && paginationRef.current) {
+            paginationRef.current.focus();
+        } else if (focusTarget === "select" && selectRef.current) {
+            selectRef.current.focus();
+        }
+    }, [focusTarget, page, sortBy, ascOrDesc]);
 
     if (seriesQuery.isLoading) {
         return (
@@ -118,8 +130,11 @@ export default function Series() {
                             <SortSelect
                                 sortBy={sortBy!}
                                 ascOrDesc={ascOrDesc!}
-                                onChange={(event) => handleChangeSorting("series", event)}
+                                onChange={(event) =>
+                                    handleChangeSorting("series", event, setFocusTarget, "select")
+                                }
                                 type="list"
+                                ref={selectRef}
                             />
                         </Box>
                     </Stack>
@@ -149,6 +164,7 @@ export default function Series() {
                             currentPage={Number(page)!}
                             pageCount={pageCount}
                             onPageChange={handlePageChange}
+                            ref={paginationRef}
                         />
                     </Box>
                 </Box>
