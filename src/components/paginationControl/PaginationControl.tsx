@@ -1,4 +1,4 @@
-import React, { forwardRef } from "react";
+import React from "react";
 import { Stack, Pagination, Box } from "@mui/material";
 
 interface IPaginationControl {
@@ -7,9 +7,13 @@ interface IPaginationControl {
     onPageChange: (event: React.ChangeEvent<unknown>, value: number) => void;
 }
 
-const PaginationControl = forwardRef<HTMLDivElement, IPaginationControl>(
-    ({ pageCount, currentPage, onPageChange }, ref) => (
-        <Box ref={ref} tabIndex={-1}>
+const PaginationControl: React.FC<IPaginationControl> = ({
+    pageCount,
+    currentPage,
+    onPageChange,
+}) => {
+    return (
+        <Box>
             <Stack
                 spacing={2}
                 sx={{ display: "flex", placeItems: "center", marginTop: 2, marginBottom: 4 }}
@@ -25,9 +29,7 @@ const PaginationControl = forwardRef<HTMLDivElement, IPaginationControl>(
                 />
             </Stack>
         </Box>
-    ),
-);
-
-PaginationControl.displayName = "PaginationControl";
+    );
+};
 
 export default PaginationControl;

@@ -4,10 +4,9 @@ import { useSearchParams } from "react-router-dom";
 export function useSorting() {
     const [searchParams, setSearchParams] = useSearchParams();
 
-    function handleChangeSorting(type: string, event: SelectChangeEvent, setFocusTarget: any, focusTargetType: string) {
+    function handleChangeSorting(type: string, event: SelectChangeEvent, focusTargetType: string) {
         const selectedValue = event.target.value as string;
-        setFocusTarget(focusTargetType);
-        
+
         if (selectedValue === "none") {
             if (type !== "details") {
                 searchParams.delete(`${type}SortBy`);

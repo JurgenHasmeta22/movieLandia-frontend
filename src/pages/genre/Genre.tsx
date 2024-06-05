@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import type IMovie from "~/types/IMovie";
 import { Box, CircularProgress, Container, Stack, Typography } from "@mui/material";
@@ -24,13 +24,13 @@ export default function Genre(): React.JSX.Element {
     const seriesSortBy = searchParams.get("seriesSortBy");
     const seriesAscOrDesc = searchParams.get("seriesAscOrDesc");
 
-    const [focusTarget, setFocusTarget] = useState<
-        "paginationMovies" | "paginationSeries" | "selectMovies" | "selectSeries" | null
-    >(null);
-    const paginationMoviesRef = useRef<HTMLDivElement | null>(null);
-    const selectMoviesRef = useRef<HTMLDivElement | null>(null);
-    const paginationSeriesRef = useRef<HTMLDivElement | null>(null);
-    const selectSeriesRef = useRef<HTMLDivElement | null>(null);
+    // const [focusTarget, setFocusTarget] = useState<
+    //     "paginationMovies" | "paginationSeries" | "selectMovies" | "selectSeries" | null
+    // >(null);
+    // const paginationMoviesRef = useRef<HTMLDivElement | null>(null);
+    // const selectMoviesRef = useRef<HTMLDivElement | null>(null);
+    // const paginationSeriesRef = useRef<HTMLDivElement | null>(null);
+    // const selectSeriesRef = useRef<HTMLDivElement | null>(null);
 
     const fetchMoviesByGenre = async () => {
         const queryParams: any = { page: pageMovies };
@@ -81,35 +81,29 @@ export default function Genre(): React.JSX.Element {
 
     const handlePageChangeMovies = (event: React.ChangeEvent<unknown>, value: number) => {
         searchParams.set("pageMovies", String(value));
-        setFocusTarget("paginationMovies");
+        // setFocusTarget("paginationMovies");
         setSearchParams(searchParams);
     };
 
     const handlePageChangeSeries = (event: React.ChangeEvent<unknown>, value: number) => {
         searchParams.set("pageSeries", String(value));
-        setFocusTarget("paginationSeries");
+        // setFocusTarget("paginationSeries");
         setSearchParams(searchParams);
     };
 
-    useEffect(() => {
-        if (focusTarget === "paginationMovies" && paginationMoviesRef.current) {
-            paginationMoviesRef.current.focus();
-        } else if (focusTarget === "paginationSeries" && paginationSeriesRef.current) {
-            paginationSeriesRef.current.focus();
-        } else if (focusTarget === "selectMovies" && selectMoviesRef.current) {
-            selectMoviesRef.current.focus();
-        } else if (focusTarget === "selectSeries" && selectSeriesRef.current) {
-            selectSeriesRef.current.focus();
-        }
-    }, [
-        focusTarget,
-        pageMovies,
-        pageSeries,
-        moviesSortBy,
-        seriesSortBy,
-        moviesAscOrDesc,
-        seriesAscOrDesc,
-    ]);
+    // useEffect(() => {
+    //     if (focusTarget === "paginationMovies" && paginationMoviesRef.current) {
+    //         paginationMoviesRef.current.focus();
+    //     } else if (focusTarget === "paginationSeries" && paginationSeriesRef.current) {
+    //         paginationSeriesRef.current.focus();
+    //     } else if (focusTarget === "selectMovies" && selectMoviesRef.current) {
+    //         selectMoviesRef.current.focus();
+    //     } else if (focusTarget === "selectSeries" && selectSeriesRef.current) {
+    //         selectSeriesRef.current.focus();
+    //     }
+    // }, [
+    //     focusTarget,
+    // ]);
 
     if (moviesByGenreQuery.isLoading) {
         return (
@@ -187,15 +181,10 @@ export default function Genre(): React.JSX.Element {
                                 sortBy={searchParams.get("moviesSortBy")}
                                 ascOrDesc={searchParams.get("moviesAscOrDesc")}
                                 onChange={(event) =>
-                                    handleChangeSorting(
-                                        "movies",
-                                        event,
-                                        setFocusTarget,
-                                        "selectMovies",
-                                    )
+                                    handleChangeSorting("movies", event, "selectMovies")
                                 }
                                 type="list"
-                                ref={selectMoviesRef}
+                                // ref={selectMoviesRef}
                             />
                         </Box>
                     </Box>
@@ -215,7 +204,7 @@ export default function Genre(): React.JSX.Element {
                         currentPage={Number(pageMovies)!}
                         pageCount={pageCountMovies}
                         onPageChange={handlePageChangeMovies}
-                        ref={paginationMoviesRef}
+                        // ref={paginationMoviesRef}
                     />
                     <Stack
                         display="flex"
@@ -255,12 +244,12 @@ export default function Genre(): React.JSX.Element {
                                     handleChangeSorting(
                                         "series",
                                         event,
-                                        setFocusTarget,
+                                        // setFocusTarget,
                                         "selectSeries",
                                     )
                                 }
                                 type="list"
-                                ref={selectSeriesRef}
+                                // ref={selectSeriesRef}
                             />
                         </Box>
                     </Stack>
@@ -280,7 +269,7 @@ export default function Genre(): React.JSX.Element {
                         currentPage={Number(pageSeries)!}
                         pageCount={pageCountSeries}
                         onPageChange={handlePageChangeSeries}
-                        ref={paginationSeriesRef}
+                        // ref={paginationSeriesRef}
                     />
                 </Box>
             </Container>

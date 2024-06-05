@@ -5,24 +5,10 @@ interface IReviews {
     data: any;
     sortBy: string;
     ascOrDesc: string;
-    setFocusTarget: React.Dispatch<React.SetStateAction<"select" | "pagination" | null>>;
-    selectRef: React.MutableRefObject<HTMLDivElement | null>;
-    handleChangeSorting: (
-        type: string,
-        event: SelectChangeEvent,
-        setFocusTarget: any,
-        focusTargetType: string,
-    ) => void;
+    handleChangeSorting: (type: string, event: SelectChangeEvent, focusTargetType: string) => void;
 }
 
-export function Reviews({
-    data,
-    sortBy,
-    ascOrDesc,
-    handleChangeSorting,
-    setFocusTarget,
-    selectRef,
-}: IReviews) {
+export function Reviews({ data, sortBy, ascOrDesc, handleChangeSorting }: IReviews) {
     return (
         <Stack flexDirection={"row"} justifyContent={"space-between"} alignItems={"center"}>
             <Box>
@@ -34,11 +20,8 @@ export function Reviews({
                 <SortSelect
                     sortBy={sortBy}
                     ascOrDesc={ascOrDesc}
-                    onChange={(event) =>
-                        handleChangeSorting("details", event, setFocusTarget, "select")
-                    }
+                    onChange={(event) => handleChangeSorting("details", event, "select")}
                     type="details"
-                    ref={selectRef}
                 />
             </Box>
         </Stack>
