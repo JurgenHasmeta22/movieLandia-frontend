@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect } from "react";
 import type IMovie from "~/types/IMovie";
 import movieService from "~/services/api/movieService";
 import { Box, CircularProgress, Container, Stack } from "@mui/material";
@@ -58,9 +58,9 @@ export default function Movie() {
         ascOrDesc,
     });
 
-    const [focusTarget, setFocusTarget] = useState<"pagination" | "select" | null>(null);
-    const paginationRef = useRef<HTMLDivElement | null>(null);
-    const selectRef = useRef<HTMLDivElement | null>(null);
+    // const [focusTarget, setFocusTarget] = useState<"pagination" | "select" | null>(null);
+    // const paginationRef = useRef<HTMLDivElement | null>(null);
+    // const selectRef = useRef<HTMLDivElement | null>(null);
     // #endregion
 
     // #region "Data fetching and queries"
@@ -109,7 +109,7 @@ export default function Movie() {
 
     const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
         searchParams.set("page", String(value));
-        setFocusTarget("pagination");
+        // setFocusTarget("pagination");
         setSearchParams(searchParams);
     };
     // #endregion
@@ -353,13 +353,13 @@ export default function Movie() {
         }
     }, [isEditMode]);
 
-    useEffect(() => {
-        if (focusTarget === "pagination" && paginationRef.current) {
-            paginationRef.current.focus();
-        } else if (focusTarget === "select" && selectRef.current) {
-            selectRef.current.focus();
-        }
-    }, [focusTarget, page, sortBy, ascOrDesc]);
+    // useEffect(() => {
+    //     if (focusTarget === "pagination" && paginationRef.current) {
+    //         paginationRef.current.focus();
+    //     } else if (focusTarget === "select" && selectRef.current) {
+    //         selectRef.current.focus();
+    //     }
+    // }, [focusTarget]);
     // #endregion
 
     // #endregion
@@ -423,8 +423,6 @@ export default function Movie() {
                                 sortBy={sortBy!}
                                 ascOrDesc={ascOrDesc!}
                                 handleChangeSorting={handleChangeSorting}
-                                setFocusTarget={setFocusTarget}
-                                selectRef={selectRef}
                             />
                         )}
                         {movie.reviews?.map((review: any, index: number) => (
@@ -451,7 +449,7 @@ export default function Movie() {
                                 currentPage={Number(page)!}
                                 pageCount={pageCount}
                                 onPageChange={handlePageChange}
-                                ref={paginationRef}
+                                // ref={paginationRef}
                             />
                         )}
                         {user && (!isMovieReviewed || isEditMode) && (
