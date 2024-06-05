@@ -69,7 +69,7 @@ export default function Movie() {
             page,
             upvotesPageModal,
             downvotesPageModal,
-            user
+            user,
         ],
         queryFn: () => fetchDetailData(),
         refetchOnMount: "always",
@@ -83,35 +83,8 @@ export default function Movie() {
     });
     const latestMovies: IMovie[] = latestMoviesQuery?.data! ?? [];
 
-    let isMovieBookmarkedQuery: any;
-    let isMovieBookmarked: boolean = false;
-    let isMovieReviewedQuery: any;
-    let isMovieReviewed: boolean = false;
-
-    if (user) {
-        isMovieBookmarkedQuery = useQuery({
-            queryKey: ["isMovieBookmarked", params?.title!],
-            queryFn: () => movieService.isMovieBookmared(params?.title!, user?.id!),
-            refetchOnMount: "always",
-            refetchOnWindowFocus: "always",
-        });
-        isMovieBookmarked = isMovieBookmarkedQuery?.data?.isBookmarked! ?? false;
-
-        isMovieReviewedQuery = useQuery({
-            queryKey: ["isMovieReviewed", params?.title!],
-            queryFn: () => movieService.isMovieReviewed(params?.title!, user?.id!),
-            refetchOnMount: "always",
-            refetchOnWindowFocus: "always",
-        });
-        isMovieReviewed = isMovieReviewedQuery?.data?.isReviewed! ?? false;
-    }
-
-    const refetchMovieDetailsAndBookmarkStatus = async () => {
-        await Promise.all([
-            movieQuery.refetch(),
-            isMovieBookmarkedQuery.refetch(),
-            isMovieReviewedQuery.refetch(),
-        ]);
+    const refetchMovieDetails = async () => {
+        await movieQuery.refetch();
     };
     // #endregion
 
@@ -134,7 +107,6 @@ export default function Movie() {
 
             if (response && !response.error) {
                 setUser(response);
-                await refetchMovieDetailsAndBookmarkStatus();
             }
         } catch (error) {
             toast.error("An error occurred while adding the movie to favorites.");
@@ -148,7 +120,6 @@ export default function Movie() {
             const response = await movieService.removeFromFavorites(movie?.id!, user?.id);
 
             if (response && !response.error) {
-                await refetchMovieDetailsAndBookmarkStatus();
                 setUser(response);
             }
         } catch (error) {
@@ -167,7 +138,7 @@ export default function Movie() {
             if (response && !response.error) {
                 setReview("");
                 setRating(null);
-                await refetchMovieDetailsAndBookmarkStatus();
+                await refetchMovieDetails();
                 toast.success("Review submitted successfully!");
             } else {
                 toast.error("Review submission failed!");
@@ -202,7 +173,7 @@ export default function Movie() {
 
                             if (response && !response.error) {
                                 setReview("");
-                                await refetchMovieDetailsAndBookmarkStatus();
+                                await refetchMovieDetails();
                                 toast.success("Review removed successfully!");
                             } else {
                                 toast.error("Review removal failed!");
@@ -235,7 +206,7 @@ export default function Movie() {
                 setRating(null);
                 setIsEditMode(false);
                 handleFocusReview();
-                await refetchMovieDetailsAndBookmarkStatus();
+                await refetchMovieDetails();
                 toast.success("Review updated successfully!");
             } else {
                 toast.error("Review updation failed!");
@@ -253,7 +224,7 @@ export default function Movie() {
         try {
             if (isAlreadyUpvoted) {
                 await movieService.removeUpvoteMovieReview(user?.id, movie?.id, movieReviewId);
-                await refetchMovieDetailsAndBookmarkStatus();
+                await refetchMovieDetails();
             } else {
                 await movieService.removeDownvoteMovieReview(user?.id, movie?.id, movieReviewId);
 
@@ -264,7 +235,7 @@ export default function Movie() {
                 );
 
                 if (response) {
-                    await refetchMovieDetailsAndBookmarkStatus();
+                    await refetchMovieDetails();
                 }
             }
         } catch (error) {
@@ -278,7 +249,7 @@ export default function Movie() {
         try {
             if (isAlreadyDownvoted) {
                 await movieService.removeDownvoteMovieReview(user?.id, movie?.id, movieReviewId);
-                await refetchMovieDetailsAndBookmarkStatus();
+                await refetchMovieDetails();
             } else {
                 await movieService.removeUpvoteMovieReview(user?.id, movie?.id, movieReviewId);
 
@@ -289,7 +260,7 @@ export default function Movie() {
                 );
 
                 if (response) {
-                    await refetchMovieDetailsAndBookmarkStatus();
+                    await refetchMovieDetails();
                 }
             }
         } catch (error) {
@@ -398,7 +369,7 @@ export default function Movie() {
                     <DetailsPageCard
                         data={movie}
                         type="movie"
-                        isMovieBookmarked={isMovieBookmarked}
+                        isMovieBookmarked={movie.isBookmarked}
                         onBookmarkMovie={onBookmarkMovie}
                         onRemoveBookmarkMovie={onRemoveBookmarkMovie}
                     />
@@ -445,7 +416,7 @@ export default function Movie() {
                                 onPageChange={handlePageChange}
                             />
                         )}
-                        {user && (!isMovieReviewed || isEditMode) && (
+                        {user && (!movie.isReviewed || isEditMode) && (
                             <TextEditorForm
                                 review={review}
                                 setReview={setReview}

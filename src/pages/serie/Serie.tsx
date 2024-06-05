@@ -70,7 +70,7 @@ export default function Serie() {
             page,
             upvotesPageModal,
             downvotesPageModal,
-            user
+            user,
         ],
         queryFn: () => fetchDetailData(),
         refetchOnMount: "always",
@@ -84,35 +84,8 @@ export default function Serie() {
     });
     const latestSeries: ISerie[] = latestSeriesQuery?.data! ?? [];
 
-    let isSerieBookmarkedQuery: any;
-    let isSerieBookmarked: boolean = false;
-    let isSerieReviewedQuery: any;
-    let isSerieReviewed: boolean = false;
-
-    if (user) {
-        isSerieBookmarkedQuery = useQuery({
-            queryKey: ["isSerieBookmarked", params?.title!],
-            queryFn: () => serieService.isSerieBookmared(params?.title!, user?.id),
-            refetchOnMount: "always",
-            refetchOnWindowFocus: "always",
-        });
-        isSerieBookmarked = isSerieBookmarkedQuery?.data?.isBookmarked! ?? false;
-
-        isSerieReviewedQuery = useQuery({
-            queryKey: ["isSerieReviewed", params?.title!],
-            queryFn: () => serieService.isSerieReviewed(params?.title!, user?.id),
-            refetchOnMount: "always",
-            refetchOnWindowFocus: "always",
-        });
-        isSerieReviewed = isSerieReviewedQuery?.data?.isReviewed! ?? false;
-    }
-
-    const refetchSerieDetailsAndBookmarkStatus = async () => {
-        await Promise.all([
-            serieQuery.refetch(),
-            isSerieBookmarkedQuery.refetch(),
-            isSerieReviewedQuery.refetch(),
-        ]);
+    const refetchSerieDetails = async () => {
+        await serieQuery.refetch();
     };
     // #endregion
 
@@ -135,7 +108,6 @@ export default function Serie() {
 
             if (response && !response.error) {
                 setUser(response);
-                await refetchSerieDetailsAndBookmarkStatus();
             }
         } catch (error) {
             toast.error("An error occurred while adding the serie to favorites.");
@@ -149,7 +121,6 @@ export default function Serie() {
             const response = await serieService.removeFromFavorites(serie.id, user.id);
 
             if (response && !response.error) {
-                await refetchSerieDetailsAndBookmarkStatus();
                 setUser(response);
             }
         } catch (error) {
@@ -168,7 +139,7 @@ export default function Serie() {
             if (response && !response.error) {
                 setReview("");
                 setRating(null);
-                await refetchSerieDetailsAndBookmarkStatus();
+                await refetchSerieDetails();
                 toast.success("Review submitted successfully!");
             } else {
                 toast.error("Review submission failed!");
@@ -203,7 +174,7 @@ export default function Serie() {
 
                             if (response && !response.error) {
                                 setReview("");
-                                await refetchSerieDetailsAndBookmarkStatus();
+                                await refetchSerieDetails();
                                 toast.success("Review removed successfully!");
                             } else {
                                 toast.error("Review removal failed!");
@@ -236,7 +207,7 @@ export default function Serie() {
                 setRating(null);
                 setIsEditMode(false);
                 handleFocusReview();
-                await refetchSerieDetailsAndBookmarkStatus();
+                await refetchSerieDetails();
                 toast.success("Review updated successfully!");
             } else {
                 toast.error("Review updation failed!");
@@ -254,7 +225,7 @@ export default function Serie() {
         try {
             if (isAlreadyUpvoted) {
                 await serieService.removeUpvoteSerieReview(user?.id, serie?.id, serieReviewId);
-                await refetchSerieDetailsAndBookmarkStatus();
+                await refetchSerieDetails();
             } else {
                 await serieService.removeDownvoteSerieReview(user?.id, serie?.id, serieReviewId);
 
@@ -265,7 +236,7 @@ export default function Serie() {
                 );
 
                 if (response) {
-                    await refetchSerieDetailsAndBookmarkStatus();
+                    await refetchSerieDetails();
                 }
             }
         } catch (error) {
@@ -278,7 +249,7 @@ export default function Serie() {
         try {
             if (isAlreadyDownvoted) {
                 await serieService.removeDownvoteSerieReview(user?.id, serie?.id, serieReviewId);
-                await refetchSerieDetailsAndBookmarkStatus();
+                await refetchSerieDetails();
             } else {
                 await serieService.removeUpvoteSerieReview(user?.id, serie?.id, serieReviewId);
 
@@ -289,7 +260,7 @@ export default function Serie() {
                 );
 
                 if (response) {
-                    await refetchSerieDetailsAndBookmarkStatus();
+                    await refetchSerieDetails();
                 }
             }
         } catch (error) {
@@ -398,7 +369,7 @@ export default function Serie() {
                     <DetailsPageCard
                         data={serie}
                         type="serie"
-                        isSerieBookmarked={isSerieBookmarked}
+                        isSerieBookmarked={serie.isBookmarked}
                         onBookmarkSerie={onBookmarkSerie}
                         onRemoveBookmarkSerie={onRemoveBookmarkSerie}
                     />
@@ -444,7 +415,7 @@ export default function Serie() {
                                 onPageChange={handlePageChange}
                             />
                         )}
-                        {user && (!isSerieReviewed || isEditMode) && (
+                        {user && (!serie.isReviewed || isEditMode) && (
                             <TextEditorForm
                                 review={review}
                                 setReview={setReview}
