@@ -87,6 +87,7 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
             type,
             handleOpenUpvotesModal,
             handleOpenDownvotesModal,
+            // handleFocusTextEditor,
         },
         ref,
     ) => {

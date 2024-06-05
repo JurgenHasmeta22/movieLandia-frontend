@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import { useStore } from "~/store/store";
 import { useSorting } from "./useSorting";
@@ -37,6 +37,11 @@ export function useDetailsPageData() {
     const page = searchParams.get("page") || 1;
     const sortBy = searchParams.get("sortBy");
     const ascOrDesc = searchParams.get("ascOrDesc");
+
+    useEffect(() => {
+        setUpvotesPageModal(1);
+        setDownvotesPageModal(1);
+    }, []);
 
     return {
         rating,

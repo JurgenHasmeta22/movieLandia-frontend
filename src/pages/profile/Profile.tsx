@@ -38,13 +38,11 @@ const userSchema = Yup.object().shape({
 
 export default function Profile() {
     const { user, setUser } = useStore();
-
     const [searchParams, setSearchParams] = useSearchParams();
     const navigate = useNavigate();
     const { openRightPanel } = useRightPanel();
 
     const formikRef = useRef<FormikProps<any>>(null);
-
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
@@ -148,7 +146,7 @@ export default function Profile() {
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
-                    height: "100vh",
+                    height: "200vh",
                 }}
             >
                 <CircularProgress size={80} thickness={4} color="secondary" />

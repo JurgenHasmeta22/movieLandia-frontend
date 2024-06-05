@@ -21,7 +21,7 @@ export default function Error404(): React.JSX.Element {
                     placeContent: "center",
                     rowGap: 1,
                     flexDirection: "column",
-                    height: "100vh",
+                    height: "200vh",
                 }}
             >
                 <Typography
