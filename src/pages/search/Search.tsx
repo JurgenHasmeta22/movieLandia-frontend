@@ -1,5 +1,6 @@
 import { Box, CircularProgress, Container, Stack, Typography } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
+import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import CardItem from "~/components/cardItem/CardItem";
 import PaginationControl from "~/components/paginationControl/PaginationControl";
@@ -21,6 +22,14 @@ export function Search() {
     const moviesAscOrDesc = searchParams.get("moviesAscOrDesc");
     const seriesSortBy = searchParams.get("seriesSortBy");
     const seriesAscOrDesc = searchParams.get("seriesAscOrDesc");
+
+    const [focusTarget, setFocusTarget] = useState<
+        "paginationMovies" | "paginationSeries" | "selectMovies" | "selectSeries" | null
+    >(null);
+    const paginationMoviesRef = useRef<HTMLDivElement | null>(null);
+    const selectMoviesRef = useRef<HTMLDivElement | null>(null);
+    const paginationSeriesRef = useRef<HTMLDivElement | null>(null);
+    const selectSeriesRef = useRef<HTMLDivElement | null>(null);
 
     async function searchMoviesByTitle() {
         let response;
@@ -81,14 +90,36 @@ export function Search() {
     const pageCountMovies = Math.ceil(moviesCount / 10);
     const handlePageChangeMovies = (event: React.ChangeEvent<unknown>, value: number) => {
         searchParams.set("pageMovies", String(value));
+        setFocusTarget("paginationMovies");
         setSearchParams(searchParams);
     };
 
     const pageCountSeries = Math.ceil(seriesCount / 10);
     const handlePageChangeSeries = (event: React.ChangeEvent<unknown>, value: number) => {
         searchParams.set("pageSeries", String(value));
+        setFocusTarget("paginationSeries");
         setSearchParams(searchParams);
     };
+
+    useEffect(() => {
+        if (focusTarget === "paginationMovies" && paginationMoviesRef.current) {
+            paginationMoviesRef.current.focus();
+        } else if (focusTarget === "paginationSeries" && paginationSeriesRef.current) {
+            paginationSeriesRef.current.focus();
+        } else if (focusTarget === "selectMovies" && selectMoviesRef.current) {
+            selectMoviesRef.current.focus();
+        } else if (focusTarget === "selectSeries" && selectSeriesRef.current) {
+            selectSeriesRef.current.focus();
+        }
+    }, [
+        focusTarget,
+        pageMovies,
+        pageSeries,
+        moviesSortBy,
+        seriesSortBy,
+        moviesAscOrDesc,
+        seriesAscOrDesc,
+    ]);
 
     if (moviesQuery.isLoading || seriesQuery.isLoading) {
         return (
@@ -155,8 +186,16 @@ export function Search() {
                                 <SortSelect
                                     sortBy={moviesSortBy}
                                     ascOrDesc={moviesAscOrDesc}
-                                    onChange={(event) => handleChangeSorting("movies", event)}
+                                    onChange={(event) =>
+                                        handleChangeSorting(
+                                            "movies",
+                                            event,
+                                            setFocusTarget,
+                                            "selectMovies",
+                                        )
+                                    }
                                     type="list"
+                                    ref={selectMoviesRef}
                                 />
                             </Box>
                         </Box>
@@ -180,6 +219,7 @@ export function Search() {
                                 currentPage={Number(pageMovies)!}
                                 pageCount={pageCountMovies}
                                 onPageChange={handlePageChangeMovies}
+                                ref={paginationMoviesRef}
                             />
                         </Box>
                     </Box>
@@ -220,8 +260,16 @@ export function Search() {
                                 <SortSelect
                                     sortBy={seriesSortBy}
                                     ascOrDesc={seriesAscOrDesc}
-                                    onChange={(event) => handleChangeSorting("series", event)}
+                                    onChange={(event) =>
+                                        handleChangeSorting(
+                                            "series",
+                                            event,
+                                            setFocusTarget,
+                                            "selectSeries",
+                                        )
+                                    }
                                     type="list"
+                                    ref={selectSeriesRef}
                                 />
                             </Box>
                         </Box>
@@ -245,6 +293,7 @@ export function Search() {
                                 currentPage={Number(pageSeries)!}
                                 pageCount={pageCountSeries}
                                 onPageChange={handlePageChangeSeries}
+                                ref={paginationSeriesRef}
                             />
                         </Box>
                     </Box>

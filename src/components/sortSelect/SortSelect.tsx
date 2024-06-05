@@ -1,4 +1,4 @@
-import React from "react";
+import { forwardRef } from "react";
 import { Box, MenuItem, Select, SelectChangeEvent, SvgIcon } from "@mui/material";
 import SwapVertIcon from "@mui/icons-material/SwapVert";
 import { toFirstWordUpperCase } from "~/utils/utils";
@@ -18,81 +18,85 @@ const valueToLabelDetails: Record<string, string> = {
     ratingDesc: "Rating (Desc)",
 };
 
-interface SortSelectProps {
+interface ISortSelectProps {
     sortBy: string | null;
     ascOrDesc: string | null;
     type: string;
     onChange: (event: SelectChangeEvent<string>) => void;
 }
 
-const SortSelect: React.FC<SortSelectProps> = ({ sortBy, ascOrDesc, onChange, type }) => {
-    const getDefaultValue = () => {
-        if (type === "list") {
-            return "none";
-        }
+const SortSelect = forwardRef<HTMLDivElement, ISortSelectProps>(
+    ({ sortBy, ascOrDesc, onChange, type }, ref) => {
+        const getDefaultValue = () => {
+            if (type === "list") {
+                return "none";
+            }
+            return "createdAtDesc";
+        };
 
-        return "createdAtDesc";
-    };
+        const getValue = () => {
+            if (sortBy && ascOrDesc) {
+                return sortBy + toFirstWordUpperCase(ascOrDesc);
+            }
+            return getDefaultValue();
+        };
 
-    const getValue = () => {
-        if (sortBy && ascOrDesc) {
-            return sortBy + toFirstWordUpperCase(ascOrDesc);
-        }
+        return (
+            <Box ref={ref} tabIndex={-1}>
+                <Select
+                    defaultValue={`${type === "list" ? "none" : "createdAtDesc"}`}
+                    value={getValue()}
+                    onChange={onChange}
+                    sx={{
+                        px: 2,
+                    }}
+                    renderValue={(value: string) => (
+                        <Box sx={{ display: "flex", gap: 0.5 }}>
+                            <SvgIcon color="secondary">
+                                <SwapVertIcon />
+                            </SvgIcon>
+                            {type === "list" ? valueToLabelList[value] : valueToLabelDetails[value]}
+                        </Box>
+                    )}
+                >
+                    {type === "list"
+                        ? [
+                              <MenuItem key="none" value="none">
+                                  None
+                              </MenuItem>,
+                              <MenuItem key="ratingImdbAsc" value="ratingImdbAsc">
+                                  Imdb rating (Asc)
+                              </MenuItem>,
+                              <MenuItem key="ratingImdbDesc" value="ratingImdbDesc">
+                                  Imdb rating (Desc)
+                              </MenuItem>,
+                              <MenuItem key="titleAsc" value="titleAsc">
+                                  Title (Asc)
+                              </MenuItem>,
+                              <MenuItem key="titleDesc" value="titleDesc">
+                                  Title (Desc)
+                              </MenuItem>,
+                          ]
+                        : [
+                              <MenuItem key="createdAtAsc" value="createdAtAsc">
+                                  Created At (Asc)
+                              </MenuItem>,
+                              <MenuItem key="createdAtDesc" value="createdAtDesc">
+                                  Created At (Desc)
+                              </MenuItem>,
+                              <MenuItem key="ratingAsc" value="ratingAsc">
+                                  Rating (Asc)
+                              </MenuItem>,
+                              <MenuItem key="ratingDesc" value="ratingDesc">
+                                  Rating (Desc)
+                              </MenuItem>,
+                          ]}
+                </Select>
+            </Box>
+        );
+    },
+);
 
-        return getDefaultValue();
-    };
-
-    return (
-        <Select
-            defaultValue={`${type === "list" ? "none" : "createdAtDesc"}`}
-            value={getValue()}
-            onChange={onChange}
-            sx={{
-                px: 2,
-            }}
-            renderValue={(value: string) => (
-                <Box sx={{ display: "flex", gap: 0.5 }}>
-                    <SvgIcon color="secondary">
-                        <SwapVertIcon />
-                    </SvgIcon>
-                    {type === "list" ? valueToLabelList[value] : valueToLabelDetails[value]}
-                </Box>
-            )}
-        >
-            {type === "list"
-                ? [
-                      <MenuItem key="none" value="none">
-                          None
-                      </MenuItem>,
-                      <MenuItem key="ratingImdbAsc" value="ratingImdbAsc">
-                          Imdb rating (Asc)
-                      </MenuItem>,
-                      <MenuItem key="ratingImdbDesc" value="ratingImdbDesc">
-                          Imdb rating (Desc)
-                      </MenuItem>,
-                      <MenuItem key="titleAsc" value="titleAsc">
-                          Title (Asc)
-                      </MenuItem>,
-                      <MenuItem key="titleDesc" value="titleDesc">
-                          Title (Desc)
-                      </MenuItem>,
-                  ]
-                : [
-                      <MenuItem key="createdAtAsc" value="createdAtAsc">
-                          Created At (Asc)
-                      </MenuItem>,
-                      <MenuItem key="createdAtDesc" value="createdAtDesc">
-                          Created At (Desc)
-                      </MenuItem>,
-                      <MenuItem key="ratingAtAsc" value="ratingAsc">
-                          Rating (Asc)
-                      </MenuItem>,
-                      <MenuItem key="ratingAtDesc" value="ratingDesc">
-                          Rating (Desc)
-                      </MenuItem>,
-                  ]}
-        </Select>
-    );
-};
+SortSelect.displayName = "SortSelect";
 
 export default SortSelect;

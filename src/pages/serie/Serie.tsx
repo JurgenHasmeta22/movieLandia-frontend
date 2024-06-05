@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import { useQuery } from "@tanstack/react-query";
 import Error404 from "../error/Error";
 import "react-quill/dist/quill.snow.css";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import Review from "~/components/review/Review";
 import { WarningOutlined, CheckOutlined } from "@mui/icons-material";
 import * as CONSTANTS from "~/constants/Constants";
@@ -58,6 +58,10 @@ export default function Serie() {
         sortBy,
         ascOrDesc,
     });
+
+    const [focusTarget, setFocusTarget] = useState<"pagination" | "select" | null>(null);
+    const paginationRef = useRef<HTMLDivElement | null>(null);
+    const selectRef = useRef<HTMLDivElement | null>(null);
     // #endregion
 
     // #region "Data fetching and queries"
@@ -107,6 +111,7 @@ export default function Serie() {
 
     const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
         searchParams.set("page", String(value));
+        setFocusTarget("pagination");
         setSearchParams(searchParams);
     };
     // #endregion
@@ -348,6 +353,14 @@ export default function Serie() {
             handleFocusTextEditor();
         }
     }, [isEditMode]);
+
+    useEffect(() => {
+        if (focusTarget === "pagination" && paginationRef.current) {
+            paginationRef.current.focus();
+        } else if (focusTarget === "select" && selectRef.current) {
+            selectRef.current.focus();
+        }
+    }, [focusTarget, page, sortBy, ascOrDesc]);
     // #endregion
 
     // #endregion
@@ -411,6 +424,8 @@ export default function Serie() {
                                 sortBy={sortBy!}
                                 ascOrDesc={ascOrDesc!}
                                 handleChangeSorting={handleChangeSorting}
+                                setFocusTarget={setFocusTarget}
+                                selectRef={selectRef}
                             />
                         )}
                         {serie.reviews?.map((review: any, index: number) => (
@@ -437,6 +452,7 @@ export default function Serie() {
                                 currentPage={Number(page)!}
                                 pageCount={pageCount}
                                 onPageChange={handlePageChange}
+                                ref={paginationRef}
                             />
                         )}
                         {user && (!isSerieReviewed || isEditMode) && (

@@ -10,11 +10,16 @@ import SortSelect from "~/components/sortSelect/SortSelect";
 import { useListPageData } from "~/hooks/useListPageData";
 import PaginationControl from "~/components/paginationControl/PaginationControl";
 import LatestList from "~/components/latestList/LatestList";
+import { useState, useRef, useEffect } from "react";
 
 export default function Movies() {
     const { searchParams, setSearchParams, page, handleChangeSorting } = useListPageData();
     const sortBy = searchParams.get("moviesSortBy");
     const ascOrDesc = searchParams.get("moviesAscOrDesc");
+
+    const [focusTarget, setFocusTarget] = useState<"pagination" | "select" | null>(null);
+    const paginationRef = useRef<HTMLDivElement | null>(null);
+    const selectRef = useRef<HTMLDivElement | null>(null);
 
     const fetchMovies = async () => {
         const queryParams: Record<string, string | number> = { page };
@@ -49,8 +54,17 @@ export default function Movies() {
     const pageCount = Math.ceil(moviesCount / 10);
     const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
         searchParams.set("page", String(value));
+        setFocusTarget("pagination");
         setSearchParams(searchParams);
     };
+
+    useEffect(() => {
+        if (focusTarget === "pagination" && paginationRef.current) {
+            paginationRef.current.focus();
+        } else if (focusTarget === "select" && selectRef.current) {
+            selectRef.current.focus();
+        }
+    }, [focusTarget, page, sortBy, ascOrDesc]);
 
     if (moviesQuery.isLoading || latestMoviesQuery.isLoading) {
         return (
@@ -121,8 +135,11 @@ export default function Movies() {
                             <SortSelect
                                 sortBy={sortBy!}
                                 ascOrDesc={ascOrDesc!}
-                                onChange={(event) => handleChangeSorting("movies", event)}
+                                onChange={(event) =>
+                                    handleChangeSorting("movies", event, setFocusTarget, "select")
+                                }
                                 type="list"
+                                ref={selectRef}
                             />
                         </Box>
                     </Stack>
@@ -152,6 +169,7 @@ export default function Movies() {
                             currentPage={Number(page)!}
                             pageCount={pageCount}
                             onPageChange={handlePageChange}
+                            ref={paginationRef}
                         />
                     </Box>
                     <LatestList data={latestMovies} type="Movies" />
