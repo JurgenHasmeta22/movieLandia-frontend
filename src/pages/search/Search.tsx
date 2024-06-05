@@ -24,7 +24,7 @@ export function Search() {
 
     async function searchMoviesByTitle() {
         let response;
-        const queryParams: any = { pageMovies };
+        const queryParams: any = { page: pageMovies };
 
         if (moviesSortBy) {
             queryParams.sortBy = moviesSortBy;
@@ -36,6 +36,8 @@ export function Search() {
 
         if (term) {
             response = await movieService.searchMoviesByTitle(term, queryParams);
+        } else {
+            response = await movieService.getMovies(queryParams);
         }
 
         return response;
@@ -43,7 +45,7 @@ export function Search() {
 
     async function searchSeriesByTitle() {
         let response;
-        const queryParams: any = { pageSeries };
+        const queryParams: any = { page: pageSeries };
 
         if (seriesSortBy) {
             queryParams.sortBy = seriesSortBy;
@@ -55,6 +57,8 @@ export function Search() {
 
         if (term) {
             response = await serieService.searchSeriesByTitle(term, queryParams);
+        } else {
+            response = await serieService.searchSeriesByTitle("", queryParams);
         }
 
         return response;
@@ -123,14 +127,14 @@ export function Search() {
                     display: "flex",
                     flexDirection: "column",
                     justifyContent: "center",
-                    rowGap: 8,
-                    marginTop: 6,
-                    marginBottom: 6,
+                    rowGap: 2,
+                    marginTop: 4,
+                    marginBottom: 4,
                 }}
                 component={"section"}
             >
                 {movies.length !== 0 ? (
-                    <Box display={"flex"} flexDirection={"column"} rowGap={2}>
+                    <Box display={"flex"} flexDirection={"column"} rowGap={3}>
                         <Box
                             ml={1}
                             mt={4}
@@ -195,7 +199,7 @@ export function Search() {
                     </Box>
                 )}
                 {series.length !== 0 ? (
-                    <Box display={"flex"} flexDirection={"column"} rowGap={2}>
+                    <Box display={"flex"} flexDirection={"column"} rowGap={3}>
                         <Box
                             ml={1}
                             mt={4}

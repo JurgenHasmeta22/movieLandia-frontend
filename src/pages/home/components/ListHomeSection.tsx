@@ -44,6 +44,9 @@ const ListHomeSection: React.FC<ListHomeSectionProps> = ({
                         fontSize: 18,
                         marginLeft: 8,
                     }}
+                    onClick={() => {
+                        window.scrollTo(0, 0)
+                    }}
                 >
                     {linkText}
                 </Link>
