@@ -4,7 +4,7 @@ import { useSearchParams } from "react-router-dom";
 export function useSorting() {
     const [searchParams, setSearchParams] = useSearchParams();
 
-    function handleChangeSorting(type: string, event: SelectChangeEvent, focusTargetType: string) {
+    function handleChangeSorting(type: string, event: SelectChangeEvent) {
         const selectedValue = event.target.value as string;
 
         if (selectedValue === "none") {

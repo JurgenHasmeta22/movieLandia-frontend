@@ -58,10 +58,6 @@ export default function Serie() {
         sortBy,
         ascOrDesc,
     });
-
-    // const [focusTarget, setFocusTarget] = useState<"pagination" | "select" | null>(null);
-    // const paginationRef = useRef<HTMLDivElement | null>(null);
-    // const selectRef = useRef<HTMLDivElement | null>(null);
     // #endregion
 
     // #region "Data fetching and queries"
@@ -111,7 +107,6 @@ export default function Serie() {
 
     const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
         searchParams.set("page", String(value));
-        // setFocusTarget("pagination");
         setSearchParams(searchParams);
     };
     // #endregion
@@ -353,14 +348,6 @@ export default function Serie() {
             handleFocusTextEditor();
         }
     }, [isEditMode]);
-
-    // useEffect(() => {
-    //     if (focusTarget === "pagination" && paginationRef.current) {
-    //         paginationRef.current.focus();
-    //     } else if (focusTarget === "select" && selectRef.current) {
-    //         selectRef.current.focus();
-    //     }
-    // }, [focusTarget, page, sortBy, ascOrDesc]);
     // #endregion
 
     // #endregion
@@ -450,7 +437,6 @@ export default function Serie() {
                                 currentPage={Number(page)!}
                                 pageCount={pageCount}
                                 onPageChange={handlePageChange}
-                                // ref={paginationRef}
                             />
                         )}
                         {user && (!isSerieReviewed || isEditMode) && (
