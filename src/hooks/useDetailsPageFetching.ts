@@ -11,11 +11,12 @@ export function useDetailsPageFetching({ params, type, page, sortBy, ascOrDesc }
         downvotesPageModal,
         setHasMoreDownvotesModal,
         setHasMoreUpvotesModal,
+        user,
     } = useStore();
 
     const fetchDetailData = async () => {
         let response;
-        const queryParams: Record<string, string | number> = { page };
+        const queryParams: any = { page };
 
         if (sortBy) {
             queryParams.sortBy = sortBy;
@@ -31,6 +32,10 @@ export function useDetailsPageFetching({ params, type, page, sortBy, ascOrDesc }
 
         if (downvotesPageModal !== 1) {
             queryParams.downvotesPage = downvotesPageModal;
+        }
+
+        if (user) {
+            queryParams.userId = user?.id;
         }
 
         if (type === "movie") {
