@@ -40,6 +40,7 @@ export default function Serie() {
         sortBy,
         ascOrDesc,
         user,
+        setUser,
         setSelectedReview,
         upvotesPageModal,
         setUpvotesPageModal,
@@ -105,6 +106,7 @@ export default function Serie() {
             const response = await serieService.addToFavorites(serie.id, user.id);
 
             if (response && !response.error) {
+                setUser(response);
                 refetchSerieDetails();
             }
         } catch (error) {
@@ -119,6 +121,7 @@ export default function Serie() {
             const response = await serieService.removeFromFavorites(serie.id, user.id);
 
             if (response && !response.error) {
+                setUser(response);
                 refetchSerieDetails();
             }
         } catch (error) {
