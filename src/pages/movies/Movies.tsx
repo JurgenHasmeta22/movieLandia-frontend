@@ -8,7 +8,6 @@ import CardItem from "~/components/cardItem/CardItem";
 import { useQuery } from "@tanstack/react-query";
 import SortSelect from "~/components/sortSelect/SortSelect";
 import { useListPageData } from "~/hooks/useListPageData";
-import { useListPageFetching } from "~/hooks/useListPageFetching";
 import PaginationControl from "~/components/paginationControl/PaginationControl";
 import LatestList from "~/components/latestList/LatestList";
 
