@@ -36,7 +36,7 @@ const HomeHeroSection = () => {
             rowGap={1}
             component={"section"}
             sx={{
-                height: "200vh",
+                height: "100vh",
                 position: "relative",
                 overflow: "hidden",
                 textAlign: "center",

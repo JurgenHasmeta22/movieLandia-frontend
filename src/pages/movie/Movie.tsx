@@ -39,6 +39,7 @@ export default function Movie() {
         sortBy,
         ascOrDesc,
         user,
+        setUser,
         setSelectedReview,
         upvotesPageModal,
         setUpvotesPageModal,
@@ -104,6 +105,7 @@ export default function Movie() {
             const response = await movieService.addToFavorites(movie?.id!, user?.id);
 
             if (response && !response.error) {
+                setUser(response);
                 await refetchMovieDetails();
             }
         } catch (error) {
@@ -118,6 +120,7 @@ export default function Movie() {
             const response = await movieService.removeFromFavorites(movie?.id!, user?.id);
 
             if (response && !response.error) {
+                setUser(response);
                 await refetchMovieDetails();
             }
         } catch (error) {
