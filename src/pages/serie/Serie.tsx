@@ -40,7 +40,6 @@ export default function Serie() {
         sortBy,
         ascOrDesc,
         user,
-        setUser,
         setSelectedReview,
         upvotesPageModal,
         setUpvotesPageModal,
@@ -70,7 +69,6 @@ export default function Serie() {
             page,
             upvotesPageModal,
             downvotesPageModal,
-            user,
         ],
         queryFn: () => fetchDetailData(),
         refetchOnMount: "always",
@@ -107,7 +105,7 @@ export default function Serie() {
             const response = await serieService.addToFavorites(serie.id, user.id);
 
             if (response && !response.error) {
-                setUser(response);
+                refetchSerieDetails();
             }
         } catch (error) {
             toast.error("An error occurred while adding the serie to favorites.");
@@ -121,7 +119,7 @@ export default function Serie() {
             const response = await serieService.removeFromFavorites(serie.id, user.id);
 
             if (response && !response.error) {
-                setUser(response);
+                refetchSerieDetails();
             }
         } catch (error) {
             toast.error("An error occurred while removing the serie from favorites.");
@@ -337,7 +335,7 @@ export default function Serie() {
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
-                    height: "100vh",
+                    height: "200vh",
                 }}
             >
                 <CircularProgress size={80} thickness={4} color="secondary" />

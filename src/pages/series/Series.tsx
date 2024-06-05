@@ -52,7 +52,7 @@ export default function Series() {
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
-                    height: "100vh",
+                    height: "200vh",
                 }}
             >
                 <CircularProgress size={80} thickness={4} color="secondary" />
@@ -67,7 +67,7 @@ export default function Series() {
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
-                    height: "100vh",
+                    height: "200vh",
                 }}
             >
                 <Typography variant="h1">An Error occurred the server is down!</Typography>

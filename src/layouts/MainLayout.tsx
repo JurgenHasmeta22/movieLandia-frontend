@@ -22,7 +22,7 @@ const MainLayout = () => {
                                         display: "flex",
                                         placeItems: "center",
                                         placeContent: "center",
-                                        height: "100vh",
+                                        height: "200vh",
                                     }}
                                 >
                                     <CircularProgress size={80} thickness={4} color="secondary" />

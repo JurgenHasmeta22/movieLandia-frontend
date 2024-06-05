@@ -39,7 +39,6 @@ export default function Movie() {
         sortBy,
         ascOrDesc,
         user,
-        setUser,
         setSelectedReview,
         upvotesPageModal,
         setUpvotesPageModal,
@@ -69,7 +68,6 @@ export default function Movie() {
             page,
             upvotesPageModal,
             downvotesPageModal,
-            user,
         ],
         queryFn: () => fetchDetailData(),
         refetchOnMount: "always",
@@ -106,7 +104,7 @@ export default function Movie() {
             const response = await movieService.addToFavorites(movie?.id!, user?.id);
 
             if (response && !response.error) {
-                setUser(response);
+                await refetchMovieDetails();
             }
         } catch (error) {
             toast.error("An error occurred while adding the movie to favorites.");
@@ -120,7 +118,7 @@ export default function Movie() {
             const response = await movieService.removeFromFavorites(movie?.id!, user?.id);
 
             if (response && !response.error) {
-                setUser(response);
+                await refetchMovieDetails();
             }
         } catch (error) {
             toast.error("An error occurred while removing the movie from favorites.");
@@ -175,6 +173,7 @@ export default function Movie() {
                                 setReview("");
                                 await refetchMovieDetails();
                                 toast.success("Review removed successfully!");
+                                // handleFocusTextEditor();
                             } else {
                                 toast.error("Review removal failed!");
                             }
@@ -337,7 +336,7 @@ export default function Movie() {
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
-                    height: "100vh",
+                    height: "200vh",
                 }}
             >
                 <CircularProgress size={80} thickness={4} color="secondary" />
