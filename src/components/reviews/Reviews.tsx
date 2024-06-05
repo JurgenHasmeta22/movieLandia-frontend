@@ -5,7 +5,7 @@ interface IReviews {
     data: any;
     sortBy: string;
     ascOrDesc: string;
-    handleChangeSorting: (type: string, event: SelectChangeEvent, focusTargetType: string) => void;
+    handleChangeSorting: (type: string, event: SelectChangeEvent) => void;
 }
 
 export function Reviews({ data, sortBy, ascOrDesc, handleChangeSorting }: IReviews) {
@@ -20,7 +20,7 @@ export function Reviews({ data, sortBy, ascOrDesc, handleChangeSorting }: IRevie
                 <SortSelect
                     sortBy={sortBy}
                     ascOrDesc={ascOrDesc}
-                    onChange={(event) => handleChangeSorting("details", event, "select")}
+                    onChange={(event) => handleChangeSorting("details", event)}
                     type="details"
                 />
             </Box>

@@ -57,10 +57,6 @@ export default function Movie() {
         sortBy,
         ascOrDesc,
     });
-
-    // const [focusTarget, setFocusTarget] = useState<"pagination" | "select" | null>(null);
-    // const paginationRef = useRef<HTMLDivElement | null>(null);
-    // const selectRef = useRef<HTMLDivElement | null>(null);
     // #endregion
 
     // #region "Data fetching and queries"
@@ -109,7 +105,6 @@ export default function Movie() {
 
     const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
         searchParams.set("page", String(value));
-        // setFocusTarget("pagination");
         setSearchParams(searchParams);
     };
     // #endregion
@@ -352,14 +347,6 @@ export default function Movie() {
             handleFocusTextEditor();
         }
     }, [isEditMode]);
-
-    // useEffect(() => {
-    //     if (focusTarget === "pagination" && paginationRef.current) {
-    //         paginationRef.current.focus();
-    //     } else if (focusTarget === "select" && selectRef.current) {
-    //         selectRef.current.focus();
-    //     }
-    // }, [focusTarget]);
     // #endregion
 
     // #endregion
@@ -449,7 +436,6 @@ export default function Movie() {
                                 currentPage={Number(page)!}
                                 pageCount={pageCount}
                                 onPageChange={handlePageChange}
-                                // ref={paginationRef}
                             />
                         )}
                         {user && (!isMovieReviewed || isEditMode) && (
