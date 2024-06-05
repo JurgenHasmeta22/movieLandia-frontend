@@ -140,10 +140,10 @@ const Modal: React.FC<ModalProps> = ({
                                     justifyContent={"center"}
                                     mt={1}
                                 >
-                                    <CircularProgress size={30} thickness={2} color="secondary" />
+                                    <CircularProgress size={20} thickness={2} color="secondary" />
                                 </Box>
                             }
-                            height={300}
+                            height={"auto"}
                             endMessage={
                                 <Typography sx={{ textAlign: "center" }} variant="body1">
                                     You have seen it all
