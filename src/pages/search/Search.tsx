@@ -143,13 +143,7 @@ export function Search() {
             >
                 {movies.length !== 0 ? (
                     <Box display={"flex"} flexDirection={"column"} rowGap={3}>
-                        <Box
-                            ml={1}
-                            mt={4}
-                            display="flex"
-                            justifyContent="space-between"
-                            alignItems="center"
-                        >
+                        <Box ml={1} mt={4} display="flex" justifyContent="space-between" alignItems="center">
                             <Typography fontSize={28} color="secondary" variant="h2">
                                 Movies
                             </Typography>
@@ -208,13 +202,7 @@ export function Search() {
                 )}
                 {series.length !== 0 ? (
                     <Box display={"flex"} flexDirection={"column"} rowGap={3}>
-                        <Box
-                            ml={1}
-                            mt={4}
-                            display="flex"
-                            justifyContent="space-between"
-                            alignItems="center"
-                        >
+                        <Box ml={1} mt={4} display="flex" justifyContent="space-between" alignItems="center">
                             <Typography fontSize={28} color="secondary" variant="h2">
                                 Series
                             </Typography>

@@ -152,10 +152,7 @@ export default function HeaderMenu({
                             Movies
                         </NavLink>
                     </ListItem>
-                    <ListItem
-                        onMouseEnter={openMenuGenresMobile}
-                        onMouseLeave={closeMenuGenresMobile}
-                    >
+                    <ListItem onMouseEnter={openMenuGenresMobile} onMouseLeave={closeMenuGenresMobile}>
                         <NavLink
                             style={({ isActive, isTransitioning }) => {
                                 return {
@@ -292,9 +289,7 @@ export default function HeaderMenu({
                             <Box>
                                 <IconButton
                                     id="buttonProfile"
-                                    aria-controls={
-                                        Boolean(anchorElProfile) ? "menuProfile" : undefined
-                                    }
+                                    aria-controls={Boolean(anchorElProfile) ? "menuProfile" : undefined}
                                     aria-haspopup="true"
                                     aria-expanded={Boolean(anchorElProfile) ? "true" : undefined}
                                     onClick={openMenuProfile}
@@ -316,16 +311,10 @@ export default function HeaderMenu({
                                         "aria-labelledby": "buttonProfile",
                                     }}
                                 >
-                                    <MenuItem
-                                        onClick={redirectToProfile}
-                                        style={{ color: colors.primary[100] }}
-                                    >
+                                    <MenuItem onClick={redirectToProfile} style={{ color: colors.primary[100] }}>
                                         My Profile
                                     </MenuItem>
-                                    <MenuItem
-                                        onClick={handleLogout}
-                                        style={{ color: colors.primary[100] }}
-                                    >
+                                    <MenuItem onClick={handleLogout} style={{ color: colors.primary[100] }}>
                                         Log Out
                                     </MenuItem>
                                 </Menu>

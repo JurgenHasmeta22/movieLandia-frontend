@@ -20,22 +20,16 @@ const Carousel = ({ data, type, visibleItems = 3 }: ICarouselProps) => {
     const mobileVisibleItems = isMobile ? 1 : isTablet ? 2 : visibleItems;
 
     const handleNext = () => {
-        setStartIndex((prevIndex) =>
-            prevIndex >= data.length - mobileVisibleItems ? 0 : prevIndex + 1,
-        );
+        setStartIndex((prevIndex) => (prevIndex >= data.length - mobileVisibleItems ? 0 : prevIndex + 1));
     };
 
     const handlePrev = () => {
-        setStartIndex((prevIndex) =>
-            prevIndex === 0 ? data.length - mobileVisibleItems : prevIndex - 1,
-        );
+        setStartIndex((prevIndex) => (prevIndex === 0 ? data.length - mobileVisibleItems : prevIndex - 1));
     };
 
     useEffect(() => {
         const interval = setInterval(() => {
-            setStartIndex((prevIndex) =>
-                prevIndex >= data.length - mobileVisibleItems ? 0 : prevIndex + 1,
-            );
+            setStartIndex((prevIndex) => (prevIndex >= data.length - mobileVisibleItems ? 0 : prevIndex + 1));
         }, 3000);
 
         return () => clearInterval(interval);
@@ -65,59 +59,57 @@ const Carousel = ({ data, type, visibleItems = 3 }: ICarouselProps) => {
                     <NavigateBeforeIcon />
                 </IconButton>
             )}
-            {data
-                .slice(startIndex, startIndex + mobileVisibleItems)
-                .map((element: IMovie | ISerie, index: number) => (
-                    <Box
-                        key={index}
-                        position="relative"
-                        sx={{
-                            mr: index === mobileVisibleItems - 1 ? 0 : 1,
-                            overflow: "hidden",
-                            width: isMobile ? "100%" : "auto",
-                            "&:hover img": {
-                                filter: "blur(3px)",
-                            },
-                            "&:hover .carousel-button": {
-                                display: "block",
-                            },
+            {data.slice(startIndex, startIndex + mobileVisibleItems).map((element: IMovie | ISerie, index: number) => (
+                <Box
+                    key={index}
+                    position="relative"
+                    sx={{
+                        mr: index === mobileVisibleItems - 1 ? 0 : 1,
+                        overflow: "hidden",
+                        width: isMobile ? "100%" : "auto",
+                        "&:hover img": {
+                            filter: "blur(3px)",
+                        },
+                        "&:hover .carousel-button": {
+                            display: "block",
+                        },
+                    }}
+                >
+                    <img
+                        src={element.photoSrc}
+                        alt={`Slide ${startIndex + index}`}
+                        style={{
+                            width: `${isMobile || isTablet ? "100%" : "290px"}`,
+                            height: "auto",
+                            transition: "filter 1s ease",
                         }}
+                    />
+                    <Link
+                        to={
+                            `/${type}/${element.title
+                                .split("")
+                                .map((char: string) => (char === " " ? "-" : char))
+                                .join("")}` || "#"
+                        }
                     >
-                        <img
-                            src={element.photoSrc}
-                            alt={`Slide ${startIndex + index}`}
-                            style={{
-                                width: `${isMobile || isTablet ? "100%" : "290px"}`,
-                                height: "auto",
-                                transition: "filter 1s ease",
+                        <Button
+                            variant="text"
+                            color="primary"
+                            className="carousel-button"
+                            size="medium"
+                            sx={{
+                                position: "absolute",
+                                top: "50%",
+                                left: "50%",
+                                transform: "translate(-50%, -50%)",
+                                display: "none",
                             }}
-                        />
-                        <Link
-                            to={
-                                `/${type}/${element.title
-                                    .split("")
-                                    .map((char: string) => (char === " " ? "-" : char))
-                                    .join("")}` || "#"
-                            }
                         >
-                            <Button
-                                variant="text"
-                                color="primary"
-                                className="carousel-button"
-                                size="medium"
-                                sx={{
-                                    position: "absolute",
-                                    top: "50%",
-                                    left: "50%",
-                                    transform: "translate(-50%, -50%)",
-                                    display: "none",
-                                }}
-                            >
-                                <PlayCircleIcon fontSize="large" color="secondary" />
-                            </Button>
-                        </Link>
-                    </Box>
-                ))}
+                            <PlayCircleIcon fontSize="large" color="secondary" />
+                        </Button>
+                    </Link>
+                </Box>
+            ))}
             {data.length > mobileVisibleItems && (
                 <IconButton
                     onClick={handleNext}

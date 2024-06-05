@@ -9,7 +9,7 @@ export default function Genres() {
         queryKey: ["genres"],
         queryFn: () => genreService.getGenres({}),
     });
-    
+
     const genres: IGenre[] = genresQuery.data?.rows! ?? [];
 
     if (genresQuery.isLoading) {

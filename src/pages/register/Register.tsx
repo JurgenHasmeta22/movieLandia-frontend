@@ -2,10 +2,7 @@ import { useNavigate } from "react-router-dom";
 import authenticationService from "~/services/api/authenticationService";
 import { useStore } from "~/store/store";
 import type IResponseLogin from "~/types/IResponseLogin";
-import {
-    Box,
-    Paper,
-} from "@mui/material";
+import { Box, Paper } from "@mui/material";
 import { toast } from "react-toastify";
 import * as CONSTANTS from "~/constants/Constants";
 import * as yup from "yup";

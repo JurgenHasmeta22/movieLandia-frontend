@@ -85,13 +85,7 @@ export default function Series() {
                 canonicalUrl="https://example.com/series"
             />
             <Container>
-                <Box
-                    component={"section"}
-                    display={"flex"}
-                    flexDirection={"column"}
-                    rowGap={4}
-                    paddingTop={4}
-                >
+                <Box component={"section"} display={"flex"} flexDirection={"column"} rowGap={4} paddingTop={4}>
                     <Box mt={4} component={"section"}>
                         <Carousel data={seriesCarouselImages} type="series" />
                     </Box>

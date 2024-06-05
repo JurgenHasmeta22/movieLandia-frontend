@@ -92,11 +92,7 @@ export default function FavoritesTab({ type }: FavoritesTabProps) {
                             }}
                         >
                             <img
-                                src={
-                                    type === "Movies"
-                                        ? favItem.movie.photoSrc
-                                        : favItem.serie.photoSrc
-                                }
+                                src={type === "Movies" ? favItem.movie.photoSrc : favItem.serie.photoSrc}
                                 alt={type === "Movies" ? favItem.movie.title : favItem.serie.title}
                                 style={{
                                     height: "200px",

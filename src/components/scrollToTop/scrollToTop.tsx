@@ -26,12 +26,7 @@ function ScrollToTop() {
                     zIndex: 1,
                 }}
             >
-                <Fab
-                    onClick={scrollToTop}
-                    color="primary"
-                    size="large"
-                    aria-label="Scroll back to top"
-                >
+                <Fab onClick={scrollToTop} color="primary" size="large" aria-label="Scroll back to top">
                     <KeyboardArrowUp fontSize="medium" />
                 </Fab>
             </Box>

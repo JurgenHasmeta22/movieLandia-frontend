@@ -33,10 +33,7 @@ export default function Login() {
     const handleMouseDownPassword = () => setShowPassword(!showPassword);
 
     async function onSubmitLogin(values: any) {
-        const response: IResponseLogin = await authenticationService.onLogin(
-            values.email,
-            values.password,
-        );
+        const response: IResponseLogin = await authenticationService.onLogin(values.email, values.password);
 
         if (response && !response.error) {
             setItem(response.token);

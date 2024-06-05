@@ -102,10 +102,7 @@ const MovieAdmin = () => {
     return (
         <Box m="20px">
             <Breadcrumb breadcrumbs={breadcrumbs} navigateTo={"/admin/movies"} />
-            <HeaderDashboard
-                title={CONSTANTS.MOVIE__EDIT__TITLE}
-                subtitle={CONSTANTS.MOVIE__EDIT__SUBTITLE}
-            />
+            <HeaderDashboard title={CONSTANTS.MOVIE__EDIT__TITLE} subtitle={CONSTANTS.MOVIE__EDIT__SUBTITLE} />
             <FormAdvanced
                 initialValues={{
                     id: movie?.id,
@@ -195,9 +192,7 @@ const MovieAdmin = () => {
                                     {
                                         label: CONSTANTS.MODAL__DELETE__YES,
                                         onClick: async () => {
-                                            const response = await movieService.deleteMovie(
-                                                movie?.id!,
-                                            );
+                                            const response = await movieService.deleteMovie(movie?.id!);
 
                                             if (response) {
                                                 toast.success(CONSTANTS.DELETE__SUCCESS);

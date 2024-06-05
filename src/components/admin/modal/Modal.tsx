@@ -54,15 +54,7 @@ type ActionConfig = {
     onClick: () => void;
     label: string;
     type?: string;
-    color?:
-        | "inherit"
-        | "primary"
-        | "secondary"
-        | "success"
-        | "error"
-        | "info"
-        | "warning"
-        | "default";
+    color?: "inherit" | "primary" | "secondary" | "success" | "error" | "info" | "warning" | "default";
     variant?: "text" | "outlined" | "contained";
     icon?: React.ReactNode;
     sx?: SxProps;
@@ -96,10 +88,7 @@ const Modal: React.FC<ModalProps> = ({
         <Dialog open={true} onClose={onClose ? onClose : () => {}} fullWidth>
             <DialogTitle fontSize={"22px"}>
                 {title}
-                <IconButton
-                    style={{ position: "absolute", right: 2, top: 2 }}
-                    onClick={onClose ? onClose : () => {}}
-                >
+                <IconButton style={{ position: "absolute", right: 2, top: 2 }} onClick={onClose ? onClose : () => {}}>
                     <CloseIcon color="action" />
                 </IconButton>
             </DialogTitle>
@@ -109,13 +98,9 @@ const Modal: React.FC<ModalProps> = ({
                     <Box id="scrollableDiv">
                         <InfiniteScroll
                             dataLength={
-                                listModalDataType &&
-                                listModalDataType === "upvotes" &&
-                                selectedReview.upvotes
+                                listModalDataType && listModalDataType === "upvotes" && selectedReview.upvotes
                                     ? selectedReview.upvotes.length
-                                    : listModalDataType &&
-                                        listModalDataType === "downvotes" &&
-                                        selectedReview.downvotes
+                                    : listModalDataType && listModalDataType === "downvotes" && selectedReview.downvotes
                                       ? selectedReview.downvotes.length
                                       : 0
                             }
@@ -134,12 +119,7 @@ const Modal: React.FC<ModalProps> = ({
                                       : false
                             }
                             loader={
-                                <Box
-                                    display={"flex"}
-                                    alignItems={"center"}
-                                    justifyContent={"center"}
-                                    mt={1}
-                                >
+                                <Box display={"flex"} alignItems={"center"} justifyContent={"center"} mt={1}>
                                     <CircularProgress size={20} thickness={2} color="secondary" />
                                 </Box>
                             }
@@ -224,16 +204,11 @@ const Modal: React.FC<ModalProps> = ({
                                                                 labelId={`${field.name}-label`}
                                                                 as={Select}
                                                             >
-                                                                {field.options?.map(
-                                                                    (option, index: number) => (
-                                                                        <MenuItem
-                                                                            key={index}
-                                                                            value={option.value}
-                                                                        >
-                                                                            {option.label}
-                                                                        </MenuItem>
-                                                                    ),
-                                                                )}
+                                                                {field.options?.map((option, index: number) => (
+                                                                    <MenuItem key={index} value={option.value}>
+                                                                        {option.label}
+                                                                    </MenuItem>
+                                                                ))}
                                                             </Field>
                                                         </FormControl>
                                                     ) : (
@@ -245,14 +220,8 @@ const Modal: React.FC<ModalProps> = ({
                                                             value={values[field.name]}
                                                             size="medium"
                                                             type={field.type || "text"}
-                                                            helperText={
-                                                                touched[field.name] &&
-                                                                errors[field.name]
-                                                            }
-                                                            error={
-                                                                touched[field.name] &&
-                                                                !!errors[field.name]
-                                                            }
+                                                            helperText={touched[field.name] && errors[field.name]}
+                                                            error={touched[field.name] && !!errors[field.name]}
                                                             InputLabelProps={
                                                                 field.type === "date"
                                                                     ? {
@@ -304,11 +273,7 @@ const Modal: React.FC<ModalProps> = ({
                                 color={action.color || "secondary"}
                                 variant={action.variant || "text"}
                                 sx={action.sx}
-                                type={
-                                    action.type === "submit" || action.type === "reset"
-                                        ? action.type
-                                        : ""
-                                }
+                                type={action.type === "submit" || action.type === "reset" ? action.type : ""}
                                 endIcon={action.icon}
                             >
                                 {action.label}

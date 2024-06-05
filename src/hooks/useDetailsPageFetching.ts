@@ -45,20 +45,16 @@ export function useDetailsPageFetching({ params, type, page, sortBy, ascOrDesc }
         }
 
         if (selectedReview) {
-            const reviewItem = response?.reviews?.find(
-                (item: any) => item.id === selectedReview.id,
-            );
+            const reviewItem = response?.reviews?.find((item: any) => item.id === selectedReview.id);
 
             if (reviewItem) {
                 if (listModalDataType === "upvotes") {
-                    const hasMoreUpvotes =
-                        reviewItem?._count?.upvotes! !== reviewItem?.upvotes?.length;
+                    const hasMoreUpvotes = reviewItem?._count?.upvotes! !== reviewItem?.upvotes?.length;
 
                     setHasMoreUpvotesModal(hasMoreUpvotes);
                     setSelectedReview(reviewItem);
                 } else if (listModalDataType === "downvotes") {
-                    const hasMoreDownvotes =
-                        reviewItem?._count?.downvotes! !== reviewItem?.downvotes?.length;
+                    const hasMoreDownvotes = reviewItem?._count?.downvotes! !== reviewItem?.downvotes?.length;
 
                     setHasMoreDownvotesModal(hasMoreDownvotes);
                     setSelectedReview(reviewItem);

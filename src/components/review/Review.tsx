@@ -1,15 +1,6 @@
 import React, { Dispatch, SetStateAction, forwardRef, useState } from "react";
 import { format } from "date-fns";
-import {
-    Avatar,
-    Box,
-    Paper,
-    Typography,
-    IconButton,
-    useTheme,
-    Rating,
-    Button,
-} from "@mui/material";
+import { Avatar, Box, Paper, Typography, IconButton, useTheme, Rating, Button } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import EditIcon from "@mui/icons-material/Edit";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
@@ -140,9 +131,7 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
                     p: 2,
                     mt: 2,
                     backgroundColor:
-                        review.user.userName === user?.userName
-                            ? colors.redAccent[700]
-                            : colors.primary[400],
+                        review.user.userName === user?.userName ? colors.redAccent[700] : colors.primary[400],
                 }}
             >
                 <Box
@@ -195,11 +184,7 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
                             gap: 1,
                         }}
                     >
-                        <Typography
-                            variant="body2"
-                            color="secondary"
-                            sx={{ display: "flex", flexWrap: "wrap" }}
-                        >
+                        <Typography variant="body2" color="secondary" sx={{ display: "flex", flexWrap: "wrap" }}>
                             {review.updatedAt && (
                                 <Typography component={"span"} color={"error"}>
                                     Edited
@@ -251,23 +236,12 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
                     }}
                 >
                     <Box sx={{ display: "flex", alignItems: "center" }}>
-                        <Typography
-                            variant="body2"
-                            fontSize={14}
-                            fontWeight={900}
-                            sx={{ mr: 1, color }}
-                        >
+                        <Typography variant="body2" fontSize={14} fontWeight={900} sx={{ mr: 1, color }}>
                             {label}
                         </Typography>
                     </Box>
                     <Box sx={{ display: "flex", alignItems: "center" }}>
-                        <Typography
-                            variant="body2"
-                            color="secondary"
-                            fontSize={14}
-                            fontWeight={700}
-                            sx={{ mr: 1 }}
-                        >
+                        <Typography variant="body2" color="secondary" fontSize={14} fontWeight={700} sx={{ mr: 1 }}>
                             {review?.rating?.toFixed(1)}
                         </Typography>
                         <Rating
@@ -296,16 +270,13 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
                         >
                             <IconButton
                                 size="medium"
-                                disabled={
-                                    user && review.user.userName !== user?.userName ? false : true
-                                }
+                                disabled={user && review.user.userName !== user?.userName ? false : true}
                                 onClick={async () => {
                                     handleClickUpVoteReview();
                                 }}
                                 sx={{
                                     color:
-                                        (type === "movie" && review.isUpvoted) ||
-                                        (type === "serie" && review.isUpvoted)
+                                        (type === "movie" && review.isUpvoted) || (type === "serie" && review.isUpvoted)
                                             ? colors.greenAccent[700]
                                             : colors.primary[100],
                                 }}
@@ -336,9 +307,7 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
                         >
                             <IconButton
                                 size="medium"
-                                disabled={
-                                    user && review.user.userName !== user?.userName ? false : true
-                                }
+                                disabled={user && review.user.userName !== user?.userName ? false : true}
                                 onClick={async () => {
                                     handleClickDownVoteReview();
                                 }}

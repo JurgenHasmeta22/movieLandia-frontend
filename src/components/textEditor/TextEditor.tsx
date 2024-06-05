@@ -41,85 +41,76 @@ const formats = [
     "video",
 ];
 
-const TextEditor: React.FC<ITextEditorProps> = forwardRef(
-    ({ value, onChange, rating, setRating }, ref) => {
-        const theme = useTheme();
+const TextEditor: React.FC<ITextEditorProps> = forwardRef(({ value, onChange, rating, setRating }, ref) => {
+    const theme = useTheme();
 
-        useEffect(() => {
-            const resizeImages = () => {
-                //@ts-ignore
-                const quillEditor = ref?.current?.getEditor?.();
-
-                if (quillEditor) {
-                    const images = quillEditor.container.querySelectorAll("img");
-                    images.forEach((img: HTMLImageElement) => {
-                        img.style.maxWidth = "50%";
-                        img.style.maxHeight = "auto";
-                    });
-                }
-            };
-
+    useEffect(() => {
+        const resizeImages = () => {
             //@ts-ignore
-            const editorInstance = ref?.current?.getEditor?.();
+            const quillEditor = ref?.current?.getEditor?.();
 
-            if (editorInstance) {
-                resizeImages();
-                editorInstance.on("text-change", resizeImages);
+            if (quillEditor) {
+                const images = quillEditor.container.querySelectorAll("img");
+                images.forEach((img: HTMLImageElement) => {
+                    img.style.maxWidth = "50%";
+                    img.style.maxHeight = "auto";
+                });
             }
+        };
 
-            return () => {
-                if (editorInstance) {
-                    editorInstance.off("text-change", resizeImages);
-                }
-            };
-        }, [ref, value]);
+        //@ts-ignore
+        const editorInstance = ref?.current?.getEditor?.();
 
-        return (
-            <Box>
-                <ReactQuill
-                    theme="snow"
-                    value={value}
-                    onChange={onChange}
-                    modules={modules}
-                    formats={formats}
-                    // @ts-ignore
-                    ref={ref}
-                    style={{
-                        backgroundColor:
-                            theme.palette.mode === "dark" ? theme.palette.primary.main : "white",
-                        color: theme.palette.mode === "dark" ? "white" : "black",
-                        marginBottom: "10px",
+        if (editorInstance) {
+            resizeImages();
+            editorInstance.on("text-change", resizeImages);
+        }
+
+        return () => {
+            if (editorInstance) {
+                editorInstance.off("text-change", resizeImages);
+            }
+        };
+    }, [ref, value]);
+
+    return (
+        <Box>
+            <ReactQuill
+                theme="snow"
+                value={value}
+                onChange={onChange}
+                modules={modules}
+                formats={formats}
+                // @ts-ignore
+                ref={ref}
+                style={{
+                    backgroundColor: theme.palette.mode === "dark" ? theme.palette.primary.main : "white",
+                    color: theme.palette.mode === "dark" ? "white" : "black",
+                    marginBottom: "10px",
+                }}
+            />
+            <Box
+                sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "flex-start",
+                }}
+            >
+                <Typography variant="body2" color="secondary" fontSize={14} fontWeight={700} sx={{ mr: 1 }}>
+                    {rating?.toFixed(1)}
+                </Typography>
+                <Rating
+                    name="review-rating"
+                    value={rating}
+                    onChange={(event, newValue) => {
+                        setRating(newValue);
                     }}
+                    max={10}
+                    precision={0.5}
                 />
-                <Box
-                    sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "flex-start",
-                    }}
-                >
-                    <Typography
-                        variant="body2"
-                        color="secondary"
-                        fontSize={14}
-                        fontWeight={700}
-                        sx={{ mr: 1 }}
-                    >
-                        {rating?.toFixed(1)}
-                    </Typography>
-                    <Rating
-                        name="review-rating"
-                        value={rating}
-                        onChange={(event, newValue) => {
-                            setRating(newValue);
-                        }}
-                        max={10}
-                        precision={0.5}
-                    />
-                </Box>
             </Box>
-        );
-    },
-);
+        </Box>
+    );
+});
 
 export default TextEditor;

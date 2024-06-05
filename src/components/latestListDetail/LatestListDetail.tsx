@@ -39,4 +39,4 @@ export function LatestListDetail({ data, type }: ILatestList) {
     );
 }
 
-export default LatestListDetail
+export default LatestListDetail;

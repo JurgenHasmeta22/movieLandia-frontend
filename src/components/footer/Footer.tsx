@@ -20,12 +20,11 @@ const Footer = (): React.JSX.Element => {
             component={"footer"}
         >
             <Typography color={colors.primary[100]}>
-                Copyright © 2024 | movielandia24.so - Filma dhe Seriale HD me titra shqip / NetFlix
-                shqip!
+                Copyright © 2024 | movielandia24.so - Filma dhe Seriale HD me titra shqip / NetFlix shqip!
             </Typography>
             <Typography color={colors.primary[100]}>
-                Disclaimer: This site does not store any files on its server! All contents are
-                provided by non-affiliated third parties!
+                Disclaimer: This site does not store any files on its server! All contents are provided by
+                non-affiliated third parties!
             </Typography>
         </Box>
     );

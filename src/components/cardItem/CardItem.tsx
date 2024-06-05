@@ -12,9 +12,7 @@ interface ICardItemProps {
 const CardItem = ({ data, type }: ICardItemProps): React.JSX.Element => {
     const navigate = useNavigate();
     const path =
-        type === "serie"
-            ? `/series/${data.title.split(" ").join("-")}`
-            : `/movies/${data.title.split(" ").join("-")}`;
+        type === "serie" ? `/series/${data.title.split(" ").join("-")}` : `/movies/${data.title.split(" ").join("-")}`;
 
     return (
         <motion.div whileHover={{ scale: 1.05 }} transition={{ duration: 0.2, ease: "easeInOut" }}>

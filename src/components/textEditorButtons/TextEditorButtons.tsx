@@ -85,8 +85,7 @@ export function TextEditorButtons({
                                         icon: <CheckOutlined />,
                                     },
                                 ],
-                                subTitle:
-                                    "Are you sure that you want to discard changes on this review ?",
+                                subTitle: "Are you sure that you want to discard changes on this review ?",
                             });
                         }}
                         color="error"
