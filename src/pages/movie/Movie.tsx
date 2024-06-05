@@ -82,21 +82,28 @@ export default function Movie() {
     });
     const latestMovies: IMovie[] = latestMoviesQuery?.data! ?? [];
 
-    const isMovieBookmarkedQuery = useQuery({
-        queryKey: ["isMovieBookmarked", params?.title!],
-        queryFn: () => movieService.isMovieBookmared(params?.title!, user?.id!),
-        refetchOnMount: "always",
-        refetchOnWindowFocus: "always",
-    });
-    const isMovieBookmarked: boolean = isMovieBookmarkedQuery?.data?.isBookmarked! ?? false;
+    let isMovieBookmarkedQuery: any;
+    let isMovieBookmarked: boolean = false;
+    let isMovieReviewedQuery: any;
+    let isMovieReviewed: boolean = false;
 
-    const isMovieReviewedQuery = useQuery({
-        queryKey: ["isMovieReviewed", params?.title!],
-        queryFn: () => movieService.isMovieReviewed(params?.title!, user?.id!),
-        refetchOnMount: "always",
-        refetchOnWindowFocus: "always",
-    });
-    const isMovieReviewed: boolean = isMovieReviewedQuery?.data?.isReviewed! ?? false;
+    if (user) {
+        isMovieBookmarkedQuery = useQuery({
+            queryKey: ["isMovieBookmarked", params?.title!],
+            queryFn: () => movieService.isMovieBookmared(params?.title!, user?.id!),
+            refetchOnMount: "always",
+            refetchOnWindowFocus: "always",
+        });
+        isMovieBookmarked = isMovieBookmarkedQuery?.data?.isBookmarked! ?? false;
+
+        isMovieReviewedQuery = useQuery({
+            queryKey: ["isMovieReviewed", params?.title!],
+            queryFn: () => movieService.isMovieReviewed(params?.title!, user?.id!),
+            refetchOnMount: "always",
+            refetchOnWindowFocus: "always",
+        });
+        isMovieReviewed = isMovieReviewedQuery?.data?.isReviewed! ?? false;
+    }
 
     const refetchMovieDetailsAndBookmarkStatus = async () => {
         await Promise.all([

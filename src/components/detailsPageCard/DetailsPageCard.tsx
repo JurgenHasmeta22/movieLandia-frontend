@@ -94,7 +94,7 @@ export function DetailsPageCard({
                         >
                             <MovieIcon fontSize="large" color="secondary" />
                             {data.genres?.map((genre: any, index: number) => (
-                                <>
+                                <Box key={index}>
                                     <ListItem
                                         sx={{
                                             color: colors.greenAccent[500],
@@ -117,7 +117,7 @@ export function DetailsPageCard({
                                     {index < data.genres!.length - 1 && (
                                         <Divider orientation="vertical" flexItem color="error" />
                                     )}
-                                </>
+                                </Box>
                             ))}
                         </List>
                         <List

@@ -143,6 +143,17 @@ const serieService = {
             return { error };
         }
     },
+    getLatestSeries: async (): Promise<any> => {
+        try {
+            const latestSeries: ISerie[] = await axios
+                .get(`${api.url}/getLatestSeries`)
+                .then((x) => x.data);
+
+            return latestSeries;
+        } catch (error) {
+            return { error };
+        }
+    },
     updateSerie: async (payload: ISeriePatch, id: number): Promise<any> => {
         let url = `${api.url}/updateSerieById/${id}`;
 
