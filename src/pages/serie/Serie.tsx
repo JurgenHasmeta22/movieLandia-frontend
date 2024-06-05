@@ -70,6 +70,7 @@ export default function Serie() {
             page,
             upvotesPageModal,
             downvotesPageModal,
+            user
         ],
         queryFn: () => fetchDetailData(),
         refetchOnMount: "always",

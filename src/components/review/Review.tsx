@@ -16,9 +16,6 @@ import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import { useStore } from "~/store/store";
 import { tokens } from "~/utils/theme";
-import movieService from "~/services/api/movieService";
-import { useQuery } from "@tanstack/react-query";
-import serieService from "~/services/api/serieService";
 import { motion } from "framer-motion";
 
 interface ReviewProps {
@@ -30,6 +27,8 @@ interface ReviewProps {
         rating: number;
         upvotes: any[];
         downvotes: any[];
+        isUpvoted: boolean;
+        isDownvoted: boolean;
         _count: {
             upvotes: number;
             downvotes: number;
@@ -86,7 +85,6 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
             handleUpvote,
             handleDownvote,
             type,
-            data,
             handleOpenUpvotesModal,
             handleOpenDownvotesModal,
         },
@@ -95,39 +93,10 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
         // #region "State, hooks, theme"
         const [isClickedUpvote, setIsClickedUpvote] = useState(false);
         const [isClickedDownvote, setIsClickedDownvote] = useState(false);
+        const { label, color } = getRatingLabelAndColor(review.rating);
         const { user } = useStore();
-
         const theme = useTheme();
         const colors = tokens(theme.palette.mode);
-        const { label, color } = getRatingLabelAndColor(review.rating);
-        // #endregion
-
-        // #region "Data manipulation, fetching, queries"
-        let isMovieReviewUpvotedOrDownvotedQuery: any;
-        let isSerieReviewUpvotedOrDownvotedQuery: any;
-
-        if (type === "movie" && user) {
-            isMovieReviewUpvotedOrDownvotedQuery = useQuery({
-                queryKey: ["isMovieReviewUpvotedOrDownvoted", data, review],
-                queryFn: () =>
-                    movieService.isMovieReviewUpvotedOrDownvoted(user?.id!, data.id, review.id),
-                refetchOnMount: "always",
-                refetchOnWindowFocus: "always",
-            });
-        } else if (type === "serie" && user) {
-            isSerieReviewUpvotedOrDownvotedQuery = useQuery({
-                queryKey: ["isSerieReviewUpvotedOrDownvoted", data, review],
-                queryFn: () =>
-                    serieService.isSerieReviewUpvotedOrDownvoted(user?.id!, data.id, review.id),
-                refetchOnMount: "always",
-                refetchOnWindowFocus: "always",
-            });
-        }
-
-        const isSerieReviewUpvotedOrDownvoted: any =
-            isSerieReviewUpvotedOrDownvotedQuery?.data! ?? null;
-        const isMovieReviewUpvotedOrDownvoted: any =
-            isMovieReviewUpvotedOrDownvotedQuery?.data! ?? null;
         // #endregion
 
         // #region "Event handlers"
@@ -142,53 +111,25 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
         async function handleClickUpVoteReview() {
             setIsClickedUpvote(true);
 
-            if (
-                type === "movie" &&
-                isMovieReviewUpvotedOrDownvoted &&
-                isMovieReviewUpvotedOrDownvoted.isUpvoted
-            ) {
+            if (type === "movie" && review.isUpvoted) {
                 handleUpvote(review.id, true);
-                isMovieReviewUpvotedOrDownvotedQuery.refetch();
-            } else if (
-                type === "serie" &&
-                isSerieReviewUpvotedOrDownvoted &&
-                isSerieReviewUpvotedOrDownvoted.isUpvoted
-            ) {
+            } else if (type === "serie" && review.isUpvoted) {
                 handleUpvote(review.id, true);
-                isSerieReviewUpvotedOrDownvotedQuery.refetch();
             } else {
                 handleUpvote(review.id, false);
             }
-
-            setTimeout(() => {
-                setIsClickedUpvote(false);
-            }, 300);
         }
 
         async function handleClickDownVoteReview() {
             setIsClickedDownvote(true);
 
-            if (
-                type === "movie" &&
-                isMovieReviewUpvotedOrDownvoted &&
-                isMovieReviewUpvotedOrDownvoted.isDownvoted
-            ) {
+            if (type === "movie" && review.isDownvoted) {
                 handleDownvote(review.id, true);
-                isMovieReviewUpvotedOrDownvotedQuery.refetch();
-            } else if (
-                type === "serie" &&
-                isSerieReviewUpvotedOrDownvoted &&
-                isSerieReviewUpvotedOrDownvoted.isDownvoted
-            ) {
+            } else if (type === "serie" && review.isDownvoted) {
                 handleDownvote(review.id, true);
-                isSerieReviewUpvotedOrDownvotedQuery.refetch();
             } else {
                 handleDownvote(review.id, false);
             }
-
-            setTimeout(() => {
-                setIsClickedDownvote(false);
-            }, 300);
         }
         // #endregion
 
@@ -348,8 +289,8 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
                 >
                     <Box display={"flex"} alignItems={"center"} columnGap={1}>
                         <motion.div
-                            whileTap={{ scale: 0.9 }}
-                            animate={isClickedUpvote ? { rotate: 360, scale: [1, 1.5, 1] } : {}}
+                            whileTap={{ scale: 1 }}
+                            animate={isClickedUpvote ? { scale: [1, 1.5, 1] } : {}}
                             transition={{ duration: 0.5, ease: "easeInOut" }}
                         >
                             <IconButton
@@ -362,12 +303,8 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
                                 }}
                                 sx={{
                                     color:
-                                        (type === "movie" &&
-                                            isMovieReviewUpvotedOrDownvoted &&
-                                            isMovieReviewUpvotedOrDownvoted.isUpvoted) ||
-                                        (type === "serie" &&
-                                            isSerieReviewUpvotedOrDownvoted &&
-                                            isSerieReviewUpvotedOrDownvoted.isUpvoted)
+                                        (type === "movie" && review.isUpvoted) ||
+                                        (type === "serie" && review.isUpvoted)
                                             ? colors.greenAccent[700]
                                             : colors.primary[100],
                                 }}
@@ -392,8 +329,8 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
                     </Box>
                     <Box display={"flex"} alignItems={"center"} columnGap={1}>
                         <motion.div
-                            whileTap={{ scale: 0.9 }}
-                            animate={isClickedDownvote ? { rotate: 360, scale: [1, 1.2, 1] } : {}}
+                            whileTap={{ scale: 1 }}
+                            animate={isClickedDownvote ? { scale: [1, 1.5, 1] } : {}}
                             transition={{ duration: 0.5, ease: "easeInOut" }}
                         >
                             <IconButton
@@ -406,12 +343,8 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
                                 }}
                                 sx={{
                                     color:
-                                        (type === "movie" &&
-                                            isMovieReviewUpvotedOrDownvoted &&
-                                            isMovieReviewUpvotedOrDownvoted.isDownvoted) ||
-                                        (type === "serie" &&
-                                            isSerieReviewUpvotedOrDownvoted &&
-                                            isSerieReviewUpvotedOrDownvoted.isDownvoted)
+                                        (type === "movie" && review.isDownvoted) ||
+                                        (type === "serie" && review.isDownvoted)
                                             ? colors.redAccent[700]
                                             : colors.primary[100],
                                 }}

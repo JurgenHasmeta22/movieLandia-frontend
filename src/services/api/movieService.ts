@@ -92,6 +92,7 @@ const movieService = {
             filterOperator,
             upvotesPage,
             downvotesPage,
+            userId,
         }: {
             sortBy?: string;
             ascOrDesc?: string;
@@ -103,6 +104,7 @@ const movieService = {
             filterOperator?: string;
             upvotesPage?: number;
             downvotesPage?: number;
+            userId?: number;
         },
     ): Promise<any> => {
         let url = `${api.url}/getMovieByTitle/${titleMovie}`;
@@ -118,6 +120,7 @@ const movieService = {
             filterOperator && `filterOperator=${filterOperator}`,
             upvotesPage && `upvotesPage=${upvotesPage}`,
             downvotesPage && `downvotesPage=${downvotesPage}`,
+            userId && `userId=${userId}`,
         ]
             .filter(Boolean)
             .join("&");

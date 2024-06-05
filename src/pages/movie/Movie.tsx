@@ -69,6 +69,7 @@ export default function Movie() {
             page,
             upvotesPageModal,
             downvotesPageModal,
+            user
         ],
         queryFn: () => fetchDetailData(),
         refetchOnMount: "always",
