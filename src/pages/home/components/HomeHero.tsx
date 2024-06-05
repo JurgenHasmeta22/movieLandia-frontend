@@ -70,8 +70,7 @@ const HomeHeroSection = () => {
                 <motion.div variants={itemVariants} custom={2}>
                     <Box marginTop={3}>
                         <Typography variant="body1" textAlign={"center"}>
-                            Explore the latest blockbusters and timeless classics, all in stunning
-                            HD quality.
+                            Explore the latest blockbusters and timeless classics, all in stunning HD quality.
                         </Typography>
                     </Box>
                 </motion.div>

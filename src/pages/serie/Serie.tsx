@@ -62,15 +62,7 @@ export default function Serie() {
 
     // #region "Data fetching and queries"
     const serieQuery = useQuery({
-        queryKey: [
-            "serie",
-            params?.title!,
-            sortBy,
-            ascOrDesc,
-            page,
-            upvotesPageModal,
-            downvotesPageModal,
-        ],
+        queryKey: ["serie", params?.title!, sortBy, ascOrDesc, page, upvotesPageModal, downvotesPageModal],
         queryFn: () => fetchDetailData(),
         refetchOnMount: "always",
         refetchOnWindowFocus: "always",
@@ -230,11 +222,7 @@ export default function Serie() {
             } else {
                 await serieService.removeDownvoteSerieReview(user?.id, serie?.id, serieReviewId);
 
-                const response = await serieService.addUpvoteSerieReview(
-                    user?.id,
-                    serie?.id,
-                    serieReviewId,
-                );
+                const response = await serieService.addUpvoteSerieReview(user?.id, serie?.id, serieReviewId);
 
                 if (response) {
                     await refetchSerieDetails();
@@ -254,11 +242,7 @@ export default function Serie() {
             } else {
                 await serieService.removeUpvoteSerieReview(user?.id, serie?.id, serieReviewId);
 
-                const response = await serieService.addDownvoteSerieReview(
-                    user?.id,
-                    serie?.id,
-                    serieReviewId,
-                );
+                const response = await serieService.addDownvoteSerieReview(user?.id, serie?.id, serieReviewId);
 
                 if (response) {
                     await refetchSerieDetails();
@@ -346,12 +330,7 @@ export default function Serie() {
         );
     }
 
-    if (
-        serieQuery.isError ||
-        serieQuery.data?.error ||
-        latestSeriesQuery.isError ||
-        latestSeriesQuery.data?.error
-    ) {
+    if (serieQuery.isError || serieQuery.data?.error || latestSeriesQuery.isError || latestSeriesQuery.data?.error) {
         return <Error404 />;
     }
     // #endregion

@@ -185,19 +185,8 @@ export default function Genre(): React.JSX.Element {
                         pageCount={pageCountMovies}
                         onPageChange={handlePageChangeMovies}
                     />
-                    <Stack
-                        display="flex"
-                        flexDirection="row"
-                        alignItems="center"
-                        component="section"
-                        mt={4}
-                    >
-                        <Box
-                            display="flex"
-                            justifyContent="start"
-                            alignItems="center"
-                            sx={{ flexGrow: 1 }}
-                        >
+                    <Stack display="flex" flexDirection="row" alignItems="center" component="section" mt={4}>
+                        <Box display="flex" justifyContent="start" alignItems="center" sx={{ flexGrow: 1 }}>
                             <Typography
                                 sx={{
                                     fontSize: [16, 18, 20, 24, 26],

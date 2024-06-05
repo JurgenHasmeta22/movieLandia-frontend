@@ -88,10 +88,7 @@ const GenreAdmin = () => {
     return (
         <Box m="20px">
             <Breadcrumb breadcrumbs={breadcrumbs} navigateTo={"/admin/genres"} />
-            <HeaderDashboard
-                title={CONSTANTS.USER__EDIT__TITLE}
-                subtitle={CONSTANTS.USER__EDIT__SUBTITLE}
-            />
+            <HeaderDashboard title={CONSTANTS.USER__EDIT__TITLE} subtitle={CONSTANTS.USER__EDIT__SUBTITLE} />
             <FormAdvanced
                 initialValues={{
                     id: genre?.id,
@@ -139,9 +136,7 @@ const GenreAdmin = () => {
                                     {
                                         label: CONSTANTS.MODAL__DELETE__YES,
                                         onClick: async () => {
-                                            const response = await genreService.deleteGenre(
-                                                genre?.id!,
-                                            );
+                                            const response = await genreService.deleteGenre(genre?.id!);
 
                                             if (response) {
                                                 toast.success(CONSTANTS.DELETE__SUCCESS);

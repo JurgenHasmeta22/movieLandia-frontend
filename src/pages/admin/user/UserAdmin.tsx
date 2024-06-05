@@ -92,10 +92,7 @@ const UserAdmin = () => {
     return (
         <Box m="20px">
             <Breadcrumb breadcrumbs={breadcrumbs} navigateTo={"/admin/users"} />
-            <HeaderDashboard
-                title={CONSTANTS.USER__EDIT__TITLE}
-                subtitle={CONSTANTS.USER__EDIT__SUBTITLE}
-            />
+            <HeaderDashboard title={CONSTANTS.USER__EDIT__TITLE} subtitle={CONSTANTS.USER__EDIT__SUBTITLE} />
             <FormAdvanced
                 initialValues={{
                     id: user?.id,
@@ -152,9 +149,7 @@ const UserAdmin = () => {
                                         onClick: async () => {
                                             setOpen(false);
 
-                                            const response = await userService.deleteUser(
-                                                user?.id!,
-                                            );
+                                            const response = await userService.deleteUser(user?.id!);
 
                                             if (response) {
                                                 toast.success(CONSTANTS.DELETE__SUCCESS);

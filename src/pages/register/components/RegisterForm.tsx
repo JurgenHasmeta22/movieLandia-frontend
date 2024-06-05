@@ -1,13 +1,5 @@
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import {
-    Box,
-    Button,
-    FormLabel,
-    IconButton,
-    InputAdornment,
-    TextField,
-    Typography,
-} from "@mui/material";
+import { Box, Button, FormLabel, IconButton, InputAdornment, TextField, Typography } from "@mui/material";
 import { Form, Formik } from "formik";
 import { Link } from "react-router-dom";
 import * as yup from "yup";
@@ -180,12 +172,8 @@ export default function RegisterForm({
                                     size="small"
                                     InputLabelProps={{ color: "secondary" }}
                                     // @ts-ignore
-                                    helperText={
-                                        touched["confirmPassword"] && errors["confirmPassword"]
-                                    }
-                                    error={
-                                        touched["confirmPassword"] && !!errors["confirmPassword"]
-                                    }
+                                    helperText={touched["confirmPassword"] && errors["confirmPassword"]}
+                                    error={touched["confirmPassword"] && !!errors["confirmPassword"]}
                                 />
                             </Box>
                             <Button

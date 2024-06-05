@@ -66,11 +66,7 @@ const TopBar = () => {
                 </Box>
                 <Box display={"flex"} flexDirection={"row"}>
                     <IconButton onClick={colorMode.toggleColorMode}>
-                        {theme.palette.mode === "dark" ? (
-                            <DarkModeOutlinedIcon />
-                        ) : (
-                            <LightModeOutlinedIcon />
-                        )}
+                        {theme.palette.mode === "dark" ? <DarkModeOutlinedIcon /> : <LightModeOutlinedIcon />}
                     </IconButton>
                     <IconButton
                         id="buttonProfile"
@@ -81,7 +77,8 @@ const TopBar = () => {
                         sx={{ display: "flex", flexDirection: "row", gap: "10px" }}
                     >
                         <PersonOutlinedIcon color="action" fontSize="medium" />
-                        <Typography component={"span"}
+                        <Typography
+                            component={"span"}
                             style={{
                                 fontSize: 16,
                             }}
@@ -98,10 +95,7 @@ const TopBar = () => {
                             "aria-labelledby": "buttonProfile",
                         }}
                     >
-                        <MenuItem
-                            onClick={handleRedirectToProfile}
-                            style={{ color: colors.primary[100] }}
-                        >
+                        <MenuItem onClick={handleRedirectToProfile} style={{ color: colors.primary[100] }}>
                             My profile
                         </MenuItem>
                         {/* <MenuItem>

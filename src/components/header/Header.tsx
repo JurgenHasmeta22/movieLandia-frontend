@@ -175,19 +175,11 @@ const Header = (): React.JSX.Element => {
                                             style={({ isActive, isTransitioning }) => {
                                                 return {
                                                     fontWeight: isActive ? "bold" : "",
-                                                    color: isActive
-                                                        ? colors.greenAccent[500]
-                                                        : colors.primary[100],
-                                                    viewTransitionName: isTransitioning
-                                                        ? "slide"
-                                                        : "",
+                                                    color: isActive ? colors.greenAccent[500] : colors.primary[100],
+                                                    viewTransitionName: isTransitioning ? "slide" : "",
                                                     fontSize: "16px",
-                                                    textDecorationLine: isActive
-                                                        ? "underline"
-                                                        : "none",
-                                                    textDecorationColor: isActive
-                                                        ? colors.greenAccent[500]
-                                                        : "",
+                                                    textDecorationLine: isActive ? "underline" : "none",
+                                                    textDecorationColor: isActive ? colors.greenAccent[500] : "",
                                                     textDecorationThickness: "2px",
                                                     textUnderlineOffset: "4px",
                                                     cursor: "pointer",
@@ -215,19 +207,11 @@ const Header = (): React.JSX.Element => {
                                             style={({ isActive, isTransitioning }) => {
                                                 return {
                                                     fontWeight: isActive ? "bold" : "",
-                                                    color: isActive
-                                                        ? colors.greenAccent[500]
-                                                        : colors.primary[100],
-                                                    viewTransitionName: isTransitioning
-                                                        ? "slide"
-                                                        : "",
+                                                    color: isActive ? colors.greenAccent[500] : colors.primary[100],
+                                                    viewTransitionName: isTransitioning ? "slide" : "",
                                                     fontSize: "16px",
-                                                    textDecorationLine: isActive
-                                                        ? "underline"
-                                                        : "none",
-                                                    textDecorationColor: isActive
-                                                        ? colors.greenAccent[500]
-                                                        : "",
+                                                    textDecorationLine: isActive ? "underline" : "none",
+                                                    textDecorationColor: isActive ? colors.greenAccent[500] : "",
                                                     textDecorationThickness: "2px",
                                                     textUnderlineOffset: "4px",
                                                     cursor: "pointer",
@@ -275,9 +259,7 @@ const Header = (): React.JSX.Element => {
                                                         },
                                                     }}
                                                 >
-                                                    <Typography component={"span"}>
-                                                        {genre.name}
-                                                    </Typography>
+                                                    <Typography component={"span"}>{genre.name}</Typography>
                                                 </Box>
                                             ))}
                                         </Menu>
@@ -287,20 +269,12 @@ const Header = (): React.JSX.Element => {
                                             style={({ isActive, isTransitioning }) => {
                                                 return {
                                                     fontWeight: isActive ? "bold" : "",
-                                                    color: isActive
-                                                        ? colors.greenAccent[500]
-                                                        : colors.primary[100],
-                                                    viewTransitionName: isTransitioning
-                                                        ? "slide"
-                                                        : "",
+                                                    color: isActive ? colors.greenAccent[500] : colors.primary[100],
+                                                    viewTransitionName: isTransitioning ? "slide" : "",
                                                     textDecoration: "none",
                                                     fontSize: "16px",
-                                                    textDecorationLine: isActive
-                                                        ? "underline"
-                                                        : "none",
-                                                    textDecorationColor: isActive
-                                                        ? colors.greenAccent[500]
-                                                        : "",
+                                                    textDecorationLine: isActive ? "underline" : "none",
+                                                    textDecorationColor: isActive ? colors.greenAccent[500] : "",
                                                     textDecorationThickness: "2px",
                                                     textUnderlineOffset: "4px",
                                                     cursor: "pointer",
@@ -373,13 +347,9 @@ const Header = (): React.JSX.Element => {
                                     <Box width={"223px"} display={"flex"} justifyContent={"center"}>
                                         <IconButton
                                             id="buttonProfile"
-                                            aria-controls={
-                                                Boolean(anchorElProfile) ? "menuProfile" : undefined
-                                            }
+                                            aria-controls={Boolean(anchorElProfile) ? "menuProfile" : undefined}
                                             aria-haspopup="true"
-                                            aria-expanded={
-                                                Boolean(anchorElProfile) ? "true" : undefined
-                                            }
+                                            aria-expanded={Boolean(anchorElProfile) ? "true" : undefined}
                                             onClick={openMenuProfile}
                                             sx={{
                                                 display: "flex",
@@ -412,10 +382,7 @@ const Header = (): React.JSX.Element => {
                                             >
                                                 My Profile
                                             </MenuItem>
-                                            <MenuItem
-                                                onClick={handleLogout}
-                                                style={{ color: colors.primary[100] }}
-                                            >
+                                            <MenuItem onClick={handleLogout} style={{ color: colors.primary[100] }}>
                                                 Log Out
                                             </MenuItem>
                                         </Menu>

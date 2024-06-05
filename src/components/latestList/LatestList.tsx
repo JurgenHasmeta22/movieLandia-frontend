@@ -33,9 +33,7 @@ export function LatestList({ data, type }: ILatestList) {
                 marginTop={3}
                 mb={4}
             >
-                {data?.map((latestMovie: IMovie) => (
-                    <CardItem data={latestMovie} key={latestMovie.id} />
-                ))}
+                {data?.map((latestMovie: IMovie) => <CardItem data={latestMovie} key={latestMovie.id} />)}
             </Stack>
         </Box>
     );

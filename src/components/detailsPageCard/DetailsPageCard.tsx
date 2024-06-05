@@ -65,23 +65,14 @@ export function DetailsPageCard({
                         backgroundColor: `${colors.primary[400]}`,
                     }}
                 >
-                    <img
-                        src={data.photoSrc}
-                        alt={data.title}
-                        style={{ width: 220, height: "auto" }}
-                    />
+                    <img src={data.photoSrc} alt={data.title} style={{ width: 220, height: "auto" }} />
                     <Box
                         sx={{
                             display: "flex",
                             flexDirection: "column",
                         }}
                     >
-                        <Typography
-                            fontSize={24}
-                            color={"secondary"}
-                            textAlign={"center"}
-                            component={"h1"}
-                        >
+                        <Typography fontSize={24} color={"secondary"} textAlign={"center"} component={"h1"}>
                             {data.title}
                         </Typography>
                         <List
@@ -109,9 +100,7 @@ export function DetailsPageCard({
                                                 fontSize: 15,
                                             }}
                                         >
-                                            <Typography component={"span"}>
-                                                {genre.genre.name}
-                                            </Typography>
+                                            <Typography component={"span"}>{genre.genre.name}</Typography>
                                         </Link>
                                     </ListItem>
                                     {index < data.genres!.length - 1 && (
@@ -217,11 +206,7 @@ export function DetailsPageCard({
                                 </Box>
                             </ListItem>
                         </List>
-                        <Typography
-                            textAlign={"center"}
-                            color={"secondary"}
-                            width={["40ch", "60ch", "70ch", "80ch"]}
-                        >
+                        <Typography textAlign={"center"} color={"secondary"} width={["40ch", "60ch", "70ch", "80ch"]}>
                             {data.description}
                         </Typography>
                         <Button
@@ -258,17 +243,13 @@ export function DetailsPageCard({
                                         if (!isMovieBookmarked) {
                                             onBookmarkMovie ? await onBookmarkMovie() : {};
                                         } else {
-                                            onRemoveBookmarkMovie
-                                                ? await onRemoveBookmarkMovie()
-                                                : {};
+                                            onRemoveBookmarkMovie ? await onRemoveBookmarkMovie() : {};
                                         }
                                     } else {
                                         if (!isSerieBookmarked) {
                                             onBookmarkSerie ? await onBookmarkSerie() : {};
                                         } else {
-                                            onRemoveBookmarkSerie
-                                                ? await onRemoveBookmarkSerie()
-                                                : {};
+                                            onRemoveBookmarkSerie ? await onRemoveBookmarkSerie() : {};
                                         }
                                     }
                                 }}
@@ -296,9 +277,7 @@ export function DetailsPageCard({
                                     color="primary"
                                     fontWeight={700}
                                 >
-                                    {isMovieBookmarked || isSerieBookmarked
-                                        ? "Bookmarked"
-                                        : "Bookmark"}
+                                    {isMovieBookmarked || isSerieBookmarked ? "Bookmarked" : "Bookmark"}
                                 </Typography>
                             </Button>
                         )}

@@ -95,10 +95,7 @@ const SerieAdmin = () => {
     return (
         <Box m="20px">
             <Breadcrumb breadcrumbs={breadcrumbs} navigateTo={"/admin/series"} />
-            <HeaderDashboard
-                title={CONSTANTS.USER__EDIT__TITLE}
-                subtitle={CONSTANTS.USER__EDIT__SUBTITLE}
-            />
+            <HeaderDashboard title={CONSTANTS.USER__EDIT__TITLE} subtitle={CONSTANTS.USER__EDIT__SUBTITLE} />
             <FormAdvanced
                 initialValues={{
                     id: serie?.id,
@@ -167,9 +164,7 @@ const SerieAdmin = () => {
                                     {
                                         label: CONSTANTS.MODAL__DELETE__YES,
                                         onClick: async () => {
-                                            const response = await serieService.deleteSerie(
-                                                serie?.id!,
-                                            );
+                                            const response = await serieService.deleteSerie(serie?.id!);
 
                                             if (response) {
                                                 toast.success(CONSTANTS.DELETE__SUCCESS);

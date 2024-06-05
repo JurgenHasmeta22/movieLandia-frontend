@@ -53,4 +53,4 @@ export function TextEditorForm({
     );
 }
 
-export default TextEditorForm
+export default TextEditorForm;
