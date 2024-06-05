@@ -77,27 +77,34 @@ export default function Serie() {
     });
     const serie: ISerie = serieQuery?.data! ?? null;
 
-    const seriesQuery = useQuery({
-        queryKey: ["series"],
-        queryFn: () => serieService.getSeries({}),
+    const latestSeriesQuery = useQuery({
+        queryKey: ["latestSeries"],
+        queryFn: () => serieService.getLatestSeries(),
     });
-    const series: ISerie[] = seriesQuery?.data?.rows ?? [];
+    const latestSeries: ISerie[] = latestSeriesQuery?.data! ?? [];
 
-    const isSerieBookmarkedQuery = useQuery({
-        queryKey: ["isSerieBookmarked", params?.title!],
-        queryFn: () => serieService.isSerieBookmared(params?.title!, user?.id),
-        refetchOnMount: "always",
-        refetchOnWindowFocus: "always",
-    });
-    const isSerieBookmarked: boolean = isSerieBookmarkedQuery?.data?.isBookmarked! ?? false;
+    let isSerieBookmarkedQuery: any;
+    let isSerieBookmarked: boolean = false;
+    let isSerieReviewedQuery: any;
+    let isSerieReviewed: boolean = false;
 
-    const isSerieReviewedQuery = useQuery({
-        queryKey: ["isSerieReviewed", params?.title!],
-        queryFn: () => serieService.isSerieReviewed(params?.title!, user?.id),
-        refetchOnMount: "always",
-        refetchOnWindowFocus: "always",
-    });
-    const isSerieReviewed: boolean = isSerieReviewedQuery?.data?.isReviewed! ?? false;
+    if (user) {
+        isSerieBookmarkedQuery = useQuery({
+            queryKey: ["isSerieBookmarked", params?.title!],
+            queryFn: () => serieService.isSerieBookmared(params?.title!, user?.id),
+            refetchOnMount: "always",
+            refetchOnWindowFocus: "always",
+        });
+        isSerieBookmarked = isSerieBookmarkedQuery?.data?.isBookmarked! ?? false;
+
+        isSerieReviewedQuery = useQuery({
+            queryKey: ["isSerieReviewed", params?.title!],
+            queryFn: () => serieService.isSerieReviewed(params?.title!, user?.id),
+            refetchOnMount: "always",
+            refetchOnWindowFocus: "always",
+        });
+        isSerieReviewed = isSerieReviewedQuery?.data?.isReviewed! ?? false;
+    }
 
     const refetchSerieDetailsAndBookmarkStatus = async () => {
         await Promise.all([
@@ -351,7 +358,7 @@ export default function Serie() {
     // #endregion
 
     // #region "Errors query checking"
-    if (serieQuery.isLoading || seriesQuery.isLoading) {
+    if (serieQuery.isLoading || latestSeriesQuery.isLoading) {
         return (
             <Box
                 sx={{
@@ -369,9 +376,8 @@ export default function Serie() {
     if (
         serieQuery.isError ||
         serieQuery.data?.error ||
-        seriesQuery.isError ||
-        seriesQuery.data?.error ||
-        isSerieBookmarkedQuery.isError
+        latestSeriesQuery.isError ||
+        latestSeriesQuery.data?.error
     ) {
         return <Error404 />;
     }
@@ -453,7 +459,7 @@ export default function Serie() {
                             />
                         )}
                     </Box>
-                    <LatestListDetail data={series} type="Series" />
+                    <LatestListDetail data={latestSeries} type="Series" />
                 </Stack>
             </Container>
         </>

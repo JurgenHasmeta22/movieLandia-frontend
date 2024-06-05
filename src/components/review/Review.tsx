@@ -106,7 +106,7 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
         let isMovieReviewUpvotedOrDownvotedQuery: any;
         let isSerieReviewUpvotedOrDownvotedQuery: any;
 
-        if (type === "movie") {
+        if (type === "movie" && user) {
             isMovieReviewUpvotedOrDownvotedQuery = useQuery({
                 queryKey: ["isMovieReviewUpvotedOrDownvoted", data, review],
                 queryFn: () =>
@@ -114,7 +114,7 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
                 refetchOnMount: "always",
                 refetchOnWindowFocus: "always",
             });
-        } else if (type === "serie") {
+        } else if (type === "serie" && user) {
             isSerieReviewUpvotedOrDownvotedQuery = useQuery({
                 queryKey: ["isSerieReviewUpvotedOrDownvoted", data, review],
                 queryFn: () =>
