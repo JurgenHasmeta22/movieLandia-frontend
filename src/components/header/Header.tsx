@@ -333,7 +333,7 @@ const Header = (): React.JSX.Element => {
                                             navigate(`/search?term=${value}`);
                                             window.scrollTo(0, 0);
                                         } else {
-                                            navigate("/movies");
+                                            navigate("/search");
                                             window.scrollTo(0, 0);
                                         }
                                     }}
@@ -351,7 +351,7 @@ const Header = (): React.JSX.Element => {
                                                     sx={{ cursor: "pointer" }}
                                                     onClick={() => {
                                                         if (searchParams.get("term")) {
-                                                            navigate("/movies");
+                                                            navigate("/search");
                                                             window.scrollTo(0, 0);
                                                         }
                                                     }}
