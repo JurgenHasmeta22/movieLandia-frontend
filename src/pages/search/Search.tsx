@@ -17,12 +17,25 @@ export function Search() {
     const term = searchParams.get("term");
     const pageMovies = searchParams.get("pageMovies") || 1;
     const pageSeries = searchParams.get("pageSeries") || 1;
+    const moviesSortBy = searchParams.get("moviesSortBy");
+    const moviesAscOrDesc = searchParams.get("moviesAscOrDesc");
+    const seriesSortBy = searchParams.get("seriesSortBy");
+    const seriesAscOrDesc = searchParams.get("seriesAscOrDesc");
 
     async function searchMoviesByTitle() {
         let response;
+        const queryParams: any = { pageMovies };
+
+        if (moviesSortBy) {
+            queryParams.sortBy = moviesSortBy;
+        }
+
+        if (moviesAscOrDesc) {
+            queryParams.ascOrDesc = moviesAscOrDesc;
+        }
 
         if (term) {
-            response = await movieService.searchMoviesByTitle(term, String(pageMovies));
+            response = await movieService.searchMoviesByTitle(term, queryParams);
         }
 
         return response;
@@ -30,23 +43,32 @@ export function Search() {
 
     async function searchSeriesByTitle() {
         let response;
+        const queryParams: any = { pageSeries };
+
+        if (seriesSortBy) {
+            queryParams.sortBy = seriesSortBy;
+        }
+
+        if (seriesAscOrDesc) {
+            queryParams.ascOrDesc = seriesAscOrDesc;
+        }
 
         if (term) {
-            response = await serieService.searchSeriesByTitle(term, String(pageSeries));
+            response = await serieService.searchSeriesByTitle(term, queryParams);
         }
 
         return response;
     }
 
     const moviesQuery = useQuery({
-        queryKey: ["movies", term, pageMovies],
+        queryKey: ["movies", term, pageMovies, moviesSortBy, moviesAscOrDesc],
         queryFn: () => searchMoviesByTitle(),
     });
     const movies: IMovie[] = moviesQuery.data?.movies! ?? [];
     const moviesCount: number = moviesQuery.data?.count! ?? 0;
 
     const seriesQuery = useQuery({
-        queryKey: ["series", term, pageSeries],
+        queryKey: ["series", term, pageSeries, seriesSortBy, seriesAscOrDesc],
         queryFn: () => searchSeriesByTitle(),
     });
     const series: ISerie[] = seriesQuery.data?.series! ?? [];
@@ -127,8 +149,8 @@ export function Search() {
                                 }}
                             >
                                 <SortSelect
-                                    sortBy={searchParams.get("moviesSortBy")}
-                                    ascOrDesc={searchParams.get("moviesAscOrDesc")}
+                                    sortBy={moviesSortBy}
+                                    ascOrDesc={moviesAscOrDesc}
                                     onChange={(event) => handleChangeSorting("movies", event)}
                                     type="list"
                                 />
@@ -143,7 +165,7 @@ export function Search() {
                                 rowGap={8}
                                 columnGap={4}
                                 sx={{
-                                    marginTop: `${searchParams.get("search") ? 2.5 : 0.2}rem`,
+                                    marginTop: `${term} ? 2.5 : 0.2}rem`,
                                 }}
                             >
                                 {movies.map((movie: IMovie) => (
@@ -192,8 +214,8 @@ export function Search() {
                                 }}
                             >
                                 <SortSelect
-                                    sortBy={searchParams.get("seriesSortBy")}
-                                    ascOrDesc={searchParams.get("seriesAscOrDesc")}
+                                    sortBy={seriesSortBy}
+                                    ascOrDesc={seriesAscOrDesc}
                                     onChange={(event) => handleChangeSorting("series", event)}
                                     type="list"
                                 />
@@ -208,7 +230,7 @@ export function Search() {
                                 rowGap={8}
                                 columnGap={4}
                                 sx={{
-                                    marginTop: `${searchParams.get("search") ? 2.5 : 0.2}rem`,
+                                    marginTop: `${term} ? 2.5 : 0.2}rem`,
                                 }}
                             >
                                 {series.map((serie: ISerie) => (

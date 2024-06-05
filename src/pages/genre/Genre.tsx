@@ -27,10 +27,6 @@ export default function Genre(): React.JSX.Element {
     const fetchMoviesByGenre = async () => {
         const queryParams: any = { pageMovies };
 
-        if (pageMovies) {
-            queryParams.page = pageMovies;
-        }
-
         if (moviesSortBy) {
             queryParams.sortBy = moviesSortBy;
         }
@@ -45,10 +41,6 @@ export default function Genre(): React.JSX.Element {
 
     const fetchSeriesByGenre = async () => {
         const queryParams: any = { pageSeries };
-
-        if (pageSeries) {
-            queryParams.page = pageSeries;
-        }
 
         if (seriesSortBy) {
             queryParams.sortBy = seriesSortBy;

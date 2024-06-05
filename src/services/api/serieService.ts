@@ -121,11 +121,19 @@ const serieService = {
             return { error };
         }
     },
-    searchSeriesByTitle: async (title: string, page?: string): Promise<any> => {
+    searchSeriesByTitle: async (title: string, { sortBy, ascOrDesc, page }: any): Promise<any> => {
         let url = `${api.url}/searchSeriesByTitle?title=${title}`;
 
         if (page) {
             url += `&page=${page}`;
+        }
+
+        if (sortBy) {
+            url += `&sortBy=${sortBy}`;
+        }
+
+        if (ascOrDesc) {
+            url += `&ascOrDesc=${ascOrDesc}`;
         }
 
         try {

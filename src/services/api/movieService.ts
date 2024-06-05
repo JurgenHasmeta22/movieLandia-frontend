@@ -57,11 +57,19 @@ const movieService = {
             return { error };
         }
     },
-    searchMoviesByTitle: async (title: string, page?: string): Promise<any> => {
+    searchMoviesByTitle: async (title: string, { sortBy, ascOrDesc, page }: any): Promise<any> => {
         let url = `${api.url}/searchMoviesByTitle?title=${title}`;
 
         if (page) {
             url += `&page=${page}`;
+        }
+
+        if (sortBy) {
+            url += `&sortBy=${sortBy}`;
+        }
+
+        if (ascOrDesc) {
+            url += `&ascOrDesc=${ascOrDesc}`;
         }
 
         try {
