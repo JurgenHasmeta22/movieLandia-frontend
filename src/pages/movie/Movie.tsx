@@ -74,11 +74,13 @@ export default function Movie() {
         refetchOnMount: "always",
         refetchOnWindowFocus: "always",
     });
+    const movie: IMovie = movieQuery?.data! ?? null;
 
     const latestMoviesQuery = useQuery({
         queryKey: ["latestMovies"],
         queryFn: () => movieService.getLatestMovies(),
     });
+    const latestMovies: IMovie[] = latestMoviesQuery?.data! ?? [];
 
     const isMovieBookmarkedQuery = useQuery({
         queryKey: ["isMovieBookmarked", params?.title!],
@@ -86,6 +88,7 @@ export default function Movie() {
         refetchOnMount: "always",
         refetchOnWindowFocus: "always",
     });
+    const isMovieBookmarked: boolean = isMovieBookmarkedQuery?.data?.isBookmarked! ?? false;
 
     const isMovieReviewedQuery = useQuery({
         queryKey: ["isMovieReviewed", params?.title!],
@@ -93,23 +96,8 @@ export default function Movie() {
         refetchOnMount: "always",
         refetchOnWindowFocus: "always",
     });
-
-    const movie: IMovie = movieQuery?.data! ?? null;
-    const latestMovies: IMovie[] = latestMoviesQuery?.data! ?? [];
-    const isMovieBookmarked: boolean = isMovieBookmarkedQuery?.data?.isBookmarked! ?? false;
     const isMovieReviewed: boolean = isMovieReviewedQuery?.data?.isReviewed! ?? false;
-    // #endregion
 
-    // #region "Pagination"
-    const pageCount = Math.ceil(movie?.totalReviews! / 5);
-
-    const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
-        searchParams.set("page", String(value));
-        setSearchParams(searchParams);
-    };
-    // #endregion
-
-    // #region "Handlers functions"
     const refetchMovieDetailsAndBookmarkStatus = async () => {
         await Promise.all([
             movieQuery.refetch(),
@@ -117,6 +105,17 @@ export default function Movie() {
             isMovieReviewedQuery.refetch(),
         ]);
     };
+    // #endregion
+
+    // #region "Pagination"
+    const pageCount = Math.ceil(movie?.totalReviews! / 5);
+    const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
+        searchParams.set("page", String(value));
+        setSearchParams(searchParams);
+    };
+    // #endregion
+
+    // #region "Handlers functions"
 
     // #region "Bookmarks"
     async function onBookmarkMovie() {

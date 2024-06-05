@@ -11,6 +11,7 @@ import IMovie from "~/types/IMovie";
 import ISerie from "~/types/ISerie";
 
 export function Search() {
+    // #region "State, hooks, searchParams"
     const [searchParams, setSearchParams] = useSearchParams();
     const handleChangeSorting = useSorting();
 
@@ -21,7 +22,9 @@ export function Search() {
     const moviesAscOrDesc = searchParams.get("moviesAscOrDesc");
     const seriesSortBy = searchParams.get("seriesSortBy");
     const seriesAscOrDesc = searchParams.get("seriesAscOrDesc");
+    // #endregion
 
+    // #region "Data fetching"
     async function searchMoviesByTitle() {
         let response;
         const queryParams: any = { page: pageMovies };
@@ -77,7 +80,9 @@ export function Search() {
     });
     const series: ISerie[] = seriesQuery.data?.series! ?? [];
     const seriesCount: number = seriesQuery.data?.count! ?? 0;
+    // #endregion
 
+    // #region "Pagination"
     const pageCountMovies = Math.ceil(moviesCount / 10);
     const handlePageChangeMovies = (event: React.ChangeEvent<unknown>, value: number) => {
         searchParams.set("pageMovies", String(value));
@@ -89,7 +94,9 @@ export function Search() {
         searchParams.set("pageSeries", String(value));
         setSearchParams(searchParams);
     };
+    // #endregion
 
+    // #region "Fetching State"
     if (moviesQuery.isLoading || seriesQuery.isLoading) {
         return (
             <Box
@@ -119,6 +126,7 @@ export function Search() {
             </Box>
         );
     }
+    // #endregion
 
     return (
         <Container>

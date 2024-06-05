@@ -19,6 +19,7 @@ const sectionVariants = {
 };
 
 export default function Home() {
+    // #region "Data fetching"
     const moviesQuery = useQuery({
         queryKey: ["movies"],
         queryFn: () => movieService.getMovies({}),
@@ -45,7 +46,9 @@ export default function Home() {
     const genres: IGenre[] = genresQuery.data?.rows! ?? [];
     const shuffledGenres: IGenre[] = genres.sort(() => Math.random() - 0.5);
     const finalGenres: IGenre[] = shuffledGenres.slice(0, 5);
+    // #endregion
 
+    // #region "Refs, animation"
     const [moviesRef, moviesInView] = useInView({ triggerOnce: true });
     const moviesControls = useAnimation();
 
@@ -72,7 +75,9 @@ export default function Home() {
             genresControls.start("visible");
         }
     }, [genresInView, genresControls]);
+    // #endregion
 
+    // #region "Checking fetching state"
     if (moviesQuery.isLoading || seriesQuery.isLoading || genresQuery.isLoading) {
         return (
             <Box
@@ -102,6 +107,7 @@ export default function Home() {
             </Box>
         );
     }
+    // #endregion
 
     return (
         <>

@@ -61,7 +61,6 @@ export default function Serie() {
     // #endregion
 
     // #region "Data fetching and queries"
-
     const serieQuery = useQuery({
         queryKey: [
             "serie",
@@ -76,11 +75,13 @@ export default function Serie() {
         refetchOnMount: "always",
         refetchOnWindowFocus: "always",
     });
+    const serie: ISerie = serieQuery?.data! ?? null;
 
     const seriesQuery = useQuery({
         queryKey: ["series"],
         queryFn: () => serieService.getSeries({}),
     });
+    const series: ISerie[] = seriesQuery?.data?.rows ?? [];
 
     const isSerieBookmarkedQuery = useQuery({
         queryKey: ["isSerieBookmarked", params?.title!],
@@ -88,6 +89,7 @@ export default function Serie() {
         refetchOnMount: "always",
         refetchOnWindowFocus: "always",
     });
+    const isSerieBookmarked: boolean = isSerieBookmarkedQuery?.data?.isBookmarked! ?? false;
 
     const isSerieReviewedQuery = useQuery({
         queryKey: ["isSerieReviewed", params?.title!],
@@ -95,23 +97,8 @@ export default function Serie() {
         refetchOnMount: "always",
         refetchOnWindowFocus: "always",
     });
-
-    const serie: ISerie = serieQuery?.data! ?? null;
-    const series: ISerie[] = seriesQuery?.data?.rows ?? [];
-    const isSerieBookmarked: boolean = isSerieBookmarkedQuery?.data?.isBookmarked! ?? false;
     const isSerieReviewed: boolean = isSerieReviewedQuery?.data?.isReviewed! ?? false;
-    // #endregion
 
-    // #region "Pagination"
-    const pageCount = Math.ceil(serie?.totalReviews! / 5);
-
-    const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
-        searchParams.set("page", String(value));
-        setSearchParams(searchParams);
-    };
-    // #endregion
-
-    // #region "Handlers functions"
     const refetchSerieDetailsAndBookmarkStatus = async () => {
         await Promise.all([
             serieQuery.refetch(),
@@ -119,6 +106,17 @@ export default function Serie() {
             isSerieReviewedQuery.refetch(),
         ]);
     };
+    // #endregion
+
+    // #region "Pagination"
+    const pageCount = Math.ceil(serie?.totalReviews! / 5);
+    const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
+        searchParams.set("page", String(value));
+        setSearchParams(searchParams);
+    };
+    // #endregion
+
+    // #region "Handlers functions"
 
     // #region "Bookmark"
     async function onBookmarkSerie() {
