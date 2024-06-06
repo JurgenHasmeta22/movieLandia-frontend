@@ -411,7 +411,7 @@ export default function Serie() {
                             />
                         )}
                     </Box>
-                    <LatestListDetail data={latestSeries} type="Series" />
+                    <LatestListDetail data={latestSeries} type="serie" />
                 </Stack>
             </Container>
         </>

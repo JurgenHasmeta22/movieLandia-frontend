@@ -413,7 +413,7 @@ export default function Movie() {
                             />
                         )}
                     </Box>
-                    <LatestListDetail data={latestMovies} type="Movies" />
+                    <LatestListDetail data={latestMovies} type="movie" />
                 </Stack>
             </Container>
         </>
