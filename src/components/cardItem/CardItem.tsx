@@ -142,7 +142,7 @@ const CardItem = ({ data, type }: ICardItemProps): React.JSX.Element => {
                                     }}
                                 />
                                 <Typography color={"gold"} fontSize={12} component="span" sx={{ ml: 0.5 }}>
-                                    {data.duration} min
+                                    {data.duration}
                                 </Typography>
                             </Box>
                         )}

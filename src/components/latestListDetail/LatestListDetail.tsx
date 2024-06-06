@@ -1,4 +1,4 @@
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, Divider, Stack, Typography } from "@mui/material";
 import CardItem from "../cardItem/CardItem";
 
 interface ILatestList {
@@ -12,14 +12,23 @@ export function LatestListDetail({ data, type }: ILatestList) {
             sx={{
                 display: "flex",
                 flexDirection: "column",
+                justifyContent: "flex-start",
                 rowGap: 2,
                 marginBottom: 2,
                 marginTop: 2,
             }}
             component={"section"}
         >
-            <Typography fontSize={28} color={"secondary"} textAlign={"center"}>
-                Latest {type}
+            <Typography
+                fontSize={28}
+                color={"secondary"}
+                ml={4}
+                // sx={{
+                //     borderBottom: "2px solid #fff",
+                //     width: "20%",
+                // }}
+            >
+                Latest {type === "movie" ? "Movies" : "Series"}
             </Typography>
             <Stack
                 direction="row"
@@ -31,8 +40,8 @@ export function LatestListDetail({ data, type }: ILatestList) {
                 mt={1}
                 mb={4}
             >
-                {data.slice(5, 10).map((latestSerie: any, index: number) => (
-                    <CardItem data={latestSerie} key={index} type={"serie"} />
+                {data.slice(5, 10).map((item: any, index: number) => (
+                    <CardItem data={item} key={index} type={type} />
                 ))}
             </Stack>
         </Box>
