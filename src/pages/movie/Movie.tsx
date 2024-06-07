@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import type IMovie from "~/types/IMovie";
 import movieService from "~/services/api/movieService";
-import { Box, CircularProgress, Container, Stack } from "@mui/material";
+import { Box, CircularProgress, Container, Divider, Stack, useTheme } from "@mui/material";
 import SEOHelmet from "~/components/seoHelmet/SEOHelmet";
 import { toast } from "react-toastify";
 import { useQuery } from "@tanstack/react-query";
@@ -16,6 +16,7 @@ import PaginationControl from "~/components/paginationControl/PaginationControl"
 import TextEditorForm from "~/components/textEditorForm/TextEditorForm";
 import LatestListDetail from "~/components/latestListDetail/LatestListDetail";
 import Reviews from "~/components/reviews/Reviews";
+import { tokens } from "~/utils/theme";
 
 export default function Movie() {
     // #region "State, refs, hooks, theme"
@@ -57,6 +58,9 @@ export default function Movie() {
         sortBy,
         ascOrDesc,
     });
+    
+    const theme = useTheme();
+    const colors = tokens(theme.palette.mode);
     // #endregion
 
     // #region "Data fetching and queries"
@@ -412,6 +416,7 @@ export default function Movie() {
                             />
                         )}
                     </Box>
+                    <Divider sx={{ borderBottomWidth: 3, background: colors.greenAccent[500] }} />
                     <LatestListDetail data={latestMovies} type="movie" />
                 </Stack>
             </Container>

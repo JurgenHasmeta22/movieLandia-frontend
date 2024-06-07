@@ -1,6 +1,6 @@
 import movieService from "~/services/api/movieService";
 import type IMovie from "~/types/IMovie";
-import { Box, CircularProgress, Container, Stack, Typography } from "@mui/material";
+import { Box, CircularProgress, Container, Divider, Stack, Typography, useTheme } from "@mui/material";
 import { getRandomElements } from "~/utils/utils";
 import SEOHelmet from "~/components/seoHelmet/SEOHelmet";
 import Carousel from "~/components/carousel/Carousel";
@@ -10,9 +10,12 @@ import SortSelect from "~/components/sortSelect/SortSelect";
 import { useListPageData } from "~/hooks/useListPageData";
 import PaginationControl from "~/components/paginationControl/PaginationControl";
 import LatestList from "~/components/latestList/LatestList";
+import { tokens } from "~/utils/theme";
 
 export default function Movies() {
     const { searchParams, setSearchParams, page, handleChangeSorting } = useListPageData();
+    const theme = useTheme();
+    const colors = tokens(theme.palette.mode);
     const sortBy = searchParams.get("moviesSortBy");
     const ascOrDesc = searchParams.get("moviesAscOrDesc");
 
@@ -153,6 +156,7 @@ export default function Movies() {
                             onPageChange={handlePageChange}
                         />
                     </Box>
+                    <Divider sx={{ borderBottomWidth: 3, background: colors.greenAccent[500] }} />
                     <LatestList data={latestMovies} type="Movies" />
                 </Box>
             </Container>

@@ -1,5 +1,5 @@
 import type ISerie from "~/types/ISerie";
-import { Box, CircularProgress, Container, Stack, Typography } from "@mui/material";
+import { Box, CircularProgress, Container, Divider, Stack, Typography, useTheme } from "@mui/material";
 import SEOHelmet from "~/components/seoHelmet/SEOHelmet";
 import { getRandomElements } from "~/utils/utils";
 import Carousel from "~/components/carousel/Carousel";
@@ -10,9 +10,12 @@ import { useListPageData } from "~/hooks/useListPageData";
 import PaginationControl from "~/components/paginationControl/PaginationControl";
 import serieService from "~/services/api/serieService";
 import LatestList from "~/components/latestList/LatestList";
+import { tokens } from "~/utils/theme";
 
 export default function Series() {
     const { searchParams, setSearchParams, handleChangeSorting, page } = useListPageData();
+    const theme = useTheme();
+    const colors = tokens(theme.palette.mode);
     const sortBy = searchParams.get("seriesSortBy");
     const ascOrDesc = searchParams.get("seriesAscOrDesc");
 
@@ -149,6 +152,7 @@ export default function Series() {
                             onPageChange={handlePageChange}
                         />
                     </Box>
+                    <Divider sx={{ borderBottomWidth: 3, background: colors.greenAccent[500] }} />
                     <LatestList data={latestSeries} type="Series" />
                 </Box>
             </Container>

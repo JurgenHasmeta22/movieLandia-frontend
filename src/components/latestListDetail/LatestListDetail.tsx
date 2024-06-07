@@ -55,7 +55,7 @@ export function LatestListDetail({ data, type }: ILatestList) {
                 mb={4}
             >
                 {/* <Slider {...settings}> */}
-                    {data.map((item: any, index: number) => (
+                    {data.slice(0, 5).map((item: any, index: number) => (
                         <CardItem data={item} key={index} type={type} />
                     ))}
                 {/* </Slider> */}
