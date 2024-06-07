@@ -152,6 +152,17 @@ const movieService = {
             return { error };
         }
     },
+    getRelatedMovies: async (movieTitle: string): Promise<any> => {
+        try {
+            const latestMovies: IMovie[] = await axios
+                .get(`${api.url}/getRelatedMovies?title=${movieTitle}`)
+                .then((x) => x.data);
+
+            return latestMovies;
+        } catch (error) {
+            return { error };
+        }
+    },
     updateMovie: async (payload: IMoviePatch, id: number): Promise<any> => {
         let url = `${api.url}/updateMovieById/${id}`;
 
