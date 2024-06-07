@@ -1,6 +1,6 @@
 import type ISerie from "~/types/ISerie";
 import serieService from "~/services/api/serieService";
-import { Box, CircularProgress, Container, Stack } from "@mui/material";
+import { Box, CircularProgress, Container, Divider, Stack, useTheme } from "@mui/material";
 import SEOHelmet from "~/components/seoHelmet/SEOHelmet";
 import { toast } from "react-toastify";
 import { useQuery } from "@tanstack/react-query";
@@ -17,6 +17,7 @@ import PaginationControl from "~/components/paginationControl/PaginationControl"
 import TextEditorForm from "~/components/textEditorForm/TextEditorForm";
 import Reviews from "~/components/reviews/Reviews";
 import LatestListDetail from "~/components/latestListDetail/LatestListDetail";
+import { tokens } from "~/utils/theme";
 
 export default function Serie() {
     // #region "State, refs, hooks, theme"
@@ -58,6 +59,9 @@ export default function Serie() {
         sortBy,
         ascOrDesc,
     });
+
+    const theme = useTheme();
+    const colors = tokens(theme.palette.mode);
     // #endregion
 
     // #region "Data fetching and queries"
@@ -410,6 +414,7 @@ export default function Serie() {
                             />
                         )}
                     </Box>
+                    <Divider sx={{ borderBottomWidth: 3, background: colors.greenAccent[500] }} />
                     <LatestListDetail data={latestSeries} type="serie" />
                 </Stack>
             </Container>
