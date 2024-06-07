@@ -25,24 +25,21 @@ export default function Home() {
         queryFn: () => movieService.getMovies({}),
     });
     const movies: IMovie[] = moviesQuery.data?.movies! ?? [];
-    const shuffledMovies: IMovie[] = movies.sort(() => Math.random() - 0.5);
-    const finalMovies: IMovie[] = shuffledMovies.slice(0, 5);
+    const finalMovies: IMovie[] = movies.slice(0, 5);
 
     const seriesQuery = useQuery({
         queryKey: ["series"],
         queryFn: () => serieService.getSeries({}),
     });
     const series: ISerie[] = seriesQuery.data?.rows! ?? [];
-    const shuffledSeries: ISerie[] = series.sort(() => Math.random() - 0.5);
-    const finalSeries: ISerie[] = shuffledSeries.slice(0, 5);
+    const finalSeries: ISerie[] = series.slice(0, 5);
 
     const genresQuery = useQuery({
         queryKey: ["genres"],
         queryFn: () => genreService.getGenres({}),
     });
     const genres: IGenre[] = genresQuery.data?.rows! ?? [];
-    const shuffledGenres: IGenre[] = genres.sort(() => Math.random() - 0.5);
-    const finalGenres: IGenre[] = shuffledGenres.slice(0, 5);
+    const finalGenres: IGenre[] = genres.slice(0, 5);
     // #endregion
 
     // #region "Refs, animation"
