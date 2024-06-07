@@ -16,8 +16,8 @@ import { useDetailsPageFetching } from "~/hooks/useDetailsPageFetching";
 import PaginationControl from "~/components/paginationControl/PaginationControl";
 import TextEditorForm from "~/components/textEditorForm/TextEditorForm";
 import Reviews from "~/components/reviews/Reviews";
-import LatestListDetail from "~/components/latestListDetail/LatestListDetail";
 import { tokens } from "~/utils/theme";
+import ListDetail from "~/components/listDetail/ListDetail";
 
 export default function Serie() {
     // #region "State, refs, hooks, theme"
@@ -75,8 +75,16 @@ export default function Serie() {
     const latestSeriesQuery = useQuery({
         queryKey: ["latestSeries"],
         queryFn: () => serieService.getLatestSeries(),
+        refetchOnMount: "always",
     });
     const latestSeries: ISerie[] = latestSeriesQuery?.data! ?? [];
+
+    const relatedSeriesQuery = useQuery({
+        queryKey: ["relatedSeries"],
+        queryFn: () => serieService.getRelatedSeries(params.title!),
+        refetchOnMount: "always",
+    });
+    const relatedSeries: ISerie[] = relatedSeriesQuery?.data! ?? [];
 
     const refetchSerieDetails = async () => {
         await serieQuery.refetch();
@@ -415,7 +423,9 @@ export default function Serie() {
                         )}
                     </Box>
                     <Divider sx={{ borderBottomWidth: 3, background: colors.greenAccent[500] }} />
-                    <LatestListDetail data={latestSeries} type="serie" />
+                    <ListDetail data={latestSeries} type="serie" role="latest" />
+                    <Divider sx={{ borderBottomWidth: 3, background: colors.greenAccent[500] }} />
+                    <ListDetail data={relatedSeries} type="serie" role="related" />
                 </Stack>
             </Container>
         </>

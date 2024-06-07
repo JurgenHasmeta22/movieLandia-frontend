@@ -14,9 +14,9 @@ import { useDetailsPageData } from "~/hooks/useDetailsPageData";
 import { useDetailsPageFetching } from "~/hooks/useDetailsPageFetching";
 import PaginationControl from "~/components/paginationControl/PaginationControl";
 import TextEditorForm from "~/components/textEditorForm/TextEditorForm";
-import LatestListDetail from "~/components/latestListDetail/LatestListDetail";
 import Reviews from "~/components/reviews/Reviews";
 import { tokens } from "~/utils/theme";
+import ListDetail from "~/components/listDetail/ListDetail";
 
 export default function Movie() {
     // #region "State, refs, hooks, theme"
@@ -58,7 +58,7 @@ export default function Movie() {
         sortBy,
         ascOrDesc,
     });
-    
+
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     // #endregion
@@ -76,6 +76,13 @@ export default function Movie() {
         queryFn: () => movieService.getLatestMovies(),
     });
     const latestMovies: IMovie[] = latestMoviesQuery?.data! ?? [];
+
+    const relatedMoviesQuery = useQuery({
+        queryKey: ["relatedMovies"],
+        queryFn: () => movieService.getRelatedMovies(params.title!),
+        refetchOnMount: "always",
+    });
+    const relatedMovies: IMovie[] = relatedMoviesQuery?.data! ?? [];
 
     const refetchMovieDetails = async () => {
         await movieQuery.refetch();
@@ -417,7 +424,9 @@ export default function Movie() {
                         )}
                     </Box>
                     <Divider sx={{ borderBottomWidth: 3, background: colors.greenAccent[500] }} />
-                    <LatestListDetail data={latestMovies} type="movie" />
+                    <ListDetail data={latestMovies} type="movie" role="latest" />
+                    <Divider sx={{ borderBottomWidth: 3, background: colors.greenAccent[500] }} />
+                    <ListDetail data={relatedMovies} type="movie" role="related" />
                 </Stack>
             </Container>
         </>

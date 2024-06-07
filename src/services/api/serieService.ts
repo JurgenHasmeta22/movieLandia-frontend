@@ -155,6 +155,16 @@ const serieService = {
             return { error };
         }
     },
+    getRelatedSeries: async (serieTitle: string): Promise<any> => {
+        try {
+            const latestSeries: ISerie[] = await axios
+                .get(`${api.url}/getRelatedSeries?title=${serieTitle}`)
+                .then((x) => x.data);
+            return latestSeries;
+        } catch (error) {
+            return { error };
+        }
+    },
     updateSerie: async (payload: ISeriePatch, id: number): Promise<any> => {
         let url = `${api.url}/updateSerieById/${id}`;
 
