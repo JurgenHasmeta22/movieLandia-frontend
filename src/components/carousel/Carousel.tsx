@@ -17,16 +17,17 @@ interface ICarouselProps {
 
 const CustomNextArrow = (props: any) => {
     const { onClick } = props;
+
     return (
         <IconButton
             onClick={onClick}
             sx={{
                 position: "absolute",
                 top: "50%",
-                right: "-45px", // Position outside the image
+                right: "-25px",
                 zIndex: 1,
                 transform: "translateY(-50%)",
-                fontSize: "1.5rem",
+                fontSize: "1.3rem",
             }}
         >
             <NavigateNextIcon fontSize="inherit" />
@@ -42,10 +43,10 @@ const CustomPrevArrow = (props: any) => {
             sx={{
                 position: "absolute",
                 top: "50%",
-                left: "-45px", // Position outside the image
+                left: "-25px",
                 zIndex: 1,
                 transform: "translateY(-50%)",
-                fontSize: "1.5rem",
+                fontSize: "1.3rem",
             }}
         >
             <NavigateBeforeIcon fontSize="inherit" />
@@ -64,7 +65,7 @@ const Carousel = ({ data, type }: ICarouselProps) => {
         slidesToShow: isMobile ? 1 : isTablet ? 2 : 3,
         slidesToScroll: 1,
         autoplay: true,
-        autoplaySpeed: 3000,
+        autoplaySpeed: 2000,
         nextArrow: <CustomNextArrow />,
         prevArrow: <CustomPrevArrow />,
     };
@@ -84,7 +85,7 @@ const Carousel = ({ data, type }: ICarouselProps) => {
                             position: "relative",
                             px: 2,
                             "&:hover img": {
-                                filter: "blur(3px)",
+                                filter: "blur(2px) opacity(0.7)",
                             },
                             "&:hover .carousel-content": {
                                 display: "flex",
@@ -98,7 +99,7 @@ const Carousel = ({ data, type }: ICarouselProps) => {
                             alt={`Slide ${index}`}
                             style={{
                                 width: "100%",
-                                height: isMobile ? "200px" : isTablet ? "300px" : "400px",
+                                height: isMobile ? "250px" : isTablet ? "330px" : "400px",
                                 objectFit: "cover",
                             }}
                         />
