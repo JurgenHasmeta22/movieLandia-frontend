@@ -9,6 +9,7 @@ import SortSelect from "~/components/sortSelect/SortSelect";
 import { useListPageData } from "~/hooks/useListPageData";
 import PaginationControl from "~/components/paginationControl/PaginationControl";
 import serieService from "~/services/api/serieService";
+import LatestList from "~/components/latestList/LatestList";
 
 export default function Series() {
     const { searchParams, setSearchParams, handleChangeSorting, page } = useListPageData();
@@ -34,10 +35,15 @@ export default function Series() {
         queryKey: ["series", sortBy, ascOrDesc, page],
         queryFn: () => fetchSeries(),
     });
-
     const series: ISerie[] = seriesQuery.data?.rows! ?? [];
     const seriesCount: number = seriesQuery.data?.count! ?? 0;
     const seriesCarouselImages = getRandomElements(series, 5);
+
+    const latestSeriesQuery = useQuery({
+        queryKey: ["latestSeries"],
+        queryFn: () => serieService.getLatestSeries(),
+    });
+    const latestSeries: ISerie[] = latestSeriesQuery.data! ?? [];
 
     const pageCount = Math.ceil(seriesCount / 10);
     const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
@@ -67,7 +73,7 @@ export default function Series() {
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
-                    height: "200vh",
+                    height: "100vh",
                 }}
             >
                 <Typography variant="h1">An Error occurred the server is down!</Typography>
@@ -143,6 +149,7 @@ export default function Series() {
                             onPageChange={handlePageChange}
                         />
                     </Box>
+                    <LatestList data={latestSeries} type="Series" />
                 </Box>
             </Container>
         </>

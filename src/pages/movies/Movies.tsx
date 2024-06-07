@@ -35,14 +35,13 @@ export default function Movies() {
         queryKey: ["movies", sortBy, ascOrDesc, page],
         queryFn: () => fetchMovies(),
     });
+    const movies: IMovie[] = moviesQuery.data?.movies! ?? [];
+    const moviesCount: number = moviesQuery.data?.count! ?? 0;
 
     const latestMoviesQuery = useQuery({
         queryKey: ["latestMovies"],
         queryFn: () => movieService.getLatestMovies(),
     });
-
-    const movies: IMovie[] = moviesQuery.data?.movies! ?? [];
-    const moviesCount: number = moviesQuery.data?.count! ?? 0;
     const latestMovies: IMovie[] = latestMoviesQuery.data! ?? [];
     const moviesCarouselImages = getRandomElements(movies, 5);
 
@@ -74,7 +73,7 @@ export default function Movies() {
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
-                    height: "200vh",
+                    height: "100vh",
                 }}
             >
                 <Typography variant="h1">An Error occurred the server is down!</Typography>
