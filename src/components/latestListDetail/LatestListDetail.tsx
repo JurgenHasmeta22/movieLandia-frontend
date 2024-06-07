@@ -1,5 +1,6 @@
-import { Box, Divider, Stack, Typography } from "@mui/material";
+import { Box, Divider, Stack, Typography, useMediaQuery } from "@mui/material";
 import CardItem from "../cardItem/CardItem";
+import Slider from "react-slick";
 
 interface ILatestList {
     data: any;
@@ -7,6 +8,19 @@ interface ILatestList {
 }
 
 export function LatestListDetail({ data, type }: ILatestList) {
+    const isMobile = useMediaQuery("(max-width:600px)");
+    const isTablet = useMediaQuery("(max-width:960px)");
+
+    const settings = {
+        dots: false,
+        infinite: true,
+        speed: 500,
+        slidesToScroll: 1,
+        slidesToShow: isMobile ? 2 : isTablet ? 3 : 5,
+        autoplay: true,
+        autoplaySpeed: 2000,
+    };
+
     return (
         <Box
             sx={{
@@ -40,9 +54,11 @@ export function LatestListDetail({ data, type }: ILatestList) {
                 mt={1}
                 mb={4}
             >
-                {data.slice(5, 10).map((item: any, index: number) => (
-                    <CardItem data={item} key={index} type={type} />
-                ))}
+                {/* <Slider {...settings}> */}
+                    {data.map((item: any, index: number) => (
+                        <CardItem data={item} key={index} type={type} />
+                    ))}
+                {/* </Slider> */}
             </Stack>
         </Box>
     );
