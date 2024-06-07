@@ -18,8 +18,8 @@ export function LatestList({ data, type }: ILatestList) {
                 marginBottom: 4,
             }}
         >
-            <Box sx={{ display: "flex", placeContent: "center" }}>
-                <Typography fontSize={22} color={"secondary"} variant="h2">
+            <Box sx={{ display: "flex", placeContent: "flex-start" }}>
+                <Typography fontSize={28} color={"secondary"} variant="h2">
                     Latest {type}
                 </Typography>
             </Box>
@@ -33,7 +33,11 @@ export function LatestList({ data, type }: ILatestList) {
                 marginTop={3}
                 mb={4}
             >
-                {data?.map((latestMovie: IMovie) => <CardItem data={latestMovie} key={latestMovie.id} />)}
+                {data
+                    ?.slice(0, 5)
+                    .map((item: any) => (
+                        <CardItem data={item} key={item.id} type={`${type === "Movies" ? "movie" : "serie"}`} />
+                    ))}
             </Stack>
         </Box>
     );

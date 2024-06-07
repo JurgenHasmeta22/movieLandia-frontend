@@ -236,31 +236,38 @@ const Header = (): React.JSX.Element => {
                                                     display: "grid",
                                                     height: "auto",
                                                     width: "auto",
-                                                    gridTemplateColumns: "1fr 1fr 1fr 1fr 1fr",
-                                                    padding: 2,
+                                                    gridTemplateColumns: "1fr 1fr 1fr 1fr",
+                                                    padding: 3,
                                                 },
                                             }}
                                         >
                                             {genres.map((genre) => (
-                                                <Box
-                                                    key={genre.id}
-                                                    onClick={() => {
-                                                        closeMenuGenres();
-                                                        navigate(`/genres/${genre.name}`);
-                                                        window.scrollTo(0, 0);
-                                                    }}
-                                                    sx={{
-                                                        cursor: "pointer",
-                                                        padding: 1.5,
-                                                        textAlign: "center",
-                                                        transition: "background-color 0.5s",
-                                                        "&:hover": {
-                                                            backgroundColor: "rgba(0, 0, 0, 0.08)",
-                                                        },
+                                                <Link
+                                                    to={`/genres/${genre.name}`}
+                                                    style={{
+                                                        textDecoration: "none",
+                                                        color: colors.greenAccent[500],
                                                     }}
                                                 >
-                                                    <Typography component={"span"}>{genre.name}</Typography>
-                                                </Box>
+                                                    <Box
+                                                        key={genre.id}
+                                                        onClick={() => {
+                                                            closeMenuGenres();
+                                                            window.scrollTo(0, 0);
+                                                        }}
+                                                        sx={{
+                                                            cursor: "pointer",
+                                                            padding: 1.5,
+                                                            textAlign: "center",
+                                                            transition: "background-color 0.5s",
+                                                            "&:hover": {
+                                                                backgroundColor: "rgba(0, 0, 0, 0.08)",
+                                                            },
+                                                        }}
+                                                    >
+                                                        <Typography component={"span"}>{genre.name}</Typography>
+                                                    </Box>
+                                                </Link>
                                             ))}
                                         </Menu>
                                     </ListItem>
@@ -389,53 +396,66 @@ const Header = (): React.JSX.Element => {
                                     </Box>
                                 ) : (
                                     <Box display={"flex"} flexDirection={"row"} columnGap={1}>
-                                        <Button
-                                            color="secondary"
-                                            variant="outlined"
-                                            onClick={function () {
-                                                navigate("/login");
-                                                window.scrollTo(0, 0);
-                                            }}
-                                            sx={{
-                                                display: "flex",
-                                                flexDirection: "row",
-                                                columnGap: 1,
-                                                px: 2,
-                                                py: 1,
+                                        <Link
+                                            to="/login"
+                                            style={{
+                                                textDecoration: "none",
                                             }}
                                         >
-                                            <LockOpenIcon />
-                                            <Typography
+                                            <Button
+                                                color="secondary"
+                                                variant="outlined"
+                                                onClick={function () {
+                                                    window.scrollTo(0, 0);
+                                                }}
                                                 sx={{
-                                                    textTransform: "capitalize",
+                                                    display: "flex",
+                                                    flexDirection: "row",
+                                                    columnGap: 1,
+                                                    px: 2,
+                                                    py: 1,
                                                 }}
                                             >
-                                                Sign In
-                                            </Typography>
-                                        </Button>
-                                        <Button
-                                            color="secondary"
-                                            variant="outlined"
-                                            sx={{
-                                                display: "flex",
-                                                flexDirection: "row",
-                                                columnGap: 1,
-                                                px: 2,
-                                                py: 1,
-                                            }}
-                                            onClick={function () {
-                                                navigate("/register");
+                                                <LockOpenIcon />
+                                                <Typography
+                                                    sx={{
+                                                        textTransform: "capitalize",
+                                                    }}
+                                                >
+                                                    Sign In
+                                                </Typography>
+                                            </Button>
+                                        </Link>
+                                        <Link
+                                            to="/register"
+                                            style={{
+                                                textDecoration: "none",
                                             }}
                                         >
-                                            <AppRegistrationIcon />
-                                            <Typography
+                                            <Button
+                                                color="secondary"
+                                                variant="outlined"
                                                 sx={{
-                                                    textTransform: "capitalize",
+                                                    display: "flex",
+                                                    flexDirection: "row",
+                                                    columnGap: 1,
+                                                    px: 2,
+                                                    py: 1,
+                                                }}
+                                                onClick={function () {
+                                                    window.scrollTo(0, 0);
                                                 }}
                                             >
-                                                Sign Up
-                                            </Typography>
-                                        </Button>
+                                                <AppRegistrationIcon />
+                                                <Typography
+                                                    sx={{
+                                                        textTransform: "capitalize",
+                                                    }}
+                                                >
+                                                    Sign Up
+                                                </Typography>
+                                            </Button>
+                                        </Link>
                                     </Box>
                                 )}
                             </Box>

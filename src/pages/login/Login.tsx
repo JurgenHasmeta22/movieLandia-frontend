@@ -39,7 +39,7 @@ export default function Login() {
             setItem(response.token);
             setUser(response.user);
             toast.success(CONSTANTS.LOGIN__SUCCESS);
-            navigate("/movies");
+            navigate(-1);
         } else {
             toast.error(CONSTANTS.LOGIN__FAILURE);
         }

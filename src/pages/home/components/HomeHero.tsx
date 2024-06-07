@@ -1,8 +1,9 @@
-import { Typography, Button, Box } from "@mui/material";
+import { Typography, Button, Box, useTheme } from "@mui/material";
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import LocalMoviesIcon from "@mui/icons-material/LocalMovies";
 import MovieIcon from "@mui/icons-material/Movie";
+import { tokens } from "~/utils/theme";
 
 const containerVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -28,6 +29,8 @@ const itemVariants = {
 
 const HomeHeroSection = () => {
     const navigate = useNavigate();
+    const theme = useTheme();
+    const colors = tokens(theme.palette.mode);
 
     return (
         <Box
@@ -92,38 +95,63 @@ const HomeHeroSection = () => {
                 </motion.div>
                 <motion.div variants={itemVariants} custom={3}>
                     <Box display="flex" justifyContent="center" marginTop={2} columnGap={3}>
-                        <Button
-                            variant="contained"
-                            color="secondary"
-                            size="large"
-                            sx={{
-                                textTransform: "capitalize",
-                            }}
-                            onClick={() => {
-                                navigate("/movies");
-                            }}
-                        >
-                            <MovieIcon fontSize={"large"} color="error" />
-                            <Typography component={"span"} paddingLeft={1}>
-                                Start Watching Movies
-                            </Typography>
-                        </Button>
-                        <Button
-                            variant="contained"
-                            color="secondary"
-                            size="large"
-                            sx={{
-                                textTransform: "capitalize",
-                            }}
-                            onClick={() => {
-                                navigate("/series");
-                            }}
-                        >
-                            <LocalMoviesIcon fontSize={"large"} color="error" />
-                            <Typography component={"span"} paddingLeft={1}>
-                                Start Watching Series
-                            </Typography>
-                        </Button>
+                        <Link to={"/movies"}>
+                            <Button
+                                variant="contained"
+                                size="large"
+                                color="secondary"
+                                sx={{
+                                    textTransform: "capitalize",
+                                }}
+                            >
+                                <MovieIcon
+                                    fontSize={"large"}
+                                    sx={{
+                                        color: colors.primary[900],
+                                    }}
+                                />
+                                <Typography
+                                    component={"span"}
+                                    paddingLeft={1}
+                                    fontWeight={800}
+                                    sx={{
+                                        color: colors.primary[900],
+                                    }}
+                                >
+                                    Start Watching Movies
+                                </Typography>
+                            </Button>
+                        </Link>
+                        <Link to={"/series"}>
+                            <Button
+                                variant="contained"
+                                color="secondary"
+                                size="large"
+                                sx={{
+                                    textTransform: "capitalize",
+                                }}
+                                onClick={() => {
+                                    navigate("/series");
+                                }}
+                            >
+                                <LocalMoviesIcon
+                                    fontSize={"large"}
+                                    sx={{
+                                        color: colors.primary[900],
+                                    }}
+                                />
+                                <Typography
+                                    component={"span"}
+                                    paddingLeft={1}
+                                    fontWeight={800}
+                                    sx={{
+                                        color: colors.primary[900],
+                                    }}
+                                >
+                                    Start Watching Series
+                                </Typography>
+                            </Button>
+                        </Link>
                     </Box>
                 </motion.div>
             </motion.div>
