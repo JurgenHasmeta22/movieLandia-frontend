@@ -74,7 +74,7 @@ const UserAdmin = () => {
     };
 
     async function getUser(): Promise<void> {
-        const response: IUser = await userService.getUserById(params.id);
+        const response: any = await userService.getUserById(params.id);
         setUser(response);
     }
 
