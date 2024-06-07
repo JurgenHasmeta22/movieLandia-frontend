@@ -1,4 +1,4 @@
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, Stack, Typography, useTheme } from "@mui/material";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import GenreItem from "~/components/genreItem/GenreItem";
@@ -6,6 +6,7 @@ import CardItem from "~/components/cardItem/CardItem";
 import IGenre from "~/types/IGenre";
 import IMovie from "~/types/IMovie";
 import ISerie from "~/types/ISerie";
+import { tokens } from "~/utils/theme";
 
 interface ListHomeSectionProps {
     data: IGenre[] | IMovie[] | ISerie[];
@@ -26,6 +27,9 @@ const ListHomeSection: React.FC<ListHomeSectionProps> = ({
     link,
     linkText,
 }) => {
+    const theme = useTheme();
+    const colors = tokens(theme.palette.mode);
+
     return (
         <motion.div
             ref={dataRef}
@@ -40,8 +44,9 @@ const ListHomeSection: React.FC<ListHomeSectionProps> = ({
                     <Typography
                         sx={{
                             fontWeight: 700,
-                            fontSize: 22,
+                            fontSize: 24,
                         }}
+                        color={"secondary"}
                     >
                         {type === "genre"
                             ? "Trending Genres"
@@ -55,8 +60,9 @@ const ListHomeSection: React.FC<ListHomeSectionProps> = ({
                         to={link}
                         style={{
                             textDecoration: "none",
-                            fontWeight: 700,
-                            fontSize: 22,
+                            fontWeight: 900,
+                            fontSize: 14,
+                            color: colors.greenAccent[500],
                         }}
                         onClick={() => {
                             window.scrollTo(0, 0);

@@ -82,7 +82,6 @@ export function DetailsPageCard({
                             placeItems: "center",
                         }}
                     >
-                        <MovieIcon fontSize="large" color="secondary" />
                         {data.genres?.map((genre: any, index: number) => (
                             <Box key={index}>
                                 <ListItem
@@ -95,11 +94,25 @@ export function DetailsPageCard({
                                         to={`/genres/${genre.genre.name}`}
                                         style={{
                                             textDecoration: "none",
-                                            color: colors.primary[200],
-                                            fontSize: 15,
                                         }}
                                     >
-                                        <Typography component={"span"}>{genre.genre.name}</Typography>
+                                        <Typography
+                                            component={"span"}
+                                            sx={{
+                                                backgroundColor: colors.greenAccent[500],
+                                                color: colors.primary[600],
+                                                borderRadius: "20px",
+                                                padding: "12px 14px",
+                                                fontWeight: "900",
+                                                cursor: "pointer",
+                                                fontSize: 12,
+                                                "&:hover": {
+                                                    backgroundColor: "#FFD700",
+                                                },
+                                            }}
+                                        >
+                                            {genre.genre.name}
+                                        </Typography>
                                     </Link>
                                 </ListItem>
                                 {index < data.genres!.length - 1 && (
@@ -121,7 +134,7 @@ export function DetailsPageCard({
                                     color: colors.greenAccent[500],
                                 }}
                             >
-                                <AccessTimeIcon fontSize="large" />
+                                <AccessTimeIcon fontSize="medium" />
                                 <Typography component={"span"} width={"8ch"} paddingLeft={1}>
                                     {/* @ts-ignore */}
                                     {data.duration}
@@ -133,7 +146,7 @@ export function DetailsPageCard({
                                 color: colors.greenAccent[500],
                             }}
                         >
-                            <CalendarMonthIcon fontSize="large" />
+                            <CalendarMonthIcon fontSize="medium" />
                             <Typography component={"span"} paddingLeft={1}>
                                 {data.releaseYear}
                             </Typography>
@@ -156,7 +169,7 @@ export function DetailsPageCard({
                                 <img
                                     src="/assets/icons/imdb.svg"
                                     alt="IMDb Icon"
-                                    style={{ width: "35px", height: "35px" }}
+                                    style={{ width: "25px", height: "25px" }}
                                 />
                                 <Typography color={"secondary"} fontSize={12} component="span">
                                     {data.ratingImdb !== 0 ? `${data.ratingImdb}` : "N/A"}

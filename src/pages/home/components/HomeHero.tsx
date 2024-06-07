@@ -60,17 +60,25 @@ const HomeHeroSection = () => {
             />
             <motion.div variants={containerVariants} initial="hidden" animate="visible">
                 <motion.div variants={itemVariants} custom={0}>
-                    <Typography variant="h1" fontSize={56} component={motion.h1} fontWeight={900} letterSpacing={2}>
+                    <Typography
+                        variant="h1"
+                        fontSize={60}
+                        component={motion.h1}
+                        fontWeight={900}
+                        letterSpacing={1}
+                        color={"secondary"}
+                    >
                         Dive into MovieLandia24
                     </Typography>
                 </motion.div>
                 <motion.div variants={itemVariants} custom={1}>
                     <Typography
-                        variant="h3"
+                        variant="h2"
                         textAlign={"center"}
-                        component={motion.h3}
+                        component={motion.h2}
                         fontWeight={800}
                         letterSpacing={0.5}
+                        color={"secondary"}
                     >
                         Your Gateway to the World of Cinema and Series!
                     </Typography>
