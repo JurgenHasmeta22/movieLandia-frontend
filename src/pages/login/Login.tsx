@@ -75,7 +75,7 @@ export default function Login() {
                         backgroundImage: "url('/assets/images/netflix.png')",
                         backgroundSize: "cover",
                         backgroundPosition: "center",
-                        filter: "blur(4px)",
+                        filter: "blur(2px) opacity(0.7)",
                         zIndex: -1,
                     }}
                 />
