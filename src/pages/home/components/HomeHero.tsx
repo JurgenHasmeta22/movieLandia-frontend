@@ -1,6 +1,8 @@
 import { Typography, Button, Box } from "@mui/material";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import LocalMoviesIcon from "@mui/icons-material/LocalMovies";
+import MovieIcon from "@mui/icons-material/Movie";
 
 const containerVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -33,7 +35,7 @@ const HomeHeroSection = () => {
             flexDirection="column"
             alignItems="center"
             justifyContent="center"
-            rowGap={1}
+            rowGap={0.5}
             component={"section"}
             sx={{
                 height: "100vh",
@@ -52,30 +54,36 @@ const HomeHeroSection = () => {
                     backgroundImage: "url('/assets/images/netflix.png')",
                     backgroundSize: "cover",
                     backgroundPosition: "center",
-                    filter: "blur(4px)",
+                    filter: "blur(2px) opacity(0.7)",
                     zIndex: -1,
                 }}
             />
             <motion.div variants={containerVariants} initial="hidden" animate="visible">
                 <motion.div variants={itemVariants} custom={0}>
-                    <Typography variant="h1" fontSize={56} component={motion.h1}>
+                    <Typography variant="h1" fontSize={56} component={motion.h1} fontWeight={900} letterSpacing={2}>
                         Dive into MovieLandia24
                     </Typography>
                 </motion.div>
                 <motion.div variants={itemVariants} custom={1}>
-                    <Typography variant="h3" textAlign={"center"} component={motion.h3}>
+                    <Typography
+                        variant="h3"
+                        textAlign={"center"}
+                        component={motion.h3}
+                        fontWeight={800}
+                        letterSpacing={0.5}
+                    >
                         Your Gateway to the World of Cinema and Series!
                     </Typography>
                 </motion.div>
                 <motion.div variants={itemVariants} custom={2}>
-                    <Box marginTop={3}>
-                        <Typography variant="body1" textAlign={"center"}>
+                    <Box marginTop={1}>
+                        <Typography variant="body1" textAlign={"center"} fontWeight={700} letterSpacing={0.5}>
                             Explore the latest blockbusters and timeless classics, all in stunning HD quality.
                         </Typography>
                     </Box>
                 </motion.div>
                 <motion.div variants={itemVariants} custom={3}>
-                    <Box display="flex" justifyContent="center" marginTop={3}>
+                    <Box display="flex" justifyContent="center" marginTop={2} columnGap={3}>
                         <Button
                             variant="contained"
                             color="secondary"
@@ -87,7 +95,26 @@ const HomeHeroSection = () => {
                                 navigate("/movies");
                             }}
                         >
-                            Start Your Journey
+                            <MovieIcon fontSize={"large"} color="error" />
+                            <Typography component={"span"} paddingLeft={1}>
+                                Start Watching Movies
+                            </Typography>
+                        </Button>
+                        <Button
+                            variant="contained"
+                            color="secondary"
+                            size="large"
+                            sx={{
+                                textTransform: "capitalize",
+                            }}
+                            onClick={() => {
+                                navigate("/series");
+                            }}
+                        >
+                            <LocalMoviesIcon fontSize={"large"} color="error" />
+                            <Typography component={"span"} paddingLeft={1}>
+                                Start Watching Series
+                            </Typography>
                         </Button>
                     </Box>
                 </motion.div>

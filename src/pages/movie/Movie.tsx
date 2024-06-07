@@ -64,7 +64,6 @@ export default function Movie() {
         queryKey: ["movie", params?.title!, sortBy, ascOrDesc, page, upvotesPageModal, downvotesPageModal],
         queryFn: () => fetchDetailData(),
         refetchOnMount: "always",
-        refetchOnWindowFocus: "always",
     });
     const movie: IMovie = movieQuery?.data! ?? null;
 

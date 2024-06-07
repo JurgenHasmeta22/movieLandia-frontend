@@ -65,7 +65,6 @@ export default function Serie() {
         queryKey: ["serie", params?.title!, sortBy, ascOrDesc, page, upvotesPageModal, downvotesPageModal],
         queryFn: () => fetchDetailData(),
         refetchOnMount: "always",
-        refetchOnWindowFocus: "always",
     });
     const serie: ISerie = serieQuery?.data! ?? null;
 

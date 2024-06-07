@@ -1,4 +1,4 @@
-import { Box, Stack } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import GenreItem from "~/components/genreItem/GenreItem";
@@ -36,20 +36,35 @@ const ListHomeSection: React.FC<ListHomeSectionProps> = ({
             style={{ position: "relative" }}
         >
             <Box display={"flex"} flexDirection={"column"} rowGap={3} component={"section"}>
-                <Link
-                    to={link}
-                    style={{
-                        textDecoration: "none",
-                        fontWeight: 600,
-                        fontSize: 18,
-                        marginLeft: 8,
-                    }}
-                    onClick={() => {
-                        window.scrollTo(0, 0);
-                    }}
-                >
-                    {linkText}
-                </Link>
+                <Stack flexDirection={"row"} justifyContent={"space-between"} alignItems={"center"} mr={1} ml={1}>
+                    <Typography
+                        sx={{
+                            fontWeight: 700,
+                            fontSize: 22,
+                        }}
+                    >
+                        {type === "genre"
+                            ? "Trending Genres"
+                            : type === "movie"
+                              ? "Trending Movies"
+                              : type === "serie"
+                                ? "Trending Series"
+                                : ""}
+                    </Typography>
+                    <Link
+                        to={link}
+                        style={{
+                            textDecoration: "none",
+                            fontWeight: 700,
+                            fontSize: 22,
+                        }}
+                        onClick={() => {
+                            window.scrollTo(0, 0);
+                        }}
+                    >
+                        {linkText}
+                    </Link>
+                </Stack>
                 <Stack
                     direction="row"
                     flexWrap="wrap"
