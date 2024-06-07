@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import type IMovie from "~/types/IMovie";
-import { Box, CircularProgress, Container, Stack, Typography } from "@mui/material";
+import { Box, CircularProgress, Container, Divider, Stack, Typography, useTheme } from "@mui/material";
 import genreService from "~/services/api/genreService";
 import SEOHelmet from "~/components/seoHelmet/SEOHelmet";
 import { useSorting } from "~/hooks/useSorting";
@@ -11,12 +11,15 @@ import Error404 from "../error/Error";
 import ISerie from "~/types/ISerie";
 import SortSelect from "~/components/sortSelect/SortSelect";
 import PaginationControl from "~/components/paginationControl/PaginationControl";
+import { tokens } from "~/utils/theme";
 
 export default function Genre(): React.JSX.Element {
     // #region "State, hooks, searchparams"
     const [searchParams, setSearchParams] = useSearchParams();
     const handleChangeSorting = useSorting();
     const params = useParams();
+    const theme = useTheme();
+    const colors = tokens(theme.palette.mode);
 
     const pageMovies = searchParams.get("pageMovies") || 1;
     const pageSeries = searchParams.get("pageSeries") || 1;
@@ -105,23 +108,6 @@ export default function Genre(): React.JSX.Element {
     if (moviesByGenreQuery.isError || moviesByGenreQuery.data.error) {
         return <Error404 />;
     }
-
-    if (moviesByGenre?.length === 0) {
-        return (
-            <Box
-                sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    height: "200vh",
-                }}
-            >
-                <Typography fontSize={40} color={"secondary"}>
-                    There are no movies with this genre
-                </Typography>
-            </Box>
-        );
-    }
     // #endregion
 
     return (
@@ -142,94 +128,137 @@ export default function Genre(): React.JSX.Element {
                         paddingTop: 4,
                     }}
                 >
-                    <Box display="flex" justifyContent="space-between" alignItems="center" mt={4}>
-                        <Typography
-                            sx={{
-                                fontSize: [16, 18, 20, 24, 26],
-                            }}
-                            color={"secondary"}
-                            variant="h2"
-                            textAlign={"center"}
-                        >
-                            {`Movies of genre ${params.name}`}
-                        </Typography>
-                        <Box
-                            sx={{
-                                display: "flex",
-                                justifyContent: "flex-end",
-                                alignItems: "center",
-                            }}
-                        >
-                            <SortSelect
-                                sortBy={searchParams.get("moviesSortBy")}
-                                ascOrDesc={searchParams.get("moviesAscOrDesc")}
-                                onChange={(event) => handleChangeSorting("movies", event)}
-                                type="list"
-                            />
-                        </Box>
-                    </Box>
-                    <Stack
-                        direction="row"
-                        flexWrap="wrap"
-                        justifyContent={"start"}
-                        alignContent={"center"}
-                        rowGap={8}
-                        columnGap={4}
-                    >
-                        {moviesByGenre.map((movie: IMovie, index: number) => (
-                            <CardItem data={movie} key={index} type="movie" />
-                        ))}
-                    </Stack>
-                    <PaginationControl
-                        currentPage={Number(pageMovies)!}
-                        pageCount={pageCountMovies}
-                        onPageChange={handlePageChangeMovies}
-                    />
-                    <Stack display="flex" flexDirection="row" alignItems="center" component="section" mt={4}>
-                        <Box display="flex" justifyContent="start" alignItems="center" sx={{ flexGrow: 1 }}>
-                            <Typography
-                                sx={{
-                                    fontSize: [16, 18, 20, 24, 26],
-                                }}
-                                color={"secondary"}
-                                variant="h2"
-                                textAlign={"center"}
+                    {moviesByGenre.length !== 0 ? (
+                        <>
+                            <Box display="flex" justifyContent="space-between" alignItems="center" mt={4}>
+                                <Typography
+                                    sx={{
+                                        fontSize: [16, 18, 20, 24, 26],
+                                    }}
+                                    color={"secondary"}
+                                    variant="h2"
+                                    textAlign={"center"}
+                                >
+                                    {`Movies of genre ${params.name}`}
+                                </Typography>
+                                <Box
+                                    sx={{
+                                        display: "flex",
+                                        justifyContent: "flex-end",
+                                        alignItems: "center",
+                                    }}
+                                >
+                                    <SortSelect
+                                        sortBy={searchParams.get("moviesSortBy")}
+                                        ascOrDesc={searchParams.get("moviesAscOrDesc")}
+                                        onChange={(event) => handleChangeSorting("movies", event)}
+                                        type="list"
+                                    />
+                                </Box>
+                            </Box>
+                            <Stack
+                                direction="row"
+                                flexWrap="wrap"
+                                justifyContent={"start"}
+                                alignContent={"center"}
+                                rowGap={8}
+                                columnGap={4}
                             >
-                                {`Series of genre ${params.name}`}
-                            </Typography>
-                        </Box>
-                        <Box
-                            sx={{
-                                display: "flex",
-                                justifyContent: "flex-end",
-                                alignItems: "center",
-                            }}
-                        >
-                            <SortSelect
-                                sortBy={searchParams.get("seriesSortBy")}
-                                ascOrDesc={searchParams.get("seriesAscOrDesc")}
-                                onChange={(event) => handleChangeSorting("series", event)}
-                                type="list"
+                                {moviesByGenre.map((movie: IMovie, index: number) => (
+                                    <CardItem data={movie} key={index} type="movie" />
+                                ))}
+                            </Stack>
+                            <PaginationControl
+                                currentPage={Number(pageMovies)!}
+                                pageCount={pageCountMovies}
+                                onPageChange={handlePageChangeMovies}
                             />
-                        </Box>
-                    </Stack>
-                    <Stack
-                        direction="row"
-                        flexWrap="wrap"
-                        justifyContent={"start"}
-                        alignContent={"center"}
-                        rowGap={8}
-                        columnGap={4}
-                    >
-                        {seriesByGenre.map((serie: ISerie, index: number) => (
-                            <CardItem data={serie} key={index} type="serie" />
-                        ))}
-                    </Stack>
-                    <PaginationControl
-                        currentPage={Number(pageSeries)!}
-                        pageCount={pageCountSeries}
-                        onPageChange={handlePageChangeSeries}
-                    />
+                            <Divider sx={{ borderBottomWidth: 3, background: colors.greenAccent[500] }} />
+                        </>
+                    ) : (
+                        <>
+                            <Box
+                                sx={{
+                                    height: "50vh",
+                                    display: "flex",
+                                    placeItems: "center",
+                                    placeContent: "center",
+                                }}
+                                component={"section"}
+                            >
+                                <Typography component={"h1"} fontSize={24} textAlign={"center"}>
+                                    No search result, no movie found with this genre.
+                                </Typography>
+                            </Box>
+                            <Divider sx={{ borderBottomWidth: 3, background: colors.greenAccent[500] }} />
+                        </>
+                    )}
+                    {moviesByGenre.length !== 0 ? (
+                        <>
+                            <Stack display="flex" flexDirection="row" alignItems="center" component="section" mt={4}>
+                                <Box display="flex" justifyContent="start" alignItems="center" sx={{ flexGrow: 1 }}>
+                                    <Typography
+                                        sx={{
+                                            fontSize: [16, 18, 20, 24, 26],
+                                        }}
+                                        color={"secondary"}
+                                        variant="h2"
+                                        textAlign={"center"}
+                                    >
+                                        {`Series of genre ${params.name}`}
+                                    </Typography>
+                                </Box>
+                                <Box
+                                    sx={{
+                                        display: "flex",
+                                        justifyContent: "flex-end",
+                                        alignItems: "center",
+                                    }}
+                                >
+                                    <SortSelect
+                                        sortBy={searchParams.get("seriesSortBy")}
+                                        ascOrDesc={searchParams.get("seriesAscOrDesc")}
+                                        onChange={(event) => handleChangeSorting("series", event)}
+                                        type="list"
+                                    />
+                                </Box>
+                            </Stack>
+                            <Stack
+                                direction="row"
+                                flexWrap="wrap"
+                                justifyContent={"start"}
+                                alignContent={"center"}
+                                rowGap={8}
+                                columnGap={4}
+                            >
+                                {seriesByGenre.map((serie: ISerie, index: number) => (
+                                    <CardItem data={serie} key={index} type="serie" />
+                                ))}
+                            </Stack>
+                            <PaginationControl
+                                currentPage={Number(pageSeries)!}
+                                pageCount={pageCountSeries}
+                                onPageChange={handlePageChangeSeries}
+                            />
+                        </>
+                    ) : (
+                        <>
+                            <Box
+                                sx={{
+                                    height: "50vh",
+                                    display: "flex",
+                                    placeItems: "center",
+                                    placeContent: "center",
+                                }}
+                                component={"section"}
+                            >
+                                <Typography component={"h1"} fontSize={24} textAlign={"center"}>
+                                    No search result, no serie found with this genre.
+                                </Typography>
+                            </Box>
+                            <Divider sx={{ borderBottomWidth: 3, background: colors.greenAccent[500] }} />
+                        </>
+                    )}
                 </Box>
             </Container>
         </>

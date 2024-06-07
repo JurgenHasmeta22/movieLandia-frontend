@@ -1,4 +1,4 @@
-import { Box, CircularProgress, Container, Stack, Typography } from "@mui/material";
+import { Box, CircularProgress, Container, Divider, Stack, Typography, useTheme } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "react-router-dom";
 import CardItem from "~/components/cardItem/CardItem";
@@ -9,11 +9,14 @@ import movieService from "~/services/api/movieService";
 import serieService from "~/services/api/serieService";
 import IMovie from "~/types/IMovie";
 import ISerie from "~/types/ISerie";
+import { tokens } from "~/utils/theme";
 
 export function Search() {
     // #region "State, hooks, searchParams"
     const [searchParams, setSearchParams] = useSearchParams();
     const handleChangeSorting = useSorting();
+    const theme = useTheme();
+    const colors = tokens(theme.palette.mode);
 
     const term = searchParams.get("term");
     const pageMovies = searchParams.get("pageMovies") || 1;
@@ -142,63 +145,69 @@ export function Search() {
                 component={"section"}
             >
                 {movies.length !== 0 ? (
-                    <Box display={"flex"} flexDirection={"column"} rowGap={3}>
-                        <Box ml={1} mt={4} display="flex" justifyContent="space-between" alignItems="center">
-                            <Typography fontSize={28} color="secondary" variant="h2">
-                                Movies
-                            </Typography>
-                            <Box
-                                sx={{
-                                    display: "flex",
-                                    justifyContent: "flex-end",
-                                    alignItems: "center",
-                                }}
-                            >
-                                <SortSelect
-                                    sortBy={moviesSortBy}
-                                    ascOrDesc={moviesAscOrDesc}
-                                    onChange={(event) => handleChangeSorting("movies", event)}
-                                    type="list"
+                    <>
+                        <Box display={"flex"} flexDirection={"column"} rowGap={3}>
+                            <Box ml={1} mt={4} display="flex" justifyContent="space-between" alignItems="center">
+                                <Typography fontSize={28} color="secondary" variant="h2">
+                                    Movies
+                                </Typography>
+                                <Box
+                                    sx={{
+                                        display: "flex",
+                                        justifyContent: "flex-end",
+                                        alignItems: "center",
+                                    }}
+                                >
+                                    <SortSelect
+                                        sortBy={moviesSortBy}
+                                        ascOrDesc={moviesAscOrDesc}
+                                        onChange={(event) => handleChangeSorting("movies", event)}
+                                        type="list"
+                                    />
+                                </Box>
+                            </Box>
+                            <Box>
+                                <Stack
+                                    direction="row"
+                                    flexWrap="wrap"
+                                    justifyContent={"flex-start"}
+                                    alignContent={"center"}
+                                    rowGap={8}
+                                    columnGap={4}
+                                    sx={{
+                                        marginTop: `${term} ? 2.5 : 0.2}rem`,
+                                    }}
+                                >
+                                    {movies.map((movie: IMovie) => (
+                                        <CardItem data={movie} type="movie" key={movie.id} />
+                                    ))}
+                                </Stack>
+                                <PaginationControl
+                                    currentPage={Number(pageMovies)!}
+                                    pageCount={pageCountMovies}
+                                    onPageChange={handlePageChangeMovies}
                                 />
                             </Box>
                         </Box>
-                        <Box>
-                            <Stack
-                                direction="row"
-                                flexWrap="wrap"
-                                justifyContent={"flex-start"}
-                                alignContent={"center"}
-                                rowGap={8}
-                                columnGap={4}
-                                sx={{
-                                    marginTop: `${term} ? 2.5 : 0.2}rem`,
-                                }}
-                            >
-                                {movies.map((movie: IMovie) => (
-                                    <CardItem data={movie} type="movie" key={movie.id} />
-                                ))}
-                            </Stack>
-                            <PaginationControl
-                                currentPage={Number(pageMovies)!}
-                                pageCount={pageCountMovies}
-                                onPageChange={handlePageChangeMovies}
-                            />
-                        </Box>
-                    </Box>
+                        <Divider sx={{ borderBottomWidth: 3, background: colors.greenAccent[500] }} />
+                    </>
                 ) : (
-                    <Box
-                        sx={{
-                            height: "50vh",
-                            display: "flex",
-                            placeItems: "center",
-                            placeContent: "center",
-                        }}
-                        component={"section"}
-                    >
-                        <Typography component={"h1"} fontSize={24} textAlign={"center"}>
-                            No Search Result, no movie found with that criteria.
-                        </Typography>
-                    </Box>
+                    <>
+                        <Box
+                            sx={{
+                                height: "50vh",
+                                display: "flex",
+                                placeItems: "center",
+                                placeContent: "center",
+                            }}
+                            component={"section"}
+                        >
+                            <Typography component={"h1"} fontSize={24} textAlign={"center"}>
+                                No search result, no movie found with that criteria.
+                            </Typography>
+                        </Box>
+                        <Divider sx={{ borderBottomWidth: 3, background: colors.greenAccent[500] }} />
+                    </>
                 )}
                 {series.length !== 0 ? (
                     <Box display={"flex"} flexDirection={"column"} rowGap={3}>
@@ -255,7 +264,7 @@ export function Search() {
                         component={"section"}
                     >
                         <Typography component={"h1"} fontSize={24} textAlign={"center"}>
-                            No Search Result, no serie found with that criteria.
+                            No search result, no serie found with that criteria.
                         </Typography>
                     </Box>
                 )}
