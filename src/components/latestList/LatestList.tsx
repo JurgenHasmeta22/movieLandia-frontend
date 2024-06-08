@@ -25,10 +25,10 @@ export function LatestList({ data, type }: ILatestList) {
             }}
         >
             <Box>
-                <Typography fontSize={28} color={"secondary"} variant="h2">
+                <Typography fontSize={28} variant="h2">
                     Latest {type}
                 </Typography>
-                <Divider sx={{ borderBottomWidth: 3, background: colors.greenAccent[500], mt: 1 }} />
+                <Divider sx={{ borderBottomWidth: 3, background: colors.primary[100], mt: 1 }} />
             </Box>
             <Stack
                 direction="row"
