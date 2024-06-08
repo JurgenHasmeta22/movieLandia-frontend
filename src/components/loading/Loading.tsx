@@ -1,7 +1,11 @@
-import { Box, CircularProgress } from "@mui/material";
+import { Box, CircularProgress, useTheme } from "@mui/material";
 import React from "react";
+import { tokens } from "~/utils/theme";
 
 const Loading: React.FC = () => {
+    const theme = useTheme();
+    const colors = tokens(theme.palette.mode);
+
     return (
         <Box
             sx={{
@@ -11,7 +15,13 @@ const Loading: React.FC = () => {
                 height: "100vh",
             }}
         >
-            <CircularProgress size={80} thickness={4} color="error" />
+            <CircularProgress
+                size={80}
+                thickness={4}
+                sx={{
+                    color: colors.primary[100],
+                }}
+            />
         </Box>
     );
 };
