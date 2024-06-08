@@ -194,7 +194,7 @@ export function DetailsPageCard({
                         href={data.trailerSrc}
                         target="_blank"
                         rel="noopener noreferrer"
-                        variant="contained"
+                        variant="text"
                         sx={{
                             display: "flex",
                             flexDirection: "row",
@@ -203,7 +203,6 @@ export function DetailsPageCard({
                             columnGap: 1,
                             marginTop: 3,
                             border: "none",
-                            backgroundColor: colors.greenAccent[800],
                             "&:hover": {
                                 backgroundColor: colors.primary[900],
                             },

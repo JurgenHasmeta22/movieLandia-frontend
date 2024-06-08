@@ -107,10 +107,10 @@ export default function Movies() {
                         component="section"
                     >
                         <Box ml={1}>
-                            <Typography fontSize={28} color="secondary" variant="h2">
+                            <Typography fontSize={28} variant="h2">
                                 Movies
                             </Typography>
-                            <Divider sx={{ borderBottomWidth: 3, background: colors.greenAccent[500], mt: 1 }} />
+                            <Divider sx={{ borderBottomWidth: 3, background: colors.primary[100], mt: 1 }} />
                         </Box>
                         <Box mr={1}>
                             <SortSelect
@@ -149,7 +149,7 @@ export default function Movies() {
                             onPageChange={handlePageChange}
                         />
                     </Box>
-                    <Divider sx={{ borderBottomWidth: 3, background: colors.greenAccent[500] }} />
+                    <Divider sx={{ borderBottomWidth: 3, background: colors.primary[100] }} />
                     <LatestList data={latestMovies} type="Movies" />
                 </Box>
             </Container>

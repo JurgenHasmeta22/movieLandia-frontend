@@ -1,5 +1,6 @@
 import React from "react";
-import { Stack, Pagination, Box } from "@mui/material";
+import { Stack, Pagination, Box, useTheme } from "@mui/material";
+import { tokens } from "~/utils/theme";
 
 interface IPaginationControl {
     pageCount: number;
@@ -8,6 +9,9 @@ interface IPaginationControl {
 }
 
 const PaginationControl: React.FC<IPaginationControl> = ({ pageCount, currentPage, onPageChange }) => {
+    const theme = useTheme();
+    const colors = tokens(theme.palette.mode);
+
     return (
         <Box>
             <Stack spacing={2} sx={{ display: "flex", placeItems: "center", marginTop: 2, marginBottom: 4 }}>
@@ -16,9 +20,12 @@ const PaginationControl: React.FC<IPaginationControl> = ({ pageCount, currentPag
                     size="large"
                     count={pageCount}
                     showFirstButton
+                    shape="rounded"
                     showLastButton
                     onChange={onPageChange}
-                    color="secondary"
+                    sx={{
+                        color: colors.primary[100],
+                    }}
                 />
             </Stack>
         </Box>
