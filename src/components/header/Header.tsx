@@ -403,7 +403,6 @@ const Header = (): React.JSX.Element => {
                                             }}
                                         >
                                             <Button
-                                                color="secondary"
                                                 variant="outlined"
                                                 onClick={function () {
                                                     window.scrollTo(0, 0);
@@ -414,6 +413,12 @@ const Header = (): React.JSX.Element => {
                                                     columnGap: 1,
                                                     px: 2,
                                                     py: 1,
+                                                    backgroundColor: colors.primary[100],
+                                                    color: colors.primary[900],
+                                                    "&:hover": {
+                                                        backgroundColor: colors.greenAccent[700],
+                                                        color: colors.grey[100],
+                                                    },
                                                 }}
                                             >
                                                 <LockOpenIcon />
@@ -433,7 +438,6 @@ const Header = (): React.JSX.Element => {
                                             }}
                                         >
                                             <Button
-                                                color="secondary"
                                                 variant="outlined"
                                                 sx={{
                                                     display: "flex",
@@ -441,6 +445,12 @@ const Header = (): React.JSX.Element => {
                                                     columnGap: 1,
                                                     px: 2,
                                                     py: 1,
+                                                    backgroundColor: colors.primary[100],
+                                                    color: colors.primary[900],
+                                                    "&:hover": {
+                                                        backgroundColor: colors.greenAccent[700],
+                                                        color: colors.grey[100],
+                                                    },
                                                 }}
                                                 onClick={function () {
                                                     window.scrollTo(0, 0);

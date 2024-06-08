@@ -71,7 +71,7 @@ export function DetailsPageCard({
                         flexDirection: "column",
                     }}
                 >
-                    <Typography fontSize={24} color={"secondary"} textAlign={"center"} component={"h1"}>
+                    <Typography fontSize={[20, 24, 28, 36]} textAlign={"center"} component={"h1"}>
                         {data.title}
                     </Typography>
                     <List
@@ -80,6 +80,7 @@ export function DetailsPageCard({
                             flexDirection: "row",
                             placeSelf: "center",
                             placeItems: "center",
+                            mt: 1,
                         }}
                     >
                         {data.genres?.map((genre: any, index: number) => (
@@ -102,7 +103,7 @@ export function DetailsPageCard({
                                                 cursor: "pointer",
                                                 fontSize: 12,
                                                 "&:hover": {
-                                                    backgroundColor: "#FFD700",
+                                                    backgroundColor: colors.greenAccent[500],
                                                 },
                                             }}
                                         >
@@ -203,6 +204,9 @@ export function DetailsPageCard({
                             marginTop: 3,
                             border: "none",
                             backgroundColor: colors.greenAccent[800],
+                            "&:hover": {
+                                backgroundColor: colors.primary[900],
+                            },
                         }}
                     >
                         <YouTubeIcon
