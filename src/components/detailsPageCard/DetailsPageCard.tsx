@@ -84,12 +84,7 @@ export function DetailsPageCard({
                     >
                         {data.genres?.map((genre: any, index: number) => (
                             <Box key={index}>
-                                <ListItem
-                                    sx={{
-                                        color: colors.greenAccent[500],
-                                    }}
-                                    key={index}
-                                >
+                                <ListItem key={index}>
                                     <Link
                                         to={`/genres/${genre.genre.name}`}
                                         style={{
@@ -99,8 +94,8 @@ export function DetailsPageCard({
                                         <Typography
                                             component={"span"}
                                             sx={{
-                                                backgroundColor: colors.greenAccent[500],
-                                                color: colors.primary[600],
+                                                backgroundColor: colors.primary[100],
+                                                color: colors.primary[900],
                                                 borderRadius: "20px",
                                                 padding: "12px 14px",
                                                 fontWeight: "900",
@@ -129,11 +124,7 @@ export function DetailsPageCard({
                         }}
                     >
                         {type === "movie" && (
-                            <ListItem
-                                sx={{
-                                    color: colors.greenAccent[500],
-                                }}
-                            >
+                            <ListItem>
                                 <AccessTimeIcon fontSize="medium" />
                                 <Typography component={"span"} width={"8ch"} paddingLeft={1}>
                                     {/* @ts-ignore */}
@@ -141,11 +132,7 @@ export function DetailsPageCard({
                                 </Typography>
                             </ListItem>
                         )}
-                        <ListItem
-                            sx={{
-                                color: colors.greenAccent[500],
-                            }}
-                        >
+                        <ListItem>
                             <CalendarMonthIcon fontSize="medium" />
                             <Typography component={"span"} paddingLeft={1}>
                                 {data.releaseYear}
@@ -153,7 +140,6 @@ export function DetailsPageCard({
                         </ListItem>
                         <ListItem
                             sx={{
-                                color: colors.greenAccent[500],
                                 display: "flex",
                                 flexDirection: "row",
                                 columnGap: 0.5,
@@ -171,7 +157,7 @@ export function DetailsPageCard({
                                     alt="IMDb Icon"
                                     style={{ width: "25px", height: "25px" }}
                                 />
-                                <Typography color={"secondary"} fontSize={12} component="span">
+                                <Typography fontSize={12} component="span">
                                     {data.ratingImdb !== 0 ? `${data.ratingImdb}` : "N/A"}
                                 </Typography>
                             </Box>
@@ -190,42 +176,23 @@ export function DetailsPageCard({
                                 alignItems={"center"}
                                 justifyContent={"start"}
                             >
-                                <StarRateIcon
-                                    sx={{
-                                        color: "primary",
-                                    }}
-                                />
-                                <Typography
-                                    color={"secondary"}
-                                    fontSize={16}
-                                    component="span"
-                                    sx={{
-                                        color: "primary",
-                                    }}
-                                >
+                                <StarRateIcon />
+                                <Typography fontSize={16} component="span">
                                     {data.averageRating === 0 ? "N/A" : data.averageRating}
                                 </Typography>
-                                <Typography
-                                    color={"secondary"}
-                                    fontSize={16}
-                                    component="span"
-                                    sx={{
-                                        color: "primary",
-                                    }}
-                                >
+                                <Typography fontSize={16} component="span">
                                     ({data.totalReviews})
                                 </Typography>
                             </Box>
                         </ListItem>
                     </List>
-                    <Typography textAlign={"center"} color={"secondary"} width={["40ch", "60ch", "70ch", "80ch"]}>
+                    <Typography textAlign={"center"} width={["40ch", "60ch", "70ch", "80ch"]}>
                         {data.description}
                     </Typography>
                     <Button
                         href={data.trailerSrc}
                         target="_blank"
                         rel="noopener noreferrer"
-                        color="secondary"
                         variant="contained"
                         sx={{
                             display: "flex",
@@ -234,12 +201,18 @@ export function DetailsPageCard({
                             width: "30%",
                             columnGap: 1,
                             marginTop: 3,
+                            border: "none",
+                            backgroundColor: colors.greenAccent[800],
                         }}
                     >
-                        <YouTubeIcon color="error" />
+                        <YouTubeIcon
+                            sx={{
+                                color: colors.primary[100],
+                            }}
+                        />
                         <Typography
                             component={"span"}
-                            color={colors.primary[600]}
+                            color={colors.primary[100]}
                             fontWeight={700}
                             sx={{
                                 textTransform: "capitalize",

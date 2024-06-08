@@ -415,9 +415,7 @@ export default function Movie() {
                             />
                         )}
                     </Box>
-                    <Divider sx={{ borderBottomWidth: 3, background: colors.greenAccent[500] }} />
                     <ListDetail data={latestMovies} type="movie" role="latest" />
-                    <Divider sx={{ borderBottomWidth: 3, background: colors.greenAccent[500] }} />
                     <ListDetail data={relatedMovies} type="movie" role="related" />
                 </Stack>
             </Container>
