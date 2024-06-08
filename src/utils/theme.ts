@@ -1,5 +1,5 @@
+import { createTheme, responsiveFontSizes } from "@mui/material/styles";
 import { createContext, useState, useMemo } from "react";
-import { createTheme } from "@mui/material/styles";
 
 export const tokens = (mode: any) => ({
     ...(mode === "dark"
@@ -181,27 +181,59 @@ export const themeSettings = (mode: any) => {
             fontSize: 12,
             h1: {
                 fontFamily: ["Montserrat", "sans-serif"].join(","),
-                fontSize: 40,
+                fontSize: 56,
+                "@media (max-width:600px)": {
+                    fontSize: "42px",
+                },
             },
             h2: {
                 fontFamily: ["Montserrat", "sans-serif"].join(","),
-                fontSize: 32,
+                fontSize: 44,
+                "@media (max-width:600px)": {
+                    fontSize: "32px",
+                },
             },
             h3: {
                 fontFamily: ["Montserrat", "sans-serif"].join(","),
                 fontSize: 24,
+                "@media (max-width:600px)": {
+                    fontSize: "20px",
+                },
             },
             h4: {
                 fontFamily: ["Montserrat", "sans-serif"].join(","),
                 fontSize: 20,
+                "@media (max-width:600px)": {
+                    fontSize: "18px",
+                },
             },
             h5: {
                 fontFamily: ["Montserrat", "sans-serif"].join(","),
                 fontSize: 16,
+                "@media (max-width:600px)": {
+                    fontSize: "14px",
+                },
             },
             h6: {
                 fontFamily: ["Montserrat", "sans-serif"].join(","),
                 fontSize: 14,
+                "@media (max-width:600px)": {
+                    fontSize: "12px",
+                },
+            },
+            body1: {
+                fontFamily: ["Montserrat", "sans-serif"].join(","),
+                fontSize: 16,
+                "@media (max-width:600px)": {
+                    fontSize: "14px",
+                },
+            },
+            body2: {
+                fontFamily: ["Montserrat", "sans-serif"].join(","),
+                fontSize: 14,
+                "@media (max-width:600px)": {
+                    fontSize: "12px",
+                },
             },
         },
         components: {
@@ -256,6 +288,18 @@ export const themeSettings = (mode: any) => {
                     disableTouchRipple: true,
                 },
             },
+            MuiTypography: {
+                styleOverrides: {
+                    root: {
+                        span: {
+                            fontSize: "8px",
+                            "@media (max-width:600px)": {
+                                fontSize: "10px",
+                            },
+                        },
+                    },
+                },
+            },
         },
     };
 };
@@ -272,6 +316,7 @@ export const useMode = () => {
         }),
         [],
     );
-    const theme: any = useMemo(() => createTheme(themeSettings(mode)), [mode]);
+
+    const theme: any = useMemo(() => responsiveFontSizes(createTheme(themeSettings(mode))), [mode]);
     return [theme, colorMode];
 };
