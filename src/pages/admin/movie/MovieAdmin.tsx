@@ -1,4 +1,4 @@
-import { Box, CircularProgress, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import HeaderDashboard from "~/components/admin/headerDashboard/HeaderDashboard";
 import { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router";
@@ -17,7 +17,7 @@ import Breadcrumb from "~/components/admin/breadcrumb/Breadcrumb";
 import IMoviePatch from "~/types/IMoviePatch";
 import { useModal } from "~/services/providers/ModalContext";
 import { WarningOutlined, CheckOutlined } from "@mui/icons-material";
-import serieService from "~/services/api/serieService";
+import Loading from "~/components/loading/Loading";
 
 const movieSchema = yup.object().shape({
     title: yup.string().required("required"),
@@ -97,7 +97,7 @@ const MovieAdmin = () => {
         fetchData();
     }, []);
 
-    if (loading) return <CircularProgress />;
+    if (loading) return <Loading />;
 
     return (
         <Box m="20px">

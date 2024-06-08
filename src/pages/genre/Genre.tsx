@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import type IMovie from "~/types/IMovie";
-import { Box, CircularProgress, Container, Divider, Stack, Typography, useTheme } from "@mui/material";
+import { Box, Container, Divider, Stack, Typography, useTheme } from "@mui/material";
 import genreService from "~/services/api/genreService";
 import SEOHelmet from "~/components/seoHelmet/SEOHelmet";
 import { useSorting } from "~/hooks/useSorting";
@@ -12,6 +12,7 @@ import ISerie from "~/types/ISerie";
 import SortSelect from "~/components/sortSelect/SortSelect";
 import PaginationControl from "~/components/paginationControl/PaginationControl";
 import { tokens } from "~/utils/theme";
+import Loading from "~/components/loading/Loading";
 
 export default function Genre(): React.JSX.Element {
     // #region "State, hooks, searchparams"
@@ -92,16 +93,7 @@ export default function Genre(): React.JSX.Element {
     // #region "Fetching state checking"
     if (moviesByGenreQuery.isLoading) {
         return (
-            <Box
-                sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    height: "200vh",
-                }}
-            >
-                <CircularProgress size={80} thickness={4} color="secondary" />
-            </Box>
+            <Loading />
         );
     }
 

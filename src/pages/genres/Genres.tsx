@@ -1,8 +1,9 @@
 import type IGenre from "~/types/IGenre";
-import { Box, CircularProgress, Container, Typography } from "@mui/material";
+import { Box, Container, Typography } from "@mui/material";
 import genreService from "~/services/api/genreService";
 import GenreItem from "~/components/genreItem/GenreItem";
 import { useQuery } from "@tanstack/react-query";
+import Loading from "~/components/loading/Loading";
 
 export default function Genres() {
     const genresQuery = useQuery({
@@ -14,16 +15,7 @@ export default function Genres() {
 
     if (genresQuery.isLoading) {
         return (
-            <Box
-                sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    height: "200vh",
-                }}
-            >
-                <CircularProgress size={80} thickness={4} color="secondary" />
-            </Box>
+            <Loading />
         );
     }
 

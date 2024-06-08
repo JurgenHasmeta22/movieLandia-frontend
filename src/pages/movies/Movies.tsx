@@ -1,6 +1,6 @@
 import movieService from "~/services/api/movieService";
 import type IMovie from "~/types/IMovie";
-import { Box, CircularProgress, Container, Divider, Stack, Typography, useTheme } from "@mui/material";
+import { Box, Container, Divider, Stack, Typography, useTheme } from "@mui/material";
 import { getRandomElements } from "~/utils/utils";
 import SEOHelmet from "~/components/seoHelmet/SEOHelmet";
 import Carousel from "~/components/carousel/Carousel";
@@ -11,6 +11,7 @@ import { useListPageData } from "~/hooks/useListPageData";
 import PaginationControl from "~/components/paginationControl/PaginationControl";
 import LatestList from "~/components/latestList/LatestList";
 import { tokens } from "~/utils/theme";
+import Loading from "~/components/loading/Loading";
 
 export default function Movies() {
     const { searchParams, setSearchParams, page, handleChangeSorting } = useListPageData();
@@ -56,16 +57,7 @@ export default function Movies() {
 
     if (moviesQuery.isLoading || latestMoviesQuery.isLoading) {
         return (
-            <Box
-                sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    height: "200vh",
-                }}
-            >
-                <CircularProgress size={80} thickness={4} color="secondary" />
-            </Box>
+            <Loading />
         );
     }
 

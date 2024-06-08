@@ -1,4 +1,4 @@
-import { Box, CircularProgress, Container, Stack, Typography } from "@mui/material";
+import { Box, Container, Stack, Typography } from "@mui/material";
 import HomeHeroSection from "./components/HomeHero";
 import { useEffect } from "react";
 import ISerie from "~/types/ISerie";
@@ -12,6 +12,7 @@ import { useInView } from "react-intersection-observer";
 import { useQuery } from "@tanstack/react-query";
 import SEOHelmet from "~/components/seoHelmet/SEOHelmet";
 import ListHomeSection from "./components/ListHomeSection";
+import Loading from "~/components/loading/Loading";
 
 const sectionVariants = {
     hidden: { opacity: 0, y: 100 },
@@ -74,16 +75,7 @@ export default function Home() {
     // #region "Checking fetching state"
     if (moviesQuery.isLoading || seriesQuery.isLoading || genresQuery.isLoading) {
         return (
-            <Box
-                sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    height: "200vh",
-                }}
-            >
-                <CircularProgress size={80} thickness={4} color="secondary" />
-            </Box>
+            <Loading />
         );
     }
 

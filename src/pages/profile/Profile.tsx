@@ -1,4 +1,4 @@
-import { Box, Button, CircularProgress, Stack, Tab, Tabs, Typography, useTheme } from "@mui/material";
+import { Box, Button, Stack, Tab, Tabs, Typography, useTheme } from "@mui/material";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useStore } from "~/store/store";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
@@ -17,6 +17,7 @@ import ClearAllIcon from "@mui/icons-material/ClearAll";
 import SaveAsIcon from "@mui/icons-material/SaveAs";
 import { FormikProps } from "formik";
 import IUserPatch from "~/types/IUserPatch";
+import Loading from "~/components/loading/Loading";
 
 const userSchema = Yup.object().shape({
     userName: Yup.string()
@@ -127,16 +128,7 @@ export default function Profile() {
 
     if (!user) {
         return (
-            <Box
-                sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    height: "200vh",
-                }}
-            >
-                <CircularProgress size={80} thickness={4} color="secondary" />
-            </Box>
+            <Loading />
         );
     }
 

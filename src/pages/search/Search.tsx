@@ -1,4 +1,4 @@
-import { Box, CircularProgress, Container, Divider, Stack, Typography, useTheme } from "@mui/material";
+import { Box, Container, Divider, Stack, Typography, useTheme } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "react-router-dom";
 import CardItem from "~/components/cardItem/CardItem";
@@ -10,6 +10,7 @@ import serieService from "~/services/api/serieService";
 import IMovie from "~/types/IMovie";
 import ISerie from "~/types/ISerie";
 import { tokens } from "~/utils/theme";
+import Loading from "~/components/loading/Loading";
 
 export function Search() {
     // #region "State, hooks, searchParams"
@@ -102,16 +103,7 @@ export function Search() {
     // #region "Fetching State"
     if (moviesQuery.isLoading || seriesQuery.isLoading) {
         return (
-            <Box
-                sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    height: "200vh",
-                }}
-            >
-                <CircularProgress size={80} thickness={4} color="secondary" />
-            </Box>
+            <Loading />
         );
     }
 
