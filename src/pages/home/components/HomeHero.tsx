@@ -112,16 +112,18 @@ const HomeHeroSection = () => {
                         <Link to={"/movies"}>
                             <Button
                                 variant="contained"
-                                color="secondary"
                                 sx={{
                                     textTransform: "capitalize",
+                                    backgroundColor: colors.primary[900],
+                                    "&:hover": {
+                                        backgroundColor: colors.greenAccent[800],
+                                    },
                                 }}
                             >
                                 <MovieIcon
-                                    fontSize={"large"}
                                     sx={{
-                                        color: colors.grey[100],
-                                        fontSize: [14, 16, 18, 20, 24],
+                                        color: colors.primary[100],
+                                        fontSize: [12, 14, 16, 18, 20],
                                     }}
                                 />
                                 <Typography
@@ -129,9 +131,9 @@ const HomeHeroSection = () => {
                                     paddingLeft={1}
                                     fontWeight={800}
                                     sx={{
-                                        color: colors.grey[100],
-                                        fontSize: [12, 14, 16, 18, 20],
-                                        py: 1,
+                                        color: colors.primary[100],
+                                        fontSize: [10, 12, 14, 16, 18],
+                                        py: 0.5,
                                     }}
                                 >
                                     Start Watching Movies
@@ -141,9 +143,12 @@ const HomeHeroSection = () => {
                         <Link to={"/series"}>
                             <Button
                                 variant="contained"
-                                color="secondary"
                                 sx={{
                                     textTransform: "capitalize",
+                                    backgroundColor: colors.primary[900],
+                                    "&:hover": {
+                                        backgroundColor: colors.greenAccent[800],
+                                    },
                                 }}
                                 onClick={() => {
                                     navigate("/series");
@@ -151,8 +156,8 @@ const HomeHeroSection = () => {
                             >
                                 <LocalMoviesIcon
                                     sx={{
-                                        color: colors.grey[100],
-                                        fontSize: [14, 16, 18, 20, 24],
+                                        color: colors.primary[100],
+                                        fontSize: [12, 14, 16, 18, 20],
                                     }}
                                 />
                                 <Typography
@@ -160,9 +165,9 @@ const HomeHeroSection = () => {
                                     paddingLeft={1}
                                     fontWeight={700}
                                     sx={{
-                                        color: colors.grey[100],
-                                        fontSize: [12, 14, 16, 18, 20],
-                                        py: 1,
+                                        color: colors.primary[100],
+                                        fontSize: [10, 12, 14, 16, 18],
+                                        py: 0.5,
                                     }}
                                 >
                                     Start Watching Series
