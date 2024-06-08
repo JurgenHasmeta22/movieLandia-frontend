@@ -414,9 +414,7 @@ export default function Serie() {
                             />
                         )}
                     </Box>
-                    <Divider sx={{ borderBottomWidth: 3, background: colors.greenAccent[500] }} />
                     <ListDetail data={latestSeries} type="serie" role="latest" />
-                    <Divider sx={{ borderBottomWidth: 3, background: colors.greenAccent[500] }} />
                     <ListDetail data={relatedSeries} type="serie" role="related" />
                 </Stack>
             </Container>

@@ -1,6 +1,7 @@
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, Divider, Stack, Typography, useTheme } from "@mui/material";
 import IMovie from "~/types/IMovie";
 import CardItem from "../cardItem/CardItem";
+import { tokens } from "~/utils/theme";
 
 interface ILatestList {
     data: any;
@@ -8,27 +9,33 @@ interface ILatestList {
 }
 
 export function LatestList({ data, type }: ILatestList) {
+    const theme = useTheme();
+    const colors = tokens(theme.palette.mode);
+
     return (
         <Box
             component={"section"}
             sx={{
                 display: "flex",
                 flexDirection: "column",
+                justifyContent: "start",
+                alignItems: "start",
                 rowGap: 2,
                 marginBottom: 4,
             }}
         >
-            <Box sx={{ display: "flex", placeContent: "flex-start" }}>
+            <Box>
                 <Typography fontSize={28} color={"secondary"} variant="h2">
                     Latest {type}
                 </Typography>
+                <Divider sx={{ borderBottomWidth: 3, background: colors.greenAccent[500], mt: 1 }} />
             </Box>
             <Stack
                 direction="row"
                 flexWrap="wrap"
                 rowGap={8}
                 columnGap={4}
-                justifyContent={"center"}
+                justifyContent={"start"}
                 alignContent={"center"}
                 marginTop={3}
                 mb={4}

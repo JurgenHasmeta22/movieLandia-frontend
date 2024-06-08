@@ -1,6 +1,7 @@
-import { Box, Divider, Stack, Typography, useMediaQuery } from "@mui/material";
+import { Box, Divider, Stack, Typography, useMediaQuery, useTheme } from "@mui/material";
 import CardItem from "../cardItem/CardItem";
 import Slider from "react-slick";
+import { tokens } from "~/utils/theme";
 
 interface IListDetail {
     data: any;
@@ -11,7 +12,9 @@ interface IListDetail {
 export function ListDetail({ data, type, role }: IListDetail) {
     const isMobile = useMediaQuery("(max-width:600px)");
     const isTablet = useMediaQuery("(max-width:960px)");
-
+    const theme = useTheme();
+    const colors = tokens(theme.palette.mode);
+    
     // const settings = {
     //     dots: false,
     //     infinite: true,
@@ -36,6 +39,7 @@ export function ListDetail({ data, type, role }: IListDetail) {
         >
             {data && data.length > 0 && (
                 <>
+                    <Divider sx={{ borderBottomWidth: 3, background: colors.greenAccent[500] }} />
                     <Typography fontSize={28} color={"secondary"}>
                         {role === "latest" ? "Latest" : "Related"} {type === "movie" ? "Movies" : "Series"}
                     </Typography>
