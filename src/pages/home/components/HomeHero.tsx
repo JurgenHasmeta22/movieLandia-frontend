@@ -57,7 +57,7 @@ const HomeHeroSection = () => {
                     backgroundImage: "url('/assets/images/netflix.png')",
                     backgroundSize: "cover",
                     backgroundPosition: "center",
-                    filter: "blur(2px) opacity(0.5)",
+                    filter: theme.palette.mode === "dark" ? "blur(2px) opacity(0.5)" : "blur(2px) opacity(0.8)",
                     zIndex: -1,
                 }}
             />
@@ -69,7 +69,9 @@ const HomeHeroSection = () => {
                         component={motion.h1}
                         fontWeight={900}
                         letterSpacing={3}
-                        color={"secondary"}
+                        sx={{
+                            color: theme.palette.mode === "dark" ? colors.primary[100] : colors.blueAccent[900],
+                        }}
                     >
                         Dive into MovieLandia24
                     </Typography>
@@ -82,7 +84,9 @@ const HomeHeroSection = () => {
                         fontSize={[16, 22, 30, 35, 40]}
                         fontWeight={900}
                         letterSpacing={1}
-                        color={"secondary"}
+                        sx={{
+                            color: theme.palette.mode === "dark" ? colors.primary[100] : colors.blueAccent[900],
+                        }}
                     >
                         Your Gateway to the World of Cinema and Series!
                     </Typography>
@@ -96,6 +100,7 @@ const HomeHeroSection = () => {
                             letterSpacing={0.5}
                             sx={{
                                 fontSize: [12, 14, 16, 18, 20],
+                                color: theme.palette.mode === "dark" ? colors.primary[100] : colors.primary[400],
                             }}
                         >
                             Explore the latest blockbusters and timeless classics.

@@ -29,7 +29,7 @@ export function ListDetail({ data, type, role }: IListDetail) {
         <>
             {data && data.length > 0 && (
                 <>
-                    <Divider sx={{ borderBottomWidth: 3, background: colors.greenAccent[500] }} />
+                    <Divider sx={{ borderBottomWidth: 3, background: colors.primary[100] }} />
                     <Box
                         sx={{
                             display: "flex",
@@ -43,10 +43,10 @@ export function ListDetail({ data, type, role }: IListDetail) {
                         component={"section"}
                     >
                         <Box>
-                            <Typography fontSize={28} color={"secondary"}>
+                            <Typography fontSize={28}>
                                 {role === "latest" ? "Latest" : "Related"} {type === "movie" ? "Movies" : "Series"}
                             </Typography>
-                            <Divider sx={{ borderBottomWidth: 3, background: colors.greenAccent[500] }} />
+                            <Divider sx={{ borderBottomWidth: 3, background: colors.primary[100] }} />
                         </Box>
                         <Stack
                             direction="row"

@@ -46,7 +46,6 @@ const ListHomeSection: React.FC<ListHomeSectionProps> = ({
                             fontWeight: 700,
                             fontSize: 24,
                         }}
-                        color={"secondary"}
                     >
                         {type === "genre"
                             ? "Trending Genres"
@@ -62,7 +61,7 @@ const ListHomeSection: React.FC<ListHomeSectionProps> = ({
                             textDecoration: "none",
                             fontWeight: 900,
                             fontSize: 14,
-                            color: colors.greenAccent[500],
+                            color: colors.primary[100],
                         }}
                         onClick={() => {
                             window.scrollTo(0, 0);

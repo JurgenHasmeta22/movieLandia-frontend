@@ -186,7 +186,7 @@ const CardItem = ({ data, type }: ICardItemProps): React.JSX.Element => {
                             letterSpacing: 0.3,
                         }}
                     >
-                        <Typography variant="body1" color={"secondary"} fontWeight={600} fontSize={16}>
+                        <Typography variant="body1" fontWeight={600} fontSize={16}>
                             {data.title}
                         </Typography>
                         {data.genres && data.genres.length > 0 && (

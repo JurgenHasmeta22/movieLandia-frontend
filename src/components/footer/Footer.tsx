@@ -13,19 +13,12 @@ const Footer = (): React.JSX.Element => {
                 flexDirection: "column",
                 placeItems: "center",
                 placeContent: "center",
-                rowGap: 2,
                 backgroundColor: colors.primary[900],
-                padding: 2,
+                padding: 6,
             }}
             component={"footer"}
         >
-            <Typography color={colors.primary[100]}>
-                Copyright © 2024 | movielandia24.so - Filma dhe Seriale HD me titra shqip / NetFlix shqip!
-            </Typography>
-            <Typography color={colors.primary[100]}>
-                Disclaimer: This site does not store any files on its server! All contents are provided by
-                non-affiliated third parties!
-            </Typography>
+            <Typography>Copyright © 2024 | MovieLandia24</Typography>
         </Box>
     );
 };
