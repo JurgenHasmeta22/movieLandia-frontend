@@ -1,6 +1,6 @@
 import type ISerie from "~/types/ISerie";
 import serieService from "~/services/api/serieService";
-import { Box, Container, Divider, Stack, useTheme } from "@mui/material";
+import { Box, Container, Stack, useTheme } from "@mui/material";
 import SEOHelmet from "~/components/seoHelmet/SEOHelmet";
 import { toast } from "react-toastify";
 import { useQuery } from "@tanstack/react-query";

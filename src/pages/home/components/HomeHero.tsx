@@ -57,7 +57,7 @@ const HomeHeroSection = () => {
                     backgroundImage: "url('/assets/images/netflix.png')",
                     backgroundSize: "cover",
                     backgroundPosition: "center",
-                    filter: "blur(2px) opacity(0.7)",
+                    filter: "blur(2px) opacity(0.5)",
                     zIndex: -1,
                 }}
             />
@@ -65,10 +65,10 @@ const HomeHeroSection = () => {
                 <motion.div variants={itemVariants} custom={0}>
                     <Typography
                         variant="h1"
-                        fontSize={60}
+                        fontSize={[22, 30, 40, 55, 60]}
                         component={motion.h1}
                         fontWeight={900}
-                        letterSpacing={1}
+                        letterSpacing={3}
                         color={"secondary"}
                     >
                         Dive into MovieLandia24
@@ -79,8 +79,9 @@ const HomeHeroSection = () => {
                         variant="h2"
                         textAlign={"center"}
                         component={motion.h2}
-                        fontWeight={800}
-                        letterSpacing={0.5}
+                        fontSize={[16, 22, 30, 35, 40]}
+                        fontWeight={900}
+                        letterSpacing={1}
                         color={"secondary"}
                     >
                         Your Gateway to the World of Cinema and Series!
@@ -88,8 +89,16 @@ const HomeHeroSection = () => {
                 </motion.div>
                 <motion.div variants={itemVariants} custom={2}>
                     <Box marginTop={1}>
-                        <Typography variant="body1" textAlign={"center"} fontWeight={700} letterSpacing={0.5}>
-                            Explore the latest blockbusters and timeless classics, all in stunning HD quality.
+                        <Typography
+                            variant="body1"
+                            textAlign={"center"}
+                            fontWeight={700}
+                            letterSpacing={0.5}
+                            sx={{
+                                fontSize: [12, 14, 16, 18, 20],
+                            }}
+                        >
+                            Explore the latest blockbusters and timeless classics.
                         </Typography>
                     </Box>
                 </motion.div>
@@ -98,7 +107,6 @@ const HomeHeroSection = () => {
                         <Link to={"/movies"}>
                             <Button
                                 variant="contained"
-                                size="large"
                                 color="secondary"
                                 sx={{
                                     textTransform: "capitalize",
@@ -107,7 +115,8 @@ const HomeHeroSection = () => {
                                 <MovieIcon
                                     fontSize={"large"}
                                     sx={{
-                                        color: colors.primary[900],
+                                        color: colors.grey[100],
+                                        fontSize: [14, 16, 18, 20, 24],
                                     }}
                                 />
                                 <Typography
@@ -115,7 +124,9 @@ const HomeHeroSection = () => {
                                     paddingLeft={1}
                                     fontWeight={800}
                                     sx={{
-                                        color: colors.primary[900],
+                                        color: colors.grey[100],
+                                        fontSize: [12, 14, 16, 18, 20],
+                                        py: 1,
                                     }}
                                 >
                                     Start Watching Movies
@@ -126,7 +137,6 @@ const HomeHeroSection = () => {
                             <Button
                                 variant="contained"
                                 color="secondary"
-                                size="large"
                                 sx={{
                                     textTransform: "capitalize",
                                 }}
@@ -135,17 +145,19 @@ const HomeHeroSection = () => {
                                 }}
                             >
                                 <LocalMoviesIcon
-                                    fontSize={"large"}
                                     sx={{
-                                        color: colors.primary[900],
+                                        color: colors.grey[100],
+                                        fontSize: [14, 16, 18, 20, 24],
                                     }}
                                 />
                                 <Typography
                                     component={"span"}
                                     paddingLeft={1}
-                                    fontWeight={800}
+                                    fontWeight={700}
                                     sx={{
-                                        color: colors.primary[900],
+                                        color: colors.grey[100],
+                                        fontSize: [12, 14, 16, 18, 20],
+                                        py: 1,
                                     }}
                                 >
                                     Start Watching Series

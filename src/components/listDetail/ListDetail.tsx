@@ -14,7 +14,7 @@ export function ListDetail({ data, type, role }: IListDetail) {
     const isTablet = useMediaQuery("(max-width:960px)");
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-    
+
     // const settings = {
     //     dots: false,
     //     infinite: true,
@@ -26,45 +26,53 @@ export function ListDetail({ data, type, role }: IListDetail) {
     // };
 
     return (
-        <Box
-            sx={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "flex-start",
-                rowGap: 2,
-                marginBottom: 2,
-                marginTop: 2,
-            }}
-            component={"section"}
-        >
+        <>
             {data && data.length > 0 && (
                 <>
                     <Divider sx={{ borderBottomWidth: 3, background: colors.greenAccent[500] }} />
-                    <Typography fontSize={28} color={"secondary"}>
-                        {role === "latest" ? "Latest" : "Related"} {type === "movie" ? "Movies" : "Series"}
-                    </Typography>
-                    <Stack
-                        direction="row"
-                        flexWrap="wrap"
-                        columnGap={3}
-                        rowGap={3}
-                        justifyContent="flex-start"
-                        alignContent="center"
-                        mt={1}
-                        mb={4}
+                    <Box
+                        sx={{
+                            display: "flex",
+                            flexDirection: "column",
+                            justifyContent: "start",
+                            alignItems: "start",
+                            rowGap: 2,
+                            marginBottom: 2,
+                            marginTop: 2,
+                        }}
+                        component={"section"}
                     >
-                        {/* <Slider {...settings}> */}
-                        {data &&
-                            data.length > 0 &&
-                            !data.error &&
-                            data
-                                .slice(0, 5)
-                                .map((item: any, index: number) => <CardItem data={item} key={index} type={type} />)}
-                        {/* </Slider> */}
-                    </Stack>
+                        <Box>
+                            <Typography fontSize={28} color={"secondary"}>
+                                {role === "latest" ? "Latest" : "Related"} {type === "movie" ? "Movies" : "Series"}
+                            </Typography>
+                            <Divider sx={{ borderBottomWidth: 3, background: colors.greenAccent[500] }} />
+                        </Box>
+                        <Stack
+                            direction="row"
+                            flexWrap="wrap"
+                            columnGap={3}
+                            rowGap={3}
+                            justifyContent="flex-start"
+                            alignContent="center"
+                            mt={1}
+                            mb={4}
+                        >
+                            {/* <Slider {...settings}> */}
+                            {data &&
+                                data.length > 0 &&
+                                !data.error &&
+                                data
+                                    .slice(0, 5)
+                                    .map((item: any, index: number) => (
+                                        <CardItem data={item} key={index} type={type} />
+                                    ))}
+                            {/* </Slider> */}
+                        </Stack>
+                    </Box>
                 </>
             )}
-        </Box>
+        </>
     );
 }
 
