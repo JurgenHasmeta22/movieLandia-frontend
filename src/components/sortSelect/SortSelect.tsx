@@ -45,7 +45,7 @@ export default function SortSelect({ sortBy, ascOrDesc, onChange, type }: ISortS
             value={getValue()}
             onChange={onChange}
             sx={{
-                px: 2,
+                px: 3,
             }}
             renderValue={(value: string) => (
                 <Box sx={{ display: "flex", gap: 0.5 }}>

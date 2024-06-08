@@ -92,9 +92,7 @@ export default function Genre(): React.JSX.Element {
 
     // #region "Fetching state checking"
     if (moviesByGenreQuery.isLoading) {
-        return (
-            <Loading />
-        );
+        return <Loading />;
     }
 
     if (moviesByGenreQuery.isError || moviesByGenreQuery.data.error) {
@@ -123,16 +121,21 @@ export default function Genre(): React.JSX.Element {
                     {moviesByGenre.length !== 0 ? (
                         <>
                             <Box display="flex" justifyContent="space-between" alignItems="center" mt={4}>
-                                <Typography
-                                    sx={{
-                                        fontSize: [16, 18, 20, 24, 26],
-                                    }}
-                                    color={"secondary"}
-                                    variant="h2"
-                                    textAlign={"center"}
-                                >
-                                    {`Movies of genre ${params.name}`}
-                                </Typography>
+                                <Box>
+                                    <Typography
+                                        sx={{
+                                            fontSize: [16, 18, 20, 24, 26],
+                                        }}
+                                        color={"secondary"}
+                                        variant="h2"
+                                        textAlign={"center"}
+                                    >
+                                        {`Movies of genre ${params.name}`}
+                                    </Typography>
+                                    <Divider
+                                        sx={{ borderBottomWidth: 3, background: colors.greenAccent[500], mt: 1 }}
+                                    />
+                                </Box>
                                 <Box
                                     sx={{
                                         display: "flex",
@@ -187,8 +190,8 @@ export default function Genre(): React.JSX.Element {
                     )}
                     {moviesByGenre.length !== 0 ? (
                         <>
-                            <Stack display="flex" flexDirection="row" alignItems="center" component="section" mt={4}>
-                                <Box display="flex" justifyContent="start" alignItems="center" sx={{ flexGrow: 1 }}>
+                            <Box display="flex" justifyContent="space-between" alignItems="center" mt={4}>
+                                <Box>
                                     <Typography
                                         sx={{
                                             fontSize: [16, 18, 20, 24, 26],
@@ -199,6 +202,9 @@ export default function Genre(): React.JSX.Element {
                                     >
                                         {`Series of genre ${params.name}`}
                                     </Typography>
+                                    <Divider
+                                        sx={{ borderBottomWidth: 3, background: colors.greenAccent[500], mt: 1 }}
+                                    />
                                 </Box>
                                 <Box
                                     sx={{
@@ -214,7 +220,7 @@ export default function Genre(): React.JSX.Element {
                                         type="list"
                                     />
                                 </Box>
-                            </Stack>
+                            </Box>
                             <Stack
                                 direction="row"
                                 flexWrap="wrap"

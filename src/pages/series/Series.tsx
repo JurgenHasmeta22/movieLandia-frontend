@@ -102,6 +102,7 @@ export default function Series() {
                             <Typography fontSize={28} color={"secondary"} variant="h2">
                                 Series
                             </Typography>
+                            <Divider sx={{ borderBottomWidth: 3, background: colors.greenAccent[500], mt: 1 }} />
                         </Box>
                         <Box
                             sx={{

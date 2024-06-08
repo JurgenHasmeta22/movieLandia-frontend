@@ -110,6 +110,7 @@ export default function Movies() {
                             <Typography fontSize={28} color="secondary" variant="h2">
                                 Movies
                             </Typography>
+                            <Divider sx={{ borderBottomWidth: 3, background: colors.greenAccent[500], mt: 1 }} />
                         </Box>
                         <Box mr={1}>
                             <SortSelect
