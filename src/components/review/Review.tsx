@@ -165,13 +165,7 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
                             {review.user.userName}
                         </Typography>
                         {review.user.userName === user?.userName && (
-                            <Typography
-                                component={"span"}
-                                paddingLeft={1}
-                                sx={{
-                                    color: colors.greenAccent[500],
-                                }}
-                            >
+                            <Typography component={"span"} paddingLeft={1}>
                                 - You
                             </Typography>
                         )}
@@ -184,7 +178,7 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
                             gap: 1,
                         }}
                     >
-                        <Typography variant="body2" color="secondary" sx={{ display: "flex", flexWrap: "wrap" }}>
+                        <Typography variant="body2" sx={{ display: "flex", flexWrap: "wrap" }}>
                             {review.updatedAt && (
                                 <Typography component={"span"} color={"error"}>
                                     Edited
@@ -241,7 +235,7 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
                         </Typography>
                     </Box>
                     <Box sx={{ display: "flex", alignItems: "center" }}>
-                        <Typography variant="body2" color="secondary" fontSize={14} fontWeight={700} sx={{ mr: 1 }}>
+                        <Typography variant="body2" fontSize={14} fontWeight={700} sx={{ mr: 1 }}>
                             {review?.rating?.toFixed(1)}
                         </Typography>
                         <Rating
@@ -289,7 +283,6 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
                             onClick={() => {
                                 onClickUpvotesReviewList();
                             }}
-                            color={"secondary"}
                             sx={{
                                 "&:hover": {
                                     backgroundColor: "transparent",

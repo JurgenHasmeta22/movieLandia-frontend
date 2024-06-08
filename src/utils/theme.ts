@@ -210,27 +210,8 @@ export const themeSettings = (mode: any) => {
                     root: {
                         borderRadius: 8,
                         cursor: "pointer",
-                        transition: "background-color 0.5s ease",
                         boxShadow: "none",
-                        "&:hover": {
-                            backgroundColor: colors.primary[400],
-                        },
-                    },
-                    containedPrimary: {
-                        color: "#fff",
-                        backgroundColor: colors.primary[500],
-                        border: `2px solid ${colors.primary[700]}`,
-                        "&:hover": {
-                            backgroundColor: colors.primary[600],
-                        },
-                    },
-                    containedSecondary: {
-                        color: "#fff",
-                        backgroundColor: colors.greenAccent[500],
-                        border: `2px solid ${colors.greenAccent[700]}`,
-                        "&:hover": {
-                            backgroundColor: colors.greenAccent[600],
-                        },
+                        transition: "background-color 0.5s ease",
                     },
                 },
                 defaultProps: {
@@ -248,29 +229,10 @@ export const themeSettings = (mode: any) => {
             MuiIconButton: {
                 styleOverrides: {
                     root: {
-                        borderRadius: 12,
+                        borderRadius: 20,
                         cursor: "pointer",
                         transition: "background-color 0.5s ease",
                         boxShadow: "none",
-                        "&:hover": {
-                            backgroundColor: colors.primary[400],
-                        },
-                    },
-                    containedPrimary: {
-                        color: "#fff",
-                        backgroundColor: colors.primary[500],
-                        border: `1px solid ${colors.primary[700]}`,
-                        "&:hover": {
-                            backgroundColor: colors.primary[600],
-                        },
-                    },
-                    containedSecondary: {
-                        color: "#fff",
-                        backgroundColor: colors.greenAccent[500],
-                        border: `1px solid ${colors.greenAccent[700]}`,
-                        "&:hover": {
-                            backgroundColor: colors.greenAccent[600],
-                        },
                     },
                 },
                 defaultProps: {

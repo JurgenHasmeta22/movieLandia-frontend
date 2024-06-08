@@ -142,6 +142,7 @@ export default function Movie() {
             if (response && !response.error) {
                 setReview("");
                 setRating(null);
+                setUser(response);
                 await refetchMovieDetails();
                 toast.success("Review submitted successfully!");
             } else {
@@ -177,6 +178,7 @@ export default function Movie() {
 
                             if (response && !response.error) {
                                 setReview("");
+                                setUser(response);
                                 await refetchMovieDetails();
                                 toast.success("Review removed successfully!");
                                 // handleFocusTextEditor();
@@ -210,6 +212,7 @@ export default function Movie() {
                 setReview("");
                 setRating(null);
                 setIsEditMode(false);
+                setUser(response);
                 handleFocusReview();
                 await refetchMovieDetails();
                 toast.success("Review updated successfully!");

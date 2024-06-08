@@ -1,7 +1,8 @@
 import { WarningOutlined, CheckOutlined } from "@mui/icons-material";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Typography, useTheme } from "@mui/material";
 import * as CONSTANTS from "~/constants/Constants";
 import { useModal } from "~/services/providers/ModalContext";
+import { tokens } from "~/utils/theme";
 
 interface ITextEditorButtons {
     isEditMode: boolean;
@@ -23,6 +24,8 @@ export function TextEditorButtons({
     onSubmitUpdateReview,
 }: ITextEditorButtons) {
     const { openModal } = useModal();
+    const theme = useTheme();
+    const colors = tokens(theme.palette.mode);
 
     return (
         <>
@@ -30,7 +33,6 @@ export function TextEditorButtons({
                 <Box display={"flex"} justifyContent={"end"} marginTop={2}>
                     <Button
                         onClick={onSubmitReview}
-                        color="error"
                         variant="contained"
                         sx={{
                             display: "flex",
@@ -39,6 +41,13 @@ export function TextEditorButtons({
                             fontWeight: 900,
                             padding: 1.5,
                             textTransform: "capitalize",
+                            border: "none",
+                            backgroundColor: colors.primary[100],
+                            color: colors.primary[900],
+                            "&:hover": {
+                                backgroundColor: colors.greenAccent[700],
+                                color: colors.grey[100],
+                            },
                         }}
                     >
                         <Typography component={"span"}>Submit Review</Typography>
