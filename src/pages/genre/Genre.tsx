@@ -126,14 +126,13 @@ export default function Genre(): React.JSX.Element {
                                         sx={{
                                             fontSize: [16, 18, 20, 24, 26],
                                         }}
-                                        color={"secondary"}
                                         variant="h2"
                                         textAlign={"center"}
                                     >
                                         {`Movies of genre ${params.name}`}
                                     </Typography>
                                     <Divider
-                                        sx={{ borderBottomWidth: 3, background: colors.greenAccent[500], mt: 1 }}
+                                        sx={{ borderBottomWidth: 3, background: colors.primary[100], mt: 1 }}
                                     />
                                 </Box>
                                 <Box
@@ -168,7 +167,7 @@ export default function Genre(): React.JSX.Element {
                                 pageCount={pageCountMovies}
                                 onPageChange={handlePageChangeMovies}
                             />
-                            <Divider sx={{ borderBottomWidth: 3, background: colors.greenAccent[500] }} />
+                            <Divider sx={{ borderBottomWidth: 3, background: colors.primary[100] }} />
                         </>
                     ) : (
                         <>
@@ -185,7 +184,7 @@ export default function Genre(): React.JSX.Element {
                                     No search result, no movie found with this genre.
                                 </Typography>
                             </Box>
-                            <Divider sx={{ borderBottomWidth: 3, background: colors.greenAccent[500] }} />
+                            <Divider sx={{ borderBottomWidth: 3, background: colors.primary[100] }} />
                         </>
                     )}
                     {moviesByGenre.length !== 0 ? (
@@ -196,14 +195,13 @@ export default function Genre(): React.JSX.Element {
                                         sx={{
                                             fontSize: [16, 18, 20, 24, 26],
                                         }}
-                                        color={"secondary"}
                                         variant="h2"
                                         textAlign={"center"}
                                     >
                                         {`Series of genre ${params.name}`}
                                     </Typography>
                                     <Divider
-                                        sx={{ borderBottomWidth: 3, background: colors.greenAccent[500], mt: 1 }}
+                                        sx={{ borderBottomWidth: 3, background: colors.primary[100], mt: 1 }}
                                     />
                                 </Box>
                                 <Box
@@ -254,7 +252,7 @@ export default function Genre(): React.JSX.Element {
                                     No search result, no serie found with this genre.
                                 </Typography>
                             </Box>
-                            <Divider sx={{ borderBottomWidth: 3, background: colors.greenAccent[500] }} />
+                            <Divider sx={{ borderBottomWidth: 3, background: colors.primary[100] }} />
                         </>
                     )}
                 </Box>

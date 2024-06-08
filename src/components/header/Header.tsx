@@ -246,7 +246,7 @@ const Header = (): React.JSX.Element => {
                                                     to={`/genres/${genre.name}`}
                                                     style={{
                                                         textDecoration: "none",
-                                                        color: colors.greenAccent[500],
+                                                        color: colors.primary[100],
                                                     }}
                                                 >
                                                     <Box
@@ -259,9 +259,9 @@ const Header = (): React.JSX.Element => {
                                                             cursor: "pointer",
                                                             padding: 1.5,
                                                             textAlign: "center",
-                                                            transition: "background-color 0.5s",
+                                                            transition: "background-color 0.2s",
                                                             "&:hover": {
-                                                                backgroundColor: "rgba(0, 0, 0, 0.08)",
+                                                                backgroundColor: colors.greenAccent[800],
                                                             },
                                                         }}
                                                     >
@@ -403,7 +403,7 @@ const Header = (): React.JSX.Element => {
                                             }}
                                         >
                                             <Button
-                                                variant="outlined"
+                                                variant="text"
                                                 onClick={function () {
                                                     window.scrollTo(0, 0);
                                                 }}
@@ -413,8 +413,7 @@ const Header = (): React.JSX.Element => {
                                                     columnGap: 1,
                                                     px: 2,
                                                     py: 1,
-                                                    backgroundColor: colors.primary[100],
-                                                    color: colors.primary[900],
+                                                    color: colors.primary[100],
                                                     "&:hover": {
                                                         backgroundColor: colors.greenAccent[700],
                                                         color: colors.grey[100],
@@ -438,15 +437,14 @@ const Header = (): React.JSX.Element => {
                                             }}
                                         >
                                             <Button
-                                                variant="outlined"
+                                                variant="text"
                                                 sx={{
                                                     display: "flex",
                                                     flexDirection: "row",
                                                     columnGap: 1,
                                                     px: 2,
                                                     py: 1,
-                                                    backgroundColor: colors.primary[100],
-                                                    color: colors.primary[900],
+                                                    color: colors.primary[100],
                                                     "&:hover": {
                                                         backgroundColor: colors.greenAccent[700],
                                                         color: colors.grey[100],
