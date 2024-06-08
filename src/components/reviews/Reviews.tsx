@@ -12,7 +12,7 @@ export function Reviews({ data, sortBy, ascOrDesc, handleChangeSorting }: IRevie
     return (
         <Stack flexDirection={"row"} justifyContent={"space-between"} alignItems={"center"}>
             <Box>
-                <Typography fontSize={28} color={"secondary"} textAlign={"center"}>
+                <Typography fontSize={22} textAlign={"center"}>
                     Reviews ({data.totalReviews})
                 </Typography>
             </Box>

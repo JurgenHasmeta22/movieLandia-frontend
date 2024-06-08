@@ -144,6 +144,7 @@ export default function Serie() {
             if (response && !response.error) {
                 setReview("");
                 setRating(null);
+                setUser(response);
                 await refetchSerieDetails();
                 toast.success("Review submitted successfully!");
             } else {
@@ -179,6 +180,7 @@ export default function Serie() {
 
                             if (response && !response.error) {
                                 setReview("");
+                                setUser(response);
                                 await refetchSerieDetails();
                                 toast.success("Review removed successfully!");
                             } else {
@@ -211,6 +213,7 @@ export default function Serie() {
                 setReview("");
                 setRating(null);
                 setIsEditMode(false);
+                setUser(response);
                 handleFocusReview();
                 await refetchSerieDetails();
                 toast.success("Review updated successfully!");

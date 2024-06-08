@@ -202,7 +202,6 @@ export function DetailsPageCard({
                             width: "30%",
                             columnGap: 1,
                             marginTop: 3,
-                            border: "none",
                             "&:hover": {
                                 backgroundColor: colors.primary[900],
                             },
@@ -241,27 +240,29 @@ export function DetailsPageCard({
                                     }
                                 }
                             }}
-                            color="secondary"
-                            variant="contained"
+                            variant="text"
                             sx={{
                                 display: "flex",
                                 placeSelf: "center",
                                 width: "30%",
                                 columnGap: 1,
                                 marginTop: 1,
+                                color: colors.primary[100],
+                                "&:hover": {
+                                    backgroundColor: colors.primary[900],
+                                },
                             }}
                         >
                             {(type === "movie" && !isMovieBookmarked) || (type === "serie" && !isSerieBookmarked) ? (
-                                <BookmarkAddIcon color="success" />
+                                <BookmarkAddIcon color="success" fontSize="medium" />
                             ) : (
-                                <BookmarkRemoveIcon color="error" />
+                                <BookmarkRemoveIcon color="error" fontSize="medium" />
                             )}
                             <Typography
                                 component="span"
                                 sx={{
                                     textTransform: "capitalize",
                                 }}
-                                color="primary"
                                 fontWeight={700}
                             >
                                 {isMovieBookmarked || isSerieBookmarked ? "Bookmarked" : "Bookmark"}
