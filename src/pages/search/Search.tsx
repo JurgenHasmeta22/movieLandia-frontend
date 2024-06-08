@@ -139,11 +139,11 @@ export function Search() {
                         <Box display={"flex"} flexDirection={"column"} rowGap={3}>
                             <Box ml={1} mt={4} display="flex" justifyContent="space-between" alignItems="center">
                                 <Box>
-                                    <Typography fontSize={28} color="secondary" variant="h2">
+                                    <Typography fontSize={28} variant="h2">
                                         Movies
                                     </Typography>
                                     <Divider
-                                        sx={{ borderBottomWidth: 3, background: colors.greenAccent[500], mt: 1 }}
+                                        sx={{ borderBottomWidth: 3, background: colors.primary[100], mt: 1 }}
                                     />
                                 </Box>
                                 <Box
@@ -184,7 +184,7 @@ export function Search() {
                                 />
                             </Box>
                         </Box>
-                        <Divider sx={{ borderBottomWidth: 3, background: colors.greenAccent[500] }} />
+                        <Divider sx={{ borderBottomWidth: 3, background: colors.primary[100] }} />
                     </>
                 ) : (
                     <>
@@ -201,17 +201,17 @@ export function Search() {
                                 No search result, no movie found with that criteria.
                             </Typography>
                         </Box>
-                        <Divider sx={{ borderBottomWidth: 3, background: colors.greenAccent[500] }} />
+                        <Divider sx={{ borderBottomWidth: 3, background: colors.primary[100] }} />
                     </>
                 )}
                 {series.length !== 0 ? (
                     <Box display={"flex"} flexDirection={"column"} rowGap={3}>
                         <Box ml={1} mt={4} display="flex" justifyContent="space-between" alignItems="center">
                             <Box>
-                                <Typography fontSize={28} color="secondary" variant="h2">
+                                <Typography fontSize={28} variant="h2">
                                     Series
                                 </Typography>
-                                <Divider sx={{ borderBottomWidth: 3, background: colors.greenAccent[500], mt: 1 }} />
+                                <Divider sx={{ borderBottomWidth: 3, background: colors.primary[100], mt: 1 }} />
                             </Box>
                             <Box
                                 sx={{
