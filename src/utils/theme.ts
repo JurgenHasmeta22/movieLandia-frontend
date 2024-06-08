@@ -181,14 +181,14 @@ export const themeSettings = (mode: any) => {
             fontSize: 12,
             h1: {
                 fontFamily: ["Montserrat", "sans-serif"].join(","),
-                fontSize: 56,
+                fontSize: 45,
                 "@media (max-width:600px)": {
                     fontSize: "42px",
                 },
             },
             h2: {
                 fontFamily: ["Montserrat", "sans-serif"].join(","),
-                fontSize: 44,
+                fontSize: 35,
                 "@media (max-width:600px)": {
                     fontSize: "32px",
                 },

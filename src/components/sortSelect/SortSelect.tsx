@@ -1,4 +1,4 @@
-import { Box, MenuItem, Select, SelectChangeEvent, SvgIcon } from "@mui/material";
+import { Box, MenuItem, Select, SelectChangeEvent, SvgIcon, Typography } from "@mui/material";
 import SwapVertIcon from "@mui/icons-material/SwapVert";
 import { toFirstWordUpperCase } from "~/utils/utils";
 
@@ -29,6 +29,7 @@ export default function SortSelect({ sortBy, ascOrDesc, onChange, type }: ISortS
         if (type === "list") {
             return "none";
         }
+
         return "createdAtDesc";
     };
 
@@ -44,15 +45,12 @@ export default function SortSelect({ sortBy, ascOrDesc, onChange, type }: ISortS
             defaultValue={`${type === "list" ? "none" : "createdAtDesc"}`}
             value={getValue()}
             onChange={onChange}
-            sx={{
-                px: 3,
-            }}
             renderValue={(value: string) => (
                 <Box sx={{ display: "flex", gap: 0.5 }}>
-                    <SvgIcon color="secondary">
+                    <SvgIcon fontSize="medium">
                         <SwapVertIcon />
                     </SvgIcon>
-                    {type === "list" ? valueToLabelList[value] : valueToLabelDetails[value]}
+                    <Typography>{type === "list" ? valueToLabelList[value] : valueToLabelDetails[value]}</Typography>
                 </Box>
             )}
         >

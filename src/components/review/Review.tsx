@@ -287,6 +287,7 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
                                 "&:hover": {
                                     backgroundColor: "transparent",
                                 },
+                                color: colors.primary[100]
                             }}
                         >
                             <Typography>{review._count.upvotes}</Typography>
