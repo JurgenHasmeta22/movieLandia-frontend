@@ -1,4 +1,4 @@
-import { Box, CircularProgress, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import HeaderDashboard from "~/components/admin/headerDashboard/HeaderDashboard";
 import { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router";
@@ -17,6 +17,7 @@ import Breadcrumb from "~/components/admin/breadcrumb/Breadcrumb";
 import IUserPatch from "~/types/IUserPatch";
 import { CheckOutlined, WarningOutlined } from "@mui/icons-material";
 import { useModal } from "~/services/providers/ModalContext";
+import Loading from "~/components/loading/Loading";
 
 const userSchema = yup.object().shape({
     userName: yup.string().required("required"),
@@ -87,7 +88,7 @@ const UserAdmin = () => {
         fetchData();
     }, []);
 
-    if (loading) return <CircularProgress />;
+    if (loading) return <Loading />;
 
     return (
         <Box m="20px">

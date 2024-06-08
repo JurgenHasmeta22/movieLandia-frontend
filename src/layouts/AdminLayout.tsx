@@ -1,9 +1,10 @@
-import { Box, CircularProgress, Grid } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import { motion } from "framer-motion";
 import React from "react";
 import { Outlet } from "react-router-dom";
 import Sidebar from "~/components/admin/sidebar/Sidebar";
 import TopBar from "~/components/admin/topBar/TopBar";
+import Loading from "~/components/loading/Loading";
 import SEOHelmet from "~/components/seoHelmet/SEOHelmet";
 import { ModalProvider } from "~/services/providers/ModalContext";
 import { RightPanelProvider } from "~/services/providers/RightPanelContext";
@@ -26,16 +27,7 @@ const AdminLayout = () => {
                             <TopBar />
                             <React.Suspense
                                 fallback={
-                                    <Box
-                                        sx={{
-                                            display: "flex",
-                                            placeItems: "center",
-                                            placeContent: "center",
-                                            height: "200vh",
-                                        }}
-                                    >
-                                        <CircularProgress size={80} thickness={4} />
-                                    </Box>
+                                    <Loading />
                                 }
                             >
                                 <motion.div

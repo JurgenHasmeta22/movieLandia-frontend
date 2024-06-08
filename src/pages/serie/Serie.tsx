@@ -1,6 +1,6 @@
 import type ISerie from "~/types/ISerie";
 import serieService from "~/services/api/serieService";
-import { Box, CircularProgress, Container, Divider, Stack, useTheme } from "@mui/material";
+import { Box, Container, Divider, Stack, useTheme } from "@mui/material";
 import SEOHelmet from "~/components/seoHelmet/SEOHelmet";
 import { toast } from "react-toastify";
 import { useQuery } from "@tanstack/react-query";
@@ -18,6 +18,7 @@ import TextEditorForm from "~/components/textEditorForm/TextEditorForm";
 import Reviews from "~/components/reviews/Reviews";
 import { tokens } from "~/utils/theme";
 import ListDetail from "~/components/listDetail/ListDetail";
+import Loading from "~/components/loading/Loading";
 
 export default function Serie() {
     // #region "State, refs, hooks, theme"
@@ -328,16 +329,7 @@ export default function Serie() {
     // #region "Errors query checking"
     if (serieQuery.isLoading || latestSeriesQuery.isLoading) {
         return (
-            <Box
-                sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    height: "200vh",
-                }}
-            >
-                <CircularProgress size={80} thickness={4} color="secondary" />
-            </Box>
+            <Loading />
         );
     }
 

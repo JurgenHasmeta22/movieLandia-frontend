@@ -1,5 +1,5 @@
 import type ISerie from "~/types/ISerie";
-import { Box, CircularProgress, Container, Divider, Stack, Typography, useTheme } from "@mui/material";
+import { Box, Container, Divider, Stack, Typography, useTheme } from "@mui/material";
 import SEOHelmet from "~/components/seoHelmet/SEOHelmet";
 import { getRandomElements } from "~/utils/utils";
 import Carousel from "~/components/carousel/Carousel";
@@ -11,6 +11,7 @@ import PaginationControl from "~/components/paginationControl/PaginationControl"
 import serieService from "~/services/api/serieService";
 import LatestList from "~/components/latestList/LatestList";
 import { tokens } from "~/utils/theme";
+import Loading from "~/components/loading/Loading";
 
 export default function Series() {
     const { searchParams, setSearchParams, handleChangeSorting, page } = useListPageData();
@@ -56,16 +57,7 @@ export default function Series() {
 
     if (seriesQuery.isLoading) {
         return (
-            <Box
-                sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    height: "200vh",
-                }}
-            >
-                <CircularProgress size={80} thickness={4} color="secondary" />
-            </Box>
+            <Loading />
         );
     }
 
