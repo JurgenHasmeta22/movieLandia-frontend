@@ -40,11 +40,6 @@ export function DetailsPageCard({
     return (
         <Box
             sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                width: "100%",
                 pt: 8,
                 pb: 4,
             }}
@@ -60,7 +55,7 @@ export function DetailsPageCard({
                     height: "100%",
                     width: "100%",
                     columnGap: 6,
-                    padding: 6,
+                    padding: 4,
                     backgroundColor: `${colors.primary[400]}`,
                 }}
             >
@@ -71,7 +66,7 @@ export function DetailsPageCard({
                         flexDirection: "column",
                     }}
                 >
-                    <Typography fontSize={[20, 24, 28, 36]} textAlign={"center"} component={"h1"}>
+                    <Typography fontSize={[20, 24, 28, 32]} textAlign={"center"} component={"h1"}>
                         {data.title}
                     </Typography>
                     <List
@@ -187,7 +182,7 @@ export function DetailsPageCard({
                             </Box>
                         </ListItem>
                     </List>
-                    <Typography textAlign={"center"} width={["40ch", "60ch", "70ch", "80ch"]}>
+                    <Typography textAlign={"center"} width={["45ch", "50ch", "55ch", "60ch"]}>
                         {data.description}
                     </Typography>
                     <Button
