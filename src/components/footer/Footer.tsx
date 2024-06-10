@@ -34,7 +34,7 @@ const Footer = (): React.JSX.Element => {
                 alignItems: "center",
                 justifyContent: "center",
                 backgroundColor: colors.primary[900],
-                py: 3,
+                py: 4,
                 gap: 2,
                 color: colors.primary[100],
             }}
@@ -42,7 +42,7 @@ const Footer = (): React.JSX.Element => {
         >
             <Stack direction="row" spacing={8} sx={{ flexWrap: "wrap", justifyContent: "center", mb: 1 }}>
                 <Box>
-                    <Typography variant="h6" gutterBottom>
+                    <Typography variant="h4" gutterBottom>
                         Explore
                     </Typography>
                     <Stack spacing={1}>
@@ -67,7 +67,7 @@ const Footer = (): React.JSX.Element => {
                     </Stack>
                 </Box>
                 <Box>
-                    <Typography variant="h6" gutterBottom>
+                    <Typography variant="h4" gutterBottom>
                         Account
                     </Typography>
                     <Stack spacing={1}>
@@ -86,7 +86,7 @@ const Footer = (): React.JSX.Element => {
                     </Stack>
                 </Box>
                 <Box>
-                    <Typography variant="h6" gutterBottom>
+                    <Typography variant="h4" gutterBottom>
                         Follow Us
                     </Typography>
                     <Stack direction="row" spacing={2}>
@@ -129,19 +129,33 @@ const Footer = (): React.JSX.Element => {
                     </Stack>
                 </Box>
                 <Box>
-                    <Typography variant="h6" gutterBottom>
+                    <Typography variant="h4" gutterBottom>
                         Newsletter
                     </Typography>
                     <Stack direction="row" spacing={1} alignItems="center">
                         <TextField variant="outlined" size="small" placeholder="Email" />
-                        <Button variant="contained">Subscribe</Button>
+                        <Button
+                            variant="contained"
+                            sx={{
+                                py: 1.2,
+                                px: 3,
+                                backgroundColor: colors.primary[100],
+                                color: colors.primary[900],
+                            }}
+                        >
+                            Subscribe
+                        </Button>
                     </Stack>
                 </Box>
             </Stack>
             <Box width={"100%"}>
                 <Divider sx={{ borderBottomWidth: 3, background: colors.primary[100] }} />
             </Box>
-            <Box>
+            <Box
+                sx={{
+                    pt: 2,
+                }}
+            >
                 <Typography variant="body2">Copyright © 2024 | MovieLandia24</Typography>
             </Box>
         </Box>
