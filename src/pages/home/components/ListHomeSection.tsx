@@ -1,4 +1,3 @@
-import { Box, Stack, Typography, useTheme } from "@mui/material";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import GenreItem from "~/components/genreItem/GenreItem";
@@ -6,7 +5,6 @@ import CardItem from "~/components/cardItem/CardItem";
 import IGenre from "~/types/IGenre";
 import IMovie from "~/types/IMovie";
 import ISerie from "~/types/ISerie";
-import { tokens } from "~/utils/theme";
 
 interface ListHomeSectionProps {
     data: IGenre[] | IMovie[] | ISerie[];
@@ -27,9 +25,6 @@ const ListHomeSection: React.FC<ListHomeSectionProps> = ({
     link,
     linkText,
 }) => {
-    const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
-
     return (
         <motion.div
             ref={dataRef}
@@ -37,16 +32,11 @@ const ListHomeSection: React.FC<ListHomeSectionProps> = ({
             variants={dataVariants}
             transition={{ duration: 0.5 }}
             initial="hidden"
-            style={{ position: "relative" }}
+            className="relative"
         >
-            <Box display={"flex"} flexDirection={"column"} rowGap={3} component={"section"}>
-                <Stack flexDirection={"row"} justifyContent={"space-between"} alignItems={"center"} mr={1} ml={1}>
-                    <Typography
-                        sx={{
-                            fontWeight: 700,
-                            fontSize: 24,
-                        }}
-                    >
+            <section className="flex flex-col space-y-3">
+                <div className="flex flex-row justify-between items-center mx-1">
+                    <h2 className="font-bold text-2xl">
                         {type === "genre"
                             ? "Trending Genres"
                             : type === "movie"
@@ -54,30 +44,18 @@ const ListHomeSection: React.FC<ListHomeSectionProps> = ({
                               : type === "serie"
                                 ? "Trending Series"
                                 : ""}
-                    </Typography>
+                    </h2>
                     <Link
                         to={link}
-                        style={{
-                            textDecoration: "none",
-                            fontWeight: 900,
-                            fontSize: 14,
-                            color: colors.primary[100],
-                        }}
+                        className="text-sm font-black text-blue-500 no-underline"
                         onClick={() => {
                             window.scrollTo(0, 0);
                         }}
                     >
                         {linkText}
                     </Link>
-                </Stack>
-                <Stack
-                    direction="row"
-                    flexWrap="wrap"
-                    justifyContent={"center"}
-                    alignContent={"center"}
-                    rowGap={4}
-                    columnGap={4}
-                >
+                </div>
+                <div className="flex flex-row flex-wrap justify-center items-center space-y-4 space-x-4">
                     {data.map((item) =>
                         type === "genre" ? (
                             <GenreItem key={item.id} genre={item as IGenre} />
@@ -85,8 +63,8 @@ const ListHomeSection: React.FC<ListHomeSectionProps> = ({
                             <CardItem data={item} key={item.id} type={type} />
                         ),
                     )}
-                </Stack>
-            </Box>
+                </div>
+            </section>
         </motion.div>
     );
 };

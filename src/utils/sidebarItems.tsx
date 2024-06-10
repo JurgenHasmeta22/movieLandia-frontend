@@ -1,39 +1,34 @@
-import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
-import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
-import LocalMoviesIcon from "@mui/icons-material/LocalMovies";
-import LiveTvIcon from "@mui/icons-material/LiveTv";
-import MovieIcon from "@mui/icons-material/Movie";
+import { BiHome, BiUser, BiCameraMovie, BiVideo, BiTv } from "react-icons/bi";
 
 export const sidebarItems = [
     {
         label: "Dashboard",
         to: "/admin/dashboard",
-        icon: <HomeOutlinedIcon />,
+        icon: <BiHome />,
         index: 0,
     },
     {
         label: "Users",
         to: "/admin/users",
-        icon: <PeopleOutlinedIcon />,
+        icon: <BiUser />,
         index: 1,
     },
     {
         label: "Movies",
         to: "/admin/movies",
-        icon: <LocalMoviesIcon />,
+        icon: <BiCameraMovie />,
         index: 2,
     },
     {
         label: "Genres",
         to: "/admin/genres",
-        icon: <MovieIcon />,
+        icon: <BiVideo />,
         index: 3,
     },
     {
         label: "Series",
         to: "/admin/series",
-        icon: <LiveTvIcon />,
+        icon: <BiTv />,
         index: 4,
     },
 ];
