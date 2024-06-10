@@ -1,4 +1,3 @@
-import { Box, Grid } from "@mui/material";
 import { motion } from "framer-motion";
 import React from "react";
 import { Outlet } from "react-router-dom";
@@ -19,31 +18,29 @@ const AdminLayout = () => {
             <ModalProvider>
                 <>
                     <SEOHelmet noIndex />
-                    <Grid container component={"main"}>
-                        <Grid item xs={12} md={isOpenSidebarAdmin ? 2 : 0}>
-                            <Sidebar sidebarItems={sidebarItems} />
-                        </Grid>
-                        <Grid item xs={12} md={isOpenSidebarAdmin ? 10 : 12}>
+                    <main className="flex w-full">
+                        {isOpenSidebarAdmin && (
+                            <div className="w-full md:w-1/5">
+                                <Sidebar sidebarItems={sidebarItems} />
+                            </div>
+                        )}
+                        <div className={`w-full ${isOpenSidebarAdmin ? "md:w-4/5" : "md:w-full"}`}>
                             <TopBar />
-                            <React.Suspense
-                                fallback={
-                                    <Loading />
-                                }
-                            >
+                            <React.Suspense fallback={<Loading />}>
                                 <motion.div
                                     initial={{ opacity: 0 }}
                                     animate={{ opacity: 1 }}
                                     exit={{ opacity: 0 }}
                                     transition={{ duration: 0.5 }}
-                                    style={{ width: "100%" }}
+                                    className="w-full"
                                 >
-                                    <Box ml={4}>
+                                    <div className="ml-4">
                                         <Outlet />
-                                    </Box>
+                                    </div>
                                 </motion.div>
                             </React.Suspense>
-                        </Grid>
-                    </Grid>
+                        </div>
+                    </main>
                 </>
             </ModalProvider>
         </RightPanelProvider>

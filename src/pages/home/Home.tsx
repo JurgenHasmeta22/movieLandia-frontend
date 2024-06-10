@@ -1,4 +1,3 @@
-import { Box, Container, Stack, Typography } from "@mui/material";
 import HomeHeroSection from "./components/HomeHero";
 import { useEffect } from "react";
 import ISerie from "~/types/ISerie";
@@ -74,23 +73,14 @@ export default function Home() {
 
     // #region "Checking fetching state"
     if (moviesQuery.isLoading || seriesQuery.isLoading || genresQuery.isLoading) {
-        return (
-            <Loading />
-        );
+        return <Loading />;
     }
 
     if (moviesQuery.isError || seriesQuery.isError || genresQuery.isError) {
         return (
-            <Box
-                sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    height: "200vh",
-                }}
-            >
-                <Typography variant="h1">An Error occurred the server is down!</Typography>
-            </Box>
+            <div className="flex justify-center items-center h-screen">
+                <h1 className="text-4xl">An Error occurred the server is down!</h1>
+            </div>
         );
     }
     // #endregion
@@ -105,10 +95,10 @@ export default function Home() {
                 canonicalUrl={"https://example.com/"}
             />
             <HomeHeroSection />
-            <Container>
-                <Stack flexDirection={"column"} rowGap={10} mb={6} mt={6}>
+            <div className="container mx-auto mt-6 mb-6">
+                <div className="flex flex-col space-y-10">
                     <ListHomeSection
-                        key={"movie"}
+                        key="movie"
                         data={finalMovies}
                         dataControls={moviesControls}
                         dataRef={moviesRef}
@@ -118,7 +108,7 @@ export default function Home() {
                         linkText="Explore All Movies"
                     />
                     <ListHomeSection
-                        key={"serie"}
+                        key="serie"
                         data={finalSeries}
                         dataControls={seriesControls}
                         dataRef={seriesRef}
@@ -128,7 +118,7 @@ export default function Home() {
                         linkText="Explore All Series"
                     />
                     <ListHomeSection
-                        key={"genre"}
+                        key="genre"
                         data={finalGenres}
                         dataControls={genresControls}
                         dataRef={genresRef}
@@ -137,8 +127,8 @@ export default function Home() {
                         link="/genres"
                         linkText="Explore All Genres"
                     />
-                </Stack>
-            </Container>
+                </div>
+            </div>
         </>
     );
 }
