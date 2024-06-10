@@ -45,7 +45,8 @@ const Footer = (): React.JSX.Element => {
                     <Typography variant="h4" gutterBottom>
                         Explore
                     </Typography>
-                    <Stack spacing={1}>
+                    <Divider sx={{ borderBottomWidth: 3, background: colors.primary[100] }} />
+                    <Stack spacing={1} pt={1}>
                         <NavLink to="/movies" style={{ textDecoration: "none", color: colors.primary[100] }}>
                             <Stack direction="row" alignItems="center" spacing={1}>
                                 <MovieIcon />
@@ -70,7 +71,8 @@ const Footer = (): React.JSX.Element => {
                     <Typography variant="h4" gutterBottom>
                         Account
                     </Typography>
-                    <Stack spacing={1}>
+                    <Divider sx={{ borderBottomWidth: 3, background: colors.primary[100] }} />
+                    <Stack spacing={1} mt={1}>
                         <NavLink to="/login" style={{ textDecoration: "none", color: colors.primary[100] }}>
                             <Stack direction="row" alignItems="center" spacing={1}>
                                 <LockOpenIcon />
@@ -89,7 +91,8 @@ const Footer = (): React.JSX.Element => {
                     <Typography variant="h4" gutterBottom>
                         Follow Us
                     </Typography>
-                    <Stack direction="row" spacing={2}>
+                    <Divider sx={{ borderBottomWidth: 3, background: colors.primary[100] }} />
+                    <Stack direction="row" spacing={2} mt={1}>
                         <IconButton
                             component={MuiLink}
                             href="https://facebook.com"
@@ -132,7 +135,8 @@ const Footer = (): React.JSX.Element => {
                     <Typography variant="h4" gutterBottom>
                         Newsletter
                     </Typography>
-                    <Stack direction="row" spacing={1} alignItems="center">
+                    <Divider sx={{ borderBottomWidth: 3, background: colors.primary[100] }} />
+                    <Stack direction="row" spacing={1} alignItems="center" mt={1}>
                         <TextField variant="outlined" size="small" placeholder="Email" />
                         <Button
                             variant="contained"
