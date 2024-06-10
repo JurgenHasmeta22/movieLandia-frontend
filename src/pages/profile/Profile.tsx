@@ -1,13 +1,4 @@
-import {
-    Box,
-    Button,
-    CircularProgress,
-    Stack,
-    Tab,
-    Tabs,
-    Typography,
-    useTheme,
-} from "@mui/material";
+import { Box, Button, Stack, Tab, Tabs, Typography, useTheme } from "@mui/material";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useStore } from "~/store/store";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
@@ -26,6 +17,7 @@ import ClearAllIcon from "@mui/icons-material/ClearAll";
 import SaveAsIcon from "@mui/icons-material/SaveAs";
 import { FormikProps } from "formik";
 import IUserPatch from "~/types/IUserPatch";
+import Loading from "~/components/loading/Loading";
 
 const userSchema = Yup.object().shape({
     userName: Yup.string()
@@ -37,19 +29,16 @@ const userSchema = Yup.object().shape({
 });
 
 export default function Profile() {
+    const { user, setUser } = useStore();
     const [searchParams, setSearchParams] = useSearchParams();
     const navigate = useNavigate();
-    const { user, setUser } = useStore();
-    const theme = useTheme();
     const { openRightPanel } = useRightPanel();
+
     const formikRef = useRef<FormikProps<any>>(null);
+    const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-    const tabValue =
-        searchParams?.get("tab")! === "favMovies"
-            ? 0
-            : searchParams?.get("tab")! === "favSeries"
-              ? 1
-              : 0;
+
+    const tabValue = searchParams?.get("tab")! === "favMovies" ? 0 : searchParams?.get("tab")! === "favSeries" ? 1 : 0;
 
     const handleChange = (event: any, newValue: number) => {
         if (newValue === 0) {
@@ -139,16 +128,7 @@ export default function Profile() {
 
     if (!user) {
         return (
-            <Box
-                sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    height: "100vh",
-                }}
-            >
-                <CircularProgress size={80} thickness={4} color="secondary" />
-            </Box>
+            <Loading />
         );
     }
 
@@ -161,15 +141,7 @@ export default function Profile() {
                 type="website"
                 canonicalUrl="https://example.com/profile"
             />
-            <Stack
-                flexDirection="row"
-                px={4}
-                py={10}
-                columnGap={4}
-                rowGap={4}
-                flexWrap={"wrap"}
-                width={"100%"}
-            >
+            <Stack flexDirection="row" px={4} py={10} columnGap={4} rowGap={4} flexWrap={"wrap"} width={"100%"}>
                 <Stack
                     component="section"
                     sx={{
@@ -308,12 +280,7 @@ export default function Profile() {
                         width: ["100%", "100%", "65%", "65%"],
                     }}
                 >
-                    <Tabs
-                        value={tabValue}
-                        onChange={handleChange}
-                        variant="fullWidth"
-                        orientation="horizontal"
-                    >
+                    <Tabs value={tabValue} onChange={handleChange} variant="fullWidth" orientation="horizontal">
                         <Tab
                             label="Favorite Movies"
                             tabIndex={0}

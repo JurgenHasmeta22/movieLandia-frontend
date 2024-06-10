@@ -1,4 +1,4 @@
-import { Box, CircularProgress, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import HeaderDashboard from "~/components/admin/headerDashboard/HeaderDashboard";
 import { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router";
@@ -16,6 +16,7 @@ import * as CONSTANTS from "~/constants/Constants";
 import Breadcrumb from "~/components/admin/breadcrumb/Breadcrumb";
 import { useModal } from "~/services/providers/ModalContext";
 import { WarningOutlined, CheckOutlined } from "@mui/icons-material";
+import Loading from "~/components/loading/Loading";
 
 const genreSchema = yup.object().shape({
     name: yup.string().required("required"),
@@ -83,15 +84,12 @@ const GenreAdmin = () => {
         fetchData();
     }, []);
 
-    if (loading) return <CircularProgress />;
+    if (loading) return <Loading />;
 
     return (
         <Box m="20px">
             <Breadcrumb breadcrumbs={breadcrumbs} navigateTo={"/admin/genres"} />
-            <HeaderDashboard
-                title={CONSTANTS.USER__EDIT__TITLE}
-                subtitle={CONSTANTS.USER__EDIT__SUBTITLE}
-            />
+            <HeaderDashboard title={CONSTANTS.USER__EDIT__TITLE} subtitle={CONSTANTS.USER__EDIT__SUBTITLE} />
             <FormAdvanced
                 initialValues={{
                     id: genre?.id,
@@ -139,9 +137,7 @@ const GenreAdmin = () => {
                                     {
                                         label: CONSTANTS.MODAL__DELETE__YES,
                                         onClick: async () => {
-                                            const response = await genreService.deleteGenre(
-                                                genre?.id!,
-                                            );
+                                            const response = await genreService.deleteGenre(genre?.id!);
 
                                             if (response) {
                                                 toast.success(CONSTANTS.DELETE__SUCCESS);

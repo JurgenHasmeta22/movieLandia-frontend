@@ -1,19 +1,18 @@
-import { Box, CircularProgress, Container, Stack, Typography } from "@mui/material";
+import { Box, Container, Stack, Typography } from "@mui/material";
 import HomeHeroSection from "./components/HomeHero";
 import { useEffect } from "react";
 import ISerie from "~/types/ISerie";
 import IGenre from "~/types/IGenre";
 import IMovie from "~/types/IMovie";
-import { Link } from "react-router-dom";
 import movieService from "~/services/api/movieService";
 import serieService from "~/services/api/serieService";
 import genreService from "~/services/api/genreService";
-import { motion, useAnimation } from "framer-motion";
+import { useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import CardItem from "~/components/cardItem/CardItem";
 import { useQuery } from "@tanstack/react-query";
 import SEOHelmet from "~/components/seoHelmet/SEOHelmet";
 import ListHomeSection from "./components/ListHomeSection";
+import Loading from "~/components/loading/Loading";
 
 const sectionVariants = {
     hidden: { opacity: 0, y: 100 },
@@ -21,31 +20,30 @@ const sectionVariants = {
 };
 
 export default function Home() {
+    // #region "Data fetching"
     const moviesQuery = useQuery({
         queryKey: ["movies"],
         queryFn: () => movieService.getMovies({}),
     });
+    const movies: IMovie[] = moviesQuery.data?.movies! ?? [];
+    const finalMovies: IMovie[] = movies.slice(0, 5);
+
     const seriesQuery = useQuery({
         queryKey: ["series"],
         queryFn: () => serieService.getSeries({}),
     });
+    const series: ISerie[] = seriesQuery.data?.rows! ?? [];
+    const finalSeries: ISerie[] = series.slice(0, 5);
+
     const genresQuery = useQuery({
         queryKey: ["genres"],
         queryFn: () => genreService.getGenres({}),
     });
-
-    const movies: IMovie[] = moviesQuery.data?.movies! ?? [];
-    const shuffledMovies: IMovie[] = movies.sort(() => Math.random() - 0.5);
-    const finalMovies: IMovie[] = shuffledMovies.slice(0, 5);
-
-    const series: ISerie[] = seriesQuery.data?.rows! ?? [];
-    const shuffledSeries: ISerie[] = series.sort(() => Math.random() - 0.5);
-    const finalSeries: ISerie[] = shuffledSeries.slice(0, 5);
-
     const genres: IGenre[] = genresQuery.data?.rows! ?? [];
-    const shuffledGenres: IGenre[] = genres.sort(() => Math.random() - 0.5);
-    const finalGenres: IGenre[] = shuffledGenres.slice(0, 5);
+    const finalGenres: IGenre[] = genres.slice(0, 5);
+    // #endregion
 
+    // #region "Refs, animation"
     const [moviesRef, moviesInView] = useInView({ triggerOnce: true });
     const moviesControls = useAnimation();
 
@@ -72,19 +70,12 @@ export default function Home() {
             genresControls.start("visible");
         }
     }, [genresInView, genresControls]);
+    // #endregion
 
+    // #region "Checking fetching state"
     if (moviesQuery.isLoading || seriesQuery.isLoading || genresQuery.isLoading) {
         return (
-            <Box
-                sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    height: "100vh",
-                }}
-            >
-                <CircularProgress size={80} thickness={4} color="secondary" />
-            </Box>
+            <Loading />
         );
     }
 
@@ -95,13 +86,14 @@ export default function Home() {
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
-                    height: "100vh",
+                    height: "200vh",
                 }}
             >
                 <Typography variant="h1">An Error occurred the server is down!</Typography>
             </Box>
         );
     }
+    // #endregion
 
     return (
         <>
@@ -116,31 +108,34 @@ export default function Home() {
             <Container>
                 <Stack flexDirection={"column"} rowGap={10} mb={6} mt={6}>
                     <ListHomeSection
+                        key={"movie"}
                         data={finalMovies}
                         dataControls={moviesControls}
                         dataRef={moviesRef}
                         dataVariants={sectionVariants}
                         type="movie"
                         link="/movies"
-                        linkText="Explore Movies"
+                        linkText="Explore All Movies"
                     />
                     <ListHomeSection
+                        key={"serie"}
                         data={finalSeries}
                         dataControls={seriesControls}
                         dataRef={seriesRef}
                         dataVariants={sectionVariants}
                         type="serie"
                         link="/series"
-                        linkText="Explore Series"
+                        linkText="Explore All Series"
                     />
                     <ListHomeSection
+                        key={"genre"}
                         data={finalGenres}
                         dataControls={genresControls}
                         dataRef={genresRef}
                         dataVariants={sectionVariants}
                         type="genre"
                         link="/genres"
-                        linkText="Explore Genres"
+                        linkText="Explore All Genres"
                     />
                 </Stack>
             </Container>

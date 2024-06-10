@@ -20,6 +20,7 @@ const Genres = React.lazy(() => import("~/pages/genres/Genres"));
 const Genre = React.lazy(() => import("~/pages/genre/Genre"));
 const Movies = React.lazy(() => import("~/pages/movies/Movies"));
 const Movie = React.lazy(() => import("~/pages/movie/Movie"));
+const Search = React.lazy(() => import("~/pages/search/Search"));
 const Login = React.lazy(() => import("~/pages/login/Login"));
 const Profile = React.lazy(() => import("~/pages/profile/Profile"));
 const Register = React.lazy(() => import("~/pages/register/Register"));
@@ -80,6 +81,7 @@ function App() {
                             <Route path="/genres/:name" element={<Genre />} />
                             <Route path="/series" element={<Series />} />
                             <Route path="/series/:title" element={<Serie />} />
+                            <Route path="/search" element={<Search />} />
                         </Route>
                         <Route element={<PrivateRoutes />}>
                             <Route element={<MainLayout />}>

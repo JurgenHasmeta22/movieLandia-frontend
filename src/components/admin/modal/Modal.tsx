@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
     Button,
     Dialog,
@@ -26,6 +26,7 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import { Formik, Form, Field, FormikProps } from "formik";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { useStore } from "~/store/store";
 
 type FieldConfig = {
     name: string;
@@ -47,25 +48,13 @@ type ModalProps = {
     formRef?: React.Ref<FormikProps<any>>;
     subTitle?: string;
     hasList?: boolean;
-    dataList?: any;
-    hasMore: boolean;
-    votesPage?: number;
-    setVotesPage?: any;
 };
 
 type ActionConfig = {
     onClick: () => void;
     label: string;
     type?: string;
-    color?:
-        | "inherit"
-        | "primary"
-        | "secondary"
-        | "success"
-        | "error"
-        | "info"
-        | "warning"
-        | "default";
+    color?: "inherit" | "primary" | "secondary" | "success" | "error" | "info" | "warning" | "default";
     variant?: "text" | "outlined" | "contained";
     icon?: React.ReactNode;
     sx?: SxProps;
@@ -83,74 +72,104 @@ const Modal: React.FC<ModalProps> = ({
     onDataChange,
     subTitle,
     hasList,
-    dataList,
-    votesPage,
-    setVotesPage,
-    hasMore,
 }) => {
+    const {
+        selectedReview,
+        upvotesPageModal,
+        setUpvotesPageModal,
+        downvotesPageModal,
+        setDownvotesPageModal,
+        hasMoreUpvotesModal,
+        hasMoreDownvotesModal,
+        listModalDataType,
+    } = useStore();
+
     return (
         <Dialog open={true} onClose={onClose ? onClose : () => {}} fullWidth>
             <DialogTitle fontSize={"22px"}>
                 {title}
-                <IconButton
-                    style={{ position: "absolute", right: 2, top: 2 }}
-                    onClick={onClose ? onClose : () => {}}
-                >
+                <IconButton style={{ position: "absolute", right: 2, top: 2 }} onClick={onClose ? onClose : () => {}}>
                     <CloseIcon color="action" />
                 </IconButton>
             </DialogTitle>
             <DialogContent>
                 <DialogContentText fontSize={"16px"}>{subTitle}</DialogContentText>
                 {hasList ? (
-                    <InfiniteScroll
-                        dataLength={dataList ? dataList.length : 0}
-                        next={
-                            votesPage && setVotesPage
-                                ? () => {
-                                      setVotesPage(votesPage + 1);
-                                  }
-                                : () => {}
-                        }
-                        hasMore={hasMore}
-                        loader={
-                            <Box
-                                display={"flex"}
-                                alignItems={"center"}
-                                justifyContent={"center"}
-                                mt={1}
-                            >
-                                <CircularProgress size={30} thickness={2} color="secondary" />
-                            </Box>
-                        }
-                        // style={{ overflow: "auto" }}
-                        height={330}
-                        endMessage={
-                            <Typography sx={{ textAlign: "center" }} variant="body1">
-                                You have seen it all
-                            </Typography>
-                        }
-                    >
-                        <List>
-                            {dataList &&
-                                dataList.map((item: any, index: number) => (
-                                    <ListItem
-                                        key={index}
-                                        alignItems="center"
-                                        sx={{
-                                            justifyContent: "flex-start",
-                                        }}
-                                    >
-                                        <ListItemAvatar>
-                                            <Avatar
-                                            // alt={item.user.userName}
-                                            // src={item.user.avatar}
-                                            />
-                                        </ListItemAvatar>
-                                        <ListItemText primary={item.user.userName} />
-                                    </ListItem>
-                                ))}
-                        </List>
-                    </InfiniteScroll>
+                    <Box id="scrollableDiv">
+                        <InfiniteScroll
+                            dataLength={
+                                listModalDataType && listModalDataType === "upvotes" && selectedReview.upvotes
+                                    ? selectedReview.upvotes.length
+                                    : listModalDataType && listModalDataType === "downvotes" && selectedReview.downvotes
+                                      ? selectedReview.downvotes.length
+                                      : 0
+                            }
+                            next={() => {
+                                if (listModalDataType === "upvotes") {
+                                    setUpvotesPageModal(upvotesPageModal + 1);
+                                } else if (listModalDataType === "downvotes") {
+                                    setDownvotesPageModal(downvotesPageModal + 1);
+                                }
+                            }}
+                            hasMore={
+                                listModalDataType && listModalDataType === "upvotes"
+                                    ? hasMoreUpvotesModal
+                                    : listModalDataType && listModalDataType === "downvotes"
+                                      ? hasMoreDownvotesModal
+                                      : false
+                            }
+                            loader={
+                                <Box display={"flex"} alignItems={"center"} justifyContent={"center"} mt={1}>
+                                    <CircularProgress size={20} thickness={2} color="secondary" />
+                                </Box>
+                            }
+                            height={"auto"}
+                            endMessage={
+                                <Typography sx={{ textAlign: "center" }} variant="body1">
+                                    You have seen it all
+                                </Typography>
+                            }
+                            scrollableTarget="scrollableDiv"
+                        >
+                            <List>
+                                {listModalDataType && listModalDataType === "upvotes"
+                                    ? selectedReview?.upvotes?.map((item: any, index: number) => (
+                                          <ListItem
+                                              key={index}
+                                              alignItems="center"
+                                              sx={{
+                                                  justifyContent: "flex-start",
+                                              }}
+                                          >
+                                              <ListItemAvatar>
+                                                  <Avatar
+                                                  // alt={item.user.userName}
+                                                  // src={item.user.avatar}
+                                                  />
+                                              </ListItemAvatar>
+                                              <ListItemText primary={item.user.userName} />
+                                          </ListItem>
+                                      ))
+                                    : selectedReview?.downvotes?.map((item: any, index: number) => (
+                                          <ListItem
+                                              key={index}
+                                              alignItems="center"
+                                              sx={{
+                                                  justifyContent: "flex-start",
+                                              }}
+                                          >
+                                              <ListItemAvatar>
+                                                  <Avatar
+                                                  // alt={item.user.userName}
+                                                  // src={item.user.avatar}
+                                                  />
+                                              </ListItemAvatar>
+                                              <ListItemText primary={item.user.userName} />
+                                          </ListItem>
+                                      ))}
+                            </List>
+                        </InfiniteScroll>
+                    </Box>
                 ) : validationSchema && initialValues && onDataChange ? (
                     <Formik
                         initialValues={initialValues ? initialValues : {}}
@@ -185,16 +204,11 @@ const Modal: React.FC<ModalProps> = ({
                                                                 labelId={`${field.name}-label`}
                                                                 as={Select}
                                                             >
-                                                                {field.options?.map(
-                                                                    (option, index: number) => (
-                                                                        <MenuItem
-                                                                            key={index}
-                                                                            value={option.value}
-                                                                        >
-                                                                            {option.label}
-                                                                        </MenuItem>
-                                                                    ),
-                                                                )}
+                                                                {field.options?.map((option, index: number) => (
+                                                                    <MenuItem key={index} value={option.value}>
+                                                                        {option.label}
+                                                                    </MenuItem>
+                                                                ))}
                                                             </Field>
                                                         </FormControl>
                                                     ) : (
@@ -206,14 +220,8 @@ const Modal: React.FC<ModalProps> = ({
                                                             value={values[field.name]}
                                                             size="medium"
                                                             type={field.type || "text"}
-                                                            helperText={
-                                                                touched[field.name] &&
-                                                                errors[field.name]
-                                                            }
-                                                            error={
-                                                                touched[field.name] &&
-                                                                !!errors[field.name]
-                                                            }
+                                                            helperText={touched[field.name] && errors[field.name]}
+                                                            error={touched[field.name] && !!errors[field.name]}
                                                             InputLabelProps={
                                                                 field.type === "date"
                                                                     ? {
@@ -265,11 +273,7 @@ const Modal: React.FC<ModalProps> = ({
                                 color={action.color || "secondary"}
                                 variant={action.variant || "text"}
                                 sx={action.sx}
-                                type={
-                                    action.type === "submit" || action.type === "reset"
-                                        ? action.type
-                                        : ""
-                                }
+                                type={action.type === "submit" || action.type === "reset" ? action.type : ""}
                                 endIcon={action.icon}
                             >
                                 {action.label}

@@ -1,65 +1,53 @@
-import { useSearchParams } from "react-router-dom";
 import type ISerie from "~/types/ISerie";
-import {
-    Box,
-    CircularProgress,
-    Container,
-    MenuItem,
-    Pagination,
-    Select,
-    Stack,
-    SvgIcon,
-    Typography,
-} from "@mui/material";
-import serieService from "~/services/api/serieService";
+import { Box, Container, Divider, Stack, Typography, useTheme } from "@mui/material";
 import SEOHelmet from "~/components/seoHelmet/SEOHelmet";
-import { useSorting } from "~/hooks/useSorting";
-import { getRandomElements, toFirstWordUpperCase } from "~/utils/utils";
+import { getRandomElements } from "~/utils/utils";
 import Carousel from "~/components/carousel/Carousel";
 import CardItem from "~/components/cardItem/CardItem";
 import { useQuery } from "@tanstack/react-query";
-import SwapVertIcon from "@mui/icons-material/SwapVert";
 import SortSelect from "~/components/sortSelect/SortSelect";
-
-const valueToLabelMap: Record<any, string> = {
-    none: "None",
-    ratingImdbAsc: "Imdb rating (Asc)",
-    ratingImdbDesc: "Imdb rating (Desc)",
-    titleAsc: "Title (Asc)",
-    titleDesc: "Title (Desc)",
-};
+import { useListPageData } from "~/hooks/useListPageData";
+import PaginationControl from "~/components/paginationControl/PaginationControl";
+import serieService from "~/services/api/serieService";
+import LatestList from "~/components/latestList/LatestList";
+import { tokens } from "~/utils/theme";
+import Loading from "~/components/loading/Loading";
 
 export default function Series() {
-    const [searchParams, setSearchParams] = useSearchParams();
-    const handleChangeSorting = useSorting();
-
-    const page = searchParams.get("page") || 1;
-    const search = searchParams.get("search");
-    const sortBy = searchParams.get("sortBy");
-    const ascOrDesc = searchParams.get("ascOrDesc");
+    const { searchParams, setSearchParams, handleChangeSorting, page } = useListPageData();
+    const theme = useTheme();
+    const colors = tokens(theme.palette.mode);
+    const sortBy = searchParams.get("seriesSortBy");
+    const ascOrDesc = searchParams.get("seriesAscOrDesc");
 
     const fetchSeries = async () => {
-        let response;
         const queryParams: Record<string, string | number> = { page };
 
-        if (search) {
-            response = await serieService.searchSeriesByTitle(search, String(page));
-        } else {
-            if (sortBy) queryParams.sortBy = sortBy;
-            if (ascOrDesc) queryParams.ascOrDesc = ascOrDesc;
-            response = await serieService.getSeries(queryParams);
+        if (sortBy) {
+            queryParams.sortBy = sortBy;
         }
 
+        if (ascOrDesc) {
+            queryParams.ascOrDesc = ascOrDesc;
+        }
+
+        const response = await serieService.getSeries(queryParams);
         return response;
     };
 
     const seriesQuery = useQuery({
-        queryKey: ["series", search, sortBy, ascOrDesc, page],
+        queryKey: ["series", sortBy, ascOrDesc, page],
         queryFn: () => fetchSeries(),
     });
     const series: ISerie[] = seriesQuery.data?.rows! ?? [];
     const seriesCount: number = seriesQuery.data?.count! ?? 0;
     const seriesCarouselImages = getRandomElements(series, 5);
+
+    const latestSeriesQuery = useQuery({
+        queryKey: ["latestSeries"],
+        queryFn: () => serieService.getLatestSeries(),
+    });
+    const latestSeries: ISerie[] = latestSeriesQuery.data! ?? [];
 
     const pageCount = Math.ceil(seriesCount / 10);
     const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
@@ -69,16 +57,7 @@ export default function Series() {
 
     if (seriesQuery.isLoading) {
         return (
-            <Box
-                sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    height: "100vh",
-                }}
-            >
-                <CircularProgress size={80} thickness={4} color="secondary" />
-            </Box>
+            <Loading />
         );
     }
 
@@ -107,13 +86,7 @@ export default function Series() {
                 canonicalUrl="https://example.com/series"
             />
             <Container>
-                <Box
-                    component={"section"}
-                    display={"flex"}
-                    flexDirection={"column"}
-                    rowGap={4}
-                    paddingTop={4}
-                >
+                <Box component={"section"} display={"flex"} flexDirection={"column"} rowGap={4} paddingTop={4}>
                     <Box mt={4} component={"section"}>
                         <Carousel data={seriesCarouselImages} type="series" />
                     </Box>
@@ -126,9 +99,10 @@ export default function Series() {
                         mt={4}
                     >
                         <Box ml={1}>
-                            <Typography fontSize={28} color={"secondary"} variant="h2">
+                            <Typography fontSize={28} variant="h2">
                                 Series
                             </Typography>
+                            <Divider sx={{ borderBottomWidth: 3, background: colors.primary[100], mt: 1 }} />
                         </Box>
                         <Box
                             sx={{
@@ -136,9 +110,9 @@ export default function Series() {
                             }}
                         >
                             <SortSelect
-                                sortBy={searchParams.get("sortBy")}
-                                ascOrDesc={searchParams.get("ascOrDesc")}
-                                onChange={handleChangeSorting}
+                                sortBy={sortBy!}
+                                ascOrDesc={ascOrDesc!}
+                                onChange={(event) => handleChangeSorting("series", event)}
                                 type="list"
                             />
                         </Box>
@@ -161,31 +135,18 @@ export default function Series() {
                             rowGap={8}
                             columnGap={4}
                         >
-                            {series.map((serie: any) => (
+                            {series.map((serie: ISerie) => (
                                 <CardItem data={serie} type="serie" key={serie.id} />
                             ))}
                         </Stack>
-                        <Stack
-                            spacing={2}
-                            sx={{
-                                display: "flex",
-                                placeItems: "center",
-                                marginTop: 2,
-                                marginBottom: 4,
-                            }}
-                        >
-                            <Pagination
-                                page={
-                                    searchParams.get("page") ? Number(searchParams.get("page")) : 1
-                                }
-                                size="large"
-                                count={pageCount}
-                                showFirstButton
-                                showLastButton
-                                onChange={handlePageChange}
-                            />
-                        </Stack>
+                        <PaginationControl
+                            currentPage={Number(page)!}
+                            pageCount={pageCount}
+                            onPageChange={handlePageChange}
+                        />
                     </Box>
+                    <Divider sx={{ borderBottomWidth: 3, background: colors.primary[100] }} />
+                    <LatestList data={latestSeries} type="Series" />
                 </Box>
             </Container>
         </>

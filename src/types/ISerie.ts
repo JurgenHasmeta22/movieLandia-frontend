@@ -10,7 +10,9 @@ export default interface ISerie {
     releaseYear: number;
     ratingImdb: number;
     totalReviews?: number;
-    averageRating?: number;
+    averageRating: number;
+    isBookmarked: boolean;
+    isReviewed: boolean;
     episodes: IEpisode[];
     genres: IGenre[];
     reviews?: any[];

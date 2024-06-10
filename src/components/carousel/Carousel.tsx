@@ -1,137 +1,160 @@
-import { useState, useEffect } from "react";
-import { Box, IconButton, Button, useMediaQuery } from "@mui/material";
+import React from "react";
+import Slider from "react-slick";
+import { Box, Button, IconButton, Typography, useMediaQuery } from "@mui/material";
+import PlayCircleIcon from "@mui/icons-material/PlayCircle";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import PlayCircleIcon from "@mui/icons-material/PlayCircle";
 import { Link } from "react-router-dom";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import IMovie from "~/types/IMovie";
 import ISerie from "~/types/ISerie";
 
 interface ICarouselProps {
     data: IMovie[] | ISerie[];
     type: string;
-    visibleItems?: number;
 }
 
-const Carousel = ({ data, type, visibleItems = 3 }: ICarouselProps) => {
-    const [startIndex, setStartIndex] = useState(0);
+const CustomNextArrow = (props: any) => {
+    const { onClick } = props;
+
+    return (
+        <IconButton
+            onClick={onClick}
+            sx={{
+                position: "absolute",
+                top: "50%",
+                right: "-25px",
+                zIndex: 1,
+                transform: "translateY(-50%)",
+                fontSize: "1.3rem",
+            }}
+        >
+            <NavigateNextIcon fontSize="inherit" />
+        </IconButton>
+    );
+};
+
+const CustomPrevArrow = (props: any) => {
+    const { onClick } = props;
+    return (
+        <IconButton
+            onClick={onClick}
+            sx={{
+                position: "absolute",
+                top: "50%",
+                left: "-25px",
+                zIndex: 1,
+                transform: "translateY(-50%)",
+                fontSize: "1.3rem",
+            }}
+        >
+            <NavigateBeforeIcon fontSize="inherit" />
+        </IconButton>
+    );
+};
+
+const Carousel = ({ data, type }: ICarouselProps) => {
     const isMobile = useMediaQuery("(max-width:600px)");
     const isTablet = useMediaQuery("(max-width:960px)");
-    const mobileVisibleItems = isMobile ? 1 : isTablet ? 2 : visibleItems;
 
-    const handleNext = () => {
-        setStartIndex((prevIndex) =>
-            prevIndex >= data.length - mobileVisibleItems ? 0 : prevIndex + 1,
-        );
+    const settings = {
+        dots: false,
+        infinite: true,
+        speed: 500,
+        slidesToShow: isMobile ? 1 : isTablet ? 2 : 3,
+        slidesToScroll: 1,
+        autoplay: true,
+        autoplaySpeed: 2000,
+        nextArrow: <CustomNextArrow />,
+        prevArrow: <CustomPrevArrow />,
     };
-
-    const handlePrev = () => {
-        setStartIndex((prevIndex) =>
-            prevIndex === 0 ? data.length - mobileVisibleItems : prevIndex - 1,
-        );
-    };
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setStartIndex((prevIndex) =>
-                prevIndex >= data.length - mobileVisibleItems ? 0 : prevIndex + 1,
-            );
-        }, 3000);
-
-        return () => clearInterval(interval);
-    }, [data, mobileVisibleItems]);
 
     return (
         <Box
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            position="relative"
-            overflow="hidden"
-            sx={{ gap: 2, px: isMobile ? 2 : 6 }}
-            flexWrap={"wrap"}
+            sx={{
+                px: isMobile ? 2 : 6,
+                py: 4,
+            }}
         >
-            {data.length > mobileVisibleItems && (
-                <IconButton
-                    onClick={handlePrev}
-                    size="large"
-                    sx={{
-                        position: isMobile ? "absolute" : "static",
-                        left: isMobile ? "10px" : "auto",
-                        top: isMobile ? "calc(50% - 20px)" : "auto",
-                        zIndex: isMobile ? 10 : "auto",
-                    }}
-                >
-                    <NavigateBeforeIcon />
-                </IconButton>
-            )}
-            {data
-                .slice(startIndex, startIndex + mobileVisibleItems)
-                .map((element: IMovie | ISerie, index: number) => (
+            <Slider {...settings}>
+                {data.map((element: IMovie | ISerie, index: number) => (
                     <Box
                         key={index}
-                        position="relative"
                         sx={{
-                            mr: index === mobileVisibleItems - 1 ? 0 : 1,
-                            overflow: "hidden",
-                            width: isMobile ? "100%" : "auto",
+                            position: "relative",
+                            px: 2,
                             "&:hover img": {
-                                filter: "blur(3px)",
+                                filter: "blur(2px) opacity(0.7)",
                             },
-                            "&:hover .carousel-button": {
-                                display: "block",
+                            "&:hover .carousel-content": {
+                                display: "flex",
+                                flexDirection: "column",
+                                alignItems: "center",
                             },
                         }}
                     >
                         <img
                             src={element.photoSrc}
-                            alt={`Slide ${startIndex + index}`}
+                            alt={`Slide ${index}`}
                             style={{
-                                width: `${isMobile || isTablet ? "100%" : "290px"}`,
-                                height: "auto",
-                                transition: "filter 1s ease",
+                                width: "100%",
+                                height: isMobile ? "250px" : isTablet ? "330px" : "400px",
+                                objectFit: "cover",
                             }}
                         />
-                        <Link
-                            to={
-                                `/${type}/${element.title
-                                    .split("")
-                                    .map((char: string) => (char === " " ? "-" : char))
-                                    .join("")}` || "#"
-                            }
+                        <Box
+                            className="carousel-content"
+                            sx={{
+                                position: "absolute",
+                                top: 0,
+                                left: 0,
+                                width: "100%",
+                                height: "100%",
+                                display: "none",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                backgroundColor: "rgba(0, 0, 0, 0.5)",
+                                color: "white",
+                                padding: 2,
+                                textAlign: "center",
+                            }}
                         >
-                            <Button
-                                variant="text"
-                                color="primary"
-                                className="carousel-button"
-                                size="medium"
-                                sx={{
-                                    position: "absolute",
-                                    top: "50%",
-                                    left: "50%",
-                                    transform: "translate(-50%, -50%)",
-                                    display: "none",
-                                }}
+                            <Typography variant="h6" sx={{ mb: 1 }}>
+                                {element.title}
+                            </Typography>
+                            <Typography variant="body2" sx={{ mb: 2 }}>
+                                {element.description}
+                            </Typography>
+                            <Link
+                                to={
+                                    `/${type}/${element.title
+                                        .split("")
+                                        .map((char: string) => (char === " " ? "-" : char))
+                                        .join("")}` || "#"
+                                }
                             >
-                                <PlayCircleIcon fontSize="large" color="secondary" />
-                            </Button>
-                        </Link>
+                                <Button
+                                    variant="text"
+                                    color="primary"
+                                    className="carousel-button"
+                                    size="medium"
+                                    sx={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        bgcolor: "rgba(0, 0, 0, 0.5)",
+                                        borderRadius: "20%",
+                                        p: 1.5,
+                                    }}
+                                >
+                                    <PlayCircleIcon fontSize="large" color="secondary" />
+                                </Button>
+                            </Link>
+                        </Box>
                     </Box>
                 ))}
-            {data.length > mobileVisibleItems && (
-                <IconButton
-                    onClick={handleNext}
-                    size="large"
-                    sx={{
-                        position: isMobile ? "absolute" : "static",
-                        right: isMobile ? "10px" : "auto",
-                        top: isMobile ? "calc(50% - 20px)" : "auto",
-                        zIndex: isMobile ? 10 : "auto",
-                    }}
-                >
-                    <NavigateNextIcon />
-                </IconButton>
-            )}
+            </Slider>
         </Box>
     );
 };

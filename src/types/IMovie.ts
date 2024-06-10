@@ -11,7 +11,9 @@ export default interface IMovie {
     releaseYear: number;
     description: string;
     totalReviews?: number;
-    averageRating?: number;
+    isBookmarked: boolean;
+    isReviewed: boolean;
+    averageRating: number;
     genres?: IGenre[];
     reviews?: any[];
     userWhoBookmarkedIt?: IFavoriteMovie[];

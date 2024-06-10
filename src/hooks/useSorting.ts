@@ -4,24 +4,30 @@ import { useSearchParams } from "react-router-dom";
 export function useSorting() {
     const [searchParams, setSearchParams] = useSearchParams();
 
-    function handleChangeSorting(event: SelectChangeEvent) {
+    function handleChangeSorting(type: string, event: SelectChangeEvent) {
         const selectedValue = event.target.value as string;
 
         if (selectedValue === "none") {
-            if (searchParams.get("sortBy") && searchParams.get("ascOrDesc")) {
+            if (type !== "details") {
+                searchParams.delete(`${type}SortBy`);
+                searchParams.delete(`${type}AscOrDesc`);
+            } else {
                 searchParams.delete("sortBy");
                 searchParams.delete("ascOrDesc");
-                setSearchParams(searchParams);
             }
         } else {
             const [, sortByValue, ascOrDesc] = selectedValue.match(/(\w+)(Asc|Desc)/) || [];
 
-            if (sortByValue && ascOrDesc) {
+            if (type !== "details") {
+                searchParams.set(`${type}SortBy`, sortByValue);
+                searchParams.set(`${type}AscOrDesc`, ascOrDesc.toLowerCase());
+            } else {
                 searchParams.set("sortBy", sortByValue);
                 searchParams.set("ascOrDesc", ascOrDesc.toLowerCase());
-                setSearchParams(searchParams);
             }
         }
+
+        setSearchParams(searchParams);
     }
 
     return handleChangeSorting;

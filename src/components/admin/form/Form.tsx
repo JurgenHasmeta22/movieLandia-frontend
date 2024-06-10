@@ -55,15 +55,7 @@ type FormProps = {
 type ActionConfig = {
     label: string;
     type?: string;
-    color?:
-        | "inherit"
-        | "primary"
-        | "secondary"
-        | "success"
-        | "error"
-        | "info"
-        | "warning"
-        | "default";
+    color?: "inherit" | "primary" | "secondary" | "success" | "error" | "info" | "warning" | "default";
     variant?: "text" | "outlined" | "contained";
     icon?: React.ReactNode;
     sx?: SxProps;
@@ -102,12 +94,7 @@ const FormAdvanced: React.FC<FormProps> = ({
                     <Form>
                         <Grid container direction="column" rowSpacing={{ xs: 4, md: 6, lg: 8 }}>
                             <Grid container item alignItems={"center"}>
-                                <Stack
-                                    rowGap={4}
-                                    columnGap={2}
-                                    flexDirection={"row"}
-                                    flexWrap={"wrap"}
-                                >
+                                <Stack rowGap={4} columnGap={2} flexDirection={"row"} flexWrap={"wrap"}>
                                     {fields.map((field: FieldConfig, index: number) => {
                                         switch (field.type) {
                                             case "select":
@@ -127,16 +114,11 @@ const FormAdvanced: React.FC<FormProps> = ({
                                                             value={values[field.name]}
                                                             sx={field.sx}
                                                         >
-                                                            {field.options?.map(
-                                                                (option, index: number) => (
-                                                                    <MenuItem
-                                                                        key={index}
-                                                                        value={option.value}
-                                                                    >
-                                                                        {option.label}
-                                                                    </MenuItem>
-                                                                ),
-                                                            )}
+                                                            {field.options?.map((option, index: number) => (
+                                                                <MenuItem key={index} value={option.value}>
+                                                                    {option.label}
+                                                                </MenuItem>
+                                                            ))}
                                                         </Select>
                                                     </FormControl>
                                                 );
@@ -158,16 +140,11 @@ const FormAdvanced: React.FC<FormProps> = ({
                                                             multiple
                                                             sx={field.sx}
                                                         >
-                                                            {field.options?.map(
-                                                                (option, index: number) => (
-                                                                    <MenuItem
-                                                                        key={index}
-                                                                        value={option.value}
-                                                                    >
-                                                                        {option.label}
-                                                                    </MenuItem>
-                                                                ),
-                                                            )}
+                                                            {field.options?.map((option, index: number) => (
+                                                                <MenuItem key={index} value={option.value}>
+                                                                    {option.label}
+                                                                </MenuItem>
+                                                            ))}
                                                         </Select>
                                                     </FormControl>
                                                 );
@@ -185,28 +162,16 @@ const FormAdvanced: React.FC<FormProps> = ({
                                                         value={values[field.name]}
                                                         type={field.type}
                                                         // @ts-ignore
-                                                        helperText={
-                                                            touched[field.name] &&
-                                                            errors[field.name]
-                                                        }
-                                                        error={
-                                                            touched[field.name] &&
-                                                            !!errors[field.name]
-                                                        }
+                                                        helperText={touched[field.name] && errors[field.name]}
+                                                        error={touched[field.name] && !!errors[field.name]}
                                                         InputLabelProps={
-                                                            field.type === "date"
-                                                                ? { shrink: true }
-                                                                : undefined
+                                                            field.type === "date" ? { shrink: true } : undefined
                                                         }
                                                     />
                                                 );
                                             case "password":
                                                 return (
-                                                    <Box
-                                                        display={"flex"}
-                                                        flexDirection={"column"}
-                                                        rowGap={1}
-                                                    >
+                                                    <Box display={"flex"} flexDirection={"column"} rowGap={1}>
                                                         <FormLabel>{field.label}</FormLabel>
                                                         <TextField
                                                             key={index}
@@ -217,30 +182,18 @@ const FormAdvanced: React.FC<FormProps> = ({
                                                             size="small"
                                                             sx={field.sx}
                                                             value={values[field.name]}
-                                                            type={
-                                                                showPassword ? "text" : "password"
-                                                            }
+                                                            type={showPassword ? "text" : "password"}
                                                             autoComplete={"on"}
                                                             // @ts-ignore
-                                                            helperText={
-                                                                touched[field.name] &&
-                                                                errors[field.name]
-                                                            }
-                                                            error={
-                                                                touched[field.name] &&
-                                                                !!errors[field.name]
-                                                            }
+                                                            helperText={touched[field.name] && errors[field.name]}
+                                                            error={touched[field.name] && !!errors[field.name]}
                                                             InputProps={{
                                                                 endAdornment: (
                                                                     <InputAdornment position="end">
                                                                         <IconButton
                                                                             aria-label="toggle password visibility"
-                                                                            onClick={
-                                                                                handleClickShowPassword
-                                                                            }
-                                                                            onMouseDown={
-                                                                                handleMouseDownPassword
-                                                                            }
+                                                                            onClick={handleClickShowPassword}
+                                                                            onMouseDown={handleMouseDownPassword}
                                                                         >
                                                                             {showPassword ? (
                                                                                 <Visibility color="primary" />
@@ -256,11 +209,7 @@ const FormAdvanced: React.FC<FormProps> = ({
                                                 );
                                             default:
                                                 return (
-                                                    <Box
-                                                        display={"flex"}
-                                                        flexDirection={"column"}
-                                                        rowGap={1}
-                                                    >
+                                                    <Box display={"flex"} flexDirection={"column"} rowGap={1}>
                                                         <FormLabel>{field.label}</FormLabel>
                                                         <TextField
                                                             key={index}
@@ -274,14 +223,8 @@ const FormAdvanced: React.FC<FormProps> = ({
                                                             sx={{ ...field.sx }}
                                                             size="small"
                                                             // @ts-ignore
-                                                            helperText={
-                                                                touched[field.name] &&
-                                                                errors[field.name]
-                                                            }
-                                                            error={
-                                                                touched[field.name] &&
-                                                                !!errors[field.name]
-                                                            }
+                                                            helperText={touched[field.name] && errors[field.name]}
+                                                            error={touched[field.name] && !!errors[field.name]}
                                                         />
                                                     </Box>
                                                 );
@@ -290,12 +233,7 @@ const FormAdvanced: React.FC<FormProps> = ({
                                 </Stack>
                             </Grid>
                             <Grid container item justifyContent={"end"} mt={2}>
-                                <Stack
-                                    columnGap={2}
-                                    flexDirection={"row"}
-                                    flexWrap={"wrap"}
-                                    mt="20px"
-                                >
+                                <Stack columnGap={2} flexDirection={"row"} flexWrap={"wrap"} mt="20px">
                                     {actions!.map((action, index) => (
                                         <Button
                                             key={index}
@@ -307,10 +245,7 @@ const FormAdvanced: React.FC<FormProps> = ({
                                             type={action.type}
                                             endIcon={action.icon}
                                             disabled={
-                                                dirty ||
-                                                action.label === CONSTANTS.FORM__DELETE__BUTTON
-                                                    ? false
-                                                    : true
+                                                dirty || action.label === CONSTANTS.FORM__DELETE__BUTTON ? false : true
                                             }
                                         >
                                             <Typography

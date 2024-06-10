@@ -11,15 +11,7 @@ import {
     MRT_ToggleFullScreenButton,
     useMaterialReactTable,
 } from "material-react-table";
-import {
-    Box,
-    Button,
-    IconButton,
-    ListItemIcon,
-    MenuItem,
-    Tooltip,
-    Typography,
-} from "@mui/material";
+import { Box, Button, IconButton, ListItemIcon, MenuItem, Tooltip, Typography } from "@mui/material";
 import { Edit, Delete, Add, CheckOutlined, WarningOutlined } from "@mui/icons-material";
 import serieService from "~/services/api/serieService";
 import movieService from "~/services/api/movieService";
@@ -44,7 +36,7 @@ const TableAdmin = ({ columns, page, handleAddItem }: TableAdminProps) => {
     const [isError, setIsError] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [isRefetching, setIsRefetching] = useState(false);
-    
+
     const [columnFilters, setColumnFilters] = useState<MRT_ColumnFiltersState>([]);
     const [columnFiltersFns, setColumnFiltersFns] = useState<any>([]);
     const [globalFilter, setGlobalFilter] = useState("");
@@ -224,8 +216,7 @@ const TableAdmin = ({ columns, page, handleAddItem }: TableAdminProps) => {
                     sortBy: sorting[0].id,
                 }),
                 ...(globalFilter?.length > 0 && {
-                    filterNameString:
-                        page === "users" ? "userName" : page === "genres" ? "name" : "title",
+                    filterNameString: page === "users" ? "userName" : page === "genres" ? "name" : "title",
                     filterValue: globalFilter,
                 }),
             };
