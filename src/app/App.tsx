@@ -5,7 +5,7 @@ import { useStore } from "~/store/store";
 import authenticationService from "~/services/api/authenticationService";
 import PrivateRoutes from "~/utils/PrivateRoutes";
 import MainLayout from "~/layouts/MainLayout";
-// import AdminLayout from "~/layouts/AdminLayout";
+import AdminLayout from "~/layouts/AdminLayout";
 import AuthRoutes from "~/utils/AuthRoutes";
 import { AnimatePresence } from "framer-motion";
 
@@ -88,22 +88,22 @@ function App() {
                     </Route>
                 </Route>
                 <Route element={<PrivateRoutes />}>
-                    {/* <Route element={<AdminLayout />}> */}
-                    <Route path="/admin" element={<Dashboard />} />
-                    <Route path="/admin/dashboard" element={<Dashboard />} />
-                    <Route path="/admin/users" element={<UsersAdmin />} />
-                    <Route path="/admin/users/add" element={<AddUserAdmin />} />
-                    <Route path="/admin/users/:id" element={<UserAdmin />} />
-                    <Route path="/admin/movies" element={<MoviesAdmin />} />
-                    <Route path="/admin/movies/add" element={<AddMovieAdmin />} />
-                    <Route path="/admin/movies/:id" element={<MovieAdmin />} />
-                    <Route path="/admin/series" element={<SeriesAdmin />} />
-                    <Route path="/admin/series/add" element={<AddSerieAdmin />} />
-                    <Route path="/admin/series/:id" element={<SerieAdmin />} />
-                    <Route path="/admin/genres" element={<GenresAdmin />} />
-                    <Route path="/admin/genres/add" element={<AddGenreAdmin />} />
-                    <Route path="/admin/genres/:id" element={<GenreAdmin />} />
-                    {/* </Route> */}
+                    <Route element={<AdminLayout />}>
+                        <Route path="/admin" element={<Dashboard />} />
+                        <Route path="/admin/dashboard" element={<Dashboard />} />
+                        <Route path="/admin/users" element={<UsersAdmin />} />
+                        <Route path="/admin/users/add" element={<AddUserAdmin />} />
+                        <Route path="/admin/users/:id" element={<UserAdmin />} />
+                        <Route path="/admin/movies" element={<MoviesAdmin />} />
+                        <Route path="/admin/movies/add" element={<AddMovieAdmin />} />
+                        <Route path="/admin/movies/:id" element={<MovieAdmin />} />
+                        <Route path="/admin/series" element={<SeriesAdmin />} />
+                        <Route path="/admin/series/add" element={<AddSerieAdmin />} />
+                        <Route path="/admin/series/:id" element={<SerieAdmin />} />
+                        <Route path="/admin/genres" element={<GenresAdmin />} />
+                        <Route path="/admin/genres/add" element={<AddGenreAdmin />} />
+                        <Route path="/admin/genres/:id" element={<GenreAdmin />} />
+                    </Route>
                 </Route>
             </Routes>
         </AnimatePresence>
