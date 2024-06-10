@@ -185,7 +185,9 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
                                 </Typography>
                             )}
                             {!review.updatedAt ? (
-                                format(new Date(review.createdAt), "MMMM dd, yyyy HH:mm")
+                                <Typography component={"span"} paddingLeft={1}>
+                                    {format(new Date(review.createdAt), "MMMM dd, yyyy HH:mm")}
+                                </Typography>
                             ) : (
                                 <Typography component={"span"} paddingLeft={1}>
                                     {format(new Date(review.updatedAt), "MMMM dd, yyyy HH:mm")}
@@ -287,7 +289,7 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
                                 "&:hover": {
                                     backgroundColor: "transparent",
                                 },
-                                color: colors.primary[100]
+                                color: colors.primary[100],
                             }}
                         >
                             <Typography>{review._count.upvotes}</Typography>

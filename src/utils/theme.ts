@@ -292,7 +292,7 @@ export const themeSettings = (mode: any) => {
                 styleOverrides: {
                     root: {
                         span: {
-                            fontSize: "8px",
+                            fontSize: "12px",
                             "@media (max-width:600px)": {
                                 fontSize: "10px",
                             },
