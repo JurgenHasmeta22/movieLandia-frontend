@@ -10,9 +10,7 @@ export default function Error404(): React.JSX.Element {
         <>
             <SEOHelmet
                 title={"Page Not Found | Error: Invalid URL"}
-                description={
-                    "Oops! You've entered an incorrect URL. The page you're looking for does not exist."
-                }
+                description={"Oops! You've entered an incorrect URL. The page you're looking for does not exist."}
             />
             <Box
                 sx={{
@@ -21,16 +19,10 @@ export default function Error404(): React.JSX.Element {
                     placeContent: "center",
                     rowGap: 1,
                     flexDirection: "column",
-                    height: "100vh",
+                    height: "200vh",
                 }}
             >
-                <Typography
-                    fontSize={60}
-                    component={"h1"}
-                    letterSpacing={2}
-                    color={"secondary"}
-                    fontWeight={800}
-                >
+                <Typography fontSize={60} component={"h1"} letterSpacing={2} color={"secondary"} fontWeight={800}>
                     Error 404
                 </Typography>
                 <Typography fontSize={26} variant="body1">

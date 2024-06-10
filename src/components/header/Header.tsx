@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Link, useNavigate, NavLink, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, NavLink, useSearchParams, useLocation } from "react-router-dom";
 import { useStore } from "~/store/store";
 import type IGenre from "~/types/IGenre";
 import {
@@ -34,24 +34,28 @@ import LocalMoviesIcon from "@mui/icons-material/LocalMovies";
 import SubtitlesIcon from "@mui/icons-material/Subtitles";
 import { useLocalStorage } from "~/hooks/useLocalStorage";
 import HeaderMenu from "../headerMenu/HeaderMenu";
+import { useQuery } from "@tanstack/react-query";
 
 const Header = (): React.JSX.Element => {
+    // #region "State, refs, hooks, theme"
     const [options, setOptions] = useState<any>([]);
-    const [genres, setGenres] = useState<IGenre[]>([]);
     const [anchorElProfile, setAnchorElProfile] = useState<null | HTMLElement>(null);
     const [anchorElGenres, setAnchorElGenres] = useState<null | HTMLElement>(null);
-    const [anchorElGenresMobile, setAnchorElGenresMobile] = useState<null | HTMLElement>(null);
+
+    const { user, setUser, isUserLoading, mobileOpen, setMobileOpen, setOpenDrawer } = useStore();
 
     const isPageShrunk = useResizeWindow();
-    const { user, setUser, isUserLoading, mobileOpen, setMobileOpen, setOpenDrawer } = useStore();
     const navigate = useNavigate();
+    const location = useLocation();
     const [searchParams, setSearchParams] = useSearchParams();
     const { removeItem } = useLocalStorage("token");
 
     const colorMode = useContext(ColorModeContext);
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
+    // #endregion
 
+    // #region "Event handlers"
     function handleLogout(): void {
         removeItem();
         setUser(null);
@@ -63,23 +67,6 @@ const Header = (): React.JSX.Element => {
     function redirectToProfile(): void {
         navigate("/profile");
         window.scrollTo(0, 0);
-    }
-
-    async function getGenres(): Promise<void> {
-        try {
-            const response = await genreService.getGenres({});
-            setGenres(response.rows);
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
-    async function fetchData(): Promise<void> {
-        try {
-            await getGenres();
-        } catch (error) {
-            console.log(error);
-        }
     }
 
     const openMenuGenres = (event: React.MouseEvent<HTMLLIElement>) => {
@@ -97,12 +84,14 @@ const Header = (): React.JSX.Element => {
     const closeMenuProfile = () => {
         setAnchorElProfile(null);
     };
+    // #endregion
 
-    useEffect(() => {
-        fetchData().catch((error) => {
-            console.log(error);
-        });
-    }, []);
+    const genresQuery = useQuery({
+        queryKey: ["genres"],
+        queryFn: () => genreService.getGenres({}),
+    });
+
+    const genres: IGenre[] = genresQuery.data?.rows! ?? [];
 
     useEffect(() => {
         for (const genre of genres) {
@@ -110,6 +99,7 @@ const Header = (): React.JSX.Element => {
                 value: genre.name,
                 label: genre.name,
             };
+
             setOptions([...options, option]);
         }
     }, []);
@@ -185,20 +175,12 @@ const Header = (): React.JSX.Element => {
                                             style={({ isActive, isTransitioning }) => {
                                                 return {
                                                     fontWeight: isActive ? "bold" : "",
-                                                    color: isActive
-                                                        ? colors.greenAccent[500]
-                                                        : colors.primary[100],
-                                                    viewTransitionName: isTransitioning
-                                                        ? "slide"
-                                                        : "",
+                                                    color: isActive ? colors.greenAccent[500] : colors.primary[100],
+                                                    viewTransitionName: isTransitioning ? "slide" : "",
                                                     fontSize: "16px",
-                                                    textDecorationLine: isActive
-                                                        ? "underline"
-                                                        : "none",
-                                                    textDecorationColor: isActive
-                                                        ? colors.greenAccent[500]
-                                                        : "",
-                                                    textDecorationThickness: "2px",
+                                                    textDecorationLine: isActive ? "underline" : "none",
+                                                    textDecorationColor: isActive ? colors.greenAccent[500] : "",
+                                                    textDecorationThickness: "3px",
                                                     textUnderlineOffset: "4px",
                                                     cursor: "pointer",
                                                     display: "flex",
@@ -225,20 +207,12 @@ const Header = (): React.JSX.Element => {
                                             style={({ isActive, isTransitioning }) => {
                                                 return {
                                                     fontWeight: isActive ? "bold" : "",
-                                                    color: isActive
-                                                        ? colors.greenAccent[500]
-                                                        : colors.primary[100],
-                                                    viewTransitionName: isTransitioning
-                                                        ? "slide"
-                                                        : "",
+                                                    color: isActive ? colors.greenAccent[500] : colors.primary[100],
+                                                    viewTransitionName: isTransitioning ? "slide" : "",
                                                     fontSize: "16px",
-                                                    textDecorationLine: isActive
-                                                        ? "underline"
-                                                        : "none",
-                                                    textDecorationColor: isActive
-                                                        ? colors.greenAccent[500]
-                                                        : "",
-                                                    textDecorationThickness: "2px",
+                                                    textDecorationLine: isActive ? "underline" : "none",
+                                                    textDecorationColor: isActive ? colors.greenAccent[500] : "",
+                                                    textDecorationThickness: "3px",
                                                     textUnderlineOffset: "4px",
                                                     cursor: "pointer",
                                                     display: "flex",
@@ -262,33 +236,38 @@ const Header = (): React.JSX.Element => {
                                                     display: "grid",
                                                     height: "auto",
                                                     width: "auto",
-                                                    gridTemplateColumns: "1fr 1fr 1fr 1fr 1fr",
-                                                    padding: 2,
+                                                    gridTemplateColumns: "1fr 1fr 1fr 1fr",
+                                                    padding: 3,
                                                 },
                                             }}
                                         >
                                             {genres.map((genre) => (
-                                                <Box
-                                                    key={genre.id}
-                                                    onClick={() => {
-                                                        closeMenuGenres();
-                                                        navigate(`/genres/${genre.name}`);
-                                                        window.scrollTo(0, 0);
-                                                    }}
-                                                    sx={{
-                                                        cursor: "pointer",
-                                                        padding: 1.5,
-                                                        textAlign: "center",
-                                                        transition: "background-color 0.5s",
-                                                        "&:hover": {
-                                                            backgroundColor: "rgba(0, 0, 0, 0.08)",
-                                                        },
+                                                <Link
+                                                    to={`/genres/${genre.name}`}
+                                                    style={{
+                                                        textDecoration: "none",
+                                                        color: colors.primary[100],
                                                     }}
                                                 >
-                                                    <Typography component={"span"}>
-                                                        {genre.name}
-                                                    </Typography>
-                                                </Box>
+                                                    <Box
+                                                        key={genre.id}
+                                                        onClick={() => {
+                                                            closeMenuGenres();
+                                                            window.scrollTo(0, 0);
+                                                        }}
+                                                        sx={{
+                                                            cursor: "pointer",
+                                                            padding: 1.5,
+                                                            textAlign: "center",
+                                                            transition: "background-color 0.2s",
+                                                            "&:hover": {
+                                                                backgroundColor: colors.greenAccent[800],
+                                                            },
+                                                        }}
+                                                    >
+                                                        <Typography component={"span"}>{genre.name}</Typography>
+                                                    </Box>
+                                                </Link>
                                             ))}
                                         </Menu>
                                     </ListItem>
@@ -297,21 +276,13 @@ const Header = (): React.JSX.Element => {
                                             style={({ isActive, isTransitioning }) => {
                                                 return {
                                                     fontWeight: isActive ? "bold" : "",
-                                                    color: isActive
-                                                        ? colors.greenAccent[500]
-                                                        : colors.primary[100],
-                                                    viewTransitionName: isTransitioning
-                                                        ? "slide"
-                                                        : "",
+                                                    color: isActive ? colors.greenAccent[500] : colors.primary[100],
+                                                    viewTransitionName: isTransitioning ? "slide" : "",
                                                     textDecoration: "none",
                                                     fontSize: "16px",
-                                                    textDecorationLine: isActive
-                                                        ? "underline"
-                                                        : "none",
-                                                    textDecorationColor: isActive
-                                                        ? colors.greenAccent[500]
-                                                        : "",
-                                                    textDecorationThickness: "2px",
+                                                    textDecorationLine: isActive ? "underline" : "none",
+                                                    textDecorationColor: isActive ? colors.greenAccent[500] : "",
+                                                    textDecorationThickness: "3px",
                                                     textUnderlineOffset: "4px",
                                                     cursor: "pointer",
                                                     display: "flex",
@@ -335,17 +306,15 @@ const Header = (): React.JSX.Element => {
                                 <TextField
                                     placeholder="What are you going to watch today?"
                                     size="small"
-                                    value={
-                                        searchParams.get("search") ? searchParams.get("search") : ""
-                                    }
+                                    value={searchParams.get("term") ? searchParams.get("term") : ""}
                                     onChange={(e) => {
                                         const value = e.target.value;
 
                                         if (value.length > 0) {
-                                            navigate(`/movies?search=${value}`);
+                                            navigate(`/search?term=${value}`);
                                             window.scrollTo(0, 0);
                                         } else {
-                                            navigate("/movies");
+                                            navigate("/search");
                                             window.scrollTo(0, 0);
                                         }
                                     }}
@@ -362,8 +331,8 @@ const Header = (): React.JSX.Element => {
                                                 <Clear
                                                     sx={{ cursor: "pointer" }}
                                                     onClick={() => {
-                                                        if (searchParams.get("search")) {
-                                                            navigate("/movies");
+                                                        if (searchParams.get("term")) {
+                                                            navigate("/search");
                                                             window.scrollTo(0, 0);
                                                         }
                                                     }}
@@ -385,13 +354,9 @@ const Header = (): React.JSX.Element => {
                                     <Box width={"223px"} display={"flex"} justifyContent={"center"}>
                                         <IconButton
                                             id="buttonProfile"
-                                            aria-controls={
-                                                Boolean(anchorElProfile) ? "menuProfile" : undefined
-                                            }
+                                            aria-controls={Boolean(anchorElProfile) ? "menuProfile" : undefined}
                                             aria-haspopup="true"
-                                            aria-expanded={
-                                                Boolean(anchorElProfile) ? "true" : undefined
-                                            }
+                                            aria-expanded={Boolean(anchorElProfile) ? "true" : undefined}
                                             onClick={openMenuProfile}
                                             sx={{
                                                 display: "flex",
@@ -424,63 +389,81 @@ const Header = (): React.JSX.Element => {
                                             >
                                                 My Profile
                                             </MenuItem>
-                                            <MenuItem
-                                                onClick={handleLogout}
-                                                style={{ color: colors.primary[100] }}
-                                            >
+                                            <MenuItem onClick={handleLogout} style={{ color: colors.primary[100] }}>
                                                 Log Out
                                             </MenuItem>
                                         </Menu>
                                     </Box>
                                 ) : (
                                     <Box display={"flex"} flexDirection={"row"} columnGap={1}>
-                                        <Button
-                                            color="secondary"
-                                            variant="outlined"
-                                            onClick={function () {
-                                                navigate("/login");
-                                                window.scrollTo(0, 0);
-                                            }}
-                                            sx={{
-                                                display: "flex",
-                                                flexDirection: "row",
-                                                columnGap: 1,
-                                                px: 2,
-                                                py: 1,
+                                        <Link
+                                            to="/login"
+                                            style={{
+                                                textDecoration: "none",
                                             }}
                                         >
-                                            <LockOpenIcon />
-                                            <Typography
+                                            <Button
+                                                variant="text"
+                                                onClick={function () {
+                                                    window.scrollTo(0, 0);
+                                                }}
                                                 sx={{
-                                                    textTransform: "capitalize",
+                                                    display: "flex",
+                                                    flexDirection: "row",
+                                                    columnGap: 1,
+                                                    px: 2,
+                                                    py: 1,
+                                                    color: colors.primary[100],
+                                                    "&:hover": {
+                                                        backgroundColor: colors.greenAccent[700],
+                                                        color: colors.grey[100],
+                                                    },
                                                 }}
                                             >
-                                                Sign In
-                                            </Typography>
-                                        </Button>
-                                        <Button
-                                            color="secondary"
-                                            variant="outlined"
-                                            sx={{
-                                                display: "flex",
-                                                flexDirection: "row",
-                                                columnGap: 1,
-                                                px: 2,
-                                                py: 1,
-                                            }}
-                                            onClick={function () {
-                                                navigate("/register");
+                                                <LockOpenIcon />
+                                                <Typography
+                                                    sx={{
+                                                        textTransform: "capitalize",
+                                                    }}
+                                                >
+                                                    Sign In
+                                                </Typography>
+                                            </Button>
+                                        </Link>
+                                        <Link
+                                            to="/register"
+                                            style={{
+                                                textDecoration: "none",
                                             }}
                                         >
-                                            <AppRegistrationIcon />
-                                            <Typography
+                                            <Button
+                                                variant="text"
                                                 sx={{
-                                                    textTransform: "capitalize",
+                                                    display: "flex",
+                                                    flexDirection: "row",
+                                                    columnGap: 1,
+                                                    px: 2,
+                                                    py: 1,
+                                                    color: colors.primary[100],
+                                                    "&:hover": {
+                                                        backgroundColor: colors.greenAccent[700],
+                                                        color: colors.grey[100],
+                                                    },
+                                                }}
+                                                onClick={function () {
+                                                    window.scrollTo(0, 0);
                                                 }}
                                             >
-                                                Sign Up
-                                            </Typography>
-                                        </Button>
+                                                <AppRegistrationIcon />
+                                                <Typography
+                                                    sx={{
+                                                        textTransform: "capitalize",
+                                                    }}
+                                                >
+                                                    Sign Up
+                                                </Typography>
+                                            </Button>
+                                        </Link>
                                     </Box>
                                 )}
                             </Box>

@@ -1,9 +1,9 @@
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
-import LocalMoviesIcon from '@mui/icons-material/LocalMovies';
-import LiveTvIcon from '@mui/icons-material/LiveTv';
-import MovieIcon from '@mui/icons-material/Movie';
+import LocalMoviesIcon from "@mui/icons-material/LocalMovies";
+import LiveTvIcon from "@mui/icons-material/LiveTv";
+import MovieIcon from "@mui/icons-material/Movie";
 
 export const sidebarItems = [
     {

@@ -1,5 +1,5 @@
+import { createTheme, responsiveFontSizes } from "@mui/material/styles";
 import { createContext, useState, useMemo } from "react";
-import { createTheme } from "@mui/material/styles";
 
 export const tokens = (mode: any) => ({
     ...(mode === "dark"
@@ -177,31 +177,63 @@ export const themeSettings = (mode: any) => {
                   }),
         },
         typography: {
-            fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
+            fontFamily: ["Montserrat", "sans-serif"].join(","),
             fontSize: 12,
             h1: {
-                fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
-                fontSize: 40,
+                fontFamily: ["Montserrat", "sans-serif"].join(","),
+                fontSize: 45,
+                "@media (max-width:600px)": {
+                    fontSize: "42px",
+                },
             },
             h2: {
-                fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
-                fontSize: 32,
+                fontFamily: ["Montserrat", "sans-serif"].join(","),
+                fontSize: 35,
+                "@media (max-width:600px)": {
+                    fontSize: "32px",
+                },
             },
             h3: {
-                fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
+                fontFamily: ["Montserrat", "sans-serif"].join(","),
                 fontSize: 24,
+                "@media (max-width:600px)": {
+                    fontSize: "20px",
+                },
             },
             h4: {
-                fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
+                fontFamily: ["Montserrat", "sans-serif"].join(","),
                 fontSize: 20,
+                "@media (max-width:600px)": {
+                    fontSize: "18px",
+                },
             },
             h5: {
-                fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
+                fontFamily: ["Montserrat", "sans-serif"].join(","),
                 fontSize: 16,
+                "@media (max-width:600px)": {
+                    fontSize: "14px",
+                },
             },
             h6: {
-                fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
+                fontFamily: ["Montserrat", "sans-serif"].join(","),
                 fontSize: 14,
+                "@media (max-width:600px)": {
+                    fontSize: "12px",
+                },
+            },
+            body1: {
+                fontFamily: ["Montserrat", "sans-serif"].join(","),
+                fontSize: 16,
+                "@media (max-width:600px)": {
+                    fontSize: "14px",
+                },
+            },
+            body2: {
+                fontFamily: ["Montserrat", "sans-serif"].join(","),
+                fontSize: 14,
+                "@media (max-width:600px)": {
+                    fontSize: "12px",
+                },
             },
         },
         components: {
@@ -210,27 +242,8 @@ export const themeSettings = (mode: any) => {
                     root: {
                         borderRadius: 8,
                         cursor: "pointer",
-                        transition: "background-color 0.5s ease",
                         boxShadow: "none",
-                        "&:hover": {
-                            backgroundColor: colors.primary[400],
-                        },
-                    },
-                    containedPrimary: {
-                        color: "#fff",
-                        backgroundColor: colors.primary[500],
-                        border: `2px solid ${colors.primary[700]}`,
-                        "&:hover": {
-                            backgroundColor: colors.primary[600],
-                        },
-                    },
-                    containedSecondary: {
-                        color: "#fff",
-                        backgroundColor: colors.greenAccent[500],
-                        border: `2px solid ${colors.greenAccent[700]}`,
-                        "&:hover": {
-                            backgroundColor: colors.greenAccent[600],
-                        },
+                        transition: "background-color 0.5s ease",
                     },
                 },
                 defaultProps: {
@@ -248,29 +261,10 @@ export const themeSettings = (mode: any) => {
             MuiIconButton: {
                 styleOverrides: {
                     root: {
-                        borderRadius: 12,
+                        borderRadius: 20,
                         cursor: "pointer",
                         transition: "background-color 0.5s ease",
                         boxShadow: "none",
-                        "&:hover": {
-                            backgroundColor: colors.primary[400],
-                        },
-                    },
-                    containedPrimary: {
-                        color: "#fff",
-                        backgroundColor: colors.primary[500],
-                        border: `1px solid ${colors.primary[700]}`,
-                        "&:hover": {
-                            backgroundColor: colors.primary[600],
-                        },
-                    },
-                    containedSecondary: {
-                        color: "#fff",
-                        backgroundColor: colors.greenAccent[500],
-                        border: `1px solid ${colors.greenAccent[700]}`,
-                        "&:hover": {
-                            backgroundColor: colors.greenAccent[600],
-                        },
                     },
                 },
                 defaultProps: {
@@ -294,6 +288,18 @@ export const themeSettings = (mode: any) => {
                     disableTouchRipple: true,
                 },
             },
+            MuiTypography: {
+                styleOverrides: {
+                    root: {
+                        span: {
+                            fontSize: "8px",
+                            "@media (max-width:600px)": {
+                                fontSize: "10px",
+                            },
+                        },
+                    },
+                },
+            },
         },
     };
 };
@@ -310,6 +316,7 @@ export const useMode = () => {
         }),
         [],
     );
-    const theme: any = useMemo(() => createTheme(themeSettings(mode)), [mode]);
+
+    const theme: any = useMemo(() => responsiveFontSizes(createTheme(themeSettings(mode))), [mode]);
     return [theme, colorMode];
 };

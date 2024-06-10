@@ -1,4 +1,4 @@
-import { Box, CircularProgress, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import HeaderDashboard from "~/components/admin/headerDashboard/HeaderDashboard";
 import { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router";
@@ -17,6 +17,7 @@ import Breadcrumb from "~/components/admin/breadcrumb/Breadcrumb";
 import ISeriePatch from "~/types/ISeriePatch";
 import { useModal } from "~/services/providers/ModalContext";
 import { WarningOutlined, CheckOutlined } from "@mui/icons-material";
+import Loading from "~/components/loading/Loading";
 
 const serieSchema = yup.object().shape({
     title: yup.string().required("required"),
@@ -90,15 +91,12 @@ const SerieAdmin = () => {
         fetchData();
     }, []);
 
-    if (loading) return <CircularProgress />;
+    if (loading) return <Loading />;
 
     return (
         <Box m="20px">
             <Breadcrumb breadcrumbs={breadcrumbs} navigateTo={"/admin/series"} />
-            <HeaderDashboard
-                title={CONSTANTS.USER__EDIT__TITLE}
-                subtitle={CONSTANTS.USER__EDIT__SUBTITLE}
-            />
+            <HeaderDashboard title={CONSTANTS.USER__EDIT__TITLE} subtitle={CONSTANTS.USER__EDIT__SUBTITLE} />
             <FormAdvanced
                 initialValues={{
                     id: serie?.id,
@@ -167,9 +165,7 @@ const SerieAdmin = () => {
                                     {
                                         label: CONSTANTS.MODAL__DELETE__YES,
                                         onClick: async () => {
-                                            const response = await serieService.deleteSerie(
-                                                serie?.id!,
-                                            );
+                                            const response = await serieService.deleteSerie(serie?.id!);
 
                                             if (response) {
                                                 toast.success(CONSTANTS.DELETE__SUCCESS);

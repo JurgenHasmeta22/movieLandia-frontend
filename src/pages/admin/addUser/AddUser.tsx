@@ -32,11 +32,7 @@ const AddUser = () => {
     };
 
     const handleFormSubmit = async (values: any) => {
-        const response = await authenticationService.onRegister(
-            values.userName,
-            values.email,
-            values.password,
-        );
+        const response = await authenticationService.onRegister(values.userName, values.email, values.password);
 
         if (response) {
             toast.success(CONSTANTS.ADD__SUCCESS);

@@ -1,5 +1,4 @@
-import React from "react";
-import { Box, MenuItem, Select, SelectChangeEvent, SvgIcon } from "@mui/material";
+import { Box, MenuItem, Select, SelectChangeEvent, SvgIcon, Typography } from "@mui/material";
 import SwapVertIcon from "@mui/icons-material/SwapVert";
 import { toFirstWordUpperCase } from "~/utils/utils";
 
@@ -18,14 +17,14 @@ const valueToLabelDetails: Record<string, string> = {
     ratingDesc: "Rating (Desc)",
 };
 
-interface SortSelectProps {
+interface ISortSelectProps {
     sortBy: string | null;
     ascOrDesc: string | null;
     type: string;
     onChange: (event: SelectChangeEvent<string>) => void;
 }
 
-const SortSelect: React.FC<SortSelectProps> = ({ sortBy, ascOrDesc, onChange, type }) => {
+export default function SortSelect({ sortBy, ascOrDesc, onChange, type }: ISortSelectProps) {
     const getDefaultValue = () => {
         if (type === "list") {
             return "none";
@@ -38,7 +37,6 @@ const SortSelect: React.FC<SortSelectProps> = ({ sortBy, ascOrDesc, onChange, ty
         if (sortBy && ascOrDesc) {
             return sortBy + toFirstWordUpperCase(ascOrDesc);
         }
-
         return getDefaultValue();
     };
 
@@ -47,15 +45,12 @@ const SortSelect: React.FC<SortSelectProps> = ({ sortBy, ascOrDesc, onChange, ty
             defaultValue={`${type === "list" ? "none" : "createdAtDesc"}`}
             value={getValue()}
             onChange={onChange}
-            sx={{
-                px: 2,
-            }}
             renderValue={(value: string) => (
                 <Box sx={{ display: "flex", gap: 0.5 }}>
-                    <SvgIcon color="secondary">
+                    <SvgIcon fontSize="medium">
                         <SwapVertIcon />
                     </SvgIcon>
-                    {type === "list" ? valueToLabelList[value] : valueToLabelDetails[value]}
+                    <Typography>{type === "list" ? valueToLabelList[value] : valueToLabelDetails[value]}</Typography>
                 </Box>
             )}
         >
@@ -84,15 +79,13 @@ const SortSelect: React.FC<SortSelectProps> = ({ sortBy, ascOrDesc, onChange, ty
                       <MenuItem key="createdAtDesc" value="createdAtDesc">
                           Created At (Desc)
                       </MenuItem>,
-                      <MenuItem key="ratingAtAsc" value="ratingAsc">
+                      <MenuItem key="ratingAsc" value="ratingAsc">
                           Rating (Asc)
                       </MenuItem>,
-                      <MenuItem key="ratingAtDesc" value="ratingDesc">
+                      <MenuItem key="ratingDesc" value="ratingDesc">
                           Rating (Desc)
                       </MenuItem>,
                   ]}
         </Select>
     );
-};
-
-export default SortSelect;
+}

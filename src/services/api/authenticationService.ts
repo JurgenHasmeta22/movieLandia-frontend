@@ -16,9 +16,7 @@ const authenticationService = {
         };
 
         try {
-            const responseLogin: IResponseLogin = await axios
-                .post(`${api.url}/login`, payload)
-                .then((x) => x.data);
+            const responseLogin: IResponseLogin = await axios.post(`${api.url}/login`, payload).then((x) => x.data);
 
             return responseLogin;
         } catch (error) {
@@ -35,9 +33,7 @@ const authenticationService = {
         };
 
         try {
-            const responseLogin: IResponseLogin = await axios
-                .post(`${api.url}/register`, payload)
-                .then((x) => x.data);
+            const responseLogin: IResponseLogin = await axios.post(`${api.url}/register`, payload).then((x) => x.data);
 
             return responseLogin;
         } catch (error) {
@@ -57,9 +53,7 @@ const authenticationService = {
             };
 
             try {
-                const response: IUser = await axios
-                    .get(`${api.url}/validateUser`, config)
-                    .then((x) => x.data);
+                const response: IUser = await axios.get(`${api.url}/validateUser`, config).then((x) => x.data);
 
                 return response;
             } catch (error) {

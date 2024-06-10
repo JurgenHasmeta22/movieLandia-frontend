@@ -1,4 +1,4 @@
-import { Box, CircularProgress, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import HeaderDashboard from "~/components/admin/headerDashboard/HeaderDashboard";
 import { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router";
@@ -17,7 +17,7 @@ import Breadcrumb from "~/components/admin/breadcrumb/Breadcrumb";
 import IMoviePatch from "~/types/IMoviePatch";
 import { useModal } from "~/services/providers/ModalContext";
 import { WarningOutlined, CheckOutlined } from "@mui/icons-material";
-import serieService from "~/services/api/serieService";
+import Loading from "~/components/loading/Loading";
 
 const movieSchema = yup.object().shape({
     title: yup.string().required("required"),
@@ -97,15 +97,12 @@ const MovieAdmin = () => {
         fetchData();
     }, []);
 
-    if (loading) return <CircularProgress />;
+    if (loading) return <Loading />;
 
     return (
         <Box m="20px">
             <Breadcrumb breadcrumbs={breadcrumbs} navigateTo={"/admin/movies"} />
-            <HeaderDashboard
-                title={CONSTANTS.MOVIE__EDIT__TITLE}
-                subtitle={CONSTANTS.MOVIE__EDIT__SUBTITLE}
-            />
+            <HeaderDashboard title={CONSTANTS.MOVIE__EDIT__TITLE} subtitle={CONSTANTS.MOVIE__EDIT__SUBTITLE} />
             <FormAdvanced
                 initialValues={{
                     id: movie?.id,
@@ -195,9 +192,7 @@ const MovieAdmin = () => {
                                     {
                                         label: CONSTANTS.MODAL__DELETE__YES,
                                         onClick: async () => {
-                                            const response = await movieService.deleteMovie(
-                                                movie?.id!,
-                                            );
+                                            const response = await movieService.deleteMovie(movie?.id!);
 
                                             if (response) {
                                                 toast.success(CONSTANTS.DELETE__SUCCESS);

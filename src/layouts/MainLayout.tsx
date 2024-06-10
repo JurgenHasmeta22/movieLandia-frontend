@@ -1,9 +1,10 @@
-import { Box, CircularProgress, Grid } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import { motion } from "framer-motion";
 import React from "react";
 import { Outlet } from "react-router-dom";
 import Footer from "~/components/footer/Footer";
 import Header from "~/components/header/Header";
+import Loading from "~/components/loading/Loading";
 import ScrollToTop from "~/components/scrollToTop/scrollToTop";
 import { ModalProvider } from "~/services/providers/ModalContext";
 import { RightPanelProvider } from "~/services/providers/RightPanelContext";
@@ -17,16 +18,7 @@ const MainLayout = () => {
                         <Header />
                         <React.Suspense
                             fallback={
-                                <Box
-                                    sx={{
-                                        display: "flex",
-                                        placeItems: "center",
-                                        placeContent: "center",
-                                        height: "100vh",
-                                    }}
-                                >
-                                    <CircularProgress size={80} thickness={4} color="secondary" />
-                                </Box>
+                                <Loading />
                             }
                         >
                             <main>

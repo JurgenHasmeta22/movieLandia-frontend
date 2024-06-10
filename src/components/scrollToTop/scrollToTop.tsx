@@ -1,12 +1,13 @@
 import { KeyboardArrowUp } from "@mui/icons-material";
-import { Box, Fab, Zoom, useScrollTrigger } from "@mui/material";
+import { Box, Fab, Zoom, useScrollTrigger, useTheme } from "@mui/material";
 import { useCallback } from "react";
+import { tokens } from "~/utils/theme";
 
 function ScrollToTop() {
-    // Use `window` instead of `body` as `document` will be `undefined` when the
-    // hooks first runs. By default, useScrollTrigger will attach itself to `window`.
+    const theme = useTheme();
+    const colors = tokens(theme.palette.mode);
+
     const trigger = useScrollTrigger({
-        // Number of pixels needed to scroll to toggle `trigger` to `true`.
         threshold: 150,
     });
 
@@ -18,7 +19,6 @@ function ScrollToTop() {
         <Zoom in={trigger}>
             <Box
                 role="presentation"
-                // Place the button in the bottom right corner.
                 sx={{
                     position: "fixed",
                     bottom: 32,
@@ -28,11 +28,18 @@ function ScrollToTop() {
             >
                 <Fab
                     onClick={scrollToTop}
-                    color="primary"
+                    sx={{
+                        color: colors.primary[900],
+                        backgroundColor: colors.primary[100],
+                        "&:hover": {
+                            backgroundColor: colors.greenAccent[700],
+                            color: colors.grey[100],
+                        },
+                    }}
                     size="large"
                     aria-label="Scroll back to top"
                 >
-                    <KeyboardArrowUp fontSize="medium" />
+                    <KeyboardArrowUp fontSize="large" />
                 </Fab>
             </Box>
         </Zoom>

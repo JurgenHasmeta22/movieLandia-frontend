@@ -1,25 +1,12 @@
-import React, { Dispatch, SetStateAction, forwardRef, useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, forwardRef, useState } from "react";
 import { format } from "date-fns";
-import {
-    Avatar,
-    Box,
-    Paper,
-    Typography,
-    IconButton,
-    useTheme,
-    Rating,
-    Button,
-} from "@mui/material";
+import { Avatar, Box, Paper, Typography, IconButton, useTheme, Rating, Button } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import EditIcon from "@mui/icons-material/Edit";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import { useStore } from "~/store/store";
 import { tokens } from "~/utils/theme";
-import movieService from "~/services/api/movieService";
-import { QueryObserverResult, useQuery } from "@tanstack/react-query";
-import serieService from "~/services/api/serieService";
-import { useModal } from "~/services/providers/ModalContext";
 import { motion } from "framer-motion";
 
 interface ReviewProps {
@@ -31,6 +18,8 @@ interface ReviewProps {
         rating: number;
         upvotes: any[];
         downvotes: any[];
+        isUpvoted: boolean;
+        isDownvoted: boolean;
         _count: {
             upvotes: number;
             downvotes: number;
@@ -41,27 +30,36 @@ interface ReviewProps {
         };
     };
     setRating: React.Dispatch<React.SetStateAction<number | null>>;
-    upvotesPage: number;
-    downvotesPage: number;
     ref: any;
     setIsEditMode: Dispatch<SetStateAction<boolean>>;
     isEditMode: boolean;
     setReview: React.Dispatch<React.SetStateAction<string>>;
-    setUpvotesPage: React.Dispatch<React.SetStateAction<number>>;
-    setDownvotesPage: React.Dispatch<React.SetStateAction<number>>;
     type: string;
     data: any;
     handleRemoveReview: () => void;
     handleFocusTextEditor: () => void;
     handleUpvote: (reviewId: number, isAlreadyUpvotedOrDownvoted: boolean) => void;
     handleDownvote: (reviewId: number, isAlreadyUpvotedOrDownvoted: boolean) => void;
+    handleOpenUpvotesModal: (review: any) => void;
+    handleOpenDownvotesModal: (review: any) => void;
 }
 
 const getRatingLabelAndColor = (rating: number) => {
-    if (rating <= 2) return { label: "Very Bad", color: "error.main" };
-    if (rating <= 4) return { label: "Bad", color: "warning.main" };
-    if (rating <= 6) return { label: "Average", color: "info.main" };
-    if (rating <= 8) return { label: "Good", color: "success.light" };
+    if (rating <= 2) {
+        return { label: "Very Bad", color: "error.main" };
+    }
+
+    if (rating <= 4) {
+        return { label: "Bad", color: "warning.main" };
+    }
+
+    if (rating <= 6) {
+        return { label: "Average", color: "info.main" };
+    }
+
+    if (rating <= 8) {
+        return { label: "Good", color: "success.light" };
+    }
 
     return { label: "Very Good", color: "success.main" };
 };
@@ -78,144 +76,52 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
             handleUpvote,
             handleDownvote,
             type,
-            data,
-            upvotesPage,
-            setUpvotesPage,
-            downvotesPage,
-            setDownvotesPage,
+            handleOpenUpvotesModal,
+            handleOpenDownvotesModal,
+            // handleFocusTextEditor,
         },
         ref,
     ) => {
         // #region "State, hooks, theme"
-        const [open, setOpen] = useState(false);
         const [isClickedUpvote, setIsClickedUpvote] = useState(false);
         const [isClickedDownvote, setIsClickedDownvote] = useState(false);
-
+        const { label, color } = getRatingLabelAndColor(review.rating);
         const { user } = useStore();
-        const { openModal } = useModal();
-        
         const theme = useTheme();
         const colors = tokens(theme.palette.mode);
-        const { label, color } = getRatingLabelAndColor(review.rating);
-        // #endregion
-
-        // #region "Data manipulation, fetching, queries"
-        let isMovieReviewUpvotedOrDownvotedQuery: any;
-        let isSerieReviewUpvotedOrDownvotedQuery: any;
-
-        if (type === "movie") {
-            isMovieReviewUpvotedOrDownvotedQuery = useQuery({
-                queryKey: ["isMovieReviewUpvotedOrDownvoted", data, review],
-                queryFn: () =>
-                    movieService.isMovieReviewUpvotedOrDownvoted(user?.id!, data.id, review.id),
-                refetchOnMount: "always",
-                refetchOnWindowFocus: "always",
-            });
-        } else if (type === "serie") {
-            isSerieReviewUpvotedOrDownvotedQuery = useQuery({
-                queryKey: ["isSerieReviewUpvotedOrDownvoted", data, review],
-                queryFn: () =>
-                    serieService.isSerieReviewUpvotedOrDownvoted(user?.id!, data.id, review.id),
-                refetchOnMount: "always",
-                refetchOnWindowFocus: "always",
-            });
-        }
-
-        const isSerieReviewUpvotedOrDownvoted: any =
-            isSerieReviewUpvotedOrDownvotedQuery?.data! ?? null;
-        const isMovieReviewUpvotedOrDownvoted: any =
-            isMovieReviewUpvotedOrDownvotedQuery?.data! ?? null;
-
-        const hasMoreUpvotes = review?._count.upvotes !== review?.upvotes?.length;
-        const hasMoreDownvotes = review?._count.downvotes !== review?.downvotes?.length;
-
-        // No sense to have this unless you want 10-15 more calls and rerenders will check this eleminated the flickers
-        // useEffect(() => {
-        //     if (type === "movie") {
-        //         isMovieReviewUpvotedOrDownvotedQuery.refetch();
-        //     } else if (type === "serie") {
-        //         isSerieReviewUpvotedOrDownvotedQuery.refetch();
-        //     }
-        // }, [data, review]);
         // #endregion
 
         // #region "Event handlers"
         async function onClickUpvotesReviewList() {
-            openModal({
-                onClose: () => setOpen(false),
-                title: "Users who upvoted this review",
-                subTitle: "Users list",
-                hasList: true,
-                dataList: review.upvotes,
-                hasMore: hasMoreUpvotes,
-                votesPage: upvotesPage,
-                setVotesPage: setUpvotesPage,
-            });
+            handleOpenUpvotesModal(review);
         }
 
         async function onClickDownvotesReviewList() {
-            openModal({
-                onClose: () => setOpen(false),
-                title: "Users who downvoted this review",
-                subTitle: "Users list",
-                hasList: true,
-                dataList: review.downvotes,
-                hasMore: hasMoreDownvotes,
-                votesPage: downvotesPage,
-                setVotesPage: setDownvotesPage,
-            });
+            handleOpenDownvotesModal(review);
         }
 
         async function handleClickUpVoteReview() {
             setIsClickedUpvote(true);
 
-            if (
-                type === "movie" &&
-                isMovieReviewUpvotedOrDownvoted &&
-                isMovieReviewUpvotedOrDownvoted.isUpvoted
-            ) {
+            if (type === "movie" && review.isUpvoted) {
                 handleUpvote(review.id, true);
-                isMovieReviewUpvotedOrDownvotedQuery.refetch();
-            } else if (
-                type === "serie" &&
-                isSerieReviewUpvotedOrDownvoted &&
-                isSerieReviewUpvotedOrDownvoted.isUpvoted
-            ) {
+            } else if (type === "serie" && review.isUpvoted) {
                 handleUpvote(review.id, true);
-                isSerieReviewUpvotedOrDownvotedQuery.refetch();
             } else {
                 handleUpvote(review.id, false);
             }
-
-            setTimeout(() => {
-                setIsClickedUpvote(false);
-            }, 300);
         }
 
         async function handleClickDownVoteReview() {
             setIsClickedDownvote(true);
 
-            if (
-                type === "movie" &&
-                isMovieReviewUpvotedOrDownvoted &&
-                isMovieReviewUpvotedOrDownvoted.isDownvoted
-            ) {
+            if (type === "movie" && review.isDownvoted) {
                 handleDownvote(review.id, true);
-                isMovieReviewUpvotedOrDownvotedQuery.refetch();
-            } else if (
-                type === "serie" &&
-                isSerieReviewUpvotedOrDownvoted &&
-                isSerieReviewUpvotedOrDownvoted.isDownvoted
-            ) {
+            } else if (type === "serie" && review.isDownvoted) {
                 handleDownvote(review.id, true);
-                isSerieReviewUpvotedOrDownvotedQuery.refetch();
             } else {
                 handleDownvote(review.id, false);
             }
-
-            setTimeout(() => {
-                setIsClickedDownvote(false);
-            }, 300);
         }
         // #endregion
 
@@ -225,9 +131,7 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
                     p: 2,
                     mt: 2,
                     backgroundColor:
-                        review.user.userName === user?.userName
-                            ? colors.redAccent[700]
-                            : colors.primary[400],
+                        review.user.userName === user?.userName ? colors.redAccent[700] : colors.primary[400],
                 }}
             >
                 <Box
@@ -261,13 +165,7 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
                             {review.user.userName}
                         </Typography>
                         {review.user.userName === user?.userName && (
-                            <Typography
-                                component={"span"}
-                                paddingLeft={1}
-                                sx={{
-                                    color: colors.greenAccent[500],
-                                }}
-                            >
+                            <Typography component={"span"} paddingLeft={1}>
                                 - You
                             </Typography>
                         )}
@@ -280,11 +178,7 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
                             gap: 1,
                         }}
                     >
-                        <Typography
-                            variant="body2"
-                            color="secondary"
-                            sx={{ display: "flex", flexWrap: "wrap" }}
-                        >
+                        <Typography variant="body2" sx={{ display: "flex", flexWrap: "wrap" }}>
                             {review.updatedAt && (
                                 <Typography component={"span"} color={"error"}>
                                     Edited
@@ -336,23 +230,12 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
                     }}
                 >
                     <Box sx={{ display: "flex", alignItems: "center" }}>
-                        <Typography
-                            variant="body2"
-                            fontSize={14}
-                            fontWeight={900}
-                            sx={{ mr: 1, color }}
-                        >
+                        <Typography variant="body2" fontSize={14} fontWeight={900} sx={{ mr: 1, color }}>
                             {label}
                         </Typography>
                     </Box>
                     <Box sx={{ display: "flex", alignItems: "center" }}>
-                        <Typography
-                            variant="body2"
-                            color="secondary"
-                            fontSize={14}
-                            fontWeight={700}
-                            sx={{ mr: 1 }}
-                        >
+                        <Typography variant="body2" fontSize={14} fontWeight={700} sx={{ mr: 1 }}>
                             {review?.rating?.toFixed(1)}
                         </Typography>
                         <Rating
@@ -375,26 +258,19 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
                 >
                     <Box display={"flex"} alignItems={"center"} columnGap={1}>
                         <motion.div
-                            whileTap={{ scale: 0.9 }}
-                            animate={isClickedUpvote ? { rotate: 360, scale: [1, 1.5, 1] } : {}}
+                            whileTap={{ scale: 1 }}
+                            animate={isClickedUpvote ? { scale: [1, 1.5, 1] } : {}}
                             transition={{ duration: 0.5, ease: "easeInOut" }}
                         >
                             <IconButton
                                 size="medium"
-                                disabled={
-                                    user && review.user.userName !== user?.userName ? false : true
-                                }
+                                disabled={user && review.user.userName !== user?.userName ? false : true}
                                 onClick={async () => {
                                     handleClickUpVoteReview();
                                 }}
                                 sx={{
                                     color:
-                                        (type === "movie" &&
-                                            isMovieReviewUpvotedOrDownvoted &&
-                                            isMovieReviewUpvotedOrDownvoted.isUpvoted) ||
-                                        (type === "serie" &&
-                                            isSerieReviewUpvotedOrDownvoted &&
-                                            isSerieReviewUpvotedOrDownvoted.isUpvoted)
+                                        (type === "movie" && review.isUpvoted) || (type === "serie" && review.isUpvoted)
                                             ? colors.greenAccent[700]
                                             : colors.primary[100],
                                 }}
@@ -407,11 +283,11 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
                             onClick={() => {
                                 onClickUpvotesReviewList();
                             }}
-                            color={"secondary"}
                             sx={{
                                 "&:hover": {
                                     backgroundColor: "transparent",
                                 },
+                                color: colors.primary[100]
                             }}
                         >
                             <Typography>{review._count.upvotes}</Typography>
@@ -419,26 +295,20 @@ const Review = forwardRef<HTMLElement, ReviewProps>(
                     </Box>
                     <Box display={"flex"} alignItems={"center"} columnGap={1}>
                         <motion.div
-                            whileTap={{ scale: 0.9 }}
-                            animate={isClickedDownvote ? { rotate: 360, scale: [1, 1.2, 1] } : {}}
+                            whileTap={{ scale: 1 }}
+                            animate={isClickedDownvote ? { scale: [1, 1.5, 1] } : {}}
                             transition={{ duration: 0.5, ease: "easeInOut" }}
                         >
                             <IconButton
                                 size="medium"
-                                disabled={
-                                    user && review.user.userName !== user?.userName ? false : true
-                                }
+                                disabled={user && review.user.userName !== user?.userName ? false : true}
                                 onClick={async () => {
                                     handleClickDownVoteReview();
                                 }}
                                 sx={{
                                     color:
-                                        (type === "movie" &&
-                                            isMovieReviewUpvotedOrDownvoted &&
-                                            isMovieReviewUpvotedOrDownvoted.isDownvoted) ||
-                                        (type === "serie" &&
-                                            isSerieReviewUpvotedOrDownvoted &&
-                                            isSerieReviewUpvotedOrDownvoted.isDownvoted)
+                                        (type === "movie" && review.isDownvoted) ||
+                                        (type === "serie" && review.isDownvoted)
                                             ? colors.redAccent[700]
                                             : colors.primary[100],
                                 }}
