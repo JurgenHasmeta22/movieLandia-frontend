@@ -82,7 +82,7 @@ export function Search() {
         queryKey: ["series", term, pageSeries, seriesSortBy, seriesAscOrDesc],
         queryFn: () => searchSeriesByTitle(),
     });
-    const series: ISerie[] = seriesQuery.data?.series! ?? [];
+    const series: ISerie[] = seriesQuery.data?.rows! ?? [];
     const seriesCount: number = seriesQuery.data?.count! ?? 0;
     // #endregion
 
