@@ -33,7 +33,7 @@ const authenticationService = {
         };
 
         try {
-            const responseLogin: IResponseLogin = await axios.post(`${api.url}/register`, payload).then((x) => x.data);
+            const responseLogin: IResponseLogin = await axios.post(`${api.url}/registerUser`, payload).then((x) => x.data);
 
             return responseLogin;
         } catch (error) {
