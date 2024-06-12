@@ -16,7 +16,7 @@ const authenticationService = {
         };
 
         try {
-            const responseLogin: IResponseLogin = await axios.post(`${api.url}/login`, payload).then((x) => x.data);
+            const responseLogin: IResponseLogin = await axios.post(`${api.url}/loginUser`, payload).then((x) => x.data);
 
             return responseLogin;
         } catch (error) {
