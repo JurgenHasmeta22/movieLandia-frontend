@@ -331,9 +331,7 @@ export default function Serie() {
 
     // #region "Errors query checking"
     if (serieQuery.isLoading || latestSeriesQuery.isLoading) {
-        return (
-            <Loading />
-        );
+        return <Loading />;
     }
 
     if (serieQuery.isError || serieQuery.data?.error || latestSeriesQuery.isError || latestSeriesQuery.data?.error) {
@@ -344,11 +342,12 @@ export default function Serie() {
     return (
         <>
             <SEOHelmet
-                title={`Watch ${serie?.title} on SerieLand24`}
-                description={`${serie?.title}`}
-                name="SerieLand24"
+                title={`Watch ${serie?.title} on MovieLandia24`}
+                description={`${serie?.description}`}
+                name="MovieLandia24"
                 type="article"
                 canonicalUrl={`https://example.com/series/${serie?.title}`}
+                imageUrl={`${serie?.photoSrc}`}
             />
             <Container>
                 <Stack flexDirection={"column"} rowGap={4}>

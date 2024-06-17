@@ -331,9 +331,7 @@ export default function Movie() {
 
     // #region "Errors query checking"
     if (movieQuery.isLoading || latestMoviesQuery.isLoading) {
-        return (
-            <Loading />
-        );
+        return <Loading />;
     }
 
     if (movieQuery.isError || movieQuery.data?.error || latestMoviesQuery.isError || latestMoviesQuery.data?.error) {
@@ -344,11 +342,12 @@ export default function Movie() {
     return (
         <>
             <SEOHelmet
-                title={`Watch ${movie?.title} on MovieLand24`}
+                title={`Watch ${movie?.title} on MovieLandia24`}
                 description={`${movie?.description}`}
-                name="MovieLand24"
+                name="MovieLandia24"
                 type="article"
                 canonicalUrl={`https://example.com/movies/${movie?.title}`}
+                imageUrl={`${movie?.photoSrc}`}
             />
             <Container>
                 <Stack flexDirection={"column"} rowGap={4}>
