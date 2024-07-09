@@ -5,7 +5,7 @@ import IUserPost from "~/types/IUserPost";
 import IUserResponse from "~/types/IUserResponse";
 
 const api = {
-    url: import.meta.env.VITE_API_URL,
+    url: import.meta.env.VITE_API_URL_PROD,
 };
 
 const userService = {

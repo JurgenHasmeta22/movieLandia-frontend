@@ -6,7 +6,7 @@ import ISeriePost from "~/types/ISeriePost";
 import IUser from "~/types/IUser";
 
 const api = {
-    url: import.meta.env.VITE_API_URL,
+    url: import.meta.env.VITE_API_URL_PROD,
 };
 
 const serieService = {
