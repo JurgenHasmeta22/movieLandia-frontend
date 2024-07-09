@@ -34,7 +34,7 @@ import LocalMoviesIcon from "@mui/icons-material/LocalMovies";
 import SubtitlesIcon from "@mui/icons-material/Subtitles";
 import { useLocalStorage } from "~/hooks/useLocalStorage";
 import { useQuery } from "@tanstack/react-query";
-import HeaderMenu from "../headerMenu/HeaderMenu";
+// import HeaderMenu from "../headerMenu/HeaderMenu";
 
 const Header = (): React.JSX.Element => {
     // #region "State, refs, hooks, theme"
@@ -471,7 +471,7 @@ const Header = (): React.JSX.Element => {
                     )}
                 </Toolbar>
             </AppBar>
-            <HeaderMenu
+            {/* <HeaderMenu
                 closeMenuGenres={closeMenuGenres}
                 genres={genres}
                 anchorElProfile={anchorElProfile}
@@ -479,7 +479,7 @@ const Header = (): React.JSX.Element => {
                 openMenuProfile={openMenuProfile}
                 closeMenuProfile={closeMenuProfile}
                 handleLogout={handleLogout}
-            />
+            /> */}
         </>
     );
 };
