@@ -37,7 +37,7 @@ interface IHeaderMenu {
     handleLogout: () => void;
 }
 
-export default function HeaderMenu({
+export default function HeaderMobile({
     closeMenuGenres,
     genres,
     anchorElProfile,
