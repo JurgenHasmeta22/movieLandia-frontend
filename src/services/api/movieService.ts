@@ -6,7 +6,7 @@ import type IMoviesResponse from "~/types/IMoviesResponse";
 import type IUser from "~/types/IUser";
 
 const api = {
-    url: import.meta.env.VITE_API_URL_PROD,
+    url: import.meta.env.VITE_API_URL,
 };
 
 const movieService = {
