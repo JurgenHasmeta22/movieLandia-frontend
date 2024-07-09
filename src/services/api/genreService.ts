@@ -5,7 +5,7 @@ import IGenrePost from "~/types/IGenrePost";
 import type IMoviesResponse from "~/types/IMoviesResponse";
 
 const api = {
-    url: import.meta.env.VITE_API_URL_PROD,
+    url: import.meta.env.VITE_API_URL,
 };
 
 const genreService = {
