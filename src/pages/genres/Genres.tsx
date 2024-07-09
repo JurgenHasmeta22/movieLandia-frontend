@@ -14,9 +14,7 @@ export default function Genres() {
     const genres: IGenre[] = genresQuery.data?.rows! ?? [];
 
     if (genresQuery.isLoading) {
-        return (
-            <Loading />
-        );
+        return <Loading />;
     }
 
     if (genresQuery.isError) {

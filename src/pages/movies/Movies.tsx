@@ -56,9 +56,7 @@ export default function Movies() {
     };
 
     if (moviesQuery.isLoading || latestMoviesQuery.isLoading) {
-        return (
-            <Loading />
-        );
+        return <Loading />;
     }
 
     if (moviesQuery.isError || latestMoviesQuery.isError) {

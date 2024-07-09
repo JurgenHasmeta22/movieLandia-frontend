@@ -74,9 +74,7 @@ export default function Home() {
 
     // #region "Checking fetching state"
     if (moviesQuery.isLoading || seriesQuery.isLoading || genresQuery.isLoading) {
-        return (
-            <Loading />
-        );
+        return <Loading />;
     }
 
     if (moviesQuery.isError || seriesQuery.isError || genresQuery.isError) {

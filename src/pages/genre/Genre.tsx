@@ -131,9 +131,7 @@ export default function Genre(): React.JSX.Element {
                                     >
                                         {`Movies of genre ${params.name}`}
                                     </Typography>
-                                    <Divider
-                                        sx={{ borderBottomWidth: 3, background: colors.primary[100], mt: 1 }}
-                                    />
+                                    <Divider sx={{ borderBottomWidth: 3, background: colors.primary[100], mt: 1 }} />
                                 </Box>
                                 <Box
                                     sx={{
@@ -200,9 +198,7 @@ export default function Genre(): React.JSX.Element {
                                     >
                                         {`Series of genre ${params.name}`}
                                     </Typography>
-                                    <Divider
-                                        sx={{ borderBottomWidth: 3, background: colors.primary[100], mt: 1 }}
-                                    />
+                                    <Divider sx={{ borderBottomWidth: 3, background: colors.primary[100], mt: 1 }} />
                                 </Box>
                                 <Box
                                     sx={{

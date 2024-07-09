@@ -33,7 +33,7 @@ import MovieIcon from "@mui/icons-material/Movie";
 import LocalMoviesIcon from "@mui/icons-material/LocalMovies";
 import SubtitlesIcon from "@mui/icons-material/Subtitles";
 import { useLocalStorage } from "~/hooks/useLocalStorage";
-import HeaderMenu from "../headerMenu/HeaderMenu";
+import HeaderMenu from "~/components/headerMenu/HeaderMenu";
 import { useQuery } from "@tanstack/react-query";
 
 const Header = (): React.JSX.Element => {
