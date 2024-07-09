@@ -1,1 +1,1 @@
-#This is an WebApp which you can watch informations about movies, series, genres, bookmark them, and many more stuff, is built with React in frontend with vite.
+# MovieLandia 24 is a web application where you can find information about movies, series, and genres. You can bookmark your favorite movies or series, watch trailers, customize your profile, search movies or series, filter based on genre, sort them, and much more. The frontend is built with React and Vite for a fast and efficient development experience.
