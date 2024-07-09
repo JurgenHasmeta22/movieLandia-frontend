@@ -5,7 +5,7 @@ import type IResponseLogin from "~/types/IResponseLogin";
 import type IUser from "~/types/IUser";
 
 const api = {
-    url: import.meta.env.VITE_API_URL,
+    url: import.meta.env.VITE_API_URL_PROD,
 };
 
 const authenticationService = {
