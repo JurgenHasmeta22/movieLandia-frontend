@@ -25,11 +25,7 @@ const AdminLayout = () => {
                         </Grid>
                         <Grid item xs={12} md={isOpenSidebarAdmin ? 10 : 12}>
                             <TopBar />
-                            <React.Suspense
-                                fallback={
-                                    <Loading />
-                                }
-                            >
+                            <React.Suspense fallback={<Loading />}>
                                 <motion.div
                                     initial={{ opacity: 0 }}
                                     animate={{ opacity: 1 }}

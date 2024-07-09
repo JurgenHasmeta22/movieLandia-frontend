@@ -127,9 +127,7 @@ export default function Profile() {
     }, [user]);
 
     if (!user) {
-        return (
-            <Loading />
-        );
+        return <Loading />;
     }
 
     return (

@@ -142,9 +142,7 @@ export function Search() {
                                     <Typography fontSize={28} variant="h2">
                                         Movies
                                     </Typography>
-                                    <Divider
-                                        sx={{ borderBottomWidth: 3, background: colors.primary[100], mt: 1 }}
-                                    />
+                                    <Divider sx={{ borderBottomWidth: 3, background: colors.primary[100], mt: 1 }} />
                                 </Box>
                                 <Box
                                     sx={{

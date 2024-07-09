@@ -16,11 +16,7 @@ const MainLayout = () => {
                 <Grid container>
                     <Grid item xs={12} paddingTop={8}>
                         <Header />
-                        <React.Suspense
-                            fallback={
-                                <Loading />
-                            }
-                        >
+                        <React.Suspense fallback={<Loading />}>
                             <main>
                                 <motion.div
                                     initial={{ opacity: 0 }}

@@ -56,9 +56,7 @@ export default function Series() {
     };
 
     if (seriesQuery.isLoading) {
-        return (
-            <Loading />
-        );
+        return <Loading />;
     }
 
     if (seriesQuery.isError) {
