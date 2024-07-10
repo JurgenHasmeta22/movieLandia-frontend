@@ -3,10 +3,10 @@ export function useLocalStorage<T>(key: string, initialValue?: T) {
         const item = window.localStorage.getItem(key);
 
         if (item) {
-            const payload = item.split(".")[1]; // Extract the payload part of JWT
+            const payload = item.split(".")[1];
 
             try {
-                return JSON.parse(atob(payload)); // Decode the payload and parse it
+                return JSON.parse(atob(payload));
             } catch (error) {
                 console.error("Error parsing payload:", error);
                 return null;

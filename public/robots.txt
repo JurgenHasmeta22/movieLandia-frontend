@@ -4,5 +4,7 @@ Allow: /genres/
 Allow: /series/
 Allow: /login
 Allow: /register
+Allow: /search/
+Allow: /
 Disallow: /admin/
 Disallow: /profile/

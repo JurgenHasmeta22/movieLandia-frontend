@@ -1,7 +1,6 @@
 import axios from "axios";
 import IUser from "~/types/IUser";
 import IUserPatch from "~/types/IUserPatch";
-import IUserPost from "~/types/IUserPost";
 import IUserResponse from "~/types/IUserResponse";
 
 const api = {
@@ -54,6 +53,7 @@ const userService = {
             return { error };
         }
     },
+
     getUserByUserName: async (userName: string): Promise<any> => {
         let url = `${api.url}/getUserByUserName/${userName}`;
 
@@ -64,6 +64,7 @@ const userService = {
             return { error };
         }
     },
+
     getUserById: async (id: any) => {
         let url = `${api.url}/getUserById/${id}`;
 
@@ -74,6 +75,7 @@ const userService = {
             return { error };
         }
     },
+
     updateUser: async (payload: IUserPatch, id: number): Promise<any> => {
         let url = `${api.url}/updateUserById/${id}`;
 
@@ -84,6 +86,7 @@ const userService = {
             return { error };
         }
     },
+
     deleteUser: async (id: number): Promise<any> => {
         let url = `${api.url}/deleteUserById/${id}`;
 

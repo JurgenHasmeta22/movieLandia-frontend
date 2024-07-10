@@ -3,7 +3,6 @@ import { useLocalStorage } from "~/hooks/useLocalStorage";
 
 const PrivateRoutes = () => {
     const { getItem } = useLocalStorage<string>("token");
-
     return getItem() ? <Outlet /> : <Navigate to="/login" />;
 };
 

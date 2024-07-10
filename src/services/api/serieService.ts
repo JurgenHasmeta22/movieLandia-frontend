@@ -57,6 +57,7 @@ const serieService = {
             return { error };
         }
     },
+
     getSerieByTitle: async (
         titleSerie: string,
         {
@@ -114,6 +115,7 @@ const serieService = {
             return { error };
         }
     },
+
     getSerieById: async (id: any): Promise<any> => {
         let url = `${api.url}/getSerieById/${id}`;
 
@@ -124,6 +126,7 @@ const serieService = {
             return { error };
         }
     },
+
     searchSeriesByTitle: async (title: string, { sortBy, ascOrDesc, page }: any): Promise<any> => {
         let url = `${api.url}/searchSeriesByTitle?title=${title}`;
 
@@ -146,25 +149,28 @@ const serieService = {
             return { error };
         }
     },
+
     getLatestSeries: async (): Promise<any> => {
         try {
             const latestSeries: ISerie[] = await axios.get(`${api.url}/getLatestSeries`).then((x) => x.data);
+            return latestSeries;
+        } catch (error) {
+            return { error };
+        }
+    },
+
+    getRelatedSeries: async (serieTitle: string): Promise<any> => {
+        try {
+            const latestSeries: ISerie[] = await axios
+                .get(`${api.url}/getRelatedSeries?title=${serieTitle}`)
+                .then((x) => x.data);
 
             return latestSeries;
         } catch (error) {
             return { error };
         }
     },
-    getRelatedSeries: async (serieTitle: string): Promise<any> => {
-        try {
-            const latestSeries: ISerie[] = await axios
-                .get(`${api.url}/getRelatedSeries?title=${serieTitle}`)
-                .then((x) => x.data);
-            return latestSeries;
-        } catch (error) {
-            return { error };
-        }
-    },
+
     updateSerie: async (payload: ISeriePatch, id: number): Promise<any> => {
         let url = `${api.url}/updateSerieById/${id}`;
 
@@ -175,6 +181,7 @@ const serieService = {
             return { error };
         }
     },
+
     addSerie: async (payload: ISeriePost): Promise<any> => {
         let url = `${api.url}/addSerie`;
 
@@ -185,6 +192,7 @@ const serieService = {
             return { error };
         }
     },
+
     deleteSerie: async (id: number): Promise<any> => {
         let url = `${api.url}/deleteSerieById/${id}`;
 
@@ -211,6 +219,7 @@ const serieService = {
             return { error };
         }
     },
+
     removeFromFavorites: async (serieId: number | undefined, userId: number | undefined): Promise<any> => {
         const payload = {
             serieId,
@@ -219,12 +228,12 @@ const serieService = {
 
         try {
             const user: IUser = await axios.post(`${api.url}/unBookmarkSerie`, payload).then((x) => x.data);
-
             return user;
         } catch (error) {
             return { error };
         }
     },
+
     isSerieBookmared: async (serieTitle: string | undefined, userId: number | undefined): Promise<any> => {
         const payload = {
             serieTitle,
@@ -233,10 +242,8 @@ const serieService = {
 
         try {
             const result: boolean = await axios.post(`${api.url}/isSerieBookmarked`, payload).then((x) => x.data);
-
             return result;
         } catch (error) {
-            // console.log(error);
             return { error };
         }
     },
@@ -258,12 +265,12 @@ const serieService = {
 
         try {
             const response: any = await axios.post(`${api.url}/addReviewSerie`, payload).then((x) => x.data);
-
             return response;
         } catch (error) {
             return { error };
         }
     },
+
     updateReview: async (
         userId: number | undefined,
         serieId: number | undefined,
@@ -279,12 +286,12 @@ const serieService = {
 
         try {
             const response: any = await axios.post(`${api.url}/updateReviewSerie`, payload).then((x) => x.data);
-
             return response;
         } catch (error) {
             return { error };
         }
     },
+
     removeReview: async (userId: number | undefined, serieId: number | undefined): Promise<any> => {
         const payload = {
             userId,
@@ -293,12 +300,12 @@ const serieService = {
 
         try {
             const response: any = await axios.post(`${api.url}/removeReviewSerie`, payload).then((x) => x.data);
-
             return response;
         } catch (error) {
             return { error };
         }
     },
+
     isSerieReviewed: async (serieTitle: string | undefined, userId: number | undefined): Promise<any> => {
         const payload = {
             serieTitle,
@@ -307,7 +314,6 @@ const serieService = {
 
         try {
             const result: boolean = await axios.post(`${api.url}/isSerieReviewed`, payload).then((x) => x.data);
-
             return result;
         } catch (error) {
             return { error };
@@ -329,12 +335,12 @@ const serieService = {
 
         try {
             const response: any = await axios.post(`${api.url}/addUpvoteSerieReview`, payload).then((x) => x.data);
-
             return response;
         } catch (error) {
             return { error };
         }
     },
+
     addDownvoteSerieReview: async (
         userId: number | undefined,
         serieId: number | undefined,
@@ -348,12 +354,12 @@ const serieService = {
 
         try {
             const response: any = await axios.post(`${api.url}/addDownvoteSerieReview`, payload).then((x) => x.data);
-
             return response;
         } catch (error) {
             return { error };
         }
     },
+
     removeUpvoteSerieReview: async (
         userId: number | undefined,
         serieId: number | undefined,
@@ -367,12 +373,12 @@ const serieService = {
 
         try {
             const response: any = await axios.post(`${api.url}/removeUpvoteSerieReview`, payload).then((x) => x.data);
-
             return response;
         } catch (error) {
             return { error };
         }
     },
+
     removeDownvoteSerieReview: async (
         userId: number | undefined,
         serieId: number | undefined,
@@ -386,12 +392,12 @@ const serieService = {
 
         try {
             const response: any = await axios.post(`${api.url}/removeDownvoteSerieReview`, payload).then((x) => x.data);
-
             return response;
         } catch (error) {
             return { error };
         }
     },
+
     isSerieReviewUpvotedOrDownvoted: async (
         userId: number | undefined,
         serieId: number | undefined,

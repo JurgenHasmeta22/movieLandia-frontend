@@ -53,10 +53,10 @@ const movieService = {
             const moviesResponse: IMoviesResponse = await axios.get(url).then((res) => res.data);
             return moviesResponse;
         } catch (error) {
-            // console.log(error);
             return { error };
         }
     },
+
     searchMoviesByTitle: async (title: string, { sortBy, ascOrDesc, page }: any): Promise<any> => {
         let url = `${api.url}/searchMoviesByTitle?title=${title}`;
 
@@ -79,6 +79,7 @@ const movieService = {
             return { error };
         }
     },
+
     getMovieByTitle: async (
         titleMovie: string,
         {
@@ -144,6 +145,7 @@ const movieService = {
             return { error };
         }
     },
+
     getLatestMovies: async (): Promise<any> => {
         try {
             const latestMovies: IMovie[] = await axios.get(`${api.url}/getLatestMovies`).then((x) => x.data);
@@ -152,6 +154,7 @@ const movieService = {
             return { error };
         }
     },
+
     getRelatedMovies: async (movieTitle: string): Promise<any> => {
         try {
             const latestMovies: IMovie[] = await axios
@@ -163,6 +166,7 @@ const movieService = {
             return { error };
         }
     },
+
     updateMovie: async (payload: IMoviePatch, id: number): Promise<any> => {
         let url = `${api.url}/updateMovieById/${id}`;
 
@@ -173,6 +177,7 @@ const movieService = {
             return { error };
         }
     },
+
     addMovie: async (payload: IMoviePost): Promise<any> => {
         let url = `${api.url}/addMovie`;
 
@@ -183,6 +188,7 @@ const movieService = {
             return { error };
         }
     },
+
     deleteMovie: async (id: number): Promise<any> => {
         let url = `${api.url}/deleteMovieById/${id}`;
 
@@ -204,12 +210,12 @@ const movieService = {
 
         try {
             const user: IUser = await axios.post(`${api.url}/bookmarkMovie`, payload).then((x) => x.data);
-
             return user;
         } catch (error) {
             return { error };
         }
     },
+
     removeFromFavorites: async (movieId: number | undefined, userId: number | undefined): Promise<any> => {
         const payload = {
             movieId,
@@ -218,12 +224,12 @@ const movieService = {
 
         try {
             const user: IUser = await axios.post(`${api.url}/unBookmarkMovie`, payload).then((x) => x.data);
-
             return user;
         } catch (error) {
             return { error };
         }
     },
+
     isMovieBookmared: async (movieTitle: string | undefined, userId: number | undefined): Promise<any> => {
         const payload = {
             movieTitle,
@@ -232,7 +238,6 @@ const movieService = {
 
         try {
             const result: boolean = await axios.post(`${api.url}/isMovieBookmarked`, payload).then((x) => x.data);
-
             return result;
         } catch (error) {
             return { error };
@@ -256,12 +261,12 @@ const movieService = {
 
         try {
             const response: any = await axios.post(`${api.url}/addReviewMovie`, payload).then((x) => x.data);
-
             return response;
         } catch (error) {
             return { error };
         }
     },
+
     updateReview: async (
         movieId: number | undefined,
         userId: number | undefined,
@@ -277,12 +282,12 @@ const movieService = {
 
         try {
             const response: any = await axios.post(`${api.url}/updateReviewMovie`, payload).then((x) => x.data);
-
             return response;
         } catch (error) {
             return { error };
         }
     },
+
     removeReview: async (movieId: number | undefined, userId: number | undefined): Promise<any> => {
         const payload = {
             movieId,
@@ -291,7 +296,6 @@ const movieService = {
 
         try {
             const response: any = await axios.post(`${api.url}/removeReviewMovie`, payload).then((x) => x.data);
-
             return response;
         } catch (error) {
             return { error };
@@ -305,7 +309,6 @@ const movieService = {
 
         try {
             const result: boolean = await axios.post(`${api.url}/isMovieReviewed`, payload).then((x) => x.data);
-
             return result;
         } catch (error) {
             return { error };
@@ -327,12 +330,12 @@ const movieService = {
 
         try {
             const response: any = await axios.post(`${api.url}/addUpvoteMovieReview`, payload).then((x) => x.data);
-
             return response;
         } catch (error) {
             return { error };
         }
     },
+
     addDownvoteMovieReview: async (
         userId: number | undefined,
         movieId: number | undefined,
@@ -346,12 +349,12 @@ const movieService = {
 
         try {
             const response: any = await axios.post(`${api.url}/addDownvoteMovieReview`, payload).then((x) => x.data);
-
             return response;
         } catch (error) {
             return { error };
         }
     },
+
     removeUpvoteMovieReview: async (
         userId: number | undefined,
         movieId: number | undefined,
@@ -384,12 +387,12 @@ const movieService = {
 
         try {
             const response: any = await axios.post(`${api.url}/removeDownvoteMovieReview`, payload).then((x) => x.data);
-
             return response;
         } catch (error) {
             return { error };
         }
     },
+
     isMovieReviewUpvotedOrDownvoted: async (
         userId: number | undefined,
         movieId: number | undefined,
