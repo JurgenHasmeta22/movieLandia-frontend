@@ -54,6 +54,7 @@ const genreService = {
             return { error };
         }
     },
+
     getGenreByName: async (
         name: string,
         {
@@ -105,6 +106,7 @@ const genreService = {
             return { error };
         }
     },
+
     getGenreById: async (id: any): Promise<any> => {
         let url = `${api.url}/getGenreById/${id}`;
 
@@ -115,6 +117,7 @@ const genreService = {
             return { error };
         }
     },
+
     updateGenre: async (payload: IGenrePatch, id: number): Promise<any> => {
         let url = `${api.url}/updateGenreById/${id}`;
 
@@ -125,6 +128,7 @@ const genreService = {
             return { error };
         }
     },
+
     addGenre: async (payload: IGenrePost): Promise<any> => {
         let url = `${api.url}/addGenre`;
 
@@ -135,6 +139,7 @@ const genreService = {
             return { error };
         }
     },
+
     deleteGenre: async (id: number): Promise<any> => {
         let url = `${api.url}/deleteGenreById/${id}`;
 

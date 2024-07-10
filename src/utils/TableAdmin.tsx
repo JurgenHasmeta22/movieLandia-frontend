@@ -30,6 +30,7 @@ type TableAdminProps = {
 };
 
 const TableAdmin = ({ columns, page, handleAddItem }: TableAdminProps) => {
+    // #region "State, filters, pagination, modal context call etc"
     const [rows, setRows] = useState<any[]>([]);
     const [rowsCount, setRowsCount] = useState<number>(0);
     const [rowSelection, setRowSelection] = useState<any>({});
@@ -49,7 +50,9 @@ const TableAdmin = ({ columns, page, handleAddItem }: TableAdminProps) => {
     const [open, setOpen] = useState(false);
     const navigate = useNavigate();
     const { openModal } = useModal();
+    // #endregion
 
+    // #region "Functions for delete, masssive delete, fetching data dynamically"
     function handleDelete(id: number) {
         openModal({
             onClose: () => setOpen(false),
@@ -254,6 +257,7 @@ const TableAdmin = ({ columns, page, handleAddItem }: TableAdminProps) => {
         setIsLoading(false);
         setIsRefetching(false);
     };
+    // #endregion
 
     useEffect(() => {
         fetchData();
