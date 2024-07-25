@@ -9,6 +9,11 @@ const api = {
     url: import.meta.env.VITE_API_URL,
 };
 
+const getAuthHeader = () => {
+    const token = localStorage.getItem('token');
+    return token ? { Authorization: `Bearer ${token}` } : {};
+};
+
 const movieService = {
     // #region "CRUD"
     getMovies: async ({
@@ -209,7 +214,9 @@ const movieService = {
         };
 
         try {
-            const user: IUser = await axios.post(`${api.url}/bookmarkMovie`, payload).then((x) => x.data);
+            const user: IUser = await axios.post(`${api.url}/bookmarkMovie`, payload, {
+                headers: getAuthHeader(),
+            }).then((x) => x.data);
             return user;
         } catch (error) {
             return { error };
@@ -223,7 +230,9 @@ const movieService = {
         };
 
         try {
-            const user: IUser = await axios.post(`${api.url}/unBookmarkMovie`, payload).then((x) => x.data);
+            const user: IUser = await axios.post(`${api.url}/unBookmarkMovie`, payload, {
+                headers: getAuthHeader(),
+            }).then((x) => x.data);
             return user;
         } catch (error) {
             return { error };
@@ -237,7 +246,9 @@ const movieService = {
         };
 
         try {
-            const result: boolean = await axios.post(`${api.url}/isMovieBookmarked`, payload).then((x) => x.data);
+            const result: boolean = await axios.post(`${api.url}/isMovieBookmarked`, payload, {
+                headers: getAuthHeader(),
+            }).then((x) => x.data);
             return result;
         } catch (error) {
             return { error };
@@ -260,7 +271,9 @@ const movieService = {
         };
 
         try {
-            const response: any = await axios.post(`${api.url}/addReviewMovie`, payload).then((x) => x.data);
+            const response: any = await axios.post(`${api.url}/addReviewMovie`, payload, {
+                headers: getAuthHeader(),
+            }).then((x) => x.data);
             return response;
         } catch (error) {
             return { error };
@@ -281,7 +294,9 @@ const movieService = {
         };
 
         try {
-            const response: any = await axios.post(`${api.url}/updateReviewMovie`, payload).then((x) => x.data);
+            const response: any = await axios.post(`${api.url}/updateReviewMovie`, payload, {
+                headers: getAuthHeader(),
+            }).then((x) => x.data);
             return response;
         } catch (error) {
             return { error };
@@ -295,7 +310,9 @@ const movieService = {
         };
 
         try {
-            const response: any = await axios.post(`${api.url}/removeReviewMovie`, payload).then((x) => x.data);
+            const response: any = await axios.post(`${api.url}/removeReviewMovie`, payload, {
+                headers: getAuthHeader(),
+            }).then((x) => x.data);
             return response;
         } catch (error) {
             return { error };
@@ -308,7 +325,9 @@ const movieService = {
         };
 
         try {
-            const result: boolean = await axios.post(`${api.url}/isMovieReviewed`, payload).then((x) => x.data);
+            const result: boolean = await axios.post(`${api.url}/isMovieReviewed`, payload, {
+                headers: getAuthHeader(),
+            }).then((x) => x.data);
             return result;
         } catch (error) {
             return { error };
@@ -329,7 +348,9 @@ const movieService = {
         };
 
         try {
-            const response: any = await axios.post(`${api.url}/addUpvoteMovieReview`, payload).then((x) => x.data);
+            const response: any = await axios.post(`${api.url}/addUpvoteMovieReview`, payload, {
+                headers: getAuthHeader(),
+            }).then((x) => x.data);
             return response;
         } catch (error) {
             return { error };
@@ -348,7 +369,9 @@ const movieService = {
         };
 
         try {
-            const response: any = await axios.post(`${api.url}/addDownvoteMovieReview`, payload).then((x) => x.data);
+            const response: any = await axios.post(`${api.url}/addDownvoteMovieReview`, payload, {
+                headers: getAuthHeader(),
+            }).then((x) => x.data);
             return response;
         } catch (error) {
             return { error };
@@ -367,7 +390,9 @@ const movieService = {
         };
 
         try {
-            const response: any = await axios.post(`${api.url}/removeUpvoteMovieReview`, payload).then((x) => x.data);
+            const response: any = await axios.post(`${api.url}/removeUpvoteMovieReview`, payload, {
+                headers: getAuthHeader(),
+            }).then((x) => x.data);
 
             return response;
         } catch (error) {
@@ -386,7 +411,9 @@ const movieService = {
         };
 
         try {
-            const response: any = await axios.post(`${api.url}/removeDownvoteMovieReview`, payload).then((x) => x.data);
+            const response: any = await axios.post(`${api.url}/removeDownvoteMovieReview`, payload, {
+                headers: getAuthHeader(),
+            }).then((x) => x.data);
             return response;
         } catch (error) {
             return { error };
@@ -406,7 +433,9 @@ const movieService = {
 
         try {
             const response: any = await axios
-                .post(`${api.url}/isMovieReviewUpvotedOrDownvoted`, payload)
+                .post(`${api.url}/isMovieReviewUpvotedOrDownvoted`, payload, {
+                    headers: getAuthHeader(),
+                })
                 .then((x) => x.data);
 
             return response;
