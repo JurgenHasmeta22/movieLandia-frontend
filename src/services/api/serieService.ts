@@ -9,6 +9,11 @@ const api = {
     url: import.meta.env.VITE_API_URL,
 };
 
+const getAuthHeader = () => {
+    const token = localStorage.getItem('token');
+    return token ? { Authorization: `Bearer ${token}` } : {};
+};
+
 const serieService = {
     // #region "CRUD"
     getSeries: async ({
@@ -213,7 +218,9 @@ const serieService = {
         };
 
         try {
-            const user: IUser = await axios.post(`${api.url}/bookmarkSerie`, payload).then((x) => x.data);
+            const user: IUser = await axios.post(`${api.url}/bookmarkSerie`, payload, {
+                headers: getAuthHeader(),
+            }).then((x) => x.data);
             return user;
         } catch (error) {
             return { error };
@@ -227,7 +234,9 @@ const serieService = {
         };
 
         try {
-            const user: IUser = await axios.post(`${api.url}/unBookmarkSerie`, payload).then((x) => x.data);
+            const user: IUser = await axios.post(`${api.url}/unBookmarkSerie`, payload, {
+                headers: getAuthHeader(),
+            }).then((x) => x.data);
             return user;
         } catch (error) {
             return { error };
@@ -241,7 +250,9 @@ const serieService = {
         };
 
         try {
-            const result: boolean = await axios.post(`${api.url}/isSerieBookmarked`, payload).then((x) => x.data);
+            const result: boolean = await axios.post(`${api.url}/isSerieBookmarked`, payload, {
+                headers: getAuthHeader(),
+            }).then((x) => x.data);
             return result;
         } catch (error) {
             return { error };
@@ -264,7 +275,9 @@ const serieService = {
         };
 
         try {
-            const response: any = await axios.post(`${api.url}/addReviewSerie`, payload).then((x) => x.data);
+            const response: any = await axios.post(`${api.url}/addReviewSerie`, payload, {
+                headers: getAuthHeader(),
+            }).then((x) => x.data);
             return response;
         } catch (error) {
             return { error };
@@ -285,7 +298,9 @@ const serieService = {
         };
 
         try {
-            const response: any = await axios.post(`${api.url}/updateReviewSerie`, payload).then((x) => x.data);
+            const response: any = await axios.post(`${api.url}/updateReviewSerie`, payload, {
+                headers: getAuthHeader(),
+            }).then((x) => x.data);
             return response;
         } catch (error) {
             return { error };
@@ -299,7 +314,9 @@ const serieService = {
         };
 
         try {
-            const response: any = await axios.post(`${api.url}/removeReviewSerie`, payload).then((x) => x.data);
+            const response: any = await axios.post(`${api.url}/removeReviewSerie`, payload, {
+                headers: getAuthHeader(),
+            }).then((x) => x.data);
             return response;
         } catch (error) {
             return { error };
@@ -313,7 +330,9 @@ const serieService = {
         };
 
         try {
-            const result: boolean = await axios.post(`${api.url}/isSerieReviewed`, payload).then((x) => x.data);
+            const result: boolean = await axios.post(`${api.url}/isSerieReviewed`, payload, {
+                headers: getAuthHeader(),
+            }).then((x) => x.data);
             return result;
         } catch (error) {
             return { error };
@@ -334,7 +353,9 @@ const serieService = {
         };
 
         try {
-            const response: any = await axios.post(`${api.url}/addUpvoteSerieReview`, payload).then((x) => x.data);
+            const response: any = await axios.post(`${api.url}/addUpvoteSerieReview`, payload, {
+                headers: getAuthHeader(),
+            }).then((x) => x.data);
             return response;
         } catch (error) {
             return { error };
@@ -353,7 +374,9 @@ const serieService = {
         };
 
         try {
-            const response: any = await axios.post(`${api.url}/addDownvoteSerieReview`, payload).then((x) => x.data);
+            const response: any = await axios.post(`${api.url}/addDownvoteSerieReview`, payload, {
+                headers: getAuthHeader(),
+            }).then((x) => x.data);
             return response;
         } catch (error) {
             return { error };
@@ -372,7 +395,9 @@ const serieService = {
         };
 
         try {
-            const response: any = await axios.post(`${api.url}/removeUpvoteSerieReview`, payload).then((x) => x.data);
+            const response: any = await axios.post(`${api.url}/removeUpvoteSerieReview`, payload, {
+                headers: getAuthHeader(),
+            }).then((x) => x.data);
             return response;
         } catch (error) {
             return { error };
@@ -391,7 +416,9 @@ const serieService = {
         };
 
         try {
-            const response: any = await axios.post(`${api.url}/removeDownvoteSerieReview`, payload).then((x) => x.data);
+            const response: any = await axios.post(`${api.url}/removeDownvoteSerieReview`, payload, {
+                headers: getAuthHeader(),
+            }).then((x) => x.data);
             return response;
         } catch (error) {
             return { error };
@@ -411,7 +438,9 @@ const serieService = {
 
         try {
             const response: any = await axios
-                .post(`${api.url}/isSerieReviewUpvotedOrDownvoted`, payload)
+                .post(`${api.url}/isSerieReviewUpvotedOrDownvoted`, payload, {
+                    headers: getAuthHeader(),
+                })
                 .then((x) => x.data);
 
             return response;
